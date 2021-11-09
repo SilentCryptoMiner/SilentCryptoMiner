@@ -612,7 +612,7 @@ namespace SilentCryptoMiner
             this.chkAPI.Checked = false;
             this.chkAPI.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkAPI.ForeColor = System.Drawing.Color.Black;
-            this.chkAPI.Location = new System.Drawing.Point(228, 125);
+            this.chkAPI.Location = new System.Drawing.Point(228, 68);
             this.chkAPI.Margin = new System.Windows.Forms.Padding(2);
             this.chkAPI.Name = "chkAPI";
             this.chkAPI.Size = new System.Drawing.Size(178, 24);
@@ -625,7 +625,7 @@ namespace SilentCryptoMiner
             this.txtAPI.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.txtAPI.Enabled = false;
             this.txtAPI.ForeColor = System.Drawing.Color.Silver;
-            this.txtAPI.Location = new System.Drawing.Point(228, 153);
+            this.txtAPI.Location = new System.Drawing.Point(228, 96);
             this.txtAPI.Margin = new System.Windows.Forms.Padding(2);
             this.txtAPI.MaxLength = 32767;
             this.txtAPI.MultiLine = false;
@@ -663,7 +663,7 @@ namespace SilentCryptoMiner
             this.label19.AutoSize = true;
             this.label19.BackColor = System.Drawing.Color.Transparent;
             this.label19.ForeColor = System.Drawing.Color.Gray;
-            this.label19.Location = new System.Drawing.Point(13, 132);
+            this.label19.Location = new System.Drawing.Point(13, 133);
             this.label19.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(75, 17);
@@ -674,7 +674,7 @@ namespace SilentCryptoMiner
             // 
             this.txtKillTargets.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.txtKillTargets.ForeColor = System.Drawing.Color.Silver;
-            this.txtKillTargets.Location = new System.Drawing.Point(14, 151);
+            this.txtKillTargets.Location = new System.Drawing.Point(14, 152);
             this.txtKillTargets.Margin = new System.Windows.Forms.Padding(2);
             this.txtKillTargets.MaxLength = 32767;
             this.txtKillTargets.MultiLine = false;
@@ -690,7 +690,7 @@ namespace SilentCryptoMiner
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.ForeColor = System.Drawing.Color.Gray;
-            this.label1.Location = new System.Drawing.Point(13, 88);
+            this.label1.Location = new System.Drawing.Point(13, 89);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(97, 17);
@@ -701,7 +701,7 @@ namespace SilentCryptoMiner
             // 
             this.txtStealthTargets.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.txtStealthTargets.ForeColor = System.Drawing.Color.Silver;
-            this.txtStealthTargets.Location = new System.Drawing.Point(14, 107);
+            this.txtStealthTargets.Location = new System.Drawing.Point(14, 108);
             this.txtStealthTargets.Margin = new System.Windows.Forms.Padding(2);
             this.txtStealthTargets.MaxLength = 32767;
             this.txtStealthTargets.MultiLine = false;
@@ -720,7 +720,7 @@ namespace SilentCryptoMiner
             this.chkAdvParam.Checked = false;
             this.chkAdvParam.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkAdvParam.ForeColor = System.Drawing.Color.Black;
-            this.chkAdvParam.Location = new System.Drawing.Point(228, 68);
+            this.chkAdvParam.Location = new System.Drawing.Point(228, 124);
             this.chkAdvParam.Margin = new System.Windows.Forms.Padding(2);
             this.chkAdvParam.Name = "chkAdvParam";
             this.chkAdvParam.Size = new System.Drawing.Size(178, 24);
@@ -733,7 +733,7 @@ namespace SilentCryptoMiner
             this.txtAdvParam.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.txtAdvParam.Enabled = false;
             this.txtAdvParam.ForeColor = System.Drawing.Color.Silver;
-            this.txtAdvParam.Location = new System.Drawing.Point(228, 96);
+            this.txtAdvParam.Location = new System.Drawing.Point(228, 152);
             this.txtAdvParam.Margin = new System.Windows.Forms.Padding(2);
             this.txtAdvParam.MaxLength = 32767;
             this.txtAdvParam.MultiLine = false;

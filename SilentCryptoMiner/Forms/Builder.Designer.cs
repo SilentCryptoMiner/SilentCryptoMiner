@@ -54,8 +54,6 @@ namespace SilentCryptoMiner
             this.labelWiki = new System.Windows.Forms.LinkLabel();
             this.labelHelp = new System.Windows.Forms.Label();
             this.TabPage2 = new System.Windows.Forms.TabPage();
-            this.labelStartupHideFile = new System.Windows.Forms.Label();
-            this.toggleHideFile = new MephToggleSwitch();
             this.labelStartupWatchdog = new System.Windows.Forms.Label();
             this.toggleWatchdog = new MephToggleSwitch();
             this.chkInstall = new MephCheckBox();
@@ -139,7 +137,7 @@ namespace SilentCryptoMiner
             this.formBuilder.Size = new System.Drawing.Size(535, 272);
             this.formBuilder.SubHeader = "By Unam Sanctam";
             this.formBuilder.TabIndex = 0;
-            this.formBuilder.Text = "Silent Crypto Miner Builder 2.0.0";
+            this.formBuilder.Text = "Silent Crypto Miner Builder 2.0.1";
             // 
             // MephTabcontrol2
             // 
@@ -311,8 +309,6 @@ namespace SilentCryptoMiner
             // TabPage2
             // 
             this.TabPage2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.TabPage2.Controls.Add(this.labelStartupHideFile);
-            this.TabPage2.Controls.Add(this.toggleHideFile);
             this.TabPage2.Controls.Add(this.labelStartupWatchdog);
             this.TabPage2.Controls.Add(this.toggleWatchdog);
             this.TabPage2.Controls.Add(this.chkInstall);
@@ -325,29 +321,6 @@ namespace SilentCryptoMiner
             this.TabPage2.Size = new System.Drawing.Size(418, 189);
             this.TabPage2.TabIndex = 1;
             this.TabPage2.Text = "Startup";
-            // 
-            // labelStartupHideFile
-            // 
-            this.labelStartupHideFile.AutoSize = true;
-            this.labelStartupHideFile.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.labelStartupHideFile.Location = new System.Drawing.Point(12, 142);
-            this.labelStartupHideFile.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelStartupHideFile.Name = "labelStartupHideFile";
-            this.labelStartupHideFile.Size = new System.Drawing.Size(61, 17);
-            this.labelStartupHideFile.TabIndex = 48;
-            this.labelStartupHideFile.Text = "Hide File:";
-            // 
-            // toggleHideFile
-            // 
-            this.toggleHideFile.BackColor = System.Drawing.Color.Transparent;
-            this.toggleHideFile.Checked = false;
-            this.toggleHideFile.ForeColor = System.Drawing.Color.Black;
-            this.toggleHideFile.Location = new System.Drawing.Point(84, 140);
-            this.toggleHideFile.Margin = new System.Windows.Forms.Padding(2);
-            this.toggleHideFile.Name = "toggleHideFile";
-            this.toggleHideFile.Size = new System.Drawing.Size(50, 24);
-            this.toggleHideFile.TabIndex = 47;
-            this.toggleHideFile.Text = "Enable GPU Mining";
             // 
             // labelStartupWatchdog
             // 
@@ -787,7 +760,7 @@ namespace SilentCryptoMiner
             // 
             this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox2.Image = global::SilentCryptoMiner.Properties.Resources.microsoft_admin;
-            this.pictureBox2.Location = new System.Drawing.Point(235, 92);
+            this.pictureBox2.Location = new System.Drawing.Point(235, 132);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(20, 20);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -799,8 +772,8 @@ namespace SilentCryptoMiner
             this.labelOptionRootkit.AutoSize = true;
             this.labelOptionRootkit.BackColor = System.Drawing.Color.Transparent;
             this.labelOptionRootkit.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.labelOptionRootkit.ForeColor = System.Drawing.Color.Gray;
-            this.labelOptionRootkit.Location = new System.Drawing.Point(9, 92);
+            this.labelOptionRootkit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.labelOptionRootkit.Location = new System.Drawing.Point(9, 134);
             this.labelOptionRootkit.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelOptionRootkit.Name = "labelOptionRootkit";
             this.labelOptionRootkit.Size = new System.Drawing.Size(89, 17);
@@ -812,7 +785,7 @@ namespace SilentCryptoMiner
             this.toggleRootkit.BackColor = System.Drawing.Color.Transparent;
             this.toggleRootkit.Checked = false;
             this.toggleRootkit.ForeColor = System.Drawing.Color.Black;
-            this.toggleRootkit.Location = new System.Drawing.Point(180, 90);
+            this.toggleRootkit.Location = new System.Drawing.Point(180, 130);
             this.toggleRootkit.Margin = new System.Windows.Forms.Padding(2);
             this.toggleRootkit.Name = "toggleRootkit";
             this.toggleRootkit.Size = new System.Drawing.Size(50, 24);
@@ -825,7 +798,7 @@ namespace SilentCryptoMiner
             this.labelOptionShellcode.BackColor = System.Drawing.Color.Transparent;
             this.labelOptionShellcode.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.labelOptionShellcode.ForeColor = System.Drawing.Color.Gray;
-            this.labelOptionShellcode.Location = new System.Drawing.Point(9, 120);
+            this.labelOptionShellcode.Location = new System.Drawing.Point(10, 92);
             this.labelOptionShellcode.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelOptionShellcode.Name = "labelOptionShellcode";
             this.labelOptionShellcode.Size = new System.Drawing.Size(112, 17);
@@ -837,7 +810,7 @@ namespace SilentCryptoMiner
             this.toggleShellcode.BackColor = System.Drawing.Color.Transparent;
             this.toggleShellcode.Checked = true;
             this.toggleShellcode.ForeColor = System.Drawing.Color.Black;
-            this.toggleShellcode.Location = new System.Drawing.Point(180, 118);
+            this.toggleShellcode.Location = new System.Drawing.Point(180, 90);
             this.toggleShellcode.Margin = new System.Windows.Forms.Padding(2);
             this.toggleShellcode.Name = "toggleShellcode";
             this.toggleShellcode.Size = new System.Drawing.Size(50, 24);
@@ -898,7 +871,7 @@ namespace SilentCryptoMiner
             this.toggleDebug.BackColor = System.Drawing.Color.Transparent;
             this.toggleDebug.Checked = false;
             this.toggleDebug.ForeColor = System.Drawing.Color.Black;
-            this.toggleDebug.Location = new System.Drawing.Point(65, 157);
+            this.toggleDebug.Location = new System.Drawing.Point(180, 158);
             this.toggleDebug.Margin = new System.Windows.Forms.Padding(2);
             this.toggleDebug.Name = "toggleDebug";
             this.toggleDebug.Size = new System.Drawing.Size(50, 24);
@@ -1160,8 +1133,6 @@ namespace SilentCryptoMiner
         internal Label labelOptionWD;
         internal MephToggleSwitch toggleKillWD;
         internal MephListBox listMiners;
-        internal Label labelStartupHideFile;
-        internal MephToggleSwitch toggleHideFile;
         internal Label labelOptionShellcode;
         internal MephToggleSwitch toggleShellcode;
         internal PictureBox pictureBox2;

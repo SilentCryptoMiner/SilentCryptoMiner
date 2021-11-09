@@ -1,6 +1,6 @@
 <img src="https://github.com/UnamSanctam/SilentCryptoMiner/blob/master/SilentCryptoMiner.png?raw=true">
 
-# SilentCryptoMiner v2.0.0 - Miner for ETH, ETC, XMR & more
+# SilentCryptoMiner v2.0.1 - Miner for ETH, ETC, XMR & more
 
 After being in development for a very long time and after having been remade multiple times, this unified miner of my ETH and XMR miners is finally ready for release.
 
@@ -73,6 +73,11 @@ You can find the web panel that the miner officially supports here: [UnamWebPane
 
 ## Changelog
 
+### v2.0.1 (09/11/2021)
+* Removed Hide File option due to it restricting the file from being written to, thus enabling it to cause unwanted behaviour and bugs
+* Fixed possible bug where the random encryption keys could be generated with illegal characters
+* Fixed builder bug where it didn't clear the miner set for the Watchdog between builds
+* Fixed Monero icon
 ### v2.0.0 (08/11/2021)
 * Initial release
 

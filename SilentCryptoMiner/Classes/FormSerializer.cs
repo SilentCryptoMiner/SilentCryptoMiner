@@ -55,10 +55,12 @@ namespace FormSerialisation
                     }
                     else if (childCtrl is MephCheckBox)
                     {
+                        xmlSerialisedForm.WriteElementString("Text", ((MephCheckBox)childCtrl).Text);
                         xmlSerialisedForm.WriteElementString("Checked", ((MephCheckBox)childCtrl).Checked.ToString());
                     }
                     else if (childCtrl is MephToggleSwitch)
                     {
+                        xmlSerialisedForm.WriteElementString("Text", ((MephToggleSwitch)childCtrl).Text);
                         xmlSerialisedForm.WriteElementString("Checked", ((MephToggleSwitch)childCtrl).Checked.ToString());
                     }
                     bool visible = (bool)typeof(Control).GetMethod("GetState", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(childCtrl, new object[] { 2 });
@@ -131,9 +133,11 @@ namespace FormSerialisation
                                 }
                                 break;
                             case "MephCheckBox":
+                                ((MephCheckBox)ctrlToSet).Text = n["Text"].InnerText;
                                 ((MephCheckBox)ctrlToSet).Checked = Convert.ToBoolean(n["Checked"].InnerText);
                                 break;
                             case "MephToggleSwitch":
+                                ((MephToggleSwitch)ctrlToSet).Text = n["Text"].InnerText;
                                 ((MephToggleSwitch)ctrlToSet).Checked = Convert.ToBoolean(n["Checked"].InnerText);
                                 break;
                         }

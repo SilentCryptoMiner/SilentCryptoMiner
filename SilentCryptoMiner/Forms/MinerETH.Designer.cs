@@ -40,27 +40,29 @@ namespace SilentCryptoMiner
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MinerETH));
             this.BackgroundWorker2 = new System.ComponentModel.BackgroundWorker();
             this.formMinerETH = new MephTheme();
-            this.MephTabcontrol2 = new MephTabcontrol();
-            this.TabPage1 = new System.Windows.Forms.TabPage();
-            this.MephGroupBox2 = new MephGroupBox();
+            this.tabcontrolMinerETH = new MephTabcontrol();
+            this.tabConnection = new System.Windows.Forms.TabPage();
+            this.groupOptional = new MephGroupBox();
             this.Label14 = new System.Windows.Forms.Label();
             this.txtPoolPassowrd = new MephTextBox();
             this.Label7 = new System.Windows.Forms.Label();
             this.txtPoolWorker = new MephTextBox();
             this.txtPoolData = new MephTextBox();
             this.Label12 = new System.Windows.Forms.Label();
-            this.MephGroupBox1 = new MephGroupBox();
+            this.groupRequired = new MephGroupBox();
             this.txtPoolURL = new MephTextBox();
             this.Label6 = new System.Windows.Forms.Label();
             this.txtPoolUsername = new MephTextBox();
             this.Label8 = new System.Windows.Forms.Label();
             this.comboPoolScheme = new MephComboBox();
             this.Label3 = new System.Windows.Forms.Label();
-            this.TabPage6 = new System.Windows.Forms.TabPage();
+            this.tabMining = new System.Windows.Forms.TabPage();
+            this.label32 = new System.Windows.Forms.Label();
+            this.toggleProcessKiller = new MephToggleSwitch();
             this.label29 = new System.Windows.Forms.Label();
             this.comboAlgorithm = new MephComboBox();
-            this.txtIdleGPU = new MephComboBox();
-            this.txtMaxGPU = new MephComboBox();
+            this.comboIdleGPU = new MephComboBox();
+            this.comboMaxGPU = new MephComboBox();
             this.Label22 = new System.Windows.Forms.Label();
             this.Label16 = new System.Windows.Forms.Label();
             this.Label5 = new System.Windows.Forms.Label();
@@ -72,11 +74,9 @@ namespace SilentCryptoMiner
             this.txtIdleWait = new MephTextBox();
             this.Label11 = new System.Windows.Forms.Label();
             this.toggleIdle = new MephToggleSwitch();
-            this.TabPage2 = new System.Windows.Forms.TabPage();
+            this.tabAdvanced = new System.Windows.Forms.TabPage();
             this.chkAPI = new MephCheckBox();
             this.txtAPI = new MephTextBox();
-            this.label32 = new System.Windows.Forms.Label();
-            this.toggleProcessKiller = new MephToggleSwitch();
             this.label19 = new System.Windows.Forms.Label();
             this.txtKillTargets = new MephTextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -85,13 +85,16 @@ namespace SilentCryptoMiner
             this.txtAdvParam = new MephTextBox();
             this.chkRemoteConfig = new MephCheckBox();
             this.txtRemoteConfig = new MephTextBox();
+            this.tabJSON = new System.Windows.Forms.TabPage();
+            this.txtJSON = new MephTextBox();
             this.formMinerETH.SuspendLayout();
-            this.MephTabcontrol2.SuspendLayout();
-            this.TabPage1.SuspendLayout();
-            this.MephGroupBox2.SuspendLayout();
-            this.MephGroupBox1.SuspendLayout();
-            this.TabPage6.SuspendLayout();
-            this.TabPage2.SuspendLayout();
+            this.tabcontrolMinerETH.SuspendLayout();
+            this.tabConnection.SuspendLayout();
+            this.groupOptional.SuspendLayout();
+            this.groupRequired.SuspendLayout();
+            this.tabMining.SuspendLayout();
+            this.tabAdvanced.SuspendLayout();
+            this.tabJSON.SuspendLayout();
             this.SuspendLayout();
             // 
             // formMinerETH
@@ -99,7 +102,7 @@ namespace SilentCryptoMiner
             this.formMinerETH.AccentColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.formMinerETH.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.formMinerETH.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            this.formMinerETH.Controls.Add(this.MephTabcontrol2);
+            this.formMinerETH.Controls.Add(this.tabcontrolMinerETH);
             this.formMinerETH.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.formMinerETH.ForeColor = System.Drawing.Color.Gray;
             this.formMinerETH.Location = new System.Drawing.Point(0, 0);
@@ -112,50 +115,52 @@ namespace SilentCryptoMiner
             this.formMinerETH.TabIndex = 0;
             this.formMinerETH.Text = "Create New Miner";
             // 
-            // MephTabcontrol2
+            // tabcontrolMinerETH
             // 
-            this.MephTabcontrol2.Alignment = System.Windows.Forms.TabAlignment.Left;
-            this.MephTabcontrol2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.MephTabcontrol2.Controls.Add(this.TabPage1);
-            this.MephTabcontrol2.Controls.Add(this.TabPage6);
-            this.MephTabcontrol2.Controls.Add(this.TabPage2);
-            this.MephTabcontrol2.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.MephTabcontrol2.ItemSize = new System.Drawing.Size(32, 85);
-            this.MephTabcontrol2.Location = new System.Drawing.Point(12, 65);
-            this.MephTabcontrol2.Multiline = true;
-            this.MephTabcontrol2.Name = "MephTabcontrol2";
-            this.MephTabcontrol2.SelectedIndex = 0;
-            this.MephTabcontrol2.Size = new System.Drawing.Size(511, 197);
-            this.MephTabcontrol2.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
-            this.MephTabcontrol2.TabIndex = 17;
+            this.tabcontrolMinerETH.Alignment = System.Windows.Forms.TabAlignment.Left;
+            this.tabcontrolMinerETH.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.tabcontrolMinerETH.Controls.Add(this.tabConnection);
+            this.tabcontrolMinerETH.Controls.Add(this.tabMining);
+            this.tabcontrolMinerETH.Controls.Add(this.tabAdvanced);
+            this.tabcontrolMinerETH.Controls.Add(this.tabJSON);
+            this.tabcontrolMinerETH.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.tabcontrolMinerETH.ItemSize = new System.Drawing.Size(32, 85);
+            this.tabcontrolMinerETH.Location = new System.Drawing.Point(12, 65);
+            this.tabcontrolMinerETH.Multiline = true;
+            this.tabcontrolMinerETH.Name = "tabcontrolMinerETH";
+            this.tabcontrolMinerETH.SelectedIndex = 0;
+            this.tabcontrolMinerETH.Size = new System.Drawing.Size(511, 197);
+            this.tabcontrolMinerETH.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+            this.tabcontrolMinerETH.TabIndex = 17;
+            this.tabcontrolMinerETH.SelectedIndexChanged += new System.EventHandler(this.tabcontrolMinerETH_SelectedIndexChanged);
             // 
-            // TabPage1
+            // tabConnection
             // 
-            this.TabPage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.TabPage1.Controls.Add(this.MephGroupBox2);
-            this.TabPage1.Controls.Add(this.MephGroupBox1);
-            this.TabPage1.Location = new System.Drawing.Point(89, 4);
-            this.TabPage1.Name = "TabPage1";
-            this.TabPage1.Size = new System.Drawing.Size(418, 189);
-            this.TabPage1.TabIndex = 0;
-            this.TabPage1.Text = "Connection";
+            this.tabConnection.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.tabConnection.Controls.Add(this.groupOptional);
+            this.tabConnection.Controls.Add(this.groupRequired);
+            this.tabConnection.Location = new System.Drawing.Point(89, 4);
+            this.tabConnection.Name = "tabConnection";
+            this.tabConnection.Size = new System.Drawing.Size(418, 189);
+            this.tabConnection.TabIndex = 0;
+            this.tabConnection.Text = "Connection";
             // 
-            // MephGroupBox2
+            // groupOptional
             // 
-            this.MephGroupBox2.BackColor = System.Drawing.Color.Transparent;
-            this.MephGroupBox2.Controls.Add(this.Label14);
-            this.MephGroupBox2.Controls.Add(this.txtPoolPassowrd);
-            this.MephGroupBox2.Controls.Add(this.Label7);
-            this.MephGroupBox2.Controls.Add(this.txtPoolWorker);
-            this.MephGroupBox2.Controls.Add(this.txtPoolData);
-            this.MephGroupBox2.Controls.Add(this.Label12);
-            this.MephGroupBox2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(205)))), ((int)(((byte)(205)))));
-            this.MephGroupBox2.Header_Line = MephGroupBox.HeaderLine.Enabled;
-            this.MephGroupBox2.Location = new System.Drawing.Point(213, 3);
-            this.MephGroupBox2.Name = "MephGroupBox2";
-            this.MephGroupBox2.Size = new System.Drawing.Size(202, 183);
-            this.MephGroupBox2.TabIndex = 50;
-            this.MephGroupBox2.Text = "Optional Settings";
+            this.groupOptional.BackColor = System.Drawing.Color.Transparent;
+            this.groupOptional.Controls.Add(this.Label14);
+            this.groupOptional.Controls.Add(this.txtPoolPassowrd);
+            this.groupOptional.Controls.Add(this.Label7);
+            this.groupOptional.Controls.Add(this.txtPoolWorker);
+            this.groupOptional.Controls.Add(this.txtPoolData);
+            this.groupOptional.Controls.Add(this.Label12);
+            this.groupOptional.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(205)))), ((int)(((byte)(205)))));
+            this.groupOptional.Header_Line = MephGroupBox.HeaderLine.Enabled;
+            this.groupOptional.Location = new System.Drawing.Point(213, 3);
+            this.groupOptional.Name = "groupOptional";
+            this.groupOptional.Size = new System.Drawing.Size(202, 183);
+            this.groupOptional.TabIndex = 50;
+            this.groupOptional.Text = "Optional Settings";
             // 
             // Label14
             // 
@@ -232,22 +237,22 @@ namespace SilentCryptoMiner
             this.Label12.TabIndex = 44;
             this.Label12.Text = "Extra data:";
             // 
-            // MephGroupBox1
+            // groupRequired
             // 
-            this.MephGroupBox1.BackColor = System.Drawing.Color.Transparent;
-            this.MephGroupBox1.Controls.Add(this.txtPoolURL);
-            this.MephGroupBox1.Controls.Add(this.Label6);
-            this.MephGroupBox1.Controls.Add(this.txtPoolUsername);
-            this.MephGroupBox1.Controls.Add(this.Label8);
-            this.MephGroupBox1.Controls.Add(this.comboPoolScheme);
-            this.MephGroupBox1.Controls.Add(this.Label3);
-            this.MephGroupBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(205)))), ((int)(((byte)(205)))));
-            this.MephGroupBox1.Header_Line = MephGroupBox.HeaderLine.Enabled;
-            this.MephGroupBox1.Location = new System.Drawing.Point(5, 3);
-            this.MephGroupBox1.Name = "MephGroupBox1";
-            this.MephGroupBox1.Size = new System.Drawing.Size(202, 183);
-            this.MephGroupBox1.TabIndex = 49;
-            this.MephGroupBox1.Text = "Required Settings";
+            this.groupRequired.BackColor = System.Drawing.Color.Transparent;
+            this.groupRequired.Controls.Add(this.txtPoolURL);
+            this.groupRequired.Controls.Add(this.Label6);
+            this.groupRequired.Controls.Add(this.txtPoolUsername);
+            this.groupRequired.Controls.Add(this.Label8);
+            this.groupRequired.Controls.Add(this.comboPoolScheme);
+            this.groupRequired.Controls.Add(this.Label3);
+            this.groupRequired.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(205)))), ((int)(((byte)(205)))));
+            this.groupRequired.Header_Line = MephGroupBox.HeaderLine.Enabled;
+            this.groupRequired.Location = new System.Drawing.Point(5, 3);
+            this.groupRequired.Name = "groupRequired";
+            this.groupRequired.Size = new System.Drawing.Size(202, 183);
+            this.groupRequired.TabIndex = 49;
+            this.groupRequired.Text = "Required Settings";
             // 
             // txtPoolURL
             // 
@@ -331,30 +336,54 @@ namespace SilentCryptoMiner
             this.Label3.TabIndex = 41;
             this.Label3.Text = "Connection Scheme:";
             // 
-            // TabPage6
+            // tabMining
             // 
-            this.TabPage6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.TabPage6.Controls.Add(this.label29);
-            this.TabPage6.Controls.Add(this.comboAlgorithm);
-            this.TabPage6.Controls.Add(this.txtIdleGPU);
-            this.TabPage6.Controls.Add(this.txtMaxGPU);
-            this.TabPage6.Controls.Add(this.Label22);
-            this.TabPage6.Controls.Add(this.Label16);
-            this.TabPage6.Controls.Add(this.Label5);
-            this.TabPage6.Controls.Add(this.comboInjection);
-            this.TabPage6.Controls.Add(this.Label27);
-            this.TabPage6.Controls.Add(this.toggleStealth);
-            this.TabPage6.Controls.Add(this.Label24);
-            this.TabPage6.Controls.Add(this.Label23);
-            this.TabPage6.Controls.Add(this.txtIdleWait);
-            this.TabPage6.Controls.Add(this.Label11);
-            this.TabPage6.Controls.Add(this.toggleIdle);
-            this.TabPage6.Location = new System.Drawing.Point(89, 4);
-            this.TabPage6.Name = "TabPage6";
-            this.TabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPage6.Size = new System.Drawing.Size(418, 189);
-            this.TabPage6.TabIndex = 5;
-            this.TabPage6.Text = "Mining";
+            this.tabMining.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.tabMining.Controls.Add(this.label32);
+            this.tabMining.Controls.Add(this.toggleProcessKiller);
+            this.tabMining.Controls.Add(this.label29);
+            this.tabMining.Controls.Add(this.comboAlgorithm);
+            this.tabMining.Controls.Add(this.comboIdleGPU);
+            this.tabMining.Controls.Add(this.comboMaxGPU);
+            this.tabMining.Controls.Add(this.Label22);
+            this.tabMining.Controls.Add(this.Label16);
+            this.tabMining.Controls.Add(this.Label5);
+            this.tabMining.Controls.Add(this.comboInjection);
+            this.tabMining.Controls.Add(this.Label27);
+            this.tabMining.Controls.Add(this.toggleStealth);
+            this.tabMining.Controls.Add(this.Label24);
+            this.tabMining.Controls.Add(this.Label23);
+            this.tabMining.Controls.Add(this.txtIdleWait);
+            this.tabMining.Controls.Add(this.Label11);
+            this.tabMining.Controls.Add(this.toggleIdle);
+            this.tabMining.Location = new System.Drawing.Point(89, 4);
+            this.tabMining.Name = "tabMining";
+            this.tabMining.Padding = new System.Windows.Forms.Padding(3);
+            this.tabMining.Size = new System.Drawing.Size(418, 189);
+            this.tabMining.TabIndex = 5;
+            this.tabMining.Text = "Mining";
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.label32.Location = new System.Drawing.Point(10, 42);
+            this.label32.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(89, 17);
+            this.label32.TabIndex = 141;
+            this.label32.Text = "Process Killer:";
+            // 
+            // toggleProcessKiller
+            // 
+            this.toggleProcessKiller.BackColor = System.Drawing.Color.Transparent;
+            this.toggleProcessKiller.Checked = false;
+            this.toggleProcessKiller.ForeColor = System.Drawing.Color.Black;
+            this.toggleProcessKiller.Location = new System.Drawing.Point(111, 38);
+            this.toggleProcessKiller.Margin = new System.Windows.Forms.Padding(2);
+            this.toggleProcessKiller.Name = "toggleProcessKiller";
+            this.toggleProcessKiller.Size = new System.Drawing.Size(50, 24);
+            this.toggleProcessKiller.TabIndex = 140;
             // 
             // label29
             // 
@@ -387,17 +416,17 @@ namespace SilentCryptoMiner
             this.comboAlgorithm.TabIndex = 67;
             this.comboAlgorithm.SelectedIndexChanged += new System.EventHandler(this.comboAlgorithm_SelectedIndexChanged);
             // 
-            // txtIdleGPU
+            // comboIdleGPU
             // 
-            this.txtIdleGPU.BackColor = System.Drawing.Color.Transparent;
-            this.txtIdleGPU.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.txtIdleGPU.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.txtIdleGPU.Font = new System.Drawing.Font("Verdana", 8F);
-            this.txtIdleGPU.ForeColor = System.Drawing.Color.Silver;
-            this.txtIdleGPU.FormattingEnabled = true;
-            this.txtIdleGPU.ItemHeight = 16;
-            this.txtIdleGPU.ItemHighlightColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
-            this.txtIdleGPU.Items.AddRange(new object[] {
+            this.comboIdleGPU.BackColor = System.Drawing.Color.Transparent;
+            this.comboIdleGPU.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.comboIdleGPU.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboIdleGPU.Font = new System.Drawing.Font("Verdana", 8F);
+            this.comboIdleGPU.ForeColor = System.Drawing.Color.Silver;
+            this.comboIdleGPU.FormattingEnabled = true;
+            this.comboIdleGPU.ItemHeight = 16;
+            this.comboIdleGPU.ItemHighlightColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
+            this.comboIdleGPU.Items.AddRange(new object[] {
             "0%",
             "10%",
             "20%",
@@ -409,23 +438,23 @@ namespace SilentCryptoMiner
             "80%",
             "90%",
             "100%"});
-            this.txtIdleGPU.Location = new System.Drawing.Point(346, 70);
-            this.txtIdleGPU.Name = "txtIdleGPU";
-            this.txtIdleGPU.Size = new System.Drawing.Size(60, 22);
-            this.txtIdleGPU.StartIndex = 10;
-            this.txtIdleGPU.TabIndex = 66;
+            this.comboIdleGPU.Location = new System.Drawing.Point(346, 70);
+            this.comboIdleGPU.Name = "comboIdleGPU";
+            this.comboIdleGPU.Size = new System.Drawing.Size(60, 22);
+            this.comboIdleGPU.StartIndex = 10;
+            this.comboIdleGPU.TabIndex = 66;
             // 
-            // txtMaxGPU
+            // comboMaxGPU
             // 
-            this.txtMaxGPU.BackColor = System.Drawing.Color.Transparent;
-            this.txtMaxGPU.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.txtMaxGPU.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.txtMaxGPU.Font = new System.Drawing.Font("Verdana", 8F);
-            this.txtMaxGPU.ForeColor = System.Drawing.Color.Silver;
-            this.txtMaxGPU.FormattingEnabled = true;
-            this.txtMaxGPU.ItemHeight = 16;
-            this.txtMaxGPU.ItemHighlightColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
-            this.txtMaxGPU.Items.AddRange(new object[] {
+            this.comboMaxGPU.BackColor = System.Drawing.Color.Transparent;
+            this.comboMaxGPU.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.comboMaxGPU.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboMaxGPU.Font = new System.Drawing.Font("Verdana", 8F);
+            this.comboMaxGPU.ForeColor = System.Drawing.Color.Silver;
+            this.comboMaxGPU.FormattingEnabled = true;
+            this.comboMaxGPU.ItemHeight = 16;
+            this.comboMaxGPU.ItemHighlightColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
+            this.comboMaxGPU.Items.AddRange(new object[] {
             "0%",
             "10%",
             "20%",
@@ -437,11 +466,11 @@ namespace SilentCryptoMiner
             "80%",
             "90%",
             "100%"});
-            this.txtMaxGPU.Location = new System.Drawing.Point(346, 40);
-            this.txtMaxGPU.Name = "txtMaxGPU";
-            this.txtMaxGPU.Size = new System.Drawing.Size(60, 22);
-            this.txtMaxGPU.StartIndex = 10;
-            this.txtMaxGPU.TabIndex = 65;
+            this.comboMaxGPU.Location = new System.Drawing.Point(346, 40);
+            this.comboMaxGPU.Name = "comboMaxGPU";
+            this.comboMaxGPU.Size = new System.Drawing.Size(60, 22);
+            this.comboMaxGPU.StartIndex = 10;
+            this.comboMaxGPU.TabIndex = 65;
             // 
             // Label22
             // 
@@ -495,7 +524,7 @@ namespace SilentCryptoMiner
             this.comboInjection.Location = new System.Drawing.Point(13, 159);
             this.comboInjection.Margin = new System.Windows.Forms.Padding(2);
             this.comboInjection.Name = "comboInjection";
-            this.comboInjection.Size = new System.Drawing.Size(178, 22);
+            this.comboInjection.Size = new System.Drawing.Size(148, 22);
             this.comboInjection.StartIndex = 0;
             this.comboInjection.TabIndex = 58;
             // 
@@ -503,7 +532,7 @@ namespace SilentCryptoMiner
             // 
             this.Label27.AutoSize = true;
             this.Label27.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.Label27.Location = new System.Drawing.Point(10, 13);
+            this.Label27.Location = new System.Drawing.Point(10, 16);
             this.Label27.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.Label27.Name = "Label27";
             this.Label27.Size = new System.Drawing.Size(50, 17);
@@ -515,7 +544,7 @@ namespace SilentCryptoMiner
             this.toggleStealth.BackColor = System.Drawing.Color.Transparent;
             this.toggleStealth.Checked = false;
             this.toggleStealth.ForeColor = System.Drawing.Color.Black;
-            this.toggleStealth.Location = new System.Drawing.Point(141, 11);
+            this.toggleStealth.Location = new System.Drawing.Point(111, 11);
             this.toggleStealth.Margin = new System.Windows.Forms.Padding(2);
             this.toggleStealth.Name = "toggleStealth";
             this.toggleStealth.Size = new System.Drawing.Size(50, 24);
@@ -584,26 +613,24 @@ namespace SilentCryptoMiner
             this.toggleIdle.Text = "Enable Idle Mining";
             this.toggleIdle.CheckedChanged += new MephToggleSwitch.CheckedChangedEventHandler(this.toggleIdle_CheckedChanged);
             // 
-            // TabPage2
+            // tabAdvanced
             // 
-            this.TabPage2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.TabPage2.Controls.Add(this.chkAPI);
-            this.TabPage2.Controls.Add(this.txtAPI);
-            this.TabPage2.Controls.Add(this.label32);
-            this.TabPage2.Controls.Add(this.toggleProcessKiller);
-            this.TabPage2.Controls.Add(this.label19);
-            this.TabPage2.Controls.Add(this.txtKillTargets);
-            this.TabPage2.Controls.Add(this.label1);
-            this.TabPage2.Controls.Add(this.txtStealthTargets);
-            this.TabPage2.Controls.Add(this.chkAdvParam);
-            this.TabPage2.Controls.Add(this.txtAdvParam);
-            this.TabPage2.Controls.Add(this.chkRemoteConfig);
-            this.TabPage2.Controls.Add(this.txtRemoteConfig);
-            this.TabPage2.Location = new System.Drawing.Point(89, 4);
-            this.TabPage2.Name = "TabPage2";
-            this.TabPage2.Size = new System.Drawing.Size(418, 189);
-            this.TabPage2.TabIndex = 6;
-            this.TabPage2.Text = "Advanced";
+            this.tabAdvanced.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.tabAdvanced.Controls.Add(this.chkAPI);
+            this.tabAdvanced.Controls.Add(this.txtAPI);
+            this.tabAdvanced.Controls.Add(this.label19);
+            this.tabAdvanced.Controls.Add(this.txtKillTargets);
+            this.tabAdvanced.Controls.Add(this.label1);
+            this.tabAdvanced.Controls.Add(this.txtStealthTargets);
+            this.tabAdvanced.Controls.Add(this.chkAdvParam);
+            this.tabAdvanced.Controls.Add(this.txtAdvParam);
+            this.tabAdvanced.Controls.Add(this.chkRemoteConfig);
+            this.tabAdvanced.Controls.Add(this.txtRemoteConfig);
+            this.tabAdvanced.Location = new System.Drawing.Point(89, 4);
+            this.tabAdvanced.Name = "tabAdvanced";
+            this.tabAdvanced.Size = new System.Drawing.Size(418, 189);
+            this.tabAdvanced.TabIndex = 6;
+            this.tabAdvanced.Text = "Advanced";
             // 
             // chkAPI
             // 
@@ -612,7 +639,7 @@ namespace SilentCryptoMiner
             this.chkAPI.Checked = false;
             this.chkAPI.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkAPI.ForeColor = System.Drawing.Color.Black;
-            this.chkAPI.Location = new System.Drawing.Point(228, 68);
+            this.chkAPI.Location = new System.Drawing.Point(228, 125);
             this.chkAPI.Margin = new System.Windows.Forms.Padding(2);
             this.chkAPI.Name = "chkAPI";
             this.chkAPI.Size = new System.Drawing.Size(178, 24);
@@ -625,7 +652,7 @@ namespace SilentCryptoMiner
             this.txtAPI.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.txtAPI.Enabled = false;
             this.txtAPI.ForeColor = System.Drawing.Color.Silver;
-            this.txtAPI.Location = new System.Drawing.Point(228, 96);
+            this.txtAPI.Location = new System.Drawing.Point(228, 153);
             this.txtAPI.Margin = new System.Windows.Forms.Padding(2);
             this.txtAPI.MaxLength = 32767;
             this.txtAPI.MultiLine = false;
@@ -636,34 +663,12 @@ namespace SilentCryptoMiner
             this.txtAPI.UseSystemPasswordChar = false;
             this.txtAPI.WordWrap = false;
             // 
-            // label32
-            // 
-            this.label32.AutoSize = true;
-            this.label32.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.label32.Location = new System.Drawing.Point(13, 14);
-            this.label32.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(89, 17);
-            this.label32.TabIndex = 139;
-            this.label32.Text = "Process Killer:";
-            // 
-            // toggleProcessKiller
-            // 
-            this.toggleProcessKiller.BackColor = System.Drawing.Color.Transparent;
-            this.toggleProcessKiller.Checked = false;
-            this.toggleProcessKiller.ForeColor = System.Drawing.Color.Black;
-            this.toggleProcessKiller.Location = new System.Drawing.Point(106, 12);
-            this.toggleProcessKiller.Margin = new System.Windows.Forms.Padding(2);
-            this.toggleProcessKiller.Name = "toggleProcessKiller";
-            this.toggleProcessKiller.Size = new System.Drawing.Size(50, 24);
-            this.toggleProcessKiller.TabIndex = 138;
-            // 
             // label19
             // 
             this.label19.AutoSize = true;
             this.label19.BackColor = System.Drawing.Color.Transparent;
             this.label19.ForeColor = System.Drawing.Color.Gray;
-            this.label19.Location = new System.Drawing.Point(13, 133);
+            this.label19.Location = new System.Drawing.Point(13, 132);
             this.label19.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(75, 17);
@@ -674,7 +679,7 @@ namespace SilentCryptoMiner
             // 
             this.txtKillTargets.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.txtKillTargets.ForeColor = System.Drawing.Color.Silver;
-            this.txtKillTargets.Location = new System.Drawing.Point(14, 152);
+            this.txtKillTargets.Location = new System.Drawing.Point(14, 151);
             this.txtKillTargets.Margin = new System.Windows.Forms.Padding(2);
             this.txtKillTargets.MaxLength = 32767;
             this.txtKillTargets.MultiLine = false;
@@ -690,7 +695,7 @@ namespace SilentCryptoMiner
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.ForeColor = System.Drawing.Color.Gray;
-            this.label1.Location = new System.Drawing.Point(13, 89);
+            this.label1.Location = new System.Drawing.Point(13, 88);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(97, 17);
@@ -701,7 +706,7 @@ namespace SilentCryptoMiner
             // 
             this.txtStealthTargets.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.txtStealthTargets.ForeColor = System.Drawing.Color.Silver;
-            this.txtStealthTargets.Location = new System.Drawing.Point(14, 108);
+            this.txtStealthTargets.Location = new System.Drawing.Point(14, 107);
             this.txtStealthTargets.Margin = new System.Windows.Forms.Padding(2);
             this.txtStealthTargets.MaxLength = 32767;
             this.txtStealthTargets.MultiLine = false;
@@ -720,7 +725,7 @@ namespace SilentCryptoMiner
             this.chkAdvParam.Checked = false;
             this.chkAdvParam.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkAdvParam.ForeColor = System.Drawing.Color.Black;
-            this.chkAdvParam.Location = new System.Drawing.Point(228, 124);
+            this.chkAdvParam.Location = new System.Drawing.Point(228, 68);
             this.chkAdvParam.Margin = new System.Windows.Forms.Padding(2);
             this.chkAdvParam.Name = "chkAdvParam";
             this.chkAdvParam.Size = new System.Drawing.Size(178, 24);
@@ -733,7 +738,7 @@ namespace SilentCryptoMiner
             this.txtAdvParam.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.txtAdvParam.Enabled = false;
             this.txtAdvParam.ForeColor = System.Drawing.Color.Silver;
-            this.txtAdvParam.Location = new System.Drawing.Point(228, 152);
+            this.txtAdvParam.Location = new System.Drawing.Point(228, 96);
             this.txtAdvParam.Margin = new System.Windows.Forms.Padding(2);
             this.txtAdvParam.MaxLength = 32767;
             this.txtAdvParam.MultiLine = false;
@@ -775,6 +780,30 @@ namespace SilentCryptoMiner
             this.txtRemoteConfig.UseSystemPasswordChar = false;
             this.txtRemoteConfig.WordWrap = false;
             // 
+            // tabJSON
+            // 
+            this.tabJSON.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.tabJSON.Controls.Add(this.txtJSON);
+            this.tabJSON.Location = new System.Drawing.Point(89, 4);
+            this.tabJSON.Name = "tabJSON";
+            this.tabJSON.Size = new System.Drawing.Size(418, 189);
+            this.tabJSON.TabIndex = 7;
+            this.tabJSON.Text = "JSON";
+            // 
+            // txtJSON
+            // 
+            this.txtJSON.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.txtJSON.ForeColor = System.Drawing.Color.Silver;
+            this.txtJSON.Location = new System.Drawing.Point(3, 3);
+            this.txtJSON.MaxLength = 32767;
+            this.txtJSON.MultiLine = true;
+            this.txtJSON.Name = "txtJSON";
+            this.txtJSON.Size = new System.Drawing.Size(412, 183);
+            this.txtJSON.TabIndex = 0;
+            this.txtJSON.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
+            this.txtJSON.UseSystemPasswordChar = false;
+            this.txtJSON.WordWrap = false;
+            // 
             // MinerETH
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -796,16 +825,17 @@ namespace SilentCryptoMiner
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MinerETH_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.formMinerETH.ResumeLayout(false);
-            this.MephTabcontrol2.ResumeLayout(false);
-            this.TabPage1.ResumeLayout(false);
-            this.MephGroupBox2.ResumeLayout(false);
-            this.MephGroupBox2.PerformLayout();
-            this.MephGroupBox1.ResumeLayout(false);
-            this.MephGroupBox1.PerformLayout();
-            this.TabPage6.ResumeLayout(false);
-            this.TabPage6.PerformLayout();
-            this.TabPage2.ResumeLayout(false);
-            this.TabPage2.PerformLayout();
+            this.tabcontrolMinerETH.ResumeLayout(false);
+            this.tabConnection.ResumeLayout(false);
+            this.groupOptional.ResumeLayout(false);
+            this.groupOptional.PerformLayout();
+            this.groupRequired.ResumeLayout(false);
+            this.groupRequired.PerformLayout();
+            this.tabMining.ResumeLayout(false);
+            this.tabMining.PerformLayout();
+            this.tabAdvanced.ResumeLayout(false);
+            this.tabAdvanced.PerformLayout();
+            this.tabJSON.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -818,9 +848,9 @@ namespace SilentCryptoMiner
         internal MephTextBox txtPoolPassowrd;
         internal Label Label6;
         internal MephTextBox txtPoolUsername;
-        internal MephTabcontrol MephTabcontrol2;
-        internal TabPage TabPage1;
-        internal TabPage TabPage6;
+        internal MephTabcontrol tabcontrolMinerETH;
+        internal TabPage tabConnection;
+        internal TabPage tabMining;
         internal Label Label11;
         internal Label Label24;
         internal Label Label23;
@@ -833,22 +863,20 @@ namespace SilentCryptoMiner
         internal MephTextBox txtPoolData;
         internal Label Label5;
         internal MephComboBox comboInjection;
-        internal MephGroupBox MephGroupBox2;
+        internal MephGroupBox groupOptional;
         internal Label Label14;
         internal MephTextBox txtPoolWorker;
-        internal MephGroupBox MephGroupBox1;
-        internal MephComboBox txtIdleGPU;
-        internal MephComboBox txtMaxGPU;
+        internal MephGroupBox groupRequired;
+        internal MephComboBox comboIdleGPU;
+        internal MephComboBox comboMaxGPU;
         internal Label Label22;
         internal Label Label16;
-        internal TabPage TabPage2;
+        internal TabPage tabAdvanced;
         internal MephToggleSwitch toggleIdle;
         internal Label label29;
         internal MephComboBox comboAlgorithm;
         internal MephCheckBox chkAPI;
         internal MephTextBox txtAPI;
-        internal Label label32;
-        internal MephToggleSwitch toggleProcessKiller;
         internal Label label19;
         internal MephTextBox txtKillTargets;
         internal Label label1;
@@ -857,5 +885,9 @@ namespace SilentCryptoMiner
         internal MephTextBox txtAdvParam;
         internal MephCheckBox chkRemoteConfig;
         internal MephTextBox txtRemoteConfig;
+        private TabPage tabJSON;
+        private MephTextBox txtJSON;
+        internal Label label32;
+        internal MephToggleSwitch toggleProcessKiller;
     }
 }

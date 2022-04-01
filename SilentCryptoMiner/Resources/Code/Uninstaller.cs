@@ -131,6 +131,34 @@ public partial class _rUninstaller_
 #endif
         }
         catch { }
+
+#if DefBlockWebsites
+        try
+        {
+            string _rhostspath_ = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), _rGetString_("#HOSTSPATH"));
+            List<string> _rhostscontent_ = new List<string>(File.ReadAllLines(_rhostspath_));
+
+            string[] _rdomainset_ = new string[] { DOMAINSET };
+            for (int i = _rhostscontent_.Count - 1; i >= 0; i--)
+            {
+                foreach (string _set_ in _rdomainset_)
+                {
+                    if (_rhostscontent_[i].Contains(" " + _set_))
+                    {
+                        _rhostscontent_.RemoveAt(i);
+                        break;
+                    }
+                }
+            }
+            File.WriteAllLines(_rhostspath_, _rhostscontent_.ToArray());
+        }
+        catch (Exception ex)
+        {
+#if DefDebug
+            MessageBox.Show("M0.5: " + Environment.NewLine + ex.ToString());
+#endif
+        }
+#endif
         Environment.Exit(0);
     }
 

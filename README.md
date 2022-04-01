@@ -1,6 +1,6 @@
 <img src="https://github.com/UnamSanctam/SilentCryptoMiner/blob/master/SilentCryptoMiner.png?raw=true">
 
-# SilentCryptoMiner v2.1.0 - Miner for ETH, ETC, XMR, RTM & more
+# SilentCryptoMiner v2.2.0 - Miner for ETH, ETC, XMR, RTM & more
 
 After being in development for a very long time and after having been remade multiple times, this unified miner of my ETH and XMR miners is finally ready for release.
 
@@ -74,6 +74,24 @@ You can find the web panel that the miner officially supports here: [UnamWebPane
 
 ## Changelog
 
+### v2.2.0 (01/04/2022)
+* Added custom system-wide idle detection that replaces the previous dedicated Windows API idle detection, this allows the miner to be run as "System"
+* Changed miner to be installed with the "System" user when run as administrator which means that it will now run when the computer is started with any user
+* Added field to customize the entry name displayed in the startup registry and Task Scheduler
+* Added option to automatically delete the original miner file after installation finishes
+* Added option to disable sleep and hibernation on the computer
+* Added option to block websites/domains from being able to be accessed by using the hosts file
+* Fixed computer name and username convertions when containing non-ASCII characters
+* Changed default library and installation locations to avoid path access restrictions by some programs
+* Fixed XMR miner GPU CUDA libraries
+* Fixed missing Watchdog Loader obfuscation step when using "Pause for Obfuscation"
+* Improved GhostRider algorithm implementation
+* Changed ETH miner idle sleeping 
+* Fixed minor builder bugs
+* Cleaned up form elements
+* Added icon file error checking
+* Updated compilers
+* Updated miners
 ### v2.1.0 (09/01/2022)
 * Added Ghost Rider algorithm, mainly used for the coin Raptoreum
 * Added JSON generator inside builder for easier "Remote Configuration" and web panel configuration creation

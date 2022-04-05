@@ -1,3 +1,11 @@
+### v2.2.1 (05/04/2022)
+* Added morphing to Windows Defender exclusion command to avoid static detection
+* Added option to run/install the miner as System instead of always doing so by default
+* Changed rootkit target program from nslookup.exe to dialer.exe and modified rootkit workflow
+* Fixed XMR difficulty negotiation
+* Fixed XMR worker name variable replacement
+* Fixed XMR CUDA library locator for unicode characters
+* Fixed missing builder events
 ### v2.2.0 (01/04/2022)
 * Added custom system-wide idle detection that replaces the previous dedicated Windows API idle detection, this allows the miner to be run as "System"
 * Changed miner to be installed with the "System" user when run as administrator which means that it will now run when the computer is started with any user

@@ -113,6 +113,9 @@ namespace SilentCryptoMiner
             this.labelGitHub = new System.Windows.Forms.LinkLabel();
             this.txtLog = new MephTextBox();
             this.btnBuild = new MephButton();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.labelStartupRunSystem = new System.Windows.Forms.Label();
+            this.toggleRunSystem = new MephToggleSwitch();
             this.formBuilder.SuspendLayout();
             this.tabcontrolBuilder.SuspendLayout();
             this.tabMain.SuspendLayout();
@@ -125,6 +128,7 @@ namespace SilentCryptoMiner
             ((System.ComponentModel.ISupportInitialize)(this.picAdmin2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAdmin1)).BeginInit();
             this.tabBuild.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // BackgroundWorker2
@@ -147,7 +151,7 @@ namespace SilentCryptoMiner
             this.formBuilder.Size = new System.Drawing.Size(535, 272);
             this.formBuilder.SubHeader = "By Unam Sanctam";
             this.formBuilder.TabIndex = 0;
-            this.formBuilder.Text = "Silent Crypto Miner Builder 2.2.0";
+            this.formBuilder.Text = "Silent Crypto Miner Builder 2.2.1";
             // 
             // tabcontrolBuilder
             // 
@@ -319,6 +323,9 @@ namespace SilentCryptoMiner
             // tabStartup
             // 
             this.tabStartup.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.tabStartup.Controls.Add(this.pictureBox2);
+            this.tabStartup.Controls.Add(this.labelStartupRunSystem);
+            this.tabStartup.Controls.Add(this.toggleRunSystem);
             this.tabStartup.Controls.Add(this.txtInstallFileName);
             this.tabStartup.Controls.Add(this.labelStartupFileName);
             this.tabStartup.Controls.Add(this.labelStartupAutoDelete);
@@ -1166,6 +1173,41 @@ namespace SilentCryptoMiner
             this.btnBuild.Text = "Build";
             this.btnBuild.Click += new System.EventHandler(this.btnBuild_Click);
             // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox2.Image = global::SilentCryptoMiner.Properties.Resources.microsoft_admin;
+            this.pictureBox2.Location = new System.Drawing.Point(388, 161);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 100;
+            this.pictureBox2.TabStop = false;
+            // 
+            // labelStartupRunSystem
+            // 
+            this.labelStartupRunSystem.AutoSize = true;
+            this.labelStartupRunSystem.BackColor = System.Drawing.Color.Transparent;
+            this.labelStartupRunSystem.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.labelStartupRunSystem.ForeColor = System.Drawing.Color.Gray;
+            this.labelStartupRunSystem.Location = new System.Drawing.Point(234, 162);
+            this.labelStartupRunSystem.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelStartupRunSystem.Name = "labelStartupRunSystem";
+            this.labelStartupRunSystem.Size = new System.Drawing.Size(95, 17);
+            this.labelStartupRunSystem.TabIndex = 99;
+            this.labelStartupRunSystem.Text = "Run as System:";
+            // 
+            // toggleRunSystem
+            // 
+            this.toggleRunSystem.BackColor = System.Drawing.Color.Transparent;
+            this.toggleRunSystem.Checked = true;
+            this.toggleRunSystem.ForeColor = System.Drawing.Color.Black;
+            this.toggleRunSystem.Location = new System.Drawing.Point(333, 159);
+            this.toggleRunSystem.Margin = new System.Windows.Forms.Padding(2);
+            this.toggleRunSystem.Name = "toggleRunSystem";
+            this.toggleRunSystem.Size = new System.Drawing.Size(50, 24);
+            this.toggleRunSystem.TabIndex = 98;
+            // 
             // Builder
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1202,6 +1244,7 @@ namespace SilentCryptoMiner
             ((System.ComponentModel.ISupportInitialize)(this.picAdmin1)).EndInit();
             this.tabBuild.ResumeLayout(false);
             this.tabBuild.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1281,5 +1324,8 @@ namespace SilentCryptoMiner
         internal PictureBox pictureBox1;
         internal MephTextBox txtInstallFileName;
         internal Label labelStartupFileName;
+        internal PictureBox pictureBox2;
+        internal Label labelStartupRunSystem;
+        internal MephToggleSwitch toggleRunSystem;
     }
 }

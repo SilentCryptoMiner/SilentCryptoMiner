@@ -643,6 +643,7 @@ namespace SilentCryptoMiner
             this.chkAPI.Size = new System.Drawing.Size(178, 24);
             this.chkAPI.TabIndex = 139;
             this.chkAPI.Text = "API Endpoint URL";
+            this.chkAPI.CheckedChanged += new MephCheckBox.CheckedChangedEventHandler(this.chkAPI_CheckedChanged);
             // 
             // label19
             // 
@@ -681,6 +682,7 @@ namespace SilentCryptoMiner
             this.chkAdvParam.Size = new System.Drawing.Size(178, 24);
             this.chkAdvParam.TabIndex = 131;
             this.chkAdvParam.Text = "Advanced Parameters";
+            this.chkAdvParam.CheckedChanged += new MephCheckBox.CheckedChangedEventHandler(this.chkAdvParam_CheckedChanged);
             // 
             // chkRemoteConfig
             // 
@@ -695,6 +697,7 @@ namespace SilentCryptoMiner
             this.chkRemoteConfig.Size = new System.Drawing.Size(178, 24);
             this.chkRemoteConfig.TabIndex = 133;
             this.chkRemoteConfig.Text = "Remote Configuration";
+            this.chkRemoteConfig.CheckedChanged += new MephCheckBox.CheckedChangedEventHandler(this.chkRemoteConfig_CheckedChanged);
             // 
             // txtAPI
             // 

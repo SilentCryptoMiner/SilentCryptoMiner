@@ -38,7 +38,6 @@ namespace SilentCryptoMiner
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MinerXMR));
-            this.BackgroundWorker2 = new System.ComponentModel.BackgroundWorker();
             this.formMinerXMR = new MephTheme();
             this.tabcontrolMinerXMR = new MephTabcontrol();
             this.tabConnection = new System.Windows.Forms.TabPage();
@@ -876,7 +875,6 @@ namespace SilentCryptoMiner
         }
 
         internal MephTheme formMinerXMR;
-        internal System.ComponentModel.BackgroundWorker BackgroundWorker2;
         internal MephTabcontrol tabcontrolMinerXMR;
         internal TabPage tabConnection;
         internal LinkLabel labelWiki;

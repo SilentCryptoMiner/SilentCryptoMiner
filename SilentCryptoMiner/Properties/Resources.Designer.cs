@@ -201,9 +201,9 @@ namespace SilentCryptoMiner.Properties {
         ///
         ///int main(int argc, char** argv) {
         ///	Sleep(startDelay * 1000);
-        ///
+        ///	
         ///	PROCESS_INFORMATION p_info;
-        ///	STARTUPINFO s_i [rest of string was truncated]&quot;;.
+        ///	STARTUPINFO s_ [rest of string was truncated]&quot;;.
         /// </summary>
         public static string Loader {
             get {
@@ -317,6 +317,16 @@ namespace SilentCryptoMiner.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] RunPE {
+            get {
+                object obj = ResourceManager.GetObject("RunPE", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to using System;
         ///using System.IO;
         ///using System.IO.Compression;
@@ -342,6 +352,16 @@ namespace SilentCryptoMiner.Properties {
         public static string Uninstaller {
             get {
                 return ResourceManager.GetString("Uninstaller", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] user {
+            get {
+                object obj = ResourceManager.GetObject("user", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         

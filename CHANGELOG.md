@@ -1,3 +1,18 @@
+### v2.3.0 (09/04/2022)
+* Added option to disable Windows Update which stops updates from being found and installed
+* Changed Watchdog to now run only in memory with no file dropped
+* Added new Advanced Options form to make space for more options
+* Added advanced option to use old Watchdog behaviour and start as a dropped file instead of only in memory
+* Added advanced option to not overwrite old installed miners if desired
+* Changed HTTP library to always follow redirects
+* Decreased miner stealth and idle check loop timer for faster checks
+* Moved process hollowing code back into DLL
+* Added custom user level manifest
+* Reduced some antivirus detections, mainly in C# code
+* Cleaned up builder and miner code
+* Fixed uninstaller
+* Removed duplicate disable sleep command
+* Updated miner
 ### v2.2.1 (05/04/2022)
 * Added morphing to Windows Defender exclusion command to avoid static detection
 * Added option to run/install the miner as System instead of always doing so by default

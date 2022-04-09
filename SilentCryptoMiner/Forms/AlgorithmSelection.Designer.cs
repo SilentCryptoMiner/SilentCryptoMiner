@@ -8,7 +8,7 @@ using Microsoft.VisualBasic.CompilerServices;
 namespace SilentCryptoMiner
 {
     [DesignerGenerated()]
-    public partial class Advanced : Form
+    public partial class AlgorithmSelection : Form
     {
 
         // Form overrides dispose to clean up the component list.
@@ -38,14 +38,14 @@ namespace SilentCryptoMiner
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Advanced));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AlgorithmSelection));
             this.TooltipHelper = new System.Windows.Forms.ToolTip(this.components);
             this.Label3 = new System.Windows.Forms.Label();
-            this.MephTheme1 = new MephTheme();
+            this.formAlgorithmSelection = new MephTheme();
             this.Label1 = new System.Windows.Forms.Label();
             this.comboAlgorithm = new MephComboBox();
             this.btnCreate = new MephButton();
-            this.MephTheme1.SuspendLayout();
+            this.formAlgorithmSelection.SuspendLayout();
             this.SuspendLayout();
             // 
             // TooltipHelper
@@ -72,22 +72,22 @@ namespace SilentCryptoMiner
             this.TooltipHelper.SetToolTip(this.Label3, "Choose a cryptocurrency (algorithm) to mine.\r\nIf you cannot find the coin you wan" +
         "t to mine then\r\nselect a coin with the same algorithm.");
             // 
-            // MephTheme1
+            // formAlgorithmSelection
             // 
-            this.MephTheme1.AccentColor = System.Drawing.Color.DarkRed;
-            this.MephTheme1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.MephTheme1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            this.MephTheme1.Controls.Add(this.Label3);
-            this.MephTheme1.Controls.Add(this.Label1);
-            this.MephTheme1.Controls.Add(this.comboAlgorithm);
-            this.MephTheme1.Controls.Add(this.btnCreate);
-            this.MephTheme1.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.MephTheme1.Location = new System.Drawing.Point(0, 0);
-            this.MephTheme1.Name = "MephTheme1";
-            this.MephTheme1.Size = new System.Drawing.Size(310, 187);
-            this.MephTheme1.SubHeader = "Select a cryptocurrency (algorithm) to mine";
-            this.MephTheme1.TabIndex = 0;
-            this.MephTheme1.Text = "Silent Crypto Miner Builder";
+            this.formAlgorithmSelection.AccentColor = System.Drawing.Color.DarkRed;
+            this.formAlgorithmSelection.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.formAlgorithmSelection.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            this.formAlgorithmSelection.Controls.Add(this.Label3);
+            this.formAlgorithmSelection.Controls.Add(this.Label1);
+            this.formAlgorithmSelection.Controls.Add(this.comboAlgorithm);
+            this.formAlgorithmSelection.Controls.Add(this.btnCreate);
+            this.formAlgorithmSelection.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.formAlgorithmSelection.Location = new System.Drawing.Point(0, 0);
+            this.formAlgorithmSelection.Name = "formAlgorithmSelection";
+            this.formAlgorithmSelection.Size = new System.Drawing.Size(310, 187);
+            this.formAlgorithmSelection.SubHeader = "Select a cryptocurrency (algorithm) to mine";
+            this.formAlgorithmSelection.TabIndex = 0;
+            this.formAlgorithmSelection.Text = "Silent Crypto Miner Builder";
             // 
             // Label1
             // 
@@ -178,11 +178,11 @@ namespace SilentCryptoMiner
             this.btnCreate.Text = "Create Miner";
             this.btnCreate.Click += new System.EventHandler(this.btnCreate_Click);
             // 
-            // Advanced
+            // AlgorithmSelection
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(310, 187);
-            this.Controls.Add(this.MephTheme1);
+            this.Controls.Add(this.formAlgorithmSelection);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 5.729167F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -190,19 +190,19 @@ namespace SilentCryptoMiner
             this.MaximumSize = new System.Drawing.Size(436, 307);
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(310, 187);
-            this.Name = "Advanced";
+            this.Name = "AlgorithmSelection";
             this.Opacity = 0.95D;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Advanced";
             this.TransparencyKey = System.Drawing.Color.Fuchsia;
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.advanced_FormClosing);
-            this.MephTheme1.ResumeLayout(false);
-            this.MephTheme1.PerformLayout();
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.algorithmSelection_FormClosing);
+            this.formAlgorithmSelection.ResumeLayout(false);
+            this.formAlgorithmSelection.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
-        internal MephTheme MephTheme1;
+        internal MephTheme formAlgorithmSelection;
         internal ToolTip TooltipHelper;
         internal MephButton btnCreate;
         internal Label Label1;

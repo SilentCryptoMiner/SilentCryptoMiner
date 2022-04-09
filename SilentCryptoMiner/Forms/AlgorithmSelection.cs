@@ -3,16 +3,16 @@ using System.Windows.Forms;
 
 namespace SilentCryptoMiner
 {
-    public partial class Advanced
+    public partial class AlgorithmSelection
     {
-        public Advanced()
+        public AlgorithmSelection()
         {
             InitializeComponent();
         }
 
         public Builder F;
 
-        private void advanced_FormClosing(object sender, FormClosingEventArgs e)
+        private void algorithmSelection_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
             Hide();

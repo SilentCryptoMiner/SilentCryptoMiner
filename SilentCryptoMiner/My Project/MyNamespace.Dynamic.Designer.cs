@@ -9,9 +9,9 @@ namespace SilentCryptoMiner.My
         internal partial class MyForms
         {
             [EditorBrowsable(EditorBrowsableState.Never)]
-            public Advanced m_Advanced;
+            public AlgorithmSelection m_Advanced;
 
-            public Advanced Advanced
+            public AlgorithmSelection Advanced
             {
                 [DebuggerHidden]
                 get

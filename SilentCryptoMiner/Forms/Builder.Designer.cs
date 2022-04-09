@@ -38,7 +38,7 @@ namespace SilentCryptoMiner
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Builder));
-            this.BackgroundWorker2 = new System.ComponentModel.BackgroundWorker();
+            this.workerBuild = new System.ComponentModel.BackgroundWorker();
             this.formBuilder = new MephTheme();
             this.tabcontrolBuilder = new MephTabcontrol();
             this.tabMain = new System.Windows.Forms.TabPage();
@@ -54,6 +54,9 @@ namespace SilentCryptoMiner
             this.labelWiki = new System.Windows.Forms.LinkLabel();
             this.labelHelp = new System.Windows.Forms.Label();
             this.tabStartup = new System.Windows.Forms.TabPage();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.labelStartupRunSystem = new System.Windows.Forms.Label();
+            this.toggleRunSystem = new MephToggleSwitch();
             this.txtInstallFileName = new MephTextBox();
             this.labelStartupFileName = new System.Windows.Forms.Label();
             this.labelStartupAutoDelete = new System.Windows.Forms.Label();
@@ -86,25 +89,25 @@ namespace SilentCryptoMiner
             this.btnBrowseIcon = new MephButton();
             this.txtIconPath = new MephTextBox();
             this.tabOptions = new System.Windows.Forms.TabPage();
+            this.cFormAO = new MephListBox();
+            this.btnAdvancedOptions = new MephButton();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.labelOptionWindowsUpdate = new System.Windows.Forms.Label();
+            this.toggleWindowsUpdate = new MephToggleSwitch();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.chkBlockWebsites = new MephCheckBox();
             this.txtBlockWebsites = new MephTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.toggleDisableSleep = new MephToggleSwitch();
-            this.picAdmin2 = new System.Windows.Forms.PictureBox();
-            this.labelOptionRootkit = new System.Windows.Forms.Label();
-            this.toggleRootkit = new MephToggleSwitch();
             this.labelOptionShellcode = new System.Windows.Forms.Label();
             this.toggleShellcode = new MephToggleSwitch();
             this.labelOptionAdministrator = new System.Windows.Forms.Label();
             this.toggleAdministrator = new MephToggleSwitch();
             this.picAdmin1 = new System.Windows.Forms.PictureBox();
-            this.labelOptionDebug = new System.Windows.Forms.Label();
-            this.toggleDebug = new MephToggleSwitch();
             this.labelOptionObfuscation = new System.Windows.Forms.Label();
             this.toggleObfuscation = new MephToggleSwitch();
             this.labelOptionWD = new System.Windows.Forms.Label();
-            this.toggleKillWD = new MephToggleSwitch();
+            this.toggleWDExclusions = new MephToggleSwitch();
             this.tabBuild = new System.Windows.Forms.TabPage();
             this.labelSeconds = new System.Windows.Forms.Label();
             this.labelStartDelay = new System.Windows.Forms.Label();
@@ -113,27 +116,24 @@ namespace SilentCryptoMiner
             this.labelGitHub = new System.Windows.Forms.LinkLabel();
             this.txtLog = new MephTextBox();
             this.btnBuild = new MephButton();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.labelStartupRunSystem = new System.Windows.Forms.Label();
-            this.toggleRunSystem = new MephToggleSwitch();
             this.formBuilder.SuspendLayout();
             this.tabcontrolBuilder.SuspendLayout();
             this.tabMain.SuspendLayout();
             this.tabStartup.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.tabAssembly.SuspendLayout();
             this.tabIcon.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picIcon)).BeginInit();
             this.tabOptions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picAdmin2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAdmin1)).BeginInit();
             this.tabBuild.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
-            // BackgroundWorker2
+            // workerBuild
             // 
-            this.BackgroundWorker2.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BackgroundWorker2_DoWork);
+            this.workerBuild.DoWork += new System.ComponentModel.DoWorkEventHandler(this.workerBuild_DoWork);
             // 
             // formBuilder
             // 
@@ -151,7 +151,7 @@ namespace SilentCryptoMiner
             this.formBuilder.Size = new System.Drawing.Size(535, 272);
             this.formBuilder.SubHeader = "By Unam Sanctam";
             this.formBuilder.TabIndex = 0;
-            this.formBuilder.Text = "Silent Crypto Miner Builder 2.2.1";
+            this.formBuilder.Text = "Silent Crypto Miner Builder 2.3.0";
             // 
             // tabcontrolBuilder
             // 
@@ -342,6 +342,41 @@ namespace SilentCryptoMiner
             this.tabStartup.Size = new System.Drawing.Size(418, 189);
             this.tabStartup.TabIndex = 1;
             this.tabStartup.Text = "Startup";
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox2.Image = global::SilentCryptoMiner.Properties.Resources.microsoft_admin;
+            this.pictureBox2.Location = new System.Drawing.Point(388, 161);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 100;
+            this.pictureBox2.TabStop = false;
+            // 
+            // labelStartupRunSystem
+            // 
+            this.labelStartupRunSystem.AutoSize = true;
+            this.labelStartupRunSystem.BackColor = System.Drawing.Color.Transparent;
+            this.labelStartupRunSystem.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.labelStartupRunSystem.ForeColor = System.Drawing.Color.Gray;
+            this.labelStartupRunSystem.Location = new System.Drawing.Point(234, 162);
+            this.labelStartupRunSystem.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelStartupRunSystem.Name = "labelStartupRunSystem";
+            this.labelStartupRunSystem.Size = new System.Drawing.Size(95, 17);
+            this.labelStartupRunSystem.TabIndex = 99;
+            this.labelStartupRunSystem.Text = "Run as System:";
+            // 
+            // toggleRunSystem
+            // 
+            this.toggleRunSystem.BackColor = System.Drawing.Color.Transparent;
+            this.toggleRunSystem.Checked = true;
+            this.toggleRunSystem.ForeColor = System.Drawing.Color.Black;
+            this.toggleRunSystem.Location = new System.Drawing.Point(333, 159);
+            this.toggleRunSystem.Margin = new System.Windows.Forms.Padding(2);
+            this.toggleRunSystem.Name = "toggleRunSystem";
+            this.toggleRunSystem.Size = new System.Drawing.Size(50, 24);
+            this.toggleRunSystem.TabIndex = 98;
             // 
             // txtInstallFileName
             // 
@@ -806,31 +841,90 @@ namespace SilentCryptoMiner
             // tabOptions
             // 
             this.tabOptions.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.tabOptions.Controls.Add(this.cFormAO);
+            this.tabOptions.Controls.Add(this.btnAdvancedOptions);
+            this.tabOptions.Controls.Add(this.pictureBox3);
+            this.tabOptions.Controls.Add(this.labelOptionWindowsUpdate);
+            this.tabOptions.Controls.Add(this.toggleWindowsUpdate);
             this.tabOptions.Controls.Add(this.pictureBox1);
             this.tabOptions.Controls.Add(this.chkBlockWebsites);
             this.tabOptions.Controls.Add(this.txtBlockWebsites);
             this.tabOptions.Controls.Add(this.label1);
             this.tabOptions.Controls.Add(this.toggleDisableSleep);
-            this.tabOptions.Controls.Add(this.picAdmin2);
-            this.tabOptions.Controls.Add(this.labelOptionRootkit);
-            this.tabOptions.Controls.Add(this.toggleRootkit);
             this.tabOptions.Controls.Add(this.labelOptionShellcode);
             this.tabOptions.Controls.Add(this.toggleShellcode);
             this.tabOptions.Controls.Add(this.labelOptionAdministrator);
             this.tabOptions.Controls.Add(this.toggleAdministrator);
             this.tabOptions.Controls.Add(this.picAdmin1);
-            this.tabOptions.Controls.Add(this.labelOptionDebug);
-            this.tabOptions.Controls.Add(this.toggleDebug);
             this.tabOptions.Controls.Add(this.labelOptionObfuscation);
             this.tabOptions.Controls.Add(this.toggleObfuscation);
             this.tabOptions.Controls.Add(this.labelOptionWD);
-            this.tabOptions.Controls.Add(this.toggleKillWD);
+            this.tabOptions.Controls.Add(this.toggleWDExclusions);
             this.tabOptions.Location = new System.Drawing.Point(89, 4);
             this.tabOptions.Name = "tabOptions";
             this.tabOptions.Padding = new System.Windows.Forms.Padding(3);
             this.tabOptions.Size = new System.Drawing.Size(418, 189);
             this.tabOptions.TabIndex = 5;
             this.tabOptions.Text = "Options";
+            // 
+            // cFormAO
+            // 
+            this.cFormAO.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.cFormAO.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.cFormAO.ForeColor = System.Drawing.Color.Silver;
+            this.cFormAO.ItemHeight = 17;
+            this.cFormAO.Location = new System.Drawing.Point(138, 161);
+            this.cFormAO.Name = "cFormAO";
+            this.cFormAO.Size = new System.Drawing.Size(10, 18);
+            this.cFormAO.TabIndex = 141;
+            this.cFormAO.Visible = false;
+            // 
+            // btnAdvancedOptions
+            // 
+            this.btnAdvancedOptions.BackColor = System.Drawing.Color.Transparent;
+            this.btnAdvancedOptions.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(205)))), ((int)(((byte)(205)))));
+            this.btnAdvancedOptions.Location = new System.Drawing.Point(13, 157);
+            this.btnAdvancedOptions.Margin = new System.Windows.Forms.Padding(2);
+            this.btnAdvancedOptions.Name = "btnAdvancedOptions";
+            this.btnAdvancedOptions.Size = new System.Drawing.Size(120, 24);
+            this.btnAdvancedOptions.TabIndex = 140;
+            this.btnAdvancedOptions.Text = "Advanced Options";
+            this.btnAdvancedOptions.Click += new System.EventHandler(this.btnAdvancedOptions_Click);
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox3.Image = global::SilentCryptoMiner.Properties.Resources.microsoft_admin;
+            this.pictureBox3.Location = new System.Drawing.Point(224, 94);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox3.TabIndex = 139;
+            this.pictureBox3.TabStop = false;
+            // 
+            // labelOptionWindowsUpdate
+            // 
+            this.labelOptionWindowsUpdate.AutoSize = true;
+            this.labelOptionWindowsUpdate.BackColor = System.Drawing.Color.Transparent;
+            this.labelOptionWindowsUpdate.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.labelOptionWindowsUpdate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.labelOptionWindowsUpdate.Location = new System.Drawing.Point(9, 94);
+            this.labelOptionWindowsUpdate.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelOptionWindowsUpdate.Name = "labelOptionWindowsUpdate";
+            this.labelOptionWindowsUpdate.Size = new System.Drawing.Size(158, 17);
+            this.labelOptionWindowsUpdate.TabIndex = 138;
+            this.labelOptionWindowsUpdate.Text = "Disable Windows Update:";
+            // 
+            // toggleWindowsUpdate
+            // 
+            this.toggleWindowsUpdate.BackColor = System.Drawing.Color.Transparent;
+            this.toggleWindowsUpdate.Checked = false;
+            this.toggleWindowsUpdate.ForeColor = System.Drawing.Color.Black;
+            this.toggleWindowsUpdate.Location = new System.Drawing.Point(169, 91);
+            this.toggleWindowsUpdate.Margin = new System.Windows.Forms.Padding(2);
+            this.toggleWindowsUpdate.Name = "toggleWindowsUpdate";
+            this.toggleWindowsUpdate.Size = new System.Drawing.Size(50, 24);
+            this.toggleWindowsUpdate.TabIndex = 137;
             // 
             // pictureBox1
             // 
@@ -880,7 +974,7 @@ namespace SilentCryptoMiner
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.label1.ForeColor = System.Drawing.Color.Gray;
-            this.label1.Location = new System.Drawing.Point(260, 10);
+            this.label1.Location = new System.Drawing.Point(267, 38);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(90, 17);
@@ -892,46 +986,11 @@ namespace SilentCryptoMiner
             this.toggleDisableSleep.BackColor = System.Drawing.Color.Transparent;
             this.toggleDisableSleep.Checked = false;
             this.toggleDisableSleep.ForeColor = System.Drawing.Color.Black;
-            this.toggleDisableSleep.Location = new System.Drawing.Point(362, 8);
+            this.toggleDisableSleep.Location = new System.Drawing.Point(362, 34);
             this.toggleDisableSleep.Margin = new System.Windows.Forms.Padding(2);
             this.toggleDisableSleep.Name = "toggleDisableSleep";
             this.toggleDisableSleep.Size = new System.Drawing.Size(50, 24);
             this.toggleDisableSleep.TabIndex = 108;
-            // 
-            // picAdmin2
-            // 
-            this.picAdmin2.BackColor = System.Drawing.Color.Transparent;
-            this.picAdmin2.Image = global::SilentCryptoMiner.Properties.Resources.microsoft_admin;
-            this.picAdmin2.Location = new System.Drawing.Point(224, 132);
-            this.picAdmin2.Name = "picAdmin2";
-            this.picAdmin2.Size = new System.Drawing.Size(20, 20);
-            this.picAdmin2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picAdmin2.TabIndex = 107;
-            this.picAdmin2.TabStop = false;
-            // 
-            // labelOptionRootkit
-            // 
-            this.labelOptionRootkit.AutoSize = true;
-            this.labelOptionRootkit.BackColor = System.Drawing.Color.Transparent;
-            this.labelOptionRootkit.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.labelOptionRootkit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelOptionRootkit.Location = new System.Drawing.Point(9, 134);
-            this.labelOptionRootkit.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelOptionRootkit.Name = "labelOptionRootkit";
-            this.labelOptionRootkit.Size = new System.Drawing.Size(89, 17);
-            this.labelOptionRootkit.TabIndex = 105;
-            this.labelOptionRootkit.Text = "Install Rootkit:";
-            // 
-            // toggleRootkit
-            // 
-            this.toggleRootkit.BackColor = System.Drawing.Color.Transparent;
-            this.toggleRootkit.Checked = false;
-            this.toggleRootkit.ForeColor = System.Drawing.Color.Black;
-            this.toggleRootkit.Location = new System.Drawing.Point(169, 130);
-            this.toggleRootkit.Margin = new System.Windows.Forms.Padding(2);
-            this.toggleRootkit.Name = "toggleRootkit";
-            this.toggleRootkit.Size = new System.Drawing.Size(50, 24);
-            this.toggleRootkit.TabIndex = 104;
             // 
             // labelOptionShellcode
             // 
@@ -939,7 +998,7 @@ namespace SilentCryptoMiner
             this.labelOptionShellcode.BackColor = System.Drawing.Color.Transparent;
             this.labelOptionShellcode.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.labelOptionShellcode.ForeColor = System.Drawing.Color.Gray;
-            this.labelOptionShellcode.Location = new System.Drawing.Point(10, 92);
+            this.labelOptionShellcode.Location = new System.Drawing.Point(245, 8);
             this.labelOptionShellcode.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelOptionShellcode.Name = "labelOptionShellcode";
             this.labelOptionShellcode.Size = new System.Drawing.Size(112, 17);
@@ -951,7 +1010,7 @@ namespace SilentCryptoMiner
             this.toggleShellcode.BackColor = System.Drawing.Color.Transparent;
             this.toggleShellcode.Checked = true;
             this.toggleShellcode.ForeColor = System.Drawing.Color.Black;
-            this.toggleShellcode.Location = new System.Drawing.Point(169, 90);
+            this.toggleShellcode.Location = new System.Drawing.Point(362, 6);
             this.toggleShellcode.Margin = new System.Windows.Forms.Padding(2);
             this.toggleShellcode.Name = "toggleShellcode";
             this.toggleShellcode.Size = new System.Drawing.Size(50, 24);
@@ -992,30 +1051,6 @@ namespace SilentCryptoMiner
             this.picAdmin1.TabIndex = 97;
             this.picAdmin1.TabStop = false;
             // 
-            // labelOptionDebug
-            // 
-            this.labelOptionDebug.AutoSize = true;
-            this.labelOptionDebug.BackColor = System.Drawing.Color.Transparent;
-            this.labelOptionDebug.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.labelOptionDebug.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelOptionDebug.Location = new System.Drawing.Point(10, 160);
-            this.labelOptionDebug.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelOptionDebug.Name = "labelOptionDebug";
-            this.labelOptionDebug.Size = new System.Drawing.Size(52, 17);
-            this.labelOptionDebug.TabIndex = 86;
-            this.labelOptionDebug.Text = "DEBUG:";
-            // 
-            // toggleDebug
-            // 
-            this.toggleDebug.BackColor = System.Drawing.Color.Transparent;
-            this.toggleDebug.Checked = false;
-            this.toggleDebug.ForeColor = System.Drawing.Color.Black;
-            this.toggleDebug.Location = new System.Drawing.Point(169, 158);
-            this.toggleDebug.Margin = new System.Windows.Forms.Padding(2);
-            this.toggleDebug.Name = "toggleDebug";
-            this.toggleDebug.Size = new System.Drawing.Size(50, 24);
-            this.toggleDebug.TabIndex = 85;
-            // 
             // labelOptionObfuscation
             // 
             this.labelOptionObfuscation.AutoSize = true;
@@ -1053,16 +1088,16 @@ namespace SilentCryptoMiner
             this.labelOptionWD.TabIndex = 92;
             this.labelOptionWD.Text = "Add Defender Exclusions:";
             // 
-            // toggleKillWD
+            // toggleWDExclusions
             // 
-            this.toggleKillWD.BackColor = System.Drawing.Color.Transparent;
-            this.toggleKillWD.Checked = false;
-            this.toggleKillWD.ForeColor = System.Drawing.Color.Black;
-            this.toggleKillWD.Location = new System.Drawing.Point(169, 62);
-            this.toggleKillWD.Margin = new System.Windows.Forms.Padding(2);
-            this.toggleKillWD.Name = "toggleKillWD";
-            this.toggleKillWD.Size = new System.Drawing.Size(50, 24);
-            this.toggleKillWD.TabIndex = 91;
+            this.toggleWDExclusions.BackColor = System.Drawing.Color.Transparent;
+            this.toggleWDExclusions.Checked = false;
+            this.toggleWDExclusions.ForeColor = System.Drawing.Color.Black;
+            this.toggleWDExclusions.Location = new System.Drawing.Point(169, 62);
+            this.toggleWDExclusions.Margin = new System.Windows.Forms.Padding(2);
+            this.toggleWDExclusions.Name = "toggleWDExclusions";
+            this.toggleWDExclusions.Size = new System.Drawing.Size(50, 24);
+            this.toggleWDExclusions.TabIndex = 91;
             // 
             // tabBuild
             // 
@@ -1173,41 +1208,6 @@ namespace SilentCryptoMiner
             this.btnBuild.Text = "Build";
             this.btnBuild.Click += new System.EventHandler(this.btnBuild_Click);
             // 
-            // pictureBox2
-            // 
-            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox2.Image = global::SilentCryptoMiner.Properties.Resources.microsoft_admin;
-            this.pictureBox2.Location = new System.Drawing.Point(388, 161);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(20, 20);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 100;
-            this.pictureBox2.TabStop = false;
-            // 
-            // labelStartupRunSystem
-            // 
-            this.labelStartupRunSystem.AutoSize = true;
-            this.labelStartupRunSystem.BackColor = System.Drawing.Color.Transparent;
-            this.labelStartupRunSystem.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.labelStartupRunSystem.ForeColor = System.Drawing.Color.Gray;
-            this.labelStartupRunSystem.Location = new System.Drawing.Point(234, 162);
-            this.labelStartupRunSystem.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelStartupRunSystem.Name = "labelStartupRunSystem";
-            this.labelStartupRunSystem.Size = new System.Drawing.Size(95, 17);
-            this.labelStartupRunSystem.TabIndex = 99;
-            this.labelStartupRunSystem.Text = "Run as System:";
-            // 
-            // toggleRunSystem
-            // 
-            this.toggleRunSystem.BackColor = System.Drawing.Color.Transparent;
-            this.toggleRunSystem.Checked = true;
-            this.toggleRunSystem.ForeColor = System.Drawing.Color.Black;
-            this.toggleRunSystem.Location = new System.Drawing.Point(333, 159);
-            this.toggleRunSystem.Margin = new System.Windows.Forms.Padding(2);
-            this.toggleRunSystem.Name = "toggleRunSystem";
-            this.toggleRunSystem.Size = new System.Drawing.Size(50, 24);
-            this.toggleRunSystem.TabIndex = 98;
-            // 
             // Builder
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1233,24 +1233,24 @@ namespace SilentCryptoMiner
             this.tabMain.PerformLayout();
             this.tabStartup.ResumeLayout(false);
             this.tabStartup.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.tabAssembly.ResumeLayout(false);
             this.tabAssembly.PerformLayout();
             this.tabIcon.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picIcon)).EndInit();
             this.tabOptions.ResumeLayout(false);
             this.tabOptions.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picAdmin2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAdmin1)).EndInit();
             this.tabBuild.ResumeLayout(false);
             this.tabBuild.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         internal MephTheme formBuilder;
-        internal System.ComponentModel.BackgroundWorker BackgroundWorker2;
+        internal System.ComponentModel.BackgroundWorker workerBuild;
         internal MephButton btnAssemblyRandom;
         internal MephButton btnAssemblyClone;
         internal MephTextBox txtAssemblyVersion4;
@@ -1299,18 +1299,13 @@ namespace SilentCryptoMiner
         internal Label labelOptionAdministrator;
         internal MephToggleSwitch toggleAdministrator;
         internal PictureBox picAdmin1;
-        internal Label labelOptionDebug;
-        internal MephToggleSwitch toggleDebug;
         internal Label labelOptionObfuscation;
         internal MephToggleSwitch toggleObfuscation;
         internal Label labelOptionWD;
-        internal MephToggleSwitch toggleKillWD;
+        internal MephToggleSwitch toggleWDExclusions;
         internal MephListBox listMiners;
         internal Label labelOptionShellcode;
         internal MephToggleSwitch toggleShellcode;
-        internal PictureBox picAdmin2;
-        internal Label labelOptionRootkit;
-        internal MephToggleSwitch toggleRootkit;
         internal MephButton btnLoadState;
         internal MephButton btnSaveState;
         internal Label labelLang;
@@ -1327,5 +1322,10 @@ namespace SilentCryptoMiner
         internal PictureBox pictureBox2;
         internal Label labelStartupRunSystem;
         internal MephToggleSwitch toggleRunSystem;
+        internal PictureBox pictureBox3;
+        internal Label labelOptionWindowsUpdate;
+        internal MephToggleSwitch toggleWindowsUpdate;
+        internal MephButton btnAdvancedOptions;
+        internal MephListBox cFormAO;
     }
 }

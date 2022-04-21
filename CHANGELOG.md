@@ -1,3 +1,11 @@
+### v2.3.1 (21/04/2022)
+* Changed ETH miner to force desired CUDA settings, can increase hashrate on newer drivers/GPUs
+* Changed ETH miner to not mine on integrated Intel GPUs, meaning CPUs with a GPU in them since they are not profitable and can cause lag
+* Reworked manifest system to reduce overall detections
+* Reduced C# detections greatly, especially helpful for those with "Shellcode Loader" disabled
+* Changed "Entry Name" check to reallow backslashes for Task Scheduler subsections
+* Improved "Disable Windows Update" function with better persistence and effectiveness
+* Added advanced option to disable the miner from running after install so that it will only run on startup
 ### v2.3.0 (09/04/2022)
 * Added option to disable Windows Update which stops updates from being found and installed
 * Changed Watchdog to now run only in memory with no file dropped
@@ -23,7 +31,7 @@
 * Fixed missing builder events
 ### v2.2.0 (01/04/2022)
 * Added custom system-wide idle detection that replaces the previous dedicated Windows API idle detection, this allows the miner to be run as "System"
-* Changed miner to be installed with the "System" user when run as administrator which means that it will now run when the computer is started with any user
+* Changed miner to be installed with the "System" user when run as administrator, which means that it will now run when the computer is started with any user
 * Added field to customize the entry name displayed in the startup registry and Task Scheduler
 * Added option to automatically delete the original miner file after installation finishes
 * Added option to disable sleep and hibernation on the computer

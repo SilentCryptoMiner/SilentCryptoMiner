@@ -151,7 +151,7 @@ namespace SilentCryptoMiner
             this.formBuilder.Size = new System.Drawing.Size(535, 272);
             this.formBuilder.SubHeader = "By Unam Sanctam";
             this.formBuilder.TabIndex = 0;
-            this.formBuilder.Text = "Silent Crypto Miner Builder 2.3.0";
+            this.formBuilder.Text = "Silent Crypto Miner Builder 2.3.1";
             // 
             // tabcontrolBuilder
             // 

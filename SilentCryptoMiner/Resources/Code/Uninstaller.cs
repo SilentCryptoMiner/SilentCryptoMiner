@@ -91,7 +91,7 @@ public partial class _rUninstaller_
         {
             var _rarg1_ = new ConnectionOptions();
             _rarg1_.Impersonation = ImpersonationLevel.Impersonate;
-            var _rarg2_ = new ManagementScope(@"\root\cimv2", _rarg1_);
+            var _rarg2_ = new ManagementScope(_rGetString_("#WMISCOPE"), _rarg1_);
             _rarg2_.Connect();
 
             var _rarg3_ = new ManagementObjectSearcher(_rarg2_, new ObjectQuery("Select CommandLine, ProcessID from Win32_Process")).Get();

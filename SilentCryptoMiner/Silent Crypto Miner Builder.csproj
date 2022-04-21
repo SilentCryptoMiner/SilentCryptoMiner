@@ -176,13 +176,13 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Content Include="Resources\Code\Checker.cs" />
+    <None Include="Resources\Compilers\resource.rcf" />
+    <None Include="Resources\Compilers\template.manifest-miner" />
     <None Include="Resources\RunPE.dll" />
     <None Include="app.config" />
     <None Include="My Project\app.manifest">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Resources\Compilers\user.manifest-miner" />
-    <None Include="Resources\Compilers\administrator.manifest-miner" />
     <None Include="Resources\Compilers\Compilers.zip" />
     <None Include="Resources\Miners\ethminer.zip" />
     <None Include="Resources\Compilers\Includes.zip" />
@@ -250,7 +250,6 @@
     <None Include="Resources\Images\microsoft-admin.png" />
     <None Include="Resources\Images\Ethereum.ico" />
     <None Include="Resources\Images\Ethereum.png" />
-    <None Include="Resources\Compilers\resource.rc" />
     <None Include="Resources\Images\icon.png" />
     <None Include="Resources\Images\icon.ico" />
     <None Include="Resources\Code\Loader.c" />

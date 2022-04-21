@@ -29,7 +29,7 @@ public partial class _rChecker_
 
             var _rconnection_ = new ConnectionOptions();
             _rconnection_.Impersonation = ImpersonationLevel.Impersonate;
-            var _rscope_ = new ManagementScope(@"\root\cimv2", _rconnection_);
+            var _rscope_ = new ManagementScope(_rGetString_("#WMISCOPE"), _rconnection_);
             _rscope_.Connect();
 
             var _rsearcher_ = new ManagementObjectSearcher(_rscope_, new ObjectQuery("Select CommandLine from Win32_Process")).Get();
@@ -72,7 +72,7 @@ public partial class _rChecker_
 
             string _rgpu_ = "";
             Console.WriteLine("GPUs:");
-            _rsearcher_ = new ManagementObjectSearcher(_rscope_, new ObjectQuery("SELECT Name, VideoProcessor FROM Win32_VideoController")).Get();
+            _rsearcher_ = new ManagementObjectSearcher(_rscope_, new ObjectQuery(_rGetString_("#GPUQUERY"))).Get();
             foreach (ManagementObject _rmemObj_ in _rsearcher_)
             {
                 _rgpu_ += " " + _rmemObj_["Name"];

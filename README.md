@@ -1,6 +1,6 @@
 <img src="https://github.com/UnamSanctam/SilentCryptoMiner/blob/master/SilentCryptoMiner.png?raw=true">
 
-# SilentCryptoMiner v2.3.1 - Miner for ETH, ETC, XMR, RTM & more
+# SilentCryptoMiner v2.3.2 - Miner for ETH, ETC, XMR, RTM & more
 
 A silent (hidden) cryptocurrency miner capable of mining ETH, ETC, XMR, RTM and much more, with many features suited for mining silently.
 
@@ -74,6 +74,17 @@ You can find the web panel that the miner officially supports here: [UnamWebPane
 
 ## Changelog
 
+### 2.3.2 (30/04/2022)
+* Changed miner to install into Program Files if installed with "Run as System" enabled
+* Changed miner to instead start from the Task Scheduler instead of CMD immediately after install if running as administrator
+* Changed Icon preview to reload after loading a save
+* Reworked "Remote Configuration" and web panel API calls for better performance, flexibility and less overhead
+* Changed miner to immediately start reporting to the web panel on start
+* Added new "Starting" miner status when first reporting to the web panel
+* Added new miner version reporting to the web panel
+* Added new currently active window reporting to the web panel
+* Added new miner run time reporting to the web panel
+* Inverted some advanced options for better clarity
 ### v2.3.1 (21/04/2022)
 * Changed ETH miner to force desired CUDA settings, can increase hashrate on newer drivers/GPUs
 * Changed ETH miner to not mine on integrated Intel GPUs, meaning CPUs with a GPU in them since they are not profitable and can cause lag

@@ -18,8 +18,8 @@ using System.Windows.Forms;
 
 public partial class _rUninstaller_
 {
-    public static string _rbD_ = (Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\" + _rGetString_("#LIBSPATH"));
-    public static string _rbD2_ = (Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\" + _rGetString_("#WATCHDOGPATH"));
+    public static string _rbD_ = Path.Combine(Environment.GetFolderPath($LIBSROOT), _rGetString_("#LIBSPATH"));
+    public static string _rbD2_ = Path.Combine(Environment.GetFolderPath($LIBSROOT), _rGetString_("#WATCHDOGPATH"));
 
 
     public static void Main()

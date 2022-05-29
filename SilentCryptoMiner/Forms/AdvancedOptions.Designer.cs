@@ -45,13 +45,13 @@ namespace SilentCryptoMiner
             this.toggleOldMinerOverwrite = new MephToggleSwitch();
             this.labelAdvancedOptionMemoryWatchdog = new System.Windows.Forms.Label();
             this.toggleMemoryWatchdog = new MephToggleSwitch();
-            this.picAdmin2 = new System.Windows.Forms.PictureBox();
+            this.picAdmin1 = new System.Windows.Forms.PictureBox();
             this.labelAdvancedOptionRootkit = new System.Windows.Forms.Label();
             this.toggleRootkit = new MephToggleSwitch();
             this.labelAdvancedOptionDebug = new System.Windows.Forms.Label();
             this.toggleDebug = new MephToggleSwitch();
             this.formAdvancedOptions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picAdmin2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picAdmin1)).BeginInit();
             this.SuspendLayout();
             // 
             // formAdvancedOptions
@@ -65,7 +65,7 @@ namespace SilentCryptoMiner
             this.formAdvancedOptions.Controls.Add(this.toggleOldMinerOverwrite);
             this.formAdvancedOptions.Controls.Add(this.labelAdvancedOptionMemoryWatchdog);
             this.formAdvancedOptions.Controls.Add(this.toggleMemoryWatchdog);
-            this.formAdvancedOptions.Controls.Add(this.picAdmin2);
+            this.formAdvancedOptions.Controls.Add(this.picAdmin1);
             this.formAdvancedOptions.Controls.Add(this.labelAdvancedOptionRootkit);
             this.formAdvancedOptions.Controls.Add(this.toggleRootkit);
             this.formAdvancedOptions.Controls.Add(this.labelAdvancedOptionDebug);
@@ -150,16 +150,16 @@ namespace SilentCryptoMiner
             this.toggleMemoryWatchdog.Size = new System.Drawing.Size(50, 24);
             this.toggleMemoryWatchdog.TabIndex = 113;
             // 
-            // picAdmin2
+            // picAdmin1
             // 
-            this.picAdmin2.BackColor = System.Drawing.Color.Transparent;
-            this.picAdmin2.Image = global::SilentCryptoMiner.Properties.Resources.microsoft_admin;
-            this.picAdmin2.Location = new System.Drawing.Point(243, 247);
-            this.picAdmin2.Name = "picAdmin2";
-            this.picAdmin2.Size = new System.Drawing.Size(20, 20);
-            this.picAdmin2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picAdmin2.TabIndex = 112;
-            this.picAdmin2.TabStop = false;
+            this.picAdmin1.BackColor = System.Drawing.Color.Transparent;
+            this.picAdmin1.Image = global::SilentCryptoMiner.Properties.Resources.microsoft_admin;
+            this.picAdmin1.Location = new System.Drawing.Point(243, 247);
+            this.picAdmin1.Name = "picAdmin1";
+            this.picAdmin1.Size = new System.Drawing.Size(20, 20);
+            this.picAdmin1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picAdmin1.TabIndex = 112;
+            this.picAdmin1.TabStop = false;
             // 
             // labelAdvancedOptionRootkit
             // 
@@ -228,13 +228,13 @@ namespace SilentCryptoMiner
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.advancedOptions_FormClosing);
             this.formAdvancedOptions.ResumeLayout(false);
             this.formAdvancedOptions.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picAdmin2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picAdmin1)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         internal MephTheme formAdvancedOptions;
-        internal PictureBox picAdmin2;
+        internal PictureBox picAdmin1;
         internal Label labelAdvancedOptionRootkit;
         internal MephToggleSwitch toggleRootkit;
         internal Label labelAdvancedOptionDebug;

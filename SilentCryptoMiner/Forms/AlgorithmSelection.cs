@@ -39,6 +39,7 @@ namespace SilentCryptoMiner
             {
                 case "ethash":
                 case "etchash":
+                case "ubqhash":
                     minertype = typeof(MinerETH);
                     break;
                 default:
@@ -48,7 +49,10 @@ namespace SilentCryptoMiner
             
             dynamic miner = Activator.CreateInstance(minertype);
             miner.comboAlgorithm.Text = algo;
-            miner.nid = F.listMiners.Items.Count > 0 ? ((dynamic)F.listMiners.Items[F.listMiners.Items.Count-1]).nid + 1 : 0;
+            if (F.listMiners.Items.Count > 0)
+            {
+                miner.nid = ((dynamic)F.listMiners.Items[F.listMiners.Items.Count - 1]).nid + 1;
+            }
             miner.F = F;
             F.listMiners.Items.Add(miner);
             ((dynamic)F.listMiners.Items[F.listMiners.Items.Count-1]).Show();

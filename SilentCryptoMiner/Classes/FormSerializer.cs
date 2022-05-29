@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Reflection;
 using System.Xml;
+using System.Collections.Generic;
 
 namespace FormSerialisation
 {
@@ -11,13 +12,16 @@ namespace FormSerialisation
 
         /* Form Serializer by Unam Sanctam https://github.com/UnamSanctam, based on http://www.codeproject.com/KB/dialog/SavingTheStateOfAForm.aspx */
 
-        public static void Serialise(Control c, string XmlFileName)
+        public static void Serialise(List<Control> cntrls, string XmlFileName)
         {
             XmlTextWriter xmlSerialisedForm = new XmlTextWriter(XmlFileName, System.Text.Encoding.Default);
             xmlSerialisedForm.Formatting = Formatting.Indented;
             xmlSerialisedForm.WriteStartDocument();
             xmlSerialisedForm.WriteStartElement("Form");
-            AddChildControls(xmlSerialisedForm, c);
+            foreach (Control c in cntrls)
+            {
+                AddChildControls(xmlSerialisedForm, c);
+            }
             xmlSerialisedForm.WriteEndElement();
             xmlSerialisedForm.WriteEndDocument();
             xmlSerialisedForm.Flush();
@@ -83,7 +87,7 @@ namespace FormSerialisation
             }
         }
 
-        public static void Deserialise(Control c, string XmlFileName)
+        public static void Deserialise(List<Control> cntrls, string XmlFileName)
         {
             if (File.Exists(XmlFileName))
             {
@@ -92,7 +96,10 @@ namespace FormSerialisation
                 XmlNode topLevel = xmlSerialisedForm.ChildNodes[1];
                 foreach (XmlNode n in topLevel.ChildNodes)
                 {
-                    SetControlProperties((Control)c, n);
+                    foreach (Control c in cntrls)
+                    {
+                        SetControlProperties(c, n);
+                    }
                 }
             }
         }
@@ -128,7 +135,12 @@ namespace FormSerialisation
                                     lst.Items.Add(item);
                                     foreach (XmlNode n3 in n2.ChildNodes)
                                     {
-                                        SetControlProperties((Control)lst.Items[lst.Items.Count - 1], n3);
+                                        int count = lst.Items.Count;
+                                        SetControlProperties((Control)lst.Items[count - 1], n3);
+                                        for (int i = 0; i < count; i++)
+                                        {
+                                            lst.Items[i] = lst.Items[i];
+                                        }
                                     }
                                 }
                                 break;

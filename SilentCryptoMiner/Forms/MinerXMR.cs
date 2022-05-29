@@ -11,7 +11,7 @@ namespace SilentCryptoMiner
             InitializeComponent();
         }
 
-        public Builder F = (Builder)Application.OpenForms["Builder"];
+        public Builder F;
         public int nid = 0;
 
         private void Form1_Load(object sender, EventArgs e)

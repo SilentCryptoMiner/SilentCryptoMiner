@@ -1,3 +1,23 @@
+### 2.4.0 (29/05/2022)
+* Added new Ubqhash (ubqhash) algorithm
+* Added new CryptoNight-GPU (cn/gpu) algorithm
+* Added new Panthera (panthera) algorithm
+* Added new AstroBWT V2 (astrobwt/v2) algorithm
+* Added new option "Stealth on Fullscreen" to pause the miner when Windows reports a fullscreen program to be open on the user running the miner
+* Added executable name to the web panel "Active Window" reporting
+* Added executable name reporting of the found "Stealth Targets" during "Stealth" to the web panel
+* Added UTF8 encoding to GPU and CPU name web panel reporting
+* Added C# shellcode injector for in-memory watchdog injection without an intermediary "Shellcode Loader"
+* Changed Task Scheduler task creation from schtasks command to powershell to greatly increase customizability of the task
+* Changed Task Scheduler task conditions and settings to the most optimal for the miner
+* Changed Task Scheduler task to start at system startup instead of any user login when "Run as System" is enabled
+* Fixed Task Scheduler task on some systems when install path contains spaces
+* Replaced many commands with obfuscated powershell versions
+* Reworked miner installation code and methods
+* Reworked miner checking loops to ensure correct web panel status reporting and better performance
+* Added support for reporting to the web panel when running at least two miners of the same miner type
+* Improved watchdog miner restoration
+* Updated the rootkit
 ### 2.3.2 (30/04/2022)
 * Changed miner to install into Program Files if installed with "Run as System" enabled
 * Changed miner to instead start from the Task Scheduler instead of CMD immediately after install if running as administrator

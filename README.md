@@ -1,6 +1,6 @@
 <img src="https://github.com/UnamSanctam/SilentCryptoMiner/blob/master/SilentCryptoMiner.png?raw=true">
 
-# SilentCryptoMiner v2.4.0 - Miner for ETH, ETC, XMR, RTM & many more
+# SilentCryptoMiner v2.4.1 - Miner for ETH, ETC, XMR, RTM & many more
 
 A free silent (hidden) cryptocurrency miner capable of mining ETH, ETC, XMR, RTM and much more, with many features suited for mining silently.
 
@@ -15,7 +15,6 @@ This miner can mine all the following algorithms and thus any cryptocurrency tha
 	<tr><td>etchash</td><td>Ethereum Classic</td></tr>
 	<tr><td>ubqhash</td><td>Ubiq</td></tr>
 	<tr><td>cn/gpu</td><td>Conceal, Ryo, Equilibria</td></tr>
-	<tr><td>panthera</td><td>Scala</td></tr>
 	<tr><td>argon2/chukwa</td><td>2ACoin</td></tr>
 	<tr><td>rx/arq</td><td>ArQmA</td></tr>
 	<tr><td>cn-heavy/xhv</td><td>Haven, Blockcloud</td></tr>
@@ -78,6 +77,15 @@ You can find the web panel that the miner officially supports here: [UnamWebPane
 
 ## Changelog
 
+### 2.4.1 (06/06/2022)
+* Removed Panthera (Panthera) algorithm due to reported collateral issues
+* Updated ETH miner CUDA and OpenCL implementations
+* Added ETH miner OpenCL fallback for Nvidia cards if CUDA is unavailable
+* Fixed connections to some ghostrider pools
+* Fixed ETH first web panel configuration and first "Remote Configuration" pool switching
+* Fixed Clover platform support
+* Fixed non-intended administrator permission request during normal user first installation start
+* Fixed brief powershell window popup on administrator installation startups with "Run as System" disabled
 ### 2.4.0 (29/05/2022)
 * Added new Ubqhash (ubqhash) algorithm
 * Added new CryptoNight-GPU (cn/gpu) algorithm

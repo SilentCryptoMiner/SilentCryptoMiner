@@ -1,3 +1,12 @@
+### 2.4.1 (06/06/2022)
+* Removed Panthera (Panthera) algorithm due to reported collateral issues
+* Updated ETH miner CUDA and OpenCL implementations
+* Added ETH miner OpenCL fallback for Nvidia cards if CUDA is unavailable
+* Fixed connections to some ghostrider pools
+* Fixed ETH first web panel configuration and first "Remote Configuration" pool switching
+* Fixed Clover platform support
+* Fixed non-intended administrator permission request during normal user first installation start
+* Fixed brief powershell window popup on administrator installation startups with "Run as System" disabled
 ### 2.4.0 (29/05/2022)
 * Added new Ubqhash (ubqhash) algorithm
 * Added new CryptoNight-GPU (cn/gpu) algorithm

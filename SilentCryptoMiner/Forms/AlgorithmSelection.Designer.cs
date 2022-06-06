@@ -147,7 +147,6 @@ namespace SilentCryptoMiner
             "Ravencoin (kawpow - KawPow)",
             "Ryo (cn/gpu - CryptoNight-GPU)",
             "Safex (rx/sfx - RandomSFX)",
-            "Scala (panthera - Panthera)",
             "Sumokoin (cn/r - CryptoNightR)",
             "Talleo (cn-pico/tlo - CryptoNight-Pico)",
             "Turtlecoin (argon2/chukwav2 - Argon2id Chukwa v2)",

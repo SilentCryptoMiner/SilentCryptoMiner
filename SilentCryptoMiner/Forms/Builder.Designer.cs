@@ -193,7 +193,7 @@ namespace SilentCryptoMiner
             // 
             // labelLang
             // 
-            this.labelLang.AutoSize = true;
+            this.labelLang.AutoEllipsis = true;
             this.labelLang.Location = new System.Drawing.Point(15, 160);
             this.labelLang.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelLang.Name = "labelLang";
@@ -212,13 +212,15 @@ namespace SilentCryptoMiner
             this.comboLanguage.ItemHeight = 16;
             this.comboLanguage.ItemHighlightColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
             this.comboLanguage.Items.AddRange(new object[] {
-            "English"});
+            "English",
+            "Swedish"});
             this.comboLanguage.Location = new System.Drawing.Point(83, 158);
             this.comboLanguage.Margin = new System.Windows.Forms.Padding(2);
             this.comboLanguage.Name = "comboLanguage";
             this.comboLanguage.Size = new System.Drawing.Size(97, 22);
             this.comboLanguage.StartIndex = 0;
             this.comboLanguage.TabIndex = 50;
+            this.comboLanguage.SelectedIndexChanged += new System.EventHandler(this.comboLanguage_SelectedIndexChanged);
             // 
             // btnLoadState
             // 
@@ -300,7 +302,7 @@ namespace SilentCryptoMiner
             this.labelWiki.AutoSize = true;
             this.labelWiki.BackColor = System.Drawing.Color.Transparent;
             this.labelWiki.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.labelWiki.Location = new System.Drawing.Point(378, 11);
+            this.labelWiki.Location = new System.Drawing.Point(378, 10);
             this.labelWiki.Name = "labelWiki";
             this.labelWiki.Size = new System.Drawing.Size(29, 17);
             this.labelWiki.TabIndex = 40;
@@ -310,13 +312,14 @@ namespace SilentCryptoMiner
             // 
             // labelHelp
             // 
-            this.labelHelp.AutoSize = true;
             this.labelHelp.BackColor = System.Drawing.Color.Transparent;
-            this.labelHelp.Location = new System.Drawing.Point(226, 11);
+            this.labelHelp.Location = new System.Drawing.Point(176, 11);
             this.labelHelp.Name = "labelHelp";
-            this.labelHelp.Size = new System.Drawing.Size(160, 17);
+            this.labelHelp.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.labelHelp.Size = new System.Drawing.Size(210, 17);
             this.labelHelp.TabIndex = 41;
             this.labelHelp.Text = "For help please check the ";
+            this.labelHelp.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // tabStartup
             // 
@@ -354,16 +357,18 @@ namespace SilentCryptoMiner
             // 
             // labelStartupRunSystem
             // 
-            this.labelStartupRunSystem.AutoSize = true;
+            this.labelStartupRunSystem.AutoEllipsis = true;
             this.labelStartupRunSystem.BackColor = System.Drawing.Color.Transparent;
             this.labelStartupRunSystem.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.labelStartupRunSystem.ForeColor = System.Drawing.Color.Gray;
-            this.labelStartupRunSystem.Location = new System.Drawing.Point(234, 162);
+            this.labelStartupRunSystem.Location = new System.Drawing.Point(218, 161);
             this.labelStartupRunSystem.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelStartupRunSystem.Name = "labelStartupRunSystem";
-            this.labelStartupRunSystem.Size = new System.Drawing.Size(95, 17);
+            this.labelStartupRunSystem.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.labelStartupRunSystem.Size = new System.Drawing.Size(111, 17);
             this.labelStartupRunSystem.TabIndex = 99;
             this.labelStartupRunSystem.Text = "Run as System:";
+            this.labelStartupRunSystem.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // toggleRunSystem
             // 
@@ -375,6 +380,7 @@ namespace SilentCryptoMiner
             this.toggleRunSystem.Name = "toggleRunSystem";
             this.toggleRunSystem.Size = new System.Drawing.Size(50, 24);
             this.toggleRunSystem.TabIndex = 98;
+            this.toggleRunSystem.CheckedChanged += new MephToggleSwitch.CheckedChangedEventHandler(this.toggleRunSystem_CheckedChanged);
             // 
             // txtInstallFileName
             // 
@@ -386,6 +392,7 @@ namespace SilentCryptoMiner
             this.txtInstallFileName.MaxLength = 32767;
             this.txtInstallFileName.MultiLine = false;
             this.txtInstallFileName.Name = "txtInstallFileName";
+            this.txtInstallFileName.ReadOnly = false;
             this.txtInstallFileName.Size = new System.Drawing.Size(139, 24);
             this.txtInstallFileName.TabIndex = 48;
             this.txtInstallFileName.Text = "Google\\Chrome\\updater.exe";
@@ -395,22 +402,22 @@ namespace SilentCryptoMiner
             // 
             // labelStartupFileName
             // 
-            this.labelStartupFileName.AutoSize = true;
+            this.labelStartupFileName.AutoEllipsis = true;
             this.labelStartupFileName.Location = new System.Drawing.Point(11, 104);
             this.labelStartupFileName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelStartupFileName.Name = "labelStartupFileName";
-            this.labelStartupFileName.Size = new System.Drawing.Size(69, 17);
+            this.labelStartupFileName.Size = new System.Drawing.Size(80, 17);
             this.labelStartupFileName.TabIndex = 49;
             this.labelStartupFileName.Text = "File Name:";
             // 
             // labelStartupAutoDelete
             // 
-            this.labelStartupAutoDelete.AutoSize = true;
+            this.labelStartupAutoDelete.AutoEllipsis = true;
             this.labelStartupAutoDelete.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.labelStartupAutoDelete.Location = new System.Drawing.Point(12, 161);
             this.labelStartupAutoDelete.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelStartupAutoDelete.Name = "labelStartupAutoDelete";
-            this.labelStartupAutoDelete.Size = new System.Drawing.Size(79, 17);
+            this.labelStartupAutoDelete.Size = new System.Drawing.Size(80, 17);
             this.labelStartupAutoDelete.TabIndex = 47;
             this.labelStartupAutoDelete.Text = "Auto-delete:";
             // 
@@ -428,12 +435,12 @@ namespace SilentCryptoMiner
             // 
             // labelStartupWatchdog
             // 
-            this.labelStartupWatchdog.AutoSize = true;
+            this.labelStartupWatchdog.AutoEllipsis = true;
             this.labelStartupWatchdog.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.labelStartupWatchdog.Location = new System.Drawing.Point(12, 132);
             this.labelStartupWatchdog.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelStartupWatchdog.Name = "labelStartupWatchdog";
-            this.labelStartupWatchdog.Size = new System.Drawing.Size(70, 17);
+            this.labelStartupWatchdog.Size = new System.Drawing.Size(80, 17);
             this.labelStartupWatchdog.TabIndex = 45;
             this.labelStartupWatchdog.Text = "Watchdog:";
             // 
@@ -474,6 +481,7 @@ namespace SilentCryptoMiner
             this.txtInstallEntryName.MaxLength = 32767;
             this.txtInstallEntryName.MultiLine = false;
             this.txtInstallEntryName.Name = "txtInstallEntryName";
+            this.txtInstallEntryName.ReadOnly = false;
             this.txtInstallEntryName.Size = new System.Drawing.Size(139, 24);
             this.txtInstallEntryName.TabIndex = 8;
             this.txtInstallEntryName.Text = "GoogleUpdateTaskMachineQC";
@@ -483,21 +491,21 @@ namespace SilentCryptoMiner
             // 
             // labelStartupSavePath
             // 
-            this.labelStartupSavePath.AutoSize = true;
+            this.labelStartupSavePath.AutoEllipsis = true;
             this.labelStartupSavePath.Location = new System.Drawing.Point(11, 46);
             this.labelStartupSavePath.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelStartupSavePath.Name = "labelStartupSavePath";
-            this.labelStartupSavePath.Size = new System.Drawing.Size(67, 17);
+            this.labelStartupSavePath.Size = new System.Drawing.Size(80, 17);
             this.labelStartupSavePath.TabIndex = 19;
             this.labelStartupSavePath.Text = "Save Path:";
             // 
             // labelStartupEntryName
             // 
-            this.labelStartupEntryName.AutoSize = true;
+            this.labelStartupEntryName.AutoEllipsis = true;
             this.labelStartupEntryName.Location = new System.Drawing.Point(11, 75);
             this.labelStartupEntryName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelStartupEntryName.Name = "labelStartupEntryName";
-            this.labelStartupEntryName.Size = new System.Drawing.Size(79, 17);
+            this.labelStartupEntryName.Size = new System.Drawing.Size(80, 17);
             this.labelStartupEntryName.TabIndex = 9;
             this.labelStartupEntryName.Text = "Entry Name:";
             // 
@@ -548,10 +556,10 @@ namespace SilentCryptoMiner
             // 
             // labelAssemblyVersion
             // 
-            this.labelAssemblyVersion.AutoSize = true;
+            this.labelAssemblyVersion.AutoEllipsis = true;
             this.labelAssemblyVersion.Location = new System.Drawing.Point(11, 160);
             this.labelAssemblyVersion.Name = "labelAssemblyVersion";
-            this.labelAssemblyVersion.Size = new System.Drawing.Size(54, 17);
+            this.labelAssemblyVersion.Size = new System.Drawing.Size(71, 17);
             this.labelAssemblyVersion.TabIndex = 22;
             this.labelAssemblyVersion.Text = "Version:";
             // 
@@ -575,10 +583,10 @@ namespace SilentCryptoMiner
             this.btnAssemblyRandom.BackColor = System.Drawing.Color.Transparent;
             this.btnAssemblyRandom.Enabled = false;
             this.btnAssemblyRandom.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(205)))), ((int)(((byte)(205)))));
-            this.btnAssemblyRandom.Location = new System.Drawing.Point(324, 156);
+            this.btnAssemblyRandom.Location = new System.Drawing.Point(323, 156);
             this.btnAssemblyRandom.Margin = new System.Windows.Forms.Padding(2);
             this.btnAssemblyRandom.Name = "btnAssemblyRandom";
-            this.btnAssemblyRandom.Size = new System.Drawing.Size(81, 25);
+            this.btnAssemblyRandom.Size = new System.Drawing.Size(82, 25);
             this.btnAssemblyRandom.TabIndex = 5;
             this.btnAssemblyRandom.Text = "Randomize";
             this.btnAssemblyRandom.Click += new System.EventHandler(this.btnAssemblyRandom_Click);
@@ -593,6 +601,7 @@ namespace SilentCryptoMiner
             this.txtAssemblyTitle.MaxLength = 32767;
             this.txtAssemblyTitle.MultiLine = false;
             this.txtAssemblyTitle.Name = "txtAssemblyTitle";
+            this.txtAssemblyTitle.ReadOnly = false;
             this.txtAssemblyTitle.Size = new System.Drawing.Size(176, 24);
             this.txtAssemblyTitle.TabIndex = 0;
             this.txtAssemblyTitle.Text = "Title...";
@@ -608,7 +617,7 @@ namespace SilentCryptoMiner
             this.btnAssemblyClone.Location = new System.Drawing.Point(230, 156);
             this.btnAssemblyClone.Margin = new System.Windows.Forms.Padding(2);
             this.btnAssemblyClone.Name = "btnAssemblyClone";
-            this.btnAssemblyClone.Size = new System.Drawing.Size(80, 25);
+            this.btnAssemblyClone.Size = new System.Drawing.Size(82, 25);
             this.btnAssemblyClone.TabIndex = 6;
             this.btnAssemblyClone.Text = "Clone File";
             this.btnAssemblyClone.Click += new System.EventHandler(this.btnAssemblyClone_Click);
@@ -623,6 +632,7 @@ namespace SilentCryptoMiner
             this.txtAssemblyProduct.MaxLength = 32767;
             this.txtAssemblyProduct.MultiLine = false;
             this.txtAssemblyProduct.Name = "txtAssemblyProduct";
+            this.txtAssemblyProduct.ReadOnly = false;
             this.txtAssemblyProduct.Size = new System.Drawing.Size(176, 24);
             this.txtAssemblyProduct.TabIndex = 0;
             this.txtAssemblyProduct.Text = "Product...";
@@ -640,6 +650,7 @@ namespace SilentCryptoMiner
             this.txtAssemblyVersion4.MaxLength = 32767;
             this.txtAssemblyVersion4.MultiLine = false;
             this.txtAssemblyVersion4.Name = "txtAssemblyVersion4";
+            this.txtAssemblyVersion4.ReadOnly = false;
             this.txtAssemblyVersion4.Size = new System.Drawing.Size(23, 24);
             this.txtAssemblyVersion4.TabIndex = 1;
             this.txtAssemblyVersion4.Text = "0";
@@ -657,6 +668,7 @@ namespace SilentCryptoMiner
             this.txtAssemblyDescription.MaxLength = 32767;
             this.txtAssemblyDescription.MultiLine = false;
             this.txtAssemblyDescription.Name = "txtAssemblyDescription";
+            this.txtAssemblyDescription.ReadOnly = false;
             this.txtAssemblyDescription.Size = new System.Drawing.Size(176, 24);
             this.txtAssemblyDescription.TabIndex = 0;
             this.txtAssemblyDescription.Text = "Description...";
@@ -674,6 +686,7 @@ namespace SilentCryptoMiner
             this.txtAssemblyVersion3.MaxLength = 32767;
             this.txtAssemblyVersion3.MultiLine = false;
             this.txtAssemblyVersion3.Name = "txtAssemblyVersion3";
+            this.txtAssemblyVersion3.ReadOnly = false;
             this.txtAssemblyVersion3.Size = new System.Drawing.Size(23, 24);
             this.txtAssemblyVersion3.TabIndex = 2;
             this.txtAssemblyVersion3.Text = "0";
@@ -691,6 +704,7 @@ namespace SilentCryptoMiner
             this.txtAssemblyCopyright.MaxLength = 32767;
             this.txtAssemblyCopyright.MultiLine = false;
             this.txtAssemblyCopyright.Name = "txtAssemblyCopyright";
+            this.txtAssemblyCopyright.ReadOnly = false;
             this.txtAssemblyCopyright.Size = new System.Drawing.Size(176, 24);
             this.txtAssemblyCopyright.TabIndex = 0;
             this.txtAssemblyCopyright.Text = "Copyright...";
@@ -708,6 +722,7 @@ namespace SilentCryptoMiner
             this.txtAssemblyVersion2.MaxLength = 32767;
             this.txtAssemblyVersion2.MultiLine = false;
             this.txtAssemblyVersion2.Name = "txtAssemblyVersion2";
+            this.txtAssemblyVersion2.ReadOnly = false;
             this.txtAssemblyVersion2.Size = new System.Drawing.Size(23, 24);
             this.txtAssemblyVersion2.TabIndex = 3;
             this.txtAssemblyVersion2.Text = "0";
@@ -725,6 +740,7 @@ namespace SilentCryptoMiner
             this.txtAssemblyCompany.MaxLength = 32767;
             this.txtAssemblyCompany.MultiLine = false;
             this.txtAssemblyCompany.Name = "txtAssemblyCompany";
+            this.txtAssemblyCompany.ReadOnly = false;
             this.txtAssemblyCompany.Size = new System.Drawing.Size(176, 24);
             this.txtAssemblyCompany.TabIndex = 0;
             this.txtAssemblyCompany.Text = "Company...";
@@ -742,6 +758,7 @@ namespace SilentCryptoMiner
             this.txtAssemblyVersion1.MaxLength = 32767;
             this.txtAssemblyVersion1.MultiLine = false;
             this.txtAssemblyVersion1.Name = "txtAssemblyVersion1";
+            this.txtAssemblyVersion1.ReadOnly = false;
             this.txtAssemblyVersion1.Size = new System.Drawing.Size(23, 24);
             this.txtAssemblyVersion1.TabIndex = 4;
             this.txtAssemblyVersion1.Text = "0";
@@ -759,6 +776,7 @@ namespace SilentCryptoMiner
             this.txtAssemblyTrademark.MaxLength = 32767;
             this.txtAssemblyTrademark.MultiLine = false;
             this.txtAssemblyTrademark.Name = "txtAssemblyTrademark";
+            this.txtAssemblyTrademark.ReadOnly = false;
             this.txtAssemblyTrademark.Size = new System.Drawing.Size(176, 24);
             this.txtAssemblyTrademark.TabIndex = 0;
             this.txtAssemblyTrademark.Text = "Trademark...";
@@ -829,6 +847,7 @@ namespace SilentCryptoMiner
             this.txtIconPath.MaxLength = 32767;
             this.txtIconPath.MultiLine = false;
             this.txtIconPath.Name = "txtIconPath";
+            this.txtIconPath.ReadOnly = false;
             this.txtIconPath.Size = new System.Drawing.Size(302, 24);
             this.txtIconPath.TabIndex = 10;
             this.txtIconPath.Text = "Path to icon...";
@@ -868,10 +887,10 @@ namespace SilentCryptoMiner
             // 
             this.btnAdvancedOptions.BackColor = System.Drawing.Color.Transparent;
             this.btnAdvancedOptions.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(205)))), ((int)(((byte)(205)))));
-            this.btnAdvancedOptions.Location = new System.Drawing.Point(13, 157);
+            this.btnAdvancedOptions.Location = new System.Drawing.Point(12, 157);
             this.btnAdvancedOptions.Margin = new System.Windows.Forms.Padding(2);
             this.btnAdvancedOptions.Name = "btnAdvancedOptions";
-            this.btnAdvancedOptions.Size = new System.Drawing.Size(120, 24);
+            this.btnAdvancedOptions.Size = new System.Drawing.Size(155, 24);
             this.btnAdvancedOptions.TabIndex = 140;
             this.btnAdvancedOptions.Text = "Advanced Options";
             this.btnAdvancedOptions.Click += new System.EventHandler(this.btnAdvancedOptions_Click);
@@ -889,7 +908,7 @@ namespace SilentCryptoMiner
             // 
             // labelOptionWindowsUpdate
             // 
-            this.labelOptionWindowsUpdate.AutoSize = true;
+            this.labelOptionWindowsUpdate.AutoEllipsis = true;
             this.labelOptionWindowsUpdate.BackColor = System.Drawing.Color.Transparent;
             this.labelOptionWindowsUpdate.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.labelOptionWindowsUpdate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
@@ -947,6 +966,7 @@ namespace SilentCryptoMiner
             this.txtBlockWebsites.MaxLength = 32767;
             this.txtBlockWebsites.MultiLine = false;
             this.txtBlockWebsites.Name = "txtBlockWebsites";
+            this.txtBlockWebsites.ReadOnly = false;
             this.txtBlockWebsites.Size = new System.Drawing.Size(149, 24);
             this.txtBlockWebsites.TabIndex = 134;
             this.txtBlockWebsites.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
@@ -955,14 +975,14 @@ namespace SilentCryptoMiner
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
+            this.label1.AutoEllipsis = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.label1.ForeColor = System.Drawing.Color.Gray;
-            this.label1.Location = new System.Drawing.Point(267, 38);
+            this.label1.Location = new System.Drawing.Point(245, 38);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(90, 17);
+            this.label1.Size = new System.Drawing.Size(112, 17);
             this.label1.TabIndex = 109;
             this.label1.Text = "Disable Sleep:";
             // 
@@ -979,7 +999,7 @@ namespace SilentCryptoMiner
             // 
             // labelOptionShellcode
             // 
-            this.labelOptionShellcode.AutoSize = true;
+            this.labelOptionShellcode.AutoEllipsis = true;
             this.labelOptionShellcode.BackColor = System.Drawing.Color.Transparent;
             this.labelOptionShellcode.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.labelOptionShellcode.ForeColor = System.Drawing.Color.Gray;
@@ -1003,14 +1023,14 @@ namespace SilentCryptoMiner
             // 
             // labelOptionAdministrator
             // 
-            this.labelOptionAdministrator.AutoSize = true;
+            this.labelOptionAdministrator.AutoEllipsis = true;
             this.labelOptionAdministrator.BackColor = System.Drawing.Color.Transparent;
             this.labelOptionAdministrator.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.labelOptionAdministrator.ForeColor = System.Drawing.Color.Gray;
             this.labelOptionAdministrator.Location = new System.Drawing.Point(9, 38);
             this.labelOptionAdministrator.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelOptionAdministrator.Name = "labelOptionAdministrator";
-            this.labelOptionAdministrator.Size = new System.Drawing.Size(133, 17);
+            this.labelOptionAdministrator.Size = new System.Drawing.Size(158, 17);
             this.labelOptionAdministrator.TabIndex = 99;
             this.labelOptionAdministrator.Text = "Run as Administrator:";
             // 
@@ -1024,6 +1044,7 @@ namespace SilentCryptoMiner
             this.toggleAdministrator.Name = "toggleAdministrator";
             this.toggleAdministrator.Size = new System.Drawing.Size(50, 24);
             this.toggleAdministrator.TabIndex = 98;
+            this.toggleAdministrator.CheckedChanged += new MephToggleSwitch.CheckedChangedEventHandler(this.toggleAdministrator_CheckedChanged);
             // 
             // picAdmin1
             // 
@@ -1038,14 +1059,14 @@ namespace SilentCryptoMiner
             // 
             // labelOptionObfuscation
             // 
-            this.labelOptionObfuscation.AutoSize = true;
+            this.labelOptionObfuscation.AutoEllipsis = true;
             this.labelOptionObfuscation.BackColor = System.Drawing.Color.Transparent;
             this.labelOptionObfuscation.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.labelOptionObfuscation.ForeColor = System.Drawing.Color.Gray;
             this.labelOptionObfuscation.Location = new System.Drawing.Point(9, 10);
             this.labelOptionObfuscation.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelOptionObfuscation.Name = "labelOptionObfuscation";
-            this.labelOptionObfuscation.Size = new System.Drawing.Size(140, 17);
+            this.labelOptionObfuscation.Size = new System.Drawing.Size(158, 17);
             this.labelOptionObfuscation.TabIndex = 89;
             this.labelOptionObfuscation.Text = "Pause for Obfuscation:";
             // 
@@ -1062,14 +1083,14 @@ namespace SilentCryptoMiner
             // 
             // labelOptionWD
             // 
-            this.labelOptionWD.AutoSize = true;
+            this.labelOptionWD.AutoEllipsis = true;
             this.labelOptionWD.BackColor = System.Drawing.Color.Transparent;
             this.labelOptionWD.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.labelOptionWD.ForeColor = System.Drawing.Color.Gray;
             this.labelOptionWD.Location = new System.Drawing.Point(9, 65);
             this.labelOptionWD.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelOptionWD.Name = "labelOptionWD";
-            this.labelOptionWD.Size = new System.Drawing.Size(156, 17);
+            this.labelOptionWD.Size = new System.Drawing.Size(158, 17);
             this.labelOptionWD.TabIndex = 92;
             this.labelOptionWD.Text = "Add Defender Exclusions:";
             // 
@@ -1112,7 +1133,7 @@ namespace SilentCryptoMiner
             // 
             // labelStartDelay
             // 
-            this.labelStartDelay.AutoSize = true;
+            this.labelStartDelay.AutoEllipsis = true;
             this.labelStartDelay.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.labelStartDelay.Location = new System.Drawing.Point(10, 11);
             this.labelStartDelay.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -1130,6 +1151,7 @@ namespace SilentCryptoMiner
             this.txtStartDelay.MaxLength = 32767;
             this.txtStartDelay.MultiLine = false;
             this.txtStartDelay.Name = "txtStartDelay";
+            this.txtStartDelay.ReadOnly = false;
             this.txtStartDelay.Size = new System.Drawing.Size(34, 24);
             this.txtStartDelay.TabIndex = 55;
             this.txtStartDelay.Text = "15";
@@ -1160,6 +1182,7 @@ namespace SilentCryptoMiner
             this.txtLog.MaxLength = 32767;
             this.txtLog.MultiLine = true;
             this.txtLog.Name = "txtLog";
+            this.txtLog.ReadOnly = true;
             this.txtLog.Size = new System.Drawing.Size(399, 119);
             this.txtLog.TabIndex = 18;
             this.txtLog.Text = "Output...";
@@ -1203,14 +1226,11 @@ namespace SilentCryptoMiner
             this.tabMain.ResumeLayout(false);
             this.tabMain.PerformLayout();
             this.tabStartup.ResumeLayout(false);
-            this.tabStartup.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picAdmin4)).EndInit();
             this.tabAssembly.ResumeLayout(false);
-            this.tabAssembly.PerformLayout();
             this.tabIcon.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picIcon)).EndInit();
             this.tabOptions.ResumeLayout(false);
-            this.tabOptions.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picAdmin2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAdmin3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAdmin1)).EndInit();

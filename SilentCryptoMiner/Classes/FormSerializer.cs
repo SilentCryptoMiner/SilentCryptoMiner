@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Xml;
 using System.Collections.Generic;
 
-namespace FormSerialisation
+namespace FormSerialization
 {
     public static class FormSerializer
     {

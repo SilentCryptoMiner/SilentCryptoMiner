@@ -40,9 +40,9 @@ namespace SilentCryptoMiner
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AlgorithmSelection));
             this.TooltipHelper = new System.Windows.Forms.ToolTip(this.components);
-            this.Label3 = new System.Windows.Forms.Label();
+            this.labelAlgorithmSelectionHelp = new System.Windows.Forms.Label();
             this.formAlgorithmSelection = new MephTheme();
-            this.Label1 = new System.Windows.Forms.Label();
+            this.labelAlgorithmSelectionCryptocurrency = new System.Windows.Forms.Label();
             this.comboAlgorithm = new MephComboBox();
             this.btnCreate = new MephButton();
             this.formAlgorithmSelection.SuspendLayout();
@@ -57,19 +57,19 @@ namespace SilentCryptoMiner
             this.TooltipHelper.IsBalloon = true;
             this.TooltipHelper.ReshowDelay = 100;
             // 
-            // Label3
+            // labelAlgorithmSelectionHelp
             // 
-            this.Label3.AutoSize = true;
-            this.Label3.BackColor = System.Drawing.Color.Transparent;
-            this.Label3.Cursor = System.Windows.Forms.Cursors.Help;
-            this.Label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline);
-            this.Label3.ForeColor = System.Drawing.Color.Teal;
-            this.Label3.Location = new System.Drawing.Point(264, 110);
-            this.Label3.Name = "Label3";
-            this.Label3.Size = new System.Drawing.Size(13, 13);
-            this.Label3.TabIndex = 93;
-            this.Label3.Text = "?";
-            this.TooltipHelper.SetToolTip(this.Label3, "Choose a cryptocurrency (algorithm) to mine.\r\nIf you cannot find the coin you wan" +
+            this.labelAlgorithmSelectionHelp.AutoSize = true;
+            this.labelAlgorithmSelectionHelp.BackColor = System.Drawing.Color.Transparent;
+            this.labelAlgorithmSelectionHelp.Cursor = System.Windows.Forms.Cursors.Help;
+            this.labelAlgorithmSelectionHelp.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline);
+            this.labelAlgorithmSelectionHelp.ForeColor = System.Drawing.Color.Teal;
+            this.labelAlgorithmSelectionHelp.Location = new System.Drawing.Point(264, 110);
+            this.labelAlgorithmSelectionHelp.Name = "labelAlgorithmSelectionHelp";
+            this.labelAlgorithmSelectionHelp.Size = new System.Drawing.Size(13, 13);
+            this.labelAlgorithmSelectionHelp.TabIndex = 93;
+            this.labelAlgorithmSelectionHelp.Text = "?";
+            this.TooltipHelper.SetToolTip(this.labelAlgorithmSelectionHelp, "Choose a cryptocurrency (algorithm) to mine.\r\nIf you cannot find the coin you wan" +
         "t to mine then\r\nselect a coin with the same algorithm.");
             // 
             // formAlgorithmSelection
@@ -77,8 +77,8 @@ namespace SilentCryptoMiner
             this.formAlgorithmSelection.AccentColor = System.Drawing.Color.DarkRed;
             this.formAlgorithmSelection.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.formAlgorithmSelection.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
-            this.formAlgorithmSelection.Controls.Add(this.Label3);
-            this.formAlgorithmSelection.Controls.Add(this.Label1);
+            this.formAlgorithmSelection.Controls.Add(this.labelAlgorithmSelectionHelp);
+            this.formAlgorithmSelection.Controls.Add(this.labelAlgorithmSelectionCryptocurrency);
             this.formAlgorithmSelection.Controls.Add(this.comboAlgorithm);
             this.formAlgorithmSelection.Controls.Add(this.btnCreate);
             this.formAlgorithmSelection.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
@@ -89,16 +89,16 @@ namespace SilentCryptoMiner
             this.formAlgorithmSelection.TabIndex = 0;
             this.formAlgorithmSelection.Text = "Silent Crypto Miner Builder";
             // 
-            // Label1
+            // labelAlgorithmSelectionCryptocurrency
             // 
-            this.Label1.AutoSize = true;
-            this.Label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.Label1.ForeColor = System.Drawing.Color.Gray;
-            this.Label1.Location = new System.Drawing.Point(56, 87);
-            this.Label1.Name = "Label1";
-            this.Label1.Size = new System.Drawing.Size(167, 17);
-            this.Label1.TabIndex = 46;
-            this.Label1.Text = "Cryptocurrency (algorithm):";
+            this.labelAlgorithmSelectionCryptocurrency.AutoSize = true;
+            this.labelAlgorithmSelectionCryptocurrency.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.labelAlgorithmSelectionCryptocurrency.ForeColor = System.Drawing.Color.Gray;
+            this.labelAlgorithmSelectionCryptocurrency.Location = new System.Drawing.Point(56, 87);
+            this.labelAlgorithmSelectionCryptocurrency.Name = "labelAlgorithmSelectionCryptocurrency";
+            this.labelAlgorithmSelectionCryptocurrency.Size = new System.Drawing.Size(167, 17);
+            this.labelAlgorithmSelectionCryptocurrency.TabIndex = 46;
+            this.labelAlgorithmSelectionCryptocurrency.Text = "Cryptocurrency (algorithm):";
             // 
             // comboAlgorithm
             // 
@@ -213,8 +213,8 @@ namespace SilentCryptoMiner
         internal MephTheme formAlgorithmSelection;
         internal ToolTip TooltipHelper;
         internal MephButton btnCreate;
-        internal Label Label1;
+        internal Label labelAlgorithmSelectionCryptocurrency;
         internal MephComboBox comboAlgorithm;
-        internal Label Label3;
+        internal Label labelAlgorithmSelectionHelp;
     }
 }

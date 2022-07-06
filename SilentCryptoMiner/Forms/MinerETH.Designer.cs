@@ -42,43 +42,43 @@ namespace SilentCryptoMiner
             this.tabcontrolMinerETH = new MephTabcontrol();
             this.tabConnection = new System.Windows.Forms.TabPage();
             this.groupOptional = new MephGroupBox();
-            this.labelMinerETHConnectionWorker = new System.Windows.Forms.Label();
+            this.labelMinerConnectionWorker = new System.Windows.Forms.Label();
             this.txtPoolPassowrd = new MephTextBox();
-            this.labelMinerETHConnectionPassword = new System.Windows.Forms.Label();
+            this.labelMinerConnectionPassword = new System.Windows.Forms.Label();
             this.txtPoolWorker = new MephTextBox();
             this.txtPoolData = new MephTextBox();
-            this.labelMinerETHConnectionExtra = new System.Windows.Forms.Label();
+            this.labelMinerConnectionExtra = new System.Windows.Forms.Label();
             this.groupRequired = new MephGroupBox();
             this.txtPoolURL = new MephTextBox();
-            this.labelMinerETHConnectionWallet = new System.Windows.Forms.Label();
+            this.labelMinerConnectionWallet = new System.Windows.Forms.Label();
             this.txtPoolUsername = new MephTextBox();
-            this.labelMinerETHConnectionPool = new System.Windows.Forms.Label();
+            this.labelMinerConnectionPool = new System.Windows.Forms.Label();
             this.comboPoolScheme = new MephComboBox();
-            this.labelMinerETHConnectionScheme = new System.Windows.Forms.Label();
+            this.labelMinerConnectionScheme = new System.Windows.Forms.Label();
             this.tabMining = new System.Windows.Forms.TabPage();
-            this.labelMinerETHMiningProcessKiller = new System.Windows.Forms.Label();
+            this.labelMinerMiningProcessKiller = new System.Windows.Forms.Label();
             this.toggleProcessKiller = new MephToggleSwitch();
-            this.labelMinerETHMiningAlgorithm = new System.Windows.Forms.Label();
+            this.labelMinerMiningAlgorithm = new System.Windows.Forms.Label();
             this.comboAlgorithm = new MephComboBox();
             this.comboIdleGPU = new MephComboBox();
             this.comboMaxGPU = new MephComboBox();
-            this.labelMinerETHMiningIdleGPU = new System.Windows.Forms.Label();
-            this.labelMinerETHMiningMaxGPU = new System.Windows.Forms.Label();
-            this.labelMinerETHMiningInject = new System.Windows.Forms.Label();
+            this.labelMinerMiningIdleGPU = new System.Windows.Forms.Label();
+            this.labelMinerMiningMaxGPU = new System.Windows.Forms.Label();
+            this.labelMinerInjectTarget = new System.Windows.Forms.Label();
             this.comboInjection = new MephComboBox();
-            this.labelMinerETHMiningStealth = new System.Windows.Forms.Label();
+            this.labelMinerMiningStealth = new System.Windows.Forms.Label();
             this.toggleStealth = new MephToggleSwitch();
-            this.labelMinerETHMiningIdleMinutes = new System.Windows.Forms.Label();
-            this.labelMinerETHMiningIdleWait = new System.Windows.Forms.Label();
+            this.labelMinerMiningIdleMinutes = new System.Windows.Forms.Label();
+            this.labelMinerMiningIdleWait = new System.Windows.Forms.Label();
             this.txtIdleWait = new MephTextBox();
-            this.labelMinerETHMiningIdle = new System.Windows.Forms.Label();
+            this.labelMinerMiningIdle = new System.Windows.Forms.Label();
             this.toggleIdle = new MephToggleSwitch();
             this.tabAdvanced = new System.Windows.Forms.TabPage();
             this.toggleStealthFullscreen = new MephToggleSwitch();
-            this.labelMinerXMRAdvancedStealthFullscreen = new System.Windows.Forms.Label();
+            this.labelMinerAdvancedStealthFullscreen = new System.Windows.Forms.Label();
             this.chkAPI = new MephCheckBox();
-            this.labelMinerETHAdvancedKillTargets = new System.Windows.Forms.Label();
-            this.labelMinerETHAdvancedStealthTargets = new System.Windows.Forms.Label();
+            this.labelMinerAdvancedKillTargets = new System.Windows.Forms.Label();
+            this.labelMinerAdvancedStealthTargets = new System.Windows.Forms.Label();
             this.chkAdvParam = new MephCheckBox();
             this.chkRemoteConfig = new MephCheckBox();
             this.txtAPI = new MephTextBox();
@@ -149,12 +149,12 @@ namespace SilentCryptoMiner
             // groupOptional
             // 
             this.groupOptional.BackColor = System.Drawing.Color.Transparent;
-            this.groupOptional.Controls.Add(this.labelMinerETHConnectionWorker);
+            this.groupOptional.Controls.Add(this.labelMinerConnectionWorker);
             this.groupOptional.Controls.Add(this.txtPoolPassowrd);
-            this.groupOptional.Controls.Add(this.labelMinerETHConnectionPassword);
+            this.groupOptional.Controls.Add(this.labelMinerConnectionPassword);
             this.groupOptional.Controls.Add(this.txtPoolWorker);
             this.groupOptional.Controls.Add(this.txtPoolData);
-            this.groupOptional.Controls.Add(this.labelMinerETHConnectionExtra);
+            this.groupOptional.Controls.Add(this.labelMinerConnectionExtra);
             this.groupOptional.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(205)))), ((int)(((byte)(205)))));
             this.groupOptional.Header_Line = MephGroupBox.HeaderLine.Enabled;
             this.groupOptional.Location = new System.Drawing.Point(213, 3);
@@ -163,15 +163,15 @@ namespace SilentCryptoMiner
             this.groupOptional.TabIndex = 50;
             this.groupOptional.Text = "Optional Settings";
             // 
-            // labelMinerETHConnectionWorker
+            // labelMinerConnectionWorker
             // 
-            this.labelMinerETHConnectionWorker.AutoSize = true;
-            this.labelMinerETHConnectionWorker.Location = new System.Drawing.Point(10, 35);
-            this.labelMinerETHConnectionWorker.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelMinerETHConnectionWorker.Name = "labelMinerETHConnectionWorker";
-            this.labelMinerETHConnectionWorker.Size = new System.Drawing.Size(92, 17);
-            this.labelMinerETHConnectionWorker.TabIndex = 47;
-            this.labelMinerETHConnectionWorker.Text = "Worker Name:";
+            this.labelMinerConnectionWorker.AutoSize = true;
+            this.labelMinerConnectionWorker.Location = new System.Drawing.Point(10, 35);
+            this.labelMinerConnectionWorker.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelMinerConnectionWorker.Name = "labelMinerConnectionWorker";
+            this.labelMinerConnectionWorker.Size = new System.Drawing.Size(92, 17);
+            this.labelMinerConnectionWorker.TabIndex = 47;
+            this.labelMinerConnectionWorker.Text = "Worker Name:";
             // 
             // txtPoolPassowrd
             // 
@@ -182,21 +182,22 @@ namespace SilentCryptoMiner
             this.txtPoolPassowrd.MaxLength = 32767;
             this.txtPoolPassowrd.MultiLine = false;
             this.txtPoolPassowrd.Name = "txtPoolPassowrd";
+            this.txtPoolPassowrd.ReadOnly = false;
             this.txtPoolPassowrd.Size = new System.Drawing.Size(179, 24);
             this.txtPoolPassowrd.TabIndex = 12;
             this.txtPoolPassowrd.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
             this.txtPoolPassowrd.UseSystemPasswordChar = false;
             this.txtPoolPassowrd.WordWrap = false;
             // 
-            // labelMinerETHConnectionPassword
+            // labelMinerConnectionPassword
             // 
-            this.labelMinerETHConnectionPassword.AutoSize = true;
-            this.labelMinerETHConnectionPassword.Location = new System.Drawing.Point(10, 82);
-            this.labelMinerETHConnectionPassword.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelMinerETHConnectionPassword.Name = "labelMinerETHConnectionPassword";
-            this.labelMinerETHConnectionPassword.Size = new System.Drawing.Size(67, 17);
-            this.labelMinerETHConnectionPassword.TabIndex = 13;
-            this.labelMinerETHConnectionPassword.Text = "Password:";
+            this.labelMinerConnectionPassword.AutoSize = true;
+            this.labelMinerConnectionPassword.Location = new System.Drawing.Point(10, 82);
+            this.labelMinerConnectionPassword.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelMinerConnectionPassword.Name = "labelMinerConnectionPassword";
+            this.labelMinerConnectionPassword.Size = new System.Drawing.Size(67, 17);
+            this.labelMinerConnectionPassword.TabIndex = 13;
+            this.labelMinerConnectionPassword.Text = "Password:";
             // 
             // txtPoolWorker
             // 
@@ -207,6 +208,7 @@ namespace SilentCryptoMiner
             this.txtPoolWorker.MaxLength = 32767;
             this.txtPoolWorker.MultiLine = false;
             this.txtPoolWorker.Name = "txtPoolWorker";
+            this.txtPoolWorker.ReadOnly = false;
             this.txtPoolWorker.Size = new System.Drawing.Size(179, 24);
             this.txtPoolWorker.TabIndex = 46;
             this.txtPoolWorker.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
@@ -222,31 +224,32 @@ namespace SilentCryptoMiner
             this.txtPoolData.MaxLength = 32767;
             this.txtPoolData.MultiLine = false;
             this.txtPoolData.Name = "txtPoolData";
+            this.txtPoolData.ReadOnly = false;
             this.txtPoolData.Size = new System.Drawing.Size(179, 24);
             this.txtPoolData.TabIndex = 43;
             this.txtPoolData.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
             this.txtPoolData.UseSystemPasswordChar = false;
             this.txtPoolData.WordWrap = false;
             // 
-            // labelMinerETHConnectionExtra
+            // labelMinerConnectionExtra
             // 
-            this.labelMinerETHConnectionExtra.AutoSize = true;
-            this.labelMinerETHConnectionExtra.Location = new System.Drawing.Point(11, 127);
-            this.labelMinerETHConnectionExtra.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelMinerETHConnectionExtra.Name = "labelMinerETHConnectionExtra";
-            this.labelMinerETHConnectionExtra.Size = new System.Drawing.Size(70, 17);
-            this.labelMinerETHConnectionExtra.TabIndex = 44;
-            this.labelMinerETHConnectionExtra.Text = "Extra data:";
+            this.labelMinerConnectionExtra.AutoSize = true;
+            this.labelMinerConnectionExtra.Location = new System.Drawing.Point(11, 127);
+            this.labelMinerConnectionExtra.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelMinerConnectionExtra.Name = "labelMinerConnectionExtra";
+            this.labelMinerConnectionExtra.Size = new System.Drawing.Size(70, 17);
+            this.labelMinerConnectionExtra.TabIndex = 44;
+            this.labelMinerConnectionExtra.Text = "Extra data:";
             // 
             // groupRequired
             // 
             this.groupRequired.BackColor = System.Drawing.Color.Transparent;
             this.groupRequired.Controls.Add(this.txtPoolURL);
-            this.groupRequired.Controls.Add(this.labelMinerETHConnectionWallet);
+            this.groupRequired.Controls.Add(this.labelMinerConnectionWallet);
             this.groupRequired.Controls.Add(this.txtPoolUsername);
-            this.groupRequired.Controls.Add(this.labelMinerETHConnectionPool);
+            this.groupRequired.Controls.Add(this.labelMinerConnectionPool);
             this.groupRequired.Controls.Add(this.comboPoolScheme);
-            this.groupRequired.Controls.Add(this.labelMinerETHConnectionScheme);
+            this.groupRequired.Controls.Add(this.labelMinerConnectionScheme);
             this.groupRequired.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(205)))), ((int)(((byte)(205)))));
             this.groupRequired.Header_Line = MephGroupBox.HeaderLine.Enabled;
             this.groupRequired.Location = new System.Drawing.Point(5, 3);
@@ -264,21 +267,22 @@ namespace SilentCryptoMiner
             this.txtPoolURL.MaxLength = 32767;
             this.txtPoolURL.MultiLine = false;
             this.txtPoolURL.Name = "txtPoolURL";
+            this.txtPoolURL.ReadOnly = false;
             this.txtPoolURL.Size = new System.Drawing.Size(179, 24);
             this.txtPoolURL.TabIndex = 14;
             this.txtPoolURL.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
             this.txtPoolURL.UseSystemPasswordChar = false;
             this.txtPoolURL.WordWrap = false;
             // 
-            // labelMinerETHConnectionWallet
+            // labelMinerConnectionWallet
             // 
-            this.labelMinerETHConnectionWallet.AutoSize = true;
-            this.labelMinerETHConnectionWallet.Location = new System.Drawing.Point(6, 128);
-            this.labelMinerETHConnectionWallet.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelMinerETHConnectionWallet.Name = "labelMinerETHConnectionWallet";
-            this.labelMinerETHConnectionWallet.Size = new System.Drawing.Size(98, 17);
-            this.labelMinerETHConnectionWallet.TabIndex = 11;
-            this.labelMinerETHConnectionWallet.Text = "Wallet Address:";
+            this.labelMinerConnectionWallet.AutoSize = true;
+            this.labelMinerConnectionWallet.Location = new System.Drawing.Point(6, 128);
+            this.labelMinerConnectionWallet.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelMinerConnectionWallet.Name = "labelMinerConnectionWallet";
+            this.labelMinerConnectionWallet.Size = new System.Drawing.Size(98, 17);
+            this.labelMinerConnectionWallet.TabIndex = 11;
+            this.labelMinerConnectionWallet.Text = "Wallet Address:";
             // 
             // txtPoolUsername
             // 
@@ -289,21 +293,22 @@ namespace SilentCryptoMiner
             this.txtPoolUsername.MaxLength = 32767;
             this.txtPoolUsername.MultiLine = false;
             this.txtPoolUsername.Name = "txtPoolUsername";
+            this.txtPoolUsername.ReadOnly = false;
             this.txtPoolUsername.Size = new System.Drawing.Size(179, 24);
             this.txtPoolUsername.TabIndex = 10;
             this.txtPoolUsername.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
             this.txtPoolUsername.UseSystemPasswordChar = false;
             this.txtPoolUsername.WordWrap = false;
             // 
-            // labelMinerETHConnectionPool
+            // labelMinerConnectionPool
             // 
-            this.labelMinerETHConnectionPool.AutoSize = true;
-            this.labelMinerETHConnectionPool.Location = new System.Drawing.Point(6, 82);
-            this.labelMinerETHConnectionPool.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelMinerETHConnectionPool.Name = "labelMinerETHConnectionPool";
-            this.labelMinerETHConnectionPool.Size = new System.Drawing.Size(37, 17);
-            this.labelMinerETHConnectionPool.TabIndex = 15;
-            this.labelMinerETHConnectionPool.Text = "Pool:";
+            this.labelMinerConnectionPool.AutoSize = true;
+            this.labelMinerConnectionPool.Location = new System.Drawing.Point(6, 82);
+            this.labelMinerConnectionPool.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelMinerConnectionPool.Name = "labelMinerConnectionPool";
+            this.labelMinerConnectionPool.Size = new System.Drawing.Size(37, 17);
+            this.labelMinerConnectionPool.TabIndex = 15;
+            this.labelMinerConnectionPool.Text = "Pool:";
             // 
             // comboPoolScheme
             // 
@@ -327,35 +332,35 @@ namespace SilentCryptoMiner
             this.comboPoolScheme.StartIndex = 0;
             this.comboPoolScheme.TabIndex = 40;
             // 
-            // labelMinerETHConnectionScheme
+            // labelMinerConnectionScheme
             // 
-            this.labelMinerETHConnectionScheme.AutoSize = true;
-            this.labelMinerETHConnectionScheme.Location = new System.Drawing.Point(5, 36);
-            this.labelMinerETHConnectionScheme.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelMinerETHConnectionScheme.Name = "labelMinerETHConnectionScheme";
-            this.labelMinerETHConnectionScheme.Size = new System.Drawing.Size(125, 17);
-            this.labelMinerETHConnectionScheme.TabIndex = 41;
-            this.labelMinerETHConnectionScheme.Text = "Connection Scheme:";
+            this.labelMinerConnectionScheme.AutoSize = true;
+            this.labelMinerConnectionScheme.Location = new System.Drawing.Point(5, 36);
+            this.labelMinerConnectionScheme.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelMinerConnectionScheme.Name = "labelMinerConnectionScheme";
+            this.labelMinerConnectionScheme.Size = new System.Drawing.Size(125, 17);
+            this.labelMinerConnectionScheme.TabIndex = 41;
+            this.labelMinerConnectionScheme.Text = "Connection Scheme:";
             // 
             // tabMining
             // 
             this.tabMining.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
-            this.tabMining.Controls.Add(this.labelMinerETHMiningProcessKiller);
+            this.tabMining.Controls.Add(this.labelMinerMiningProcessKiller);
             this.tabMining.Controls.Add(this.toggleProcessKiller);
-            this.tabMining.Controls.Add(this.labelMinerETHMiningAlgorithm);
+            this.tabMining.Controls.Add(this.labelMinerMiningAlgorithm);
             this.tabMining.Controls.Add(this.comboAlgorithm);
             this.tabMining.Controls.Add(this.comboIdleGPU);
             this.tabMining.Controls.Add(this.comboMaxGPU);
-            this.tabMining.Controls.Add(this.labelMinerETHMiningIdleGPU);
-            this.tabMining.Controls.Add(this.labelMinerETHMiningMaxGPU);
-            this.tabMining.Controls.Add(this.labelMinerETHMiningInject);
+            this.tabMining.Controls.Add(this.labelMinerMiningIdleGPU);
+            this.tabMining.Controls.Add(this.labelMinerMiningMaxGPU);
+            this.tabMining.Controls.Add(this.labelMinerInjectTarget);
             this.tabMining.Controls.Add(this.comboInjection);
-            this.tabMining.Controls.Add(this.labelMinerETHMiningStealth);
+            this.tabMining.Controls.Add(this.labelMinerMiningStealth);
             this.tabMining.Controls.Add(this.toggleStealth);
-            this.tabMining.Controls.Add(this.labelMinerETHMiningIdleMinutes);
-            this.tabMining.Controls.Add(this.labelMinerETHMiningIdleWait);
+            this.tabMining.Controls.Add(this.labelMinerMiningIdleMinutes);
+            this.tabMining.Controls.Add(this.labelMinerMiningIdleWait);
             this.tabMining.Controls.Add(this.txtIdleWait);
-            this.tabMining.Controls.Add(this.labelMinerETHMiningIdle);
+            this.tabMining.Controls.Add(this.labelMinerMiningIdle);
             this.tabMining.Controls.Add(this.toggleIdle);
             this.tabMining.Location = new System.Drawing.Point(89, 4);
             this.tabMining.Name = "tabMining";
@@ -364,16 +369,16 @@ namespace SilentCryptoMiner
             this.tabMining.TabIndex = 5;
             this.tabMining.Text = "Mining";
             // 
-            // labelMinerETHMiningProcessKiller
+            // labelMinerMiningProcessKiller
             // 
-            this.labelMinerETHMiningProcessKiller.AutoSize = true;
-            this.labelMinerETHMiningProcessKiller.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.labelMinerETHMiningProcessKiller.Location = new System.Drawing.Point(10, 42);
-            this.labelMinerETHMiningProcessKiller.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelMinerETHMiningProcessKiller.Name = "labelMinerETHMiningProcessKiller";
-            this.labelMinerETHMiningProcessKiller.Size = new System.Drawing.Size(89, 17);
-            this.labelMinerETHMiningProcessKiller.TabIndex = 141;
-            this.labelMinerETHMiningProcessKiller.Text = "Process Killer:";
+            this.labelMinerMiningProcessKiller.AutoEllipsis = true;
+            this.labelMinerMiningProcessKiller.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.labelMinerMiningProcessKiller.Location = new System.Drawing.Point(10, 42);
+            this.labelMinerMiningProcessKiller.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelMinerMiningProcessKiller.Name = "labelMinerMiningProcessKiller";
+            this.labelMinerMiningProcessKiller.Size = new System.Drawing.Size(97, 17);
+            this.labelMinerMiningProcessKiller.TabIndex = 141;
+            this.labelMinerMiningProcessKiller.Text = "Process Killer:";
             // 
             // toggleProcessKiller
             // 
@@ -386,15 +391,15 @@ namespace SilentCryptoMiner
             this.toggleProcessKiller.Size = new System.Drawing.Size(50, 24);
             this.toggleProcessKiller.TabIndex = 140;
             // 
-            // labelMinerETHMiningAlgorithm
+            // labelMinerMiningAlgorithm
             // 
-            this.labelMinerETHMiningAlgorithm.AutoSize = true;
-            this.labelMinerETHMiningAlgorithm.Location = new System.Drawing.Point(253, 140);
-            this.labelMinerETHMiningAlgorithm.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelMinerETHMiningAlgorithm.Name = "labelMinerETHMiningAlgorithm";
-            this.labelMinerETHMiningAlgorithm.Size = new System.Drawing.Size(68, 17);
-            this.labelMinerETHMiningAlgorithm.TabIndex = 68;
-            this.labelMinerETHMiningAlgorithm.Text = "Algorithm:";
+            this.labelMinerMiningAlgorithm.AutoSize = true;
+            this.labelMinerMiningAlgorithm.Location = new System.Drawing.Point(253, 140);
+            this.labelMinerMiningAlgorithm.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelMinerMiningAlgorithm.Name = "labelMinerMiningAlgorithm";
+            this.labelMinerMiningAlgorithm.Size = new System.Drawing.Size(68, 17);
+            this.labelMinerMiningAlgorithm.TabIndex = 68;
+            this.labelMinerMiningAlgorithm.Text = "Algorithm:";
             // 
             // comboAlgorithm
             // 
@@ -474,37 +479,37 @@ namespace SilentCryptoMiner
             this.comboMaxGPU.StartIndex = 10;
             this.comboMaxGPU.TabIndex = 65;
             // 
-            // labelMinerETHMiningIdleGPU
+            // labelMinerMiningIdleGPU
             // 
-            this.labelMinerETHMiningIdleGPU.AutoSize = true;
-            this.labelMinerETHMiningIdleGPU.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.labelMinerETHMiningIdleGPU.Location = new System.Drawing.Point(256, 72);
-            this.labelMinerETHMiningIdleGPU.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelMinerETHMiningIdleGPU.Name = "labelMinerETHMiningIdleGPU";
-            this.labelMinerETHMiningIdleGPU.Size = new System.Drawing.Size(61, 17);
-            this.labelMinerETHMiningIdleGPU.TabIndex = 63;
-            this.labelMinerETHMiningIdleGPU.Text = "Idle GPU:";
+            this.labelMinerMiningIdleGPU.AutoEllipsis = true;
+            this.labelMinerMiningIdleGPU.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.labelMinerMiningIdleGPU.Location = new System.Drawing.Point(256, 72);
+            this.labelMinerMiningIdleGPU.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelMinerMiningIdleGPU.Name = "labelMinerMiningIdleGPU";
+            this.labelMinerMiningIdleGPU.Size = new System.Drawing.Size(81, 17);
+            this.labelMinerMiningIdleGPU.TabIndex = 63;
+            this.labelMinerMiningIdleGPU.Text = "Idle GPU:";
             // 
-            // labelMinerETHMiningMaxGPU
+            // labelMinerMiningMaxGPU
             // 
-            this.labelMinerETHMiningMaxGPU.AutoSize = true;
-            this.labelMinerETHMiningMaxGPU.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.labelMinerETHMiningMaxGPU.Location = new System.Drawing.Point(256, 41);
-            this.labelMinerETHMiningMaxGPU.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelMinerETHMiningMaxGPU.Name = "labelMinerETHMiningMaxGPU";
-            this.labelMinerETHMiningMaxGPU.Size = new System.Drawing.Size(65, 17);
-            this.labelMinerETHMiningMaxGPU.TabIndex = 61;
-            this.labelMinerETHMiningMaxGPU.Text = "Max GPU:";
+            this.labelMinerMiningMaxGPU.AutoEllipsis = true;
+            this.labelMinerMiningMaxGPU.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.labelMinerMiningMaxGPU.Location = new System.Drawing.Point(256, 41);
+            this.labelMinerMiningMaxGPU.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelMinerMiningMaxGPU.Name = "labelMinerMiningMaxGPU";
+            this.labelMinerMiningMaxGPU.Size = new System.Drawing.Size(81, 17);
+            this.labelMinerMiningMaxGPU.TabIndex = 61;
+            this.labelMinerMiningMaxGPU.Text = "Max GPU:";
             // 
-            // labelMinerETHMiningInject
+            // labelMinerInjectTarget
             // 
-            this.labelMinerETHMiningInject.AutoSize = true;
-            this.labelMinerETHMiningInject.Location = new System.Drawing.Point(10, 140);
-            this.labelMinerETHMiningInject.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelMinerETHMiningInject.Name = "labelMinerETHMiningInject";
-            this.labelMinerETHMiningInject.Size = new System.Drawing.Size(67, 17);
-            this.labelMinerETHMiningInject.TabIndex = 59;
-            this.labelMinerETHMiningInject.Text = "Inject Into:";
+            this.labelMinerInjectTarget.AutoSize = true;
+            this.labelMinerInjectTarget.Location = new System.Drawing.Point(10, 140);
+            this.labelMinerInjectTarget.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelMinerInjectTarget.Name = "labelMinerInjectTarget";
+            this.labelMinerInjectTarget.Size = new System.Drawing.Size(67, 17);
+            this.labelMinerInjectTarget.TabIndex = 59;
+            this.labelMinerInjectTarget.Text = "Inject Into:";
             // 
             // comboInjection
             // 
@@ -530,16 +535,16 @@ namespace SilentCryptoMiner
             this.comboInjection.StartIndex = 0;
             this.comboInjection.TabIndex = 58;
             // 
-            // labelMinerETHMiningStealth
+            // labelMinerMiningStealth
             // 
-            this.labelMinerETHMiningStealth.AutoSize = true;
-            this.labelMinerETHMiningStealth.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.labelMinerETHMiningStealth.Location = new System.Drawing.Point(10, 16);
-            this.labelMinerETHMiningStealth.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelMinerETHMiningStealth.Name = "labelMinerETHMiningStealth";
-            this.labelMinerETHMiningStealth.Size = new System.Drawing.Size(50, 17);
-            this.labelMinerETHMiningStealth.TabIndex = 56;
-            this.labelMinerETHMiningStealth.Text = "Stealth:";
+            this.labelMinerMiningStealth.AutoEllipsis = true;
+            this.labelMinerMiningStealth.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.labelMinerMiningStealth.Location = new System.Drawing.Point(10, 16);
+            this.labelMinerMiningStealth.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelMinerMiningStealth.Name = "labelMinerMiningStealth";
+            this.labelMinerMiningStealth.Size = new System.Drawing.Size(97, 17);
+            this.labelMinerMiningStealth.TabIndex = 56;
+            this.labelMinerMiningStealth.Text = "Stealth:";
             // 
             // toggleStealth
             // 
@@ -552,27 +557,27 @@ namespace SilentCryptoMiner
             this.toggleStealth.Size = new System.Drawing.Size(50, 24);
             this.toggleStealth.TabIndex = 55;
             // 
-            // labelMinerETHMiningIdleMinutes
+            // labelMinerMiningIdleMinutes
             // 
-            this.labelMinerETHMiningIdleMinutes.AutoSize = true;
-            this.labelMinerETHMiningIdleMinutes.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.labelMinerETHMiningIdleMinutes.Location = new System.Drawing.Point(357, 101);
-            this.labelMinerETHMiningIdleMinutes.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelMinerETHMiningIdleMinutes.Name = "labelMinerETHMiningIdleMinutes";
-            this.labelMinerETHMiningIdleMinutes.Size = new System.Drawing.Size(54, 17);
-            this.labelMinerETHMiningIdleMinutes.TabIndex = 53;
-            this.labelMinerETHMiningIdleMinutes.Text = "Minutes";
+            this.labelMinerMiningIdleMinutes.AutoSize = true;
+            this.labelMinerMiningIdleMinutes.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.labelMinerMiningIdleMinutes.Location = new System.Drawing.Point(357, 101);
+            this.labelMinerMiningIdleMinutes.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelMinerMiningIdleMinutes.Name = "labelMinerMiningIdleMinutes";
+            this.labelMinerMiningIdleMinutes.Size = new System.Drawing.Size(54, 17);
+            this.labelMinerMiningIdleMinutes.TabIndex = 53;
+            this.labelMinerMiningIdleMinutes.Text = "Minutes";
             // 
-            // labelMinerETHMiningIdleWait
+            // labelMinerMiningIdleWait
             // 
-            this.labelMinerETHMiningIdleWait.AutoSize = true;
-            this.labelMinerETHMiningIdleWait.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.labelMinerETHMiningIdleWait.Location = new System.Drawing.Point(256, 101);
-            this.labelMinerETHMiningIdleWait.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelMinerETHMiningIdleWait.Name = "labelMinerETHMiningIdleWait";
-            this.labelMinerETHMiningIdleWait.Size = new System.Drawing.Size(61, 17);
-            this.labelMinerETHMiningIdleWait.TabIndex = 52;
-            this.labelMinerETHMiningIdleWait.Text = "Idle Wait:";
+            this.labelMinerMiningIdleWait.AutoEllipsis = true;
+            this.labelMinerMiningIdleWait.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.labelMinerMiningIdleWait.Location = new System.Drawing.Point(256, 101);
+            this.labelMinerMiningIdleWait.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelMinerMiningIdleWait.Name = "labelMinerMiningIdleWait";
+            this.labelMinerMiningIdleWait.Size = new System.Drawing.Size(70, 17);
+            this.labelMinerMiningIdleWait.TabIndex = 52;
+            this.labelMinerMiningIdleWait.Text = "Idle Wait:";
             // 
             // txtIdleWait
             // 
@@ -584,6 +589,7 @@ namespace SilentCryptoMiner
             this.txtIdleWait.MaxLength = 32767;
             this.txtIdleWait.MultiLine = false;
             this.txtIdleWait.Name = "txtIdleWait";
+            this.txtIdleWait.ReadOnly = false;
             this.txtIdleWait.Size = new System.Drawing.Size(24, 24);
             this.txtIdleWait.TabIndex = 51;
             this.txtIdleWait.Text = "5";
@@ -591,15 +597,15 @@ namespace SilentCryptoMiner
             this.txtIdleWait.UseSystemPasswordChar = false;
             this.txtIdleWait.WordWrap = false;
             // 
-            // labelMinerETHMiningIdle
+            // labelMinerMiningIdle
             // 
-            this.labelMinerETHMiningIdle.AutoSize = true;
-            this.labelMinerETHMiningIdle.Location = new System.Drawing.Point(255, 13);
-            this.labelMinerETHMiningIdle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelMinerETHMiningIdle.Name = "labelMinerETHMiningIdle";
-            this.labelMinerETHMiningIdle.Size = new System.Drawing.Size(76, 17);
-            this.labelMinerETHMiningIdle.TabIndex = 30;
-            this.labelMinerETHMiningIdle.Text = "Idle Mining:";
+            this.labelMinerMiningIdle.AutoEllipsis = true;
+            this.labelMinerMiningIdle.Location = new System.Drawing.Point(255, 13);
+            this.labelMinerMiningIdle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelMinerMiningIdle.Name = "labelMinerMiningIdle";
+            this.labelMinerMiningIdle.Size = new System.Drawing.Size(97, 17);
+            this.labelMinerMiningIdle.TabIndex = 30;
+            this.labelMinerMiningIdle.Text = "Idle Mining:";
             // 
             // toggleIdle
             // 
@@ -617,10 +623,10 @@ namespace SilentCryptoMiner
             // 
             this.tabAdvanced.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.tabAdvanced.Controls.Add(this.toggleStealthFullscreen);
-            this.tabAdvanced.Controls.Add(this.labelMinerXMRAdvancedStealthFullscreen);
+            this.tabAdvanced.Controls.Add(this.labelMinerAdvancedStealthFullscreen);
             this.tabAdvanced.Controls.Add(this.chkAPI);
-            this.tabAdvanced.Controls.Add(this.labelMinerETHAdvancedKillTargets);
-            this.tabAdvanced.Controls.Add(this.labelMinerETHAdvancedStealthTargets);
+            this.tabAdvanced.Controls.Add(this.labelMinerAdvancedKillTargets);
+            this.tabAdvanced.Controls.Add(this.labelMinerAdvancedStealthTargets);
             this.tabAdvanced.Controls.Add(this.chkAdvParam);
             this.tabAdvanced.Controls.Add(this.chkRemoteConfig);
             this.tabAdvanced.Controls.Add(this.txtAPI);
@@ -645,17 +651,17 @@ namespace SilentCryptoMiner
             this.toggleStealthFullscreen.Size = new System.Drawing.Size(50, 24);
             this.toggleStealthFullscreen.TabIndex = 140;
             // 
-            // labelMinerXMRAdvancedStealthFullscreen
+            // labelMinerAdvancedStealthFullscreen
             // 
-            this.labelMinerXMRAdvancedStealthFullscreen.AutoSize = true;
-            this.labelMinerXMRAdvancedStealthFullscreen.BackColor = System.Drawing.Color.Transparent;
-            this.labelMinerXMRAdvancedStealthFullscreen.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.labelMinerXMRAdvancedStealthFullscreen.Location = new System.Drawing.Point(14, 43);
-            this.labelMinerXMRAdvancedStealthFullscreen.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelMinerXMRAdvancedStealthFullscreen.Name = "labelMinerXMRAdvancedStealthFullscreen";
-            this.labelMinerXMRAdvancedStealthFullscreen.Size = new System.Drawing.Size(130, 17);
-            this.labelMinerXMRAdvancedStealthFullscreen.TabIndex = 141;
-            this.labelMinerXMRAdvancedStealthFullscreen.Text = "Stealth on Fullscreen:";
+            this.labelMinerAdvancedStealthFullscreen.AutoEllipsis = true;
+            this.labelMinerAdvancedStealthFullscreen.BackColor = System.Drawing.Color.Transparent;
+            this.labelMinerAdvancedStealthFullscreen.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.labelMinerAdvancedStealthFullscreen.Location = new System.Drawing.Point(14, 43);
+            this.labelMinerAdvancedStealthFullscreen.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelMinerAdvancedStealthFullscreen.Name = "labelMinerAdvancedStealthFullscreen";
+            this.labelMinerAdvancedStealthFullscreen.Size = new System.Drawing.Size(130, 17);
+            this.labelMinerAdvancedStealthFullscreen.TabIndex = 141;
+            this.labelMinerAdvancedStealthFullscreen.Text = "Stealth on Fullscreen:";
             // 
             // chkAPI
             // 
@@ -672,29 +678,29 @@ namespace SilentCryptoMiner
             this.chkAPI.Text = "API Endpoint URL";
             this.chkAPI.CheckedChanged += new MephCheckBox.CheckedChangedEventHandler(this.chkAPI_CheckedChanged);
             // 
-            // labelMinerETHAdvancedKillTargets
+            // labelMinerAdvancedKillTargets
             // 
-            this.labelMinerETHAdvancedKillTargets.AutoSize = true;
-            this.labelMinerETHAdvancedKillTargets.BackColor = System.Drawing.Color.Transparent;
-            this.labelMinerETHAdvancedKillTargets.ForeColor = System.Drawing.Color.Gray;
-            this.labelMinerETHAdvancedKillTargets.Location = new System.Drawing.Point(14, 133);
-            this.labelMinerETHAdvancedKillTargets.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelMinerETHAdvancedKillTargets.Name = "labelMinerETHAdvancedKillTargets";
-            this.labelMinerETHAdvancedKillTargets.Size = new System.Drawing.Size(75, 17);
-            this.labelMinerETHAdvancedKillTargets.TabIndex = 137;
-            this.labelMinerETHAdvancedKillTargets.Text = "Kill Targets:";
+            this.labelMinerAdvancedKillTargets.AutoSize = true;
+            this.labelMinerAdvancedKillTargets.BackColor = System.Drawing.Color.Transparent;
+            this.labelMinerAdvancedKillTargets.ForeColor = System.Drawing.Color.Gray;
+            this.labelMinerAdvancedKillTargets.Location = new System.Drawing.Point(14, 133);
+            this.labelMinerAdvancedKillTargets.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelMinerAdvancedKillTargets.Name = "labelMinerAdvancedKillTargets";
+            this.labelMinerAdvancedKillTargets.Size = new System.Drawing.Size(75, 17);
+            this.labelMinerAdvancedKillTargets.TabIndex = 137;
+            this.labelMinerAdvancedKillTargets.Text = "Kill Targets:";
             // 
-            // labelMinerETHAdvancedStealthTargets
+            // labelMinerAdvancedStealthTargets
             // 
-            this.labelMinerETHAdvancedStealthTargets.AutoSize = true;
-            this.labelMinerETHAdvancedStealthTargets.BackColor = System.Drawing.Color.Transparent;
-            this.labelMinerETHAdvancedStealthTargets.ForeColor = System.Drawing.Color.Gray;
-            this.labelMinerETHAdvancedStealthTargets.Location = new System.Drawing.Point(14, 77);
-            this.labelMinerETHAdvancedStealthTargets.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelMinerETHAdvancedStealthTargets.Name = "labelMinerETHAdvancedStealthTargets";
-            this.labelMinerETHAdvancedStealthTargets.Size = new System.Drawing.Size(97, 17);
-            this.labelMinerETHAdvancedStealthTargets.TabIndex = 135;
-            this.labelMinerETHAdvancedStealthTargets.Text = "Stealth Targets:";
+            this.labelMinerAdvancedStealthTargets.AutoSize = true;
+            this.labelMinerAdvancedStealthTargets.BackColor = System.Drawing.Color.Transparent;
+            this.labelMinerAdvancedStealthTargets.ForeColor = System.Drawing.Color.Gray;
+            this.labelMinerAdvancedStealthTargets.Location = new System.Drawing.Point(14, 77);
+            this.labelMinerAdvancedStealthTargets.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelMinerAdvancedStealthTargets.Name = "labelMinerAdvancedStealthTargets";
+            this.labelMinerAdvancedStealthTargets.Size = new System.Drawing.Size(97, 17);
+            this.labelMinerAdvancedStealthTargets.TabIndex = 135;
+            this.labelMinerAdvancedStealthTargets.Text = "Stealth Targets:";
             // 
             // chkAdvParam
             // 
@@ -736,6 +742,7 @@ namespace SilentCryptoMiner
             this.txtAPI.MaxLength = 32767;
             this.txtAPI.MultiLine = false;
             this.txtAPI.Name = "txtAPI";
+            this.txtAPI.ReadOnly = false;
             this.txtAPI.Size = new System.Drawing.Size(178, 24);
             this.txtAPI.TabIndex = 138;
             this.txtAPI.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
@@ -751,6 +758,7 @@ namespace SilentCryptoMiner
             this.txtKillTargets.MaxLength = 32767;
             this.txtKillTargets.MultiLine = false;
             this.txtKillTargets.Name = "txtKillTargets";
+            this.txtKillTargets.ReadOnly = false;
             this.txtKillTargets.Size = new System.Drawing.Size(178, 24);
             this.txtKillTargets.TabIndex = 136;
             this.txtKillTargets.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
@@ -766,6 +774,7 @@ namespace SilentCryptoMiner
             this.txtStealthTargets.MaxLength = 32767;
             this.txtStealthTargets.MultiLine = false;
             this.txtStealthTargets.Name = "txtStealthTargets";
+            this.txtStealthTargets.ReadOnly = false;
             this.txtStealthTargets.Size = new System.Drawing.Size(178, 24);
             this.txtStealthTargets.TabIndex = 134;
             this.txtStealthTargets.Text = "Taskmgr.exe,ProcessHacker.exe,perfmon.exe,procexp.exe,procexp64.exe";
@@ -783,6 +792,7 @@ namespace SilentCryptoMiner
             this.txtAdvParam.MaxLength = 32767;
             this.txtAdvParam.MultiLine = false;
             this.txtAdvParam.Name = "txtAdvParam";
+            this.txtAdvParam.ReadOnly = false;
             this.txtAdvParam.Size = new System.Drawing.Size(178, 24);
             this.txtAdvParam.TabIndex = 130;
             this.txtAdvParam.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
@@ -799,6 +809,7 @@ namespace SilentCryptoMiner
             this.txtRemoteConfig.MaxLength = 32767;
             this.txtRemoteConfig.MultiLine = false;
             this.txtRemoteConfig.Name = "txtRemoteConfig";
+            this.txtRemoteConfig.ReadOnly = false;
             this.txtRemoteConfig.Size = new System.Drawing.Size(178, 24);
             this.txtRemoteConfig.TabIndex = 132;
             this.txtRemoteConfig.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
@@ -823,6 +834,7 @@ namespace SilentCryptoMiner
             this.txtJSON.MaxLength = 32767;
             this.txtJSON.MultiLine = true;
             this.txtJSON.Name = "txtJSON";
+            this.txtJSON.ReadOnly = true;
             this.txtJSON.Size = new System.Drawing.Size(412, 183);
             this.txtJSON.TabIndex = 0;
             this.txtJSON.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
@@ -866,46 +878,46 @@ namespace SilentCryptoMiner
         }
 
         internal MephTheme formMinerETH;
-        internal Label labelMinerETHConnectionPool;
+        internal Label labelMinerConnectionPool;
         internal MephTextBox txtPoolURL;
-        internal Label labelMinerETHConnectionPassword;
+        internal Label labelMinerConnectionPassword;
         internal MephTextBox txtPoolPassowrd;
-        internal Label labelMinerETHConnectionWallet;
+        internal Label labelMinerConnectionWallet;
         internal MephTextBox txtPoolUsername;
         internal MephTabcontrol tabcontrolMinerETH;
         internal TabPage tabConnection;
         internal TabPage tabMining;
-        internal Label labelMinerETHMiningIdle;
-        internal Label labelMinerETHMiningIdleMinutes;
-        internal Label labelMinerETHMiningIdleWait;
+        internal Label labelMinerMiningIdle;
+        internal Label labelMinerMiningIdleMinutes;
+        internal Label labelMinerMiningIdleWait;
         internal MephTextBox txtIdleWait;
-        internal Label labelMinerETHMiningStealth;
+        internal Label labelMinerMiningStealth;
         internal MephToggleSwitch toggleStealth;
-        internal Label labelMinerETHConnectionScheme;
+        internal Label labelMinerConnectionScheme;
         internal MephComboBox comboPoolScheme;
-        internal Label labelMinerETHConnectionExtra;
+        internal Label labelMinerConnectionExtra;
         internal MephTextBox txtPoolData;
-        internal Label labelMinerETHMiningInject;
+        internal Label labelMinerInjectTarget;
         internal MephComboBox comboInjection;
         internal MephGroupBox groupOptional;
-        internal Label labelMinerETHConnectionWorker;
+        internal Label labelMinerConnectionWorker;
         internal MephTextBox txtPoolWorker;
         internal MephGroupBox groupRequired;
         internal MephComboBox comboIdleGPU;
         internal MephComboBox comboMaxGPU;
-        internal Label labelMinerETHMiningIdleGPU;
-        internal Label labelMinerETHMiningMaxGPU;
+        internal Label labelMinerMiningIdleGPU;
+        internal Label labelMinerMiningMaxGPU;
         internal TabPage tabAdvanced;
         internal MephToggleSwitch toggleIdle;
-        internal Label labelMinerETHMiningAlgorithm;
+        internal Label labelMinerMiningAlgorithm;
         internal MephComboBox comboAlgorithm;
         private TabPage tabJSON;
         private MephTextBox txtJSON;
-        internal Label labelMinerETHMiningProcessKiller;
+        internal Label labelMinerMiningProcessKiller;
         internal MephToggleSwitch toggleProcessKiller;
         internal MephCheckBox chkAPI;
-        internal Label labelMinerETHAdvancedKillTargets;
-        internal Label labelMinerETHAdvancedStealthTargets;
+        internal Label labelMinerAdvancedKillTargets;
+        internal Label labelMinerAdvancedStealthTargets;
         internal MephCheckBox chkAdvParam;
         internal MephCheckBox chkRemoteConfig;
         internal MephTextBox txtAPI;
@@ -914,6 +926,6 @@ namespace SilentCryptoMiner
         internal MephTextBox txtAdvParam;
         internal MephTextBox txtRemoteConfig;
         internal MephToggleSwitch toggleStealthFullscreen;
-        internal Label labelMinerXMRAdvancedStealthFullscreen;
+        internal Label labelMinerAdvancedStealthFullscreen;
     }
 }

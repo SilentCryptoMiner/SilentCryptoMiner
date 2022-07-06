@@ -39,6 +39,8 @@ namespace SilentCryptoMiner
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AdvancedOptions));
             this.formAdvancedOptions = new MephTheme();
+            this.labelAdvancedOptionDoObfuscation = new System.Windows.Forms.Label();
+            this.toggleDoObfuscation = new MephToggleSwitch();
             this.labelAdvancedOptionRunInstall = new System.Windows.Forms.Label();
             this.toggleRunInstall = new MephToggleSwitch();
             this.labelAdvancedOptionOldMinerOverwrite = new System.Windows.Forms.Label();
@@ -59,6 +61,8 @@ namespace SilentCryptoMiner
             this.formAdvancedOptions.AccentColor = System.Drawing.Color.DarkRed;
             this.formAdvancedOptions.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.formAdvancedOptions.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
+            this.formAdvancedOptions.Controls.Add(this.labelAdvancedOptionDoObfuscation);
+            this.formAdvancedOptions.Controls.Add(this.toggleDoObfuscation);
             this.formAdvancedOptions.Controls.Add(this.labelAdvancedOptionRunInstall);
             this.formAdvancedOptions.Controls.Add(this.toggleRunInstall);
             this.formAdvancedOptions.Controls.Add(this.labelAdvancedOptionOldMinerOverwrite);
@@ -78,16 +82,40 @@ namespace SilentCryptoMiner
             this.formAdvancedOptions.TabIndex = 0;
             this.formAdvancedOptions.Text = "Advanced Options";
             // 
+            // labelAdvancedOptionDoObfuscation
+            // 
+            this.labelAdvancedOptionDoObfuscation.AutoEllipsis = true;
+            this.labelAdvancedOptionDoObfuscation.BackColor = System.Drawing.Color.Transparent;
+            this.labelAdvancedOptionDoObfuscation.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.labelAdvancedOptionDoObfuscation.ForeColor = System.Drawing.Color.Gray;
+            this.labelAdvancedOptionDoObfuscation.Location = new System.Drawing.Point(13, 155);
+            this.labelAdvancedOptionDoObfuscation.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelAdvancedOptionDoObfuscation.Name = "labelAdvancedOptionDoObfuscation";
+            this.labelAdvancedOptionDoObfuscation.Size = new System.Drawing.Size(170, 17);
+            this.labelAdvancedOptionDoObfuscation.TabIndex = 120;
+            this.labelAdvancedOptionDoObfuscation.Text = "Do built-in obfuscations:";
+            // 
+            // toggleDoObfuscation
+            // 
+            this.toggleDoObfuscation.BackColor = System.Drawing.Color.Transparent;
+            this.toggleDoObfuscation.Checked = true;
+            this.toggleDoObfuscation.ForeColor = System.Drawing.Color.Black;
+            this.toggleDoObfuscation.Location = new System.Drawing.Point(188, 152);
+            this.toggleDoObfuscation.Margin = new System.Windows.Forms.Padding(2);
+            this.toggleDoObfuscation.Name = "toggleDoObfuscation";
+            this.toggleDoObfuscation.Size = new System.Drawing.Size(50, 24);
+            this.toggleDoObfuscation.TabIndex = 119;
+            // 
             // labelAdvancedOptionRunInstall
             // 
-            this.labelAdvancedOptionRunInstall.AutoSize = true;
+            this.labelAdvancedOptionRunInstall.AutoEllipsis = true;
             this.labelAdvancedOptionRunInstall.BackColor = System.Drawing.Color.Transparent;
             this.labelAdvancedOptionRunInstall.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.labelAdvancedOptionRunInstall.ForeColor = System.Drawing.Color.Gray;
             this.labelAdvancedOptionRunInstall.Location = new System.Drawing.Point(13, 127);
             this.labelAdvancedOptionRunInstall.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelAdvancedOptionRunInstall.Name = "labelAdvancedOptionRunInstall";
-            this.labelAdvancedOptionRunInstall.Size = new System.Drawing.Size(138, 17);
+            this.labelAdvancedOptionRunInstall.Size = new System.Drawing.Size(170, 17);
             this.labelAdvancedOptionRunInstall.TabIndex = 118;
             this.labelAdvancedOptionRunInstall.Text = "Run miner after install:";
             // 
@@ -104,14 +132,14 @@ namespace SilentCryptoMiner
             // 
             // labelAdvancedOptionOldMinerOverwrite
             // 
-            this.labelAdvancedOptionOldMinerOverwrite.AutoSize = true;
+            this.labelAdvancedOptionOldMinerOverwrite.AutoEllipsis = true;
             this.labelAdvancedOptionOldMinerOverwrite.BackColor = System.Drawing.Color.Transparent;
             this.labelAdvancedOptionOldMinerOverwrite.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.labelAdvancedOptionOldMinerOverwrite.ForeColor = System.Drawing.Color.Gray;
             this.labelAdvancedOptionOldMinerOverwrite.Location = new System.Drawing.Point(13, 99);
             this.labelAdvancedOptionOldMinerOverwrite.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelAdvancedOptionOldMinerOverwrite.Name = "labelAdvancedOptionOldMinerOverwrite";
-            this.labelAdvancedOptionOldMinerOverwrite.Size = new System.Drawing.Size(133, 17);
+            this.labelAdvancedOptionOldMinerOverwrite.Size = new System.Drawing.Size(170, 17);
             this.labelAdvancedOptionOldMinerOverwrite.TabIndex = 116;
             this.labelAdvancedOptionOldMinerOverwrite.Text = "Overwrite old miners:";
             // 
@@ -128,14 +156,14 @@ namespace SilentCryptoMiner
             // 
             // labelAdvancedOptionMemoryWatchdog
             // 
-            this.labelAdvancedOptionMemoryWatchdog.AutoSize = true;
+            this.labelAdvancedOptionMemoryWatchdog.AutoEllipsis = true;
             this.labelAdvancedOptionMemoryWatchdog.BackColor = System.Drawing.Color.Transparent;
             this.labelAdvancedOptionMemoryWatchdog.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.labelAdvancedOptionMemoryWatchdog.ForeColor = System.Drawing.Color.Gray;
             this.labelAdvancedOptionMemoryWatchdog.Location = new System.Drawing.Point(12, 71);
             this.labelAdvancedOptionMemoryWatchdog.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelAdvancedOptionMemoryWatchdog.Name = "labelAdvancedOptionMemoryWatchdog";
-            this.labelAdvancedOptionMemoryWatchdog.Size = new System.Drawing.Size(163, 17);
+            this.labelAdvancedOptionMemoryWatchdog.Size = new System.Drawing.Size(170, 17);
             this.labelAdvancedOptionMemoryWatchdog.TabIndex = 114;
             this.labelAdvancedOptionMemoryWatchdog.Text = "Run Watchdog in Memory:";
             // 
@@ -163,14 +191,14 @@ namespace SilentCryptoMiner
             // 
             // labelAdvancedOptionRootkit
             // 
-            this.labelAdvancedOptionRootkit.AutoSize = true;
+            this.labelAdvancedOptionRootkit.AutoEllipsis = true;
             this.labelAdvancedOptionRootkit.BackColor = System.Drawing.Color.Transparent;
             this.labelAdvancedOptionRootkit.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.labelAdvancedOptionRootkit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.labelAdvancedOptionRootkit.Location = new System.Drawing.Point(12, 249);
             this.labelAdvancedOptionRootkit.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelAdvancedOptionRootkit.Name = "labelAdvancedOptionRootkit";
-            this.labelAdvancedOptionRootkit.Size = new System.Drawing.Size(89, 17);
+            this.labelAdvancedOptionRootkit.Size = new System.Drawing.Size(170, 17);
             this.labelAdvancedOptionRootkit.TabIndex = 111;
             this.labelAdvancedOptionRootkit.Text = "Install Rootkit:";
             // 
@@ -187,14 +215,14 @@ namespace SilentCryptoMiner
             // 
             // labelAdvancedOptionDebug
             // 
-            this.labelAdvancedOptionDebug.AutoSize = true;
+            this.labelAdvancedOptionDebug.AutoEllipsis = true;
             this.labelAdvancedOptionDebug.BackColor = System.Drawing.Color.Transparent;
             this.labelAdvancedOptionDebug.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.labelAdvancedOptionDebug.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.labelAdvancedOptionDebug.Location = new System.Drawing.Point(13, 275);
             this.labelAdvancedOptionDebug.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelAdvancedOptionDebug.Name = "labelAdvancedOptionDebug";
-            this.labelAdvancedOptionDebug.Size = new System.Drawing.Size(52, 17);
+            this.labelAdvancedOptionDebug.Size = new System.Drawing.Size(170, 17);
             this.labelAdvancedOptionDebug.TabIndex = 109;
             this.labelAdvancedOptionDebug.Text = "DEBUG:";
             // 
@@ -227,7 +255,6 @@ namespace SilentCryptoMiner
             this.TransparencyKey = System.Drawing.Color.Fuchsia;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.advancedOptions_FormClosing);
             this.formAdvancedOptions.ResumeLayout(false);
-            this.formAdvancedOptions.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picAdmin1)).EndInit();
             this.ResumeLayout(false);
 
@@ -245,5 +272,7 @@ namespace SilentCryptoMiner
         internal MephToggleSwitch toggleOldMinerOverwrite;
         internal Label labelAdvancedOptionRunInstall;
         internal MephToggleSwitch toggleRunInstall;
+        internal Label labelAdvancedOptionDoObfuscation;
+        internal MephToggleSwitch toggleDoObfuscation;
     }
 }

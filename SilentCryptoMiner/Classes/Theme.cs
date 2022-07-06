@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 
@@ -712,6 +711,22 @@ public partial class MephTextBox : Control
         }
     }
 
+    private bool _readonly = false;
+
+    public bool ReadOnly
+    {
+        get
+        {
+            return _readonly;
+        }
+
+        set
+        {
+            _readonly = value;
+            Invalidate();
+        }
+    }
+
     protected override void OnPaintBackground(System.Windows.Forms.PaintEventArgs pevent)
     {
     }
@@ -779,28 +794,10 @@ public partial class MephTextBox : Control
             withBlock.BorderStyle = BorderStyle.None;
             withBlock.Location = new Point(5, 4);
             withBlock.Font = new Font("Verdana", 8, FontStyle.Regular);
-            if (MultiLine == true)
-            {
-                if (WordWrap == true)
-                {
-                    withBlock.WordWrap = true;
-                }
-                else
-                {
-                    withBlock.WordWrap = false;
-                }
-            }
-            else if (WordWrap == true)
-            {
-                withBlock.WordWrap = true;
-            }
-            else
-            {
-                withBlock.WordWrap = false;
-            }
-
+            withBlock.WordWrap = WordWrap;
             withBlock.Size = new Size(Width - 10, Height - 11);
             withBlock.UseSystemPasswordChar = UseSystemPasswordChar;
+            withBlock.ReadOnly = ReadOnly;
         }
     }
 
@@ -816,31 +813,16 @@ public partial class MephTextBox : Control
             if (MultiLine == false)
             {
                 Height = txtbox.Height + 11;
-                if (WordWrap == true)
-                {
-                    withBlock.WordWrap = true;
-                }
-                else
-                {
-                    withBlock.WordWrap = false;
-                }
             }
             else
             {
                 txtbox.Height = Height - 11;
-                if (WordWrap == true)
-                {
-                    withBlock.WordWrap = true;
-                }
-                else
-                {
-                    withBlock.WordWrap = false;
-                }
             }
-
+            withBlock.WordWrap = WordWrap;
             withBlock.Width = Width - 10;
             withBlock.TextAlign = TextAlignment;
             withBlock.UseSystemPasswordChar = UseSystemPasswordChar;
+            withBlock.ReadOnly = ReadOnly;
         }
 
         G.Clear(BackColor);

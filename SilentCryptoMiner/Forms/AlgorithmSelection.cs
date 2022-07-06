@@ -55,6 +55,7 @@ namespace SilentCryptoMiner
             }
             miner.F = F;
             F.listMiners.Items.Add(miner);
+            F.TranslateForms();
             ((dynamic)F.listMiners.Items[F.listMiners.Items.Count-1]).Show();
             
             Hide();

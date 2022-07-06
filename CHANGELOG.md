@@ -1,3 +1,13 @@
+### 2.5.0 (06/07/2022)
+* Added language localizer to allow translations of all controls through XML
+* Added Swedish translation
+* Changed "Save Path" to show "Program Files" for clarity when "Run as System" and "Run as Administrator" are both enabled
+* Moved AMSI bypass from the RunPE module into the miner to bypass Assembly.Load detections
+* Obfuscated all remaining strings inside all files
+* Remade manifest to reduce detections
+* Added new advanced option to disable built-in obfuscations
+* Updated rootkit to reduce detections and improve compatibility and reliability
+* Improved process hollowing implementation
 ### 2.4.1 (06/06/2022)
 * Removed Panthera (Panthera) algorithm due to reported collateral issues
 * Updated ETH miner CUDA and OpenCL implementations

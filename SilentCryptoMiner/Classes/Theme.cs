@@ -195,8 +195,6 @@ public partial class MephTheme : ContainerControl
     private MouseState State = MouseState.None;
     private int X;
     private int Y;
-    private Rectangle MinBtn = new Rectangle(0, 0, 32, 25);
-    private Rectangle CloseBtn = new Rectangle(33, 0, 65, 25);
 
     protected override void OnMouseDown(System.Windows.Forms.MouseEventArgs e)
     {
@@ -1314,16 +1312,20 @@ public partial class MephComboBox : ComboBox
 
     protected void DrawTriangle(Color Clr, Point FirstPoint, Point SecondPoint, Point ThirdPoint, Point FirstPoint2, Point SecondPoint2, Point ThirdPoint2, Graphics G)
     {
-        var points = new List<Point>();
-        points.Add(FirstPoint);
-        points.Add(SecondPoint);
-        points.Add(ThirdPoint);
+        var points = new List<Point>
+        {
+            FirstPoint,
+            SecondPoint,
+            ThirdPoint
+        };
         G.FillPolygon(new SolidBrush(Clr), points.ToArray());
         G.DrawPolygon(new Pen(new SolidBrush(Color.FromArgb(25, 25, 25))), points.ToArray());
-        var points2 = new List<Point>();
-        points2.Add(FirstPoint2);
-        points2.Add(SecondPoint2);
-        points2.Add(ThirdPoint2);
+        var points2 = new List<Point>
+        {
+            FirstPoint2,
+            SecondPoint2,
+            ThirdPoint2
+        };
         G.FillPolygon(new SolidBrush(Clr), points2.ToArray());
         G.DrawPolygon(new Pen(new SolidBrush(Color.FromArgb(25, 25, 25))), points2.ToArray());
     }
@@ -1452,8 +1454,10 @@ internal partial class MephTabcontrol : TabControl
                 var myBlend = new ColorBlend();
                 myBlend.Colors = new[] { Color.FromArgb(50, 50, 50), Color.FromArgb(50, 50, 50), Color.FromArgb(50, 50, 50) }; // Full Tab Background Gradient Accents
                 myBlend.Positions = new[] { 0.0f, 0.5f, 1.0f };
-                var lgBrush = new LinearGradientBrush(x2, Color.Black, Color.Black, 90.0f);
-                lgBrush.InterpolationColors = myBlend;
+                var lgBrush = new LinearGradientBrush(x2, Color.Black, Color.Black, 90.0f)
+                {
+                    InterpolationColors = myBlend
+                };
                 G.FillRectangle(lgBrush, x2);
                 // G.DrawRectangle(New Pen(Color.FromArgb(20, 20, 20)), x2) 'Full Tab Highlight Outline
                 var tabRect = new Rectangle(GetTabRect(i).Location.X + 4, GetTabRect(i).Location.Y + 2, GetTabRect(i).Size.Width + 10, GetTabRect(i).Size.Height - 11);
@@ -1466,11 +1470,11 @@ internal partial class MephTabcontrol : TabControl
                 // Dim p() As Point = {New Point(ItemSize.Height - 3, GetTabRect(i).Location.Y + 20), New Point(ItemSize.Height + 4, GetTabRect(i).Location.Y + 14), New Point(ItemSize.Height + 4, GetTabRect(i).Location.Y + 27)}
                 // G.FillPolygon(Brushes.White, p)
 
-                if (ImageList is object)
+                if (ImageList is not null)
                 {
                     try
                     {
-                        if (ImageList.Images[TabPages[i].ImageIndex] is object)
+                        if (ImageList.Images[TabPages[i].ImageIndex] is not null)
                         {
                             G.DrawImage(ImageList.Images[TabPages[i].ImageIndex], new Point(x2.Location.X + 8, x2.Location.Y + 6));
                             G.DrawString("      " + TabPages[i].Text.ToUpper(), new Font(Font.FontFamily, Font.Size, FontStyle.Regular), Brushes.White, new Rectangle(x2.X, x2.Y - 1, x2.Width, x2.Height), new StringFormat() { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center });
@@ -1498,11 +1502,11 @@ internal partial class MephTabcontrol : TabControl
                 var x2 = new Rectangle(new Point(GetTabRect(i).Location.X - 2, GetTabRect(i).Location.Y - 2), new Size(GetTabRect(i).Width + 3, GetTabRect(i).Height + 1));
                 // G.FillRectangle(New SolidBrush(Color.FromArgb(50, 50, 50)), x2) 'Tab Highlight
                 G.DrawLine(new Pen(Color.FromArgb(96, 110, 121)), new Point(x2.Right, x2.Top), new Point(x2.Right, x2.Bottom));
-                if (ImageList is object)
+                if (ImageList is not null)
                 {
                     try
                     {
-                        if (ImageList.Images[TabPages[i].ImageIndex] is object)
+                        if (ImageList.Images[TabPages[i].ImageIndex] is not null)
                         {
                             G.DrawImage(ImageList.Images[TabPages[i].ImageIndex], new Point(x2.Location.X + 8, x2.Location.Y + 6));
                             G.DrawString("      " + TabPages[i].Text, Font, Brushes.White, new Rectangle(x2.X, x2.Y - 1, x2.Width, x2.Height), new StringFormat() { LineAlignment = StringAlignment.Near, Alignment = StringAlignment.Near });

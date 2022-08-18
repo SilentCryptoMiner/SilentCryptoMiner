@@ -32,23 +32,22 @@ namespace FormSerialization
         {
             foreach (Control childCtrl in c.Controls)
             {
-                if (!(childCtrl is Label) && !string.IsNullOrEmpty(childCtrl.Name))
+                if (childCtrl is not Label && !string.IsNullOrEmpty(childCtrl.Name))
                 {
                     xmlSerialisedForm.WriteStartElement("Control");
                     xmlSerialisedForm.WriteAttributeString("Type", childCtrl.GetType().ToString());
                     xmlSerialisedForm.WriteAttributeString("Name", childCtrl.Name);
-                    if (childCtrl is MephTextBox)
+                    if (childCtrl is MephTextBox txtbox)
                     {
-                        xmlSerialisedForm.WriteElementString("Text", ((MephTextBox)childCtrl).Text);
+                        xmlSerialisedForm.WriteElementString("Text", txtbox.Text);
                     }
-                    else if (childCtrl is MephComboBox)
+                    else if (childCtrl is MephComboBox combobox)
                     {
-                        xmlSerialisedForm.WriteElementString("Text", ((MephComboBox)childCtrl).Text);
-                        xmlSerialisedForm.WriteElementString("SelectedIndex", ((MephComboBox)childCtrl).SelectedIndex.ToString());
+                        xmlSerialisedForm.WriteElementString("Text", combobox.Text);
+                        xmlSerialisedForm.WriteElementString("SelectedIndex", combobox.SelectedIndex.ToString());
                     }
-                    else if (childCtrl is MephListBox)
+                    else if (childCtrl is MephListBox lst)
                     {
-                        MephListBox lst = (MephListBox)childCtrl;
                         for (int i = 0; i < lst.Items.Count; i++)
                         {
                             xmlSerialisedForm.WriteStartElement("Item");
@@ -57,25 +56,25 @@ namespace FormSerialization
                             xmlSerialisedForm.WriteEndElement();
                         }
                     }
-                    else if (childCtrl is MephCheckBox)
+                    else if (childCtrl is MephCheckBox checkbox)
                     {
-                        xmlSerialisedForm.WriteElementString("Text", ((MephCheckBox)childCtrl).Text);
-                        xmlSerialisedForm.WriteElementString("Checked", ((MephCheckBox)childCtrl).Checked.ToString());
+                        xmlSerialisedForm.WriteElementString("Text", checkbox.Text);
+                        xmlSerialisedForm.WriteElementString("Checked", checkbox.Checked.ToString());
                     }
-                    else if (childCtrl is MephToggleSwitch)
+                    else if (childCtrl is MephToggleSwitch toggleswitch)
                     {
-                        xmlSerialisedForm.WriteElementString("Text", ((MephToggleSwitch)childCtrl).Text);
-                        xmlSerialisedForm.WriteElementString("Checked", ((MephToggleSwitch)childCtrl).Checked.ToString());
+                        xmlSerialisedForm.WriteElementString("Text", toggleswitch.Text);
+                        xmlSerialisedForm.WriteElementString("Checked", toggleswitch.Checked.ToString());
                     }
                     bool visible = (bool)typeof(Control).GetMethod("GetState", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(childCtrl, new object[] { 2 });
                     xmlSerialisedForm.WriteElementString("Visible", visible.ToString());
                     xmlSerialisedForm.WriteElementString("Enabled", childCtrl.Enabled.ToString());
                     if (childCtrl.HasChildren)
                     {
-                        if (childCtrl is SplitContainer)
+                        if (childCtrl is SplitContainer container)
                         {
-                            AddChildControls(xmlSerialisedForm, ((SplitContainer)childCtrl).Panel1);
-                            AddChildControls(xmlSerialisedForm, ((SplitContainer)childCtrl).Panel2);
+                            AddChildControls(xmlSerialisedForm, container.Panel1);
+                            AddChildControls(xmlSerialisedForm, container.Panel2);
                         }
                         else
                         {

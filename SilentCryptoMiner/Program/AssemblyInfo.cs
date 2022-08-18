@@ -10,9 +10,9 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Silent Crypto Miner Builder")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Unam Sanctam")]
 [assembly: AssemblyProduct("Silent Crypto Miner Builder")]
-[assembly: AssemblyCopyright("Copyright © 2022")]
+[assembly: AssemblyCopyright("Copyright © Unam Sanctam 2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: ComVisible(false)]
 
@@ -30,5 +30,5 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // <Assembly: AssemblyVersion("1.0.*")>
 
-[assembly: AssemblyVersion("2.5.0.0")]
-[assembly: AssemblyFileVersion("2.5.0.0")]
+[assembly: AssemblyVersion("2.6.0.0")]
+[assembly: AssemblyFileVersion("2.6.0.0")]

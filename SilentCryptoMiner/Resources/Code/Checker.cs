@@ -18,7 +18,7 @@ using System.Windows.Forms;
 
 public partial class _rChecker_
 {
-    public static void Main()
+    private static void Main()
     {
         try
         {
@@ -93,12 +93,12 @@ public partial class _rChecker_
     }
 
 #if DefObfuscate
-    public static string _rGetString_(string _rarg1_)
+    private static string _rGetString_(string _rarg1_)
     {
         return Encoding.UTF8.GetString(_rAESMethod_(Convert.FromBase64String(_rarg1_)));
     }
 
-    public static byte[] _rAESMethod_(byte[] _rinput_, bool _rencrypt_ = false)
+    private static byte[] _rAESMethod_(byte[] _rinput_, bool _rencrypt_ = false)
     {
         var _rkeybytes_ = new Rfc2898DeriveBytes(@"#AESKEY", Encoding.ASCII.GetBytes(@"#SALT"), 100).GetBytes(16);
         using (Aes _raesAlg_ = Aes.Create())
@@ -116,7 +116,7 @@ public partial class _rChecker_
     }
 #endif
 
-    public static string _rUnamlibDecrypt_(string _rplainText_)
+    private static string _rUnamlibDecrypt_(string _rplainText_)
     {
         try
         {

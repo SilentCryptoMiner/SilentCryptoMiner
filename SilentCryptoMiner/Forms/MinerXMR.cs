@@ -19,10 +19,6 @@ namespace SilentCryptoMiner
             Font = new Font("Segoe UI", 9.5f, Font.Style, Font.Unit, Font.GdiCharSet, Font.GdiVerticalFont);
             formMinerXMR.SubHeader = nid + " - " + comboAlgorithm.Text;
             F.ReloadMinerList();
-            if (string.IsNullOrEmpty(txtAdvParam.Text))
-            {
-                txtAdvParam.Text = F.advancedParamsXMR;
-            }
         }
 
         private void MinerXMR_FormClosing(object sender, FormClosingEventArgs e)

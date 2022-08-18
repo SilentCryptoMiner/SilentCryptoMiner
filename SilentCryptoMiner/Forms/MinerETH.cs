@@ -19,10 +19,6 @@ namespace SilentCryptoMiner
             Font = new Font("Segoe UI", 9.5f, Font.Style, Font.Unit, Font.GdiCharSet, Font.GdiVerticalFont);
             formMinerETH.SubHeader = nid + " - " + comboAlgorithm.Text;
             F.ReloadMinerList();
-            if (string.IsNullOrEmpty(txtAdvParam.Text))
-            {
-                txtAdvParam.Text = F.advancedParamsETH;
-            }
         }
 
         private void MinerETH_FormClosing(object sender, FormClosingEventArgs e)

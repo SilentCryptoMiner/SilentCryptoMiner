@@ -61,7 +61,7 @@ namespace FormLocalization
             }
         }
 
-        public static void TranslateControls(List<Control> cntrls, string xml, string language)
+        public static void TranslateControls(List<Control> cntrls, string xml, string language, string defaultLanguage)
         {
             XmlDocument xmlSerialisedForm = new XmlDocument();
             xmlSerialisedForm.LoadXml(xml);
@@ -70,21 +70,25 @@ namespace FormLocalization
             {
                 foreach (Control c in cntrls)
                 {
-                    SetControlProperties(c, n, language);
+                    SetControlProperties(c, n, language, defaultLanguage);
                 }
             } 
         }
 
-        private static void SetControlProperties(Control currentCtrl, XmlNode n, string language)
+        private static void SetControlProperties(Control currentCtrl, XmlNode n, string language, string defaultLanguage)
         {
             string controlName = n.Attributes["Name"].Value;
             Control[] ctrl = currentCtrl.Controls.Find(controlName, true);
             if (ctrl.Length > 0)
             {
-                XmlNode langnode = n.SelectSingleNode("Text[@Lang='" + language + "']");
-                if (langnode != null)
+                foreach(string lang in new string[] { language, defaultLanguage })
                 {
-                    ctrl[0].Text = langnode.InnerText;
+                    XmlNode langnode = n.SelectSingleNode("Text[@Lang='" + lang + "']");
+                    if (langnode != null)
+                    {
+                        ctrl[0].Text = langnode.InnerText;
+                        break;
+                    }
                 }
             }
         }

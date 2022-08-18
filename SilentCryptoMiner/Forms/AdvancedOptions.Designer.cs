@@ -29,7 +29,7 @@ namespace SilentCryptoMiner
         }
 
         // Required by the Windows Form Designer
-        private System.ComponentModel.IContainer components;
+        private System.ComponentModel.IContainer components = null;
 
         // NOTE: The following procedure is required by the Windows Form Designer
         // It can be modified using the Windows Form Designer.  

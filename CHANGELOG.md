@@ -1,3 +1,16 @@
+### 2.6.0 (18/08/2022)
+* Bypassed new Windows Defender exclusion detection and removal
+* Added new improved process hollowing module ProcessInject which replaces the old process hollowing
+* Added new "Critical Processes (BSoD)" option to mark the miners and watchdog as critical processes, thus causing a BSoD when killed
+* Added new in-memory native DLL loader for the new modules, ProcessInject and ProcessProtect
+* Greatly improved dynamic DAG/VRAM management, including better regeneration when enough VRAM becomes available to mine
+* Changed startup flow to be more dynamic and persistent
+* Improved the watchdogs persistence
+* Greatly improved ETH miners web panel status reporting logic
+* Improved ETH miners failover connection logic and default timing parameters
+* Removed AstroBWT algorithms due to constant forking and instabilities
+* Updated XMR miner
+* Added Polish translation (Werlrlivx)
 ### 2.5.0 (06/07/2022)
 * Added language localizer to allow translations of all controls through XML
 * Added Swedish translation

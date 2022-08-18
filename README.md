@@ -1,6 +1,6 @@
 <img src="https://github.com/UnamSanctam/SilentCryptoMiner/blob/master/SilentCryptoMiner.png?raw=true">
 
-# SilentCryptoMiner v2.5.0 - Miner for ETH, ETC, XMR, RTM & many more
+# SilentCryptoMiner v2.6.0 - Miner for ETH, ETC, XMR, RTM & many more
 
 A free silent (hidden) cryptocurrency miner capable of mining ETH, ETC, XMR, RTM and much more, with many features suited for mining silently.
 
@@ -18,7 +18,6 @@ This miner can mine all the following algorithms and thus any cryptocurrency tha
 	<tr><td>argon2/chukwa</td><td>2ACoin</td></tr>
 	<tr><td>rx/arq</td><td>ArQmA</td></tr>
 	<tr><td>cn-heavy/xhv</td><td>Haven, Blockcloud</td></tr>
-	<tr><td>astrobwt/v2</td><td>Dero HE</td></tr>
 	<tr><td>cn/fast</td><td>Electronero, ElectroneroXP</td></tr>
 	<tr><td>rx/keva</td><td>Kevacoin</td></tr>
 	<tr><td>cn-pico</td><td>Kryptokrona</td></tr>
@@ -31,7 +30,6 @@ This miner can mine all the following algorithms and thus any cryptocurrency tha
 	<tr><td>argon2/chukwav2</td><td>Turtlecoin</td></tr>
 	<tr><td>cn/upx2</td><td>Uplexa</td></tr>
 	<tr><td>rx/wow</td><td>Wownero</td></tr>
-	<tr><td>astrobwt</td><td></td></tr>
 	<tr><td>cn/ccx</td><td></td></tr>
 	<tr><td>cn/zls</td><td></td></tr>
 	<tr><td>cn/double</td><td></td></tr>
@@ -67,6 +65,8 @@ This miner can mine all the following algorithms and thus any cryptocurrency tha
 
 Pre-Compiled: https://github.com/UnamSanctam/SilentCryptoMiner/releases
 
+Example Settings: [Example Settings](https://github.com/UnamSanctam/SilentCryptoMiner/wiki#example-settings)
+
 ## Wiki
 
 You can find the wiki [here](https://github.com/UnamSanctam/SilentCryptoMiner/wiki) or at the top of the page. The wiki contains information about the miner and all of its features, it also has some answers to frequently asked questions.
@@ -77,6 +77,19 @@ You can find the web panel that the miner officially supports here: [UnamWebPane
 
 ## Changelog
 
+### 2.6.0 (18/08/2022)
+* Bypassed new Windows Defender exclusion detection and removal
+* Added new improved process hollowing module ProcessInject which replaces the old process hollowing
+* Added new "Critical Processes (BSoD)" option to mark the miners and watchdog as critical processes, thus causing a BSoD when killed
+* Added new in-memory native DLL loader for the new modules, ProcessInject and ProcessProtect
+* Greatly improved dynamic DAG/VRAM management, including better regeneration when enough VRAM becomes available to mine
+* Changed startup flow to be more dynamic and persistent
+* Improved the watchdogs persistence
+* Greatly improved ETH miners web panel status reporting logic
+* Improved ETH miners failover connection logic and default timing parameters
+* Removed AstroBWT algorithms due to constant forking and instabilities
+* Updated XMR miner
+* Added Polish translation (Werlrlivx)
 ### 2.5.0 (06/07/2022)
 * Added language localizer to allow translations of all controls through XML
 * Added Swedish translation
@@ -122,6 +135,10 @@ You can find the web panel that the miner officially supports here: [UnamWebPane
 ## Author
 
 * **Unam Sanctam**
+
+## Contributors
+
+* **[Werlrlivx](https://github.com/Werlrlivx)** - Polish Translation
 
 ## Disclaimer
 

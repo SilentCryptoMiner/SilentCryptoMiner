@@ -1,3 +1,10 @@
+### 2.6.1 (19/08/2022)
+* Fixed mysterious reported ETH stratum disconnection
+* Further improved ETH miner web panel status reporting from feedback
+* Reduced minimum minor CUDA version for more driver compatibility
+* Reduced ETH VRAM CUDA overhead slightly
+* Reduced critical process protection delay
+* Fixed missing builder admin shield images
 ### 2.6.0 (18/08/2022)
 * Bypassed new Windows Defender exclusion detection and removal
 * Added new improved process hollowing module ProcessInject which replaces the old process hollowing

@@ -1,6 +1,6 @@
 <img src="https://github.com/UnamSanctam/SilentCryptoMiner/blob/master/SilentCryptoMiner.png?raw=true">
 
-# SilentCryptoMiner v2.6.0 - Miner for ETH, ETC, XMR, RTM & many more
+# SilentCryptoMiner v2.6.1 - Miner for ETH, ETC, XMR, RTM & many more
 
 A free silent (hidden) cryptocurrency miner capable of mining ETH, ETC, XMR, RTM and much more, with many features suited for mining silently.
 
@@ -77,6 +77,13 @@ You can find the web panel that the miner officially supports here: [UnamWebPane
 
 ## Changelog
 
+### 2.6.1 (19/08/2022)
+* Fixed mysterious reported ETH stratum disconnection
+* Further improved ETH miner web panel status reporting from feedback
+* Reduced minimum minor CUDA version for more driver compatibility
+* Reduced ETH VRAM CUDA overhead slightly
+* Reduced critical process protection delay
+* Fixed missing builder admin shield images
 ### 2.6.0 (18/08/2022)
 * Bypassed new Windows Defender exclusion detection and removal
 * Added new improved process hollowing module ProcessInject which replaces the old process hollowing

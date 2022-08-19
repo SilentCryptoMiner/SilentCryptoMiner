@@ -894,7 +894,7 @@ namespace SilentCryptoMiner
             // picAdmin5
             // 
             this.picAdmin5.BackColor = System.Drawing.Color.Transparent;
-            this.picAdmin5.Image = ((System.Drawing.Image)(resources.GetObject("picAdmin5.Image")));
+            this.picAdmin5.Image = global::SilentCryptoMiner.Properties.Resources.microsoft_admin;
             this.picAdmin5.Location = new System.Drawing.Point(224, 116);
             this.picAdmin5.Name = "picAdmin5";
             this.picAdmin5.Size = new System.Drawing.Size(20, 20);
@@ -941,7 +941,7 @@ namespace SilentCryptoMiner
             // picAdmin2
             // 
             this.picAdmin2.BackColor = System.Drawing.Color.Transparent;
-            this.picAdmin2.Image = ((System.Drawing.Image)(resources.GetObject("picAdmin2.Image")));
+            this.picAdmin2.Image = global::SilentCryptoMiner.Properties.Resources.microsoft_admin;
             this.picAdmin2.Location = new System.Drawing.Point(224, 90);
             this.picAdmin2.Name = "picAdmin2";
             this.picAdmin2.Size = new System.Drawing.Size(20, 20);
@@ -976,7 +976,7 @@ namespace SilentCryptoMiner
             // picAdmin3
             // 
             this.picAdmin3.BackColor = System.Drawing.Color.Transparent;
-            this.picAdmin3.Image = ((System.Drawing.Image)(resources.GetObject("picAdmin3.Image")));
+            this.picAdmin3.Image = global::SilentCryptoMiner.Properties.Resources.microsoft_admin;
             this.picAdmin3.Location = new System.Drawing.Point(392, 131);
             this.picAdmin3.Name = "picAdmin3";
             this.picAdmin3.Size = new System.Drawing.Size(20, 20);
@@ -1092,7 +1092,7 @@ namespace SilentCryptoMiner
             // picAdmin1
             // 
             this.picAdmin1.BackColor = System.Drawing.Color.Transparent;
-            this.picAdmin1.Image = ((System.Drawing.Image)(resources.GetObject("picAdmin1.Image")));
+            this.picAdmin1.Image = global::SilentCryptoMiner.Properties.Resources.microsoft_admin;
             this.picAdmin1.Location = new System.Drawing.Point(224, 63);
             this.picAdmin1.Name = "picAdmin1";
             this.picAdmin1.Size = new System.Drawing.Size(20, 20);

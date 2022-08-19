@@ -274,7 +274,7 @@ public partial class _rMiner_
                     }
 
 #if DefProcessProtect
-                    Thread.Sleep(1000);
+                    Thread.Sleep(200);
                     _rProtect_(_rpids_.ToArray());
 #endif
 

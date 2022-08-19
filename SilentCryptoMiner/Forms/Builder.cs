@@ -61,7 +61,7 @@ namespace SilentCryptoMiner
         public string eid;
         public string xid;
 
-        public string builderVersion = "2.6.0";
+        public string builderVersion = "2.6.1";
 
         private void Form1_Load(object sender, EventArgs e)
         {

@@ -171,12 +171,12 @@ namespace SilentCryptoMiner
             this.comboInjection.ItemHeight = 16;
             this.comboInjection.ItemHighlightColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
             this.comboInjection.Items.AddRange(new object[] {
-            "explorer.exe",
+            "conhost.exe",
             "nslookup.exe",
             "cmd.exe",
             "notepad.exe",
             "svchost.exe",
-            "conhost.exe"});
+            "dwm.exe"});
             this.comboInjection.Location = new System.Drawing.Point(79, 156);
             this.comboInjection.Margin = new System.Windows.Forms.Padding(2);
             this.comboInjection.Name = "comboInjection";
@@ -521,7 +521,7 @@ namespace SilentCryptoMiner
             this.labelMinerMiningCPU.Name = "labelMinerMiningCPU";
             this.labelMinerMiningCPU.Size = new System.Drawing.Size(115, 17);
             this.labelMinerMiningCPU.TabIndex = 34;
-            this.labelMinerMiningCPU.Text = "CPU Mining:";
+            this.labelMinerMiningCPU.Text = "CPU Mining";
             // 
             // toggleCPU
             // 
@@ -582,7 +582,9 @@ namespace SilentCryptoMiner
             // labelMinerMiningGPU
             // 
             this.labelMinerMiningGPU.AutoEllipsis = true;
+            this.labelMinerMiningGPU.BackColor = System.Drawing.Color.Transparent;
             this.labelMinerMiningGPU.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.labelMinerMiningGPU.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.labelMinerMiningGPU.Location = new System.Drawing.Point(10, 39);
             this.labelMinerMiningGPU.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelMinerMiningGPU.Name = "labelMinerMiningGPU";

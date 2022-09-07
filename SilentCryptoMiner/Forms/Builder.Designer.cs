@@ -99,15 +99,11 @@ namespace SilentCryptoMiner
             this.picAdmin3 = new System.Windows.Forms.PictureBox();
             this.chkBlockWebsites = new MephCheckBox();
             this.txtBlockWebsites = new MephTextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.labelDisableSleep = new System.Windows.Forms.Label();
             this.toggleDisableSleep = new MephToggleSwitch();
-            this.labelOptionShellcode = new System.Windows.Forms.Label();
-            this.toggleShellcode = new MephToggleSwitch();
             this.labelOptionAdministrator = new System.Windows.Forms.Label();
             this.toggleAdministrator = new MephToggleSwitch();
             this.picAdmin1 = new System.Windows.Forms.PictureBox();
-            this.labelOptionObfuscation = new System.Windows.Forms.Label();
-            this.toggleObfuscation = new MephToggleSwitch();
             this.labelOptionWD = new System.Windows.Forms.Label();
             this.toggleWDExclusions = new MephToggleSwitch();
             this.tabBuild = new System.Windows.Forms.TabPage();
@@ -136,6 +132,7 @@ namespace SilentCryptoMiner
             // workerBuild
             // 
             this.workerBuild.DoWork += new System.ComponentModel.DoWorkEventHandler(this.workerBuild_DoWork);
+            this.workerBuild.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.workerBuild_RunWorkerCompleted);
             // 
             // formBuilder
             // 
@@ -198,6 +195,7 @@ namespace SilentCryptoMiner
             // labelLang
             // 
             this.labelLang.AutoEllipsis = true;
+            this.labelLang.BackColor = System.Drawing.Color.Transparent;
             this.labelLang.Location = new System.Drawing.Point(15, 160);
             this.labelLang.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelLang.Name = "labelLang";
@@ -218,7 +216,9 @@ namespace SilentCryptoMiner
             this.comboLanguage.Items.AddRange(new object[] {
             "English",
             "Swedish",
-            "Polish"});
+            "Polish",
+            "Spanish",
+            "Russian"});
             this.comboLanguage.Location = new System.Drawing.Point(83, 158);
             this.comboLanguage.Margin = new System.Windows.Forms.Padding(2);
             this.comboLanguage.Name = "comboLanguage";
@@ -296,6 +296,7 @@ namespace SilentCryptoMiner
             // labelMiners
             // 
             this.labelMiners.AutoSize = true;
+            this.labelMiners.BackColor = System.Drawing.Color.Transparent;
             this.labelMiners.Location = new System.Drawing.Point(12, 11);
             this.labelMiners.Name = "labelMiners";
             this.labelMiners.Size = new System.Drawing.Size(51, 17);
@@ -409,6 +410,7 @@ namespace SilentCryptoMiner
             // labelStartupFileName
             // 
             this.labelStartupFileName.AutoEllipsis = true;
+            this.labelStartupFileName.BackColor = System.Drawing.Color.Transparent;
             this.labelStartupFileName.Location = new System.Drawing.Point(11, 104);
             this.labelStartupFileName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelStartupFileName.Name = "labelStartupFileName";
@@ -419,6 +421,7 @@ namespace SilentCryptoMiner
             // labelStartupAutoDelete
             // 
             this.labelStartupAutoDelete.AutoEllipsis = true;
+            this.labelStartupAutoDelete.BackColor = System.Drawing.Color.Transparent;
             this.labelStartupAutoDelete.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.labelStartupAutoDelete.Location = new System.Drawing.Point(12, 161);
             this.labelStartupAutoDelete.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -442,6 +445,7 @@ namespace SilentCryptoMiner
             // labelStartupWatchdog
             // 
             this.labelStartupWatchdog.AutoEllipsis = true;
+            this.labelStartupWatchdog.BackColor = System.Drawing.Color.Transparent;
             this.labelStartupWatchdog.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.labelStartupWatchdog.Location = new System.Drawing.Point(12, 132);
             this.labelStartupWatchdog.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -498,6 +502,7 @@ namespace SilentCryptoMiner
             // labelStartupSavePath
             // 
             this.labelStartupSavePath.AutoEllipsis = true;
+            this.labelStartupSavePath.BackColor = System.Drawing.Color.Transparent;
             this.labelStartupSavePath.Location = new System.Drawing.Point(11, 46);
             this.labelStartupSavePath.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelStartupSavePath.Name = "labelStartupSavePath";
@@ -508,6 +513,7 @@ namespace SilentCryptoMiner
             // labelStartupEntryName
             // 
             this.labelStartupEntryName.AutoEllipsis = true;
+            this.labelStartupEntryName.BackColor = System.Drawing.Color.Transparent;
             this.labelStartupEntryName.Location = new System.Drawing.Point(11, 75);
             this.labelStartupEntryName.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelStartupEntryName.Name = "labelStartupEntryName";
@@ -528,8 +534,7 @@ namespace SilentCryptoMiner
             this.txtStartupPath.ItemHighlightColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
             this.txtStartupPath.Items.AddRange(new object[] {
             "AppData",
-            "UserProfile",
-            "Temp"});
+            "UserProfile"});
             this.txtStartupPath.Location = new System.Drawing.Point(95, 45);
             this.txtStartupPath.Margin = new System.Windows.Forms.Padding(2);
             this.txtStartupPath.Name = "txtStartupPath";
@@ -821,6 +826,7 @@ namespace SilentCryptoMiner
             // picIcon
             // 
             this.picIcon.ErrorImage = null;
+            this.picIcon.Image = global::SilentCryptoMiner.Properties.Resources.icon1;
             this.picIcon.InitialImage = null;
             this.picIcon.Location = new System.Drawing.Point(160, 81);
             this.picIcon.Margin = new System.Windows.Forms.Padding(2);
@@ -873,15 +879,11 @@ namespace SilentCryptoMiner
             this.tabOptions.Controls.Add(this.picAdmin3);
             this.tabOptions.Controls.Add(this.chkBlockWebsites);
             this.tabOptions.Controls.Add(this.txtBlockWebsites);
-            this.tabOptions.Controls.Add(this.label1);
+            this.tabOptions.Controls.Add(this.labelDisableSleep);
             this.tabOptions.Controls.Add(this.toggleDisableSleep);
-            this.tabOptions.Controls.Add(this.labelOptionShellcode);
-            this.tabOptions.Controls.Add(this.toggleShellcode);
             this.tabOptions.Controls.Add(this.labelOptionAdministrator);
             this.tabOptions.Controls.Add(this.toggleAdministrator);
             this.tabOptions.Controls.Add(this.picAdmin1);
-            this.tabOptions.Controls.Add(this.labelOptionObfuscation);
-            this.tabOptions.Controls.Add(this.toggleObfuscation);
             this.tabOptions.Controls.Add(this.labelOptionWD);
             this.tabOptions.Controls.Add(this.toggleWDExclusions);
             this.tabOptions.Location = new System.Drawing.Point(89, 4);
@@ -895,7 +897,7 @@ namespace SilentCryptoMiner
             // 
             this.picAdmin5.BackColor = System.Drawing.Color.Transparent;
             this.picAdmin5.Image = global::SilentCryptoMiner.Properties.Resources.microsoft_admin;
-            this.picAdmin5.Location = new System.Drawing.Point(224, 116);
+            this.picAdmin5.Location = new System.Drawing.Point(224, 90);
             this.picAdmin5.Name = "picAdmin5";
             this.picAdmin5.Size = new System.Drawing.Size(20, 20);
             this.picAdmin5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -908,7 +910,7 @@ namespace SilentCryptoMiner
             this.labelOptionProcessProtect.BackColor = System.Drawing.Color.Transparent;
             this.labelOptionProcessProtect.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.labelOptionProcessProtect.ForeColor = System.Drawing.Color.Gray;
-            this.labelOptionProcessProtect.Location = new System.Drawing.Point(10, 117);
+            this.labelOptionProcessProtect.Location = new System.Drawing.Point(10, 91);
             this.labelOptionProcessProtect.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelOptionProcessProtect.Name = "labelOptionProcessProtect";
             this.labelOptionProcessProtect.Size = new System.Drawing.Size(157, 17);
@@ -920,7 +922,7 @@ namespace SilentCryptoMiner
             this.toggleProcessProtect.BackColor = System.Drawing.Color.Transparent;
             this.toggleProcessProtect.Checked = false;
             this.toggleProcessProtect.ForeColor = System.Drawing.Color.Black;
-            this.toggleProcessProtect.Location = new System.Drawing.Point(169, 114);
+            this.toggleProcessProtect.Location = new System.Drawing.Point(169, 88);
             this.toggleProcessProtect.Margin = new System.Windows.Forms.Padding(2);
             this.toggleProcessProtect.Name = "toggleProcessProtect";
             this.toggleProcessProtect.Size = new System.Drawing.Size(50, 24);
@@ -942,7 +944,7 @@ namespace SilentCryptoMiner
             // 
             this.picAdmin2.BackColor = System.Drawing.Color.Transparent;
             this.picAdmin2.Image = global::SilentCryptoMiner.Properties.Resources.microsoft_admin;
-            this.picAdmin2.Location = new System.Drawing.Point(224, 90);
+            this.picAdmin2.Location = new System.Drawing.Point(224, 64);
             this.picAdmin2.Name = "picAdmin2";
             this.picAdmin2.Size = new System.Drawing.Size(20, 20);
             this.picAdmin2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -955,7 +957,7 @@ namespace SilentCryptoMiner
             this.labelOptionWindowsUpdate.BackColor = System.Drawing.Color.Transparent;
             this.labelOptionWindowsUpdate.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.labelOptionWindowsUpdate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.labelOptionWindowsUpdate.Location = new System.Drawing.Point(9, 90);
+            this.labelOptionWindowsUpdate.Location = new System.Drawing.Point(9, 64);
             this.labelOptionWindowsUpdate.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelOptionWindowsUpdate.Name = "labelOptionWindowsUpdate";
             this.labelOptionWindowsUpdate.Size = new System.Drawing.Size(158, 17);
@@ -967,7 +969,7 @@ namespace SilentCryptoMiner
             this.toggleWindowsUpdate.BackColor = System.Drawing.Color.Transparent;
             this.toggleWindowsUpdate.Checked = false;
             this.toggleWindowsUpdate.ForeColor = System.Drawing.Color.Black;
-            this.toggleWindowsUpdate.Location = new System.Drawing.Point(169, 87);
+            this.toggleWindowsUpdate.Location = new System.Drawing.Point(169, 61);
             this.toggleWindowsUpdate.Margin = new System.Windows.Forms.Padding(2);
             this.toggleWindowsUpdate.Name = "toggleWindowsUpdate";
             this.toggleWindowsUpdate.Size = new System.Drawing.Size(50, 24);
@@ -1016,53 +1018,29 @@ namespace SilentCryptoMiner
             this.txtBlockWebsites.UseSystemPasswordChar = false;
             this.txtBlockWebsites.WordWrap = false;
             // 
-            // label1
+            // labelDisableSleep
             // 
-            this.label1.AutoEllipsis = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.label1.ForeColor = System.Drawing.Color.Gray;
-            this.label1.Location = new System.Drawing.Point(245, 36);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(112, 17);
-            this.label1.TabIndex = 109;
-            this.label1.Text = "Disable Sleep:";
+            this.labelDisableSleep.AutoEllipsis = true;
+            this.labelDisableSleep.BackColor = System.Drawing.Color.Transparent;
+            this.labelDisableSleep.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.labelDisableSleep.ForeColor = System.Drawing.Color.Gray;
+            this.labelDisableSleep.Location = new System.Drawing.Point(245, 10);
+            this.labelDisableSleep.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelDisableSleep.Name = "labelDisableSleep";
+            this.labelDisableSleep.Size = new System.Drawing.Size(112, 17);
+            this.labelDisableSleep.TabIndex = 109;
+            this.labelDisableSleep.Text = "Disable Sleep:";
             // 
             // toggleDisableSleep
             // 
             this.toggleDisableSleep.BackColor = System.Drawing.Color.Transparent;
             this.toggleDisableSleep.Checked = false;
             this.toggleDisableSleep.ForeColor = System.Drawing.Color.Black;
-            this.toggleDisableSleep.Location = new System.Drawing.Point(362, 33);
+            this.toggleDisableSleep.Location = new System.Drawing.Point(362, 7);
             this.toggleDisableSleep.Margin = new System.Windows.Forms.Padding(2);
             this.toggleDisableSleep.Name = "toggleDisableSleep";
             this.toggleDisableSleep.Size = new System.Drawing.Size(50, 24);
             this.toggleDisableSleep.TabIndex = 108;
-            // 
-            // labelOptionShellcode
-            // 
-            this.labelOptionShellcode.AutoEllipsis = true;
-            this.labelOptionShellcode.BackColor = System.Drawing.Color.Transparent;
-            this.labelOptionShellcode.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.labelOptionShellcode.ForeColor = System.Drawing.Color.Gray;
-            this.labelOptionShellcode.Location = new System.Drawing.Point(245, 8);
-            this.labelOptionShellcode.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelOptionShellcode.Name = "labelOptionShellcode";
-            this.labelOptionShellcode.Size = new System.Drawing.Size(112, 17);
-            this.labelOptionShellcode.TabIndex = 102;
-            this.labelOptionShellcode.Text = "Shellcode Loader:";
-            // 
-            // toggleShellcode
-            // 
-            this.toggleShellcode.BackColor = System.Drawing.Color.Transparent;
-            this.toggleShellcode.Checked = false;
-            this.toggleShellcode.ForeColor = System.Drawing.Color.Black;
-            this.toggleShellcode.Location = new System.Drawing.Point(362, 6);
-            this.toggleShellcode.Margin = new System.Windows.Forms.Padding(2);
-            this.toggleShellcode.Name = "toggleShellcode";
-            this.toggleShellcode.Size = new System.Drawing.Size(50, 24);
-            this.toggleShellcode.TabIndex = 101;
             // 
             // labelOptionAdministrator
             // 
@@ -1070,7 +1048,7 @@ namespace SilentCryptoMiner
             this.labelOptionAdministrator.BackColor = System.Drawing.Color.Transparent;
             this.labelOptionAdministrator.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.labelOptionAdministrator.ForeColor = System.Drawing.Color.Gray;
-            this.labelOptionAdministrator.Location = new System.Drawing.Point(9, 37);
+            this.labelOptionAdministrator.Location = new System.Drawing.Point(9, 11);
             this.labelOptionAdministrator.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelOptionAdministrator.Name = "labelOptionAdministrator";
             this.labelOptionAdministrator.Size = new System.Drawing.Size(158, 17);
@@ -1082,7 +1060,7 @@ namespace SilentCryptoMiner
             this.toggleAdministrator.BackColor = System.Drawing.Color.Transparent;
             this.toggleAdministrator.Checked = false;
             this.toggleAdministrator.ForeColor = System.Drawing.Color.Black;
-            this.toggleAdministrator.Location = new System.Drawing.Point(169, 33);
+            this.toggleAdministrator.Location = new System.Drawing.Point(169, 7);
             this.toggleAdministrator.Margin = new System.Windows.Forms.Padding(2);
             this.toggleAdministrator.Name = "toggleAdministrator";
             this.toggleAdministrator.Size = new System.Drawing.Size(50, 24);
@@ -1093,36 +1071,12 @@ namespace SilentCryptoMiner
             // 
             this.picAdmin1.BackColor = System.Drawing.Color.Transparent;
             this.picAdmin1.Image = global::SilentCryptoMiner.Properties.Resources.microsoft_admin;
-            this.picAdmin1.Location = new System.Drawing.Point(224, 63);
+            this.picAdmin1.Location = new System.Drawing.Point(224, 37);
             this.picAdmin1.Name = "picAdmin1";
             this.picAdmin1.Size = new System.Drawing.Size(20, 20);
             this.picAdmin1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picAdmin1.TabIndex = 97;
             this.picAdmin1.TabStop = false;
-            // 
-            // labelOptionObfuscation
-            // 
-            this.labelOptionObfuscation.AutoEllipsis = true;
-            this.labelOptionObfuscation.BackColor = System.Drawing.Color.Transparent;
-            this.labelOptionObfuscation.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.labelOptionObfuscation.ForeColor = System.Drawing.Color.Gray;
-            this.labelOptionObfuscation.Location = new System.Drawing.Point(9, 10);
-            this.labelOptionObfuscation.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelOptionObfuscation.Name = "labelOptionObfuscation";
-            this.labelOptionObfuscation.Size = new System.Drawing.Size(158, 17);
-            this.labelOptionObfuscation.TabIndex = 89;
-            this.labelOptionObfuscation.Text = "Pause for Obfuscation:";
-            // 
-            // toggleObfuscation
-            // 
-            this.toggleObfuscation.BackColor = System.Drawing.Color.Transparent;
-            this.toggleObfuscation.Checked = false;
-            this.toggleObfuscation.ForeColor = System.Drawing.Color.Black;
-            this.toggleObfuscation.Location = new System.Drawing.Point(169, 6);
-            this.toggleObfuscation.Margin = new System.Windows.Forms.Padding(2);
-            this.toggleObfuscation.Name = "toggleObfuscation";
-            this.toggleObfuscation.Size = new System.Drawing.Size(50, 24);
-            this.toggleObfuscation.TabIndex = 88;
             // 
             // labelOptionWD
             // 
@@ -1130,7 +1084,7 @@ namespace SilentCryptoMiner
             this.labelOptionWD.BackColor = System.Drawing.Color.Transparent;
             this.labelOptionWD.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.labelOptionWD.ForeColor = System.Drawing.Color.Gray;
-            this.labelOptionWD.Location = new System.Drawing.Point(9, 63);
+            this.labelOptionWD.Location = new System.Drawing.Point(9, 37);
             this.labelOptionWD.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelOptionWD.Name = "labelOptionWD";
             this.labelOptionWD.Size = new System.Drawing.Size(158, 17);
@@ -1142,7 +1096,7 @@ namespace SilentCryptoMiner
             this.toggleWDExclusions.BackColor = System.Drawing.Color.Transparent;
             this.toggleWDExclusions.Checked = false;
             this.toggleWDExclusions.ForeColor = System.Drawing.Color.Black;
-            this.toggleWDExclusions.Location = new System.Drawing.Point(169, 60);
+            this.toggleWDExclusions.Location = new System.Drawing.Point(169, 34);
             this.toggleWDExclusions.Margin = new System.Windows.Forms.Padding(2);
             this.toggleWDExclusions.Name = "toggleWDExclusions";
             this.toggleWDExclusions.Size = new System.Drawing.Size(50, 24);
@@ -1166,6 +1120,7 @@ namespace SilentCryptoMiner
             // labelSeconds
             // 
             this.labelSeconds.AutoSize = true;
+            this.labelSeconds.BackColor = System.Drawing.Color.Transparent;
             this.labelSeconds.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.labelSeconds.Location = new System.Drawing.Point(121, 11);
             this.labelSeconds.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -1177,6 +1132,7 @@ namespace SilentCryptoMiner
             // labelStartDelay
             // 
             this.labelStartDelay.AutoEllipsis = true;
+            this.labelStartDelay.BackColor = System.Drawing.Color.Transparent;
             this.labelStartDelay.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.labelStartDelay.Location = new System.Drawing.Point(10, 11);
             this.labelStartDelay.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -1333,17 +1289,13 @@ namespace SilentCryptoMiner
         internal Label labelOptionAdministrator;
         internal MephToggleSwitch toggleAdministrator;
         internal PictureBox picAdmin1;
-        internal Label labelOptionObfuscation;
-        internal MephToggleSwitch toggleObfuscation;
         internal Label labelOptionWD;
         internal MephToggleSwitch toggleWDExclusions;
-        internal Label labelOptionShellcode;
-        internal MephToggleSwitch toggleShellcode;
         internal MephButton btnLoadState;
         internal MephButton btnSaveState;
         internal Label labelLang;
         internal MephComboBox comboLanguage;
-        internal Label label1;
+        internal Label labelDisableSleep;
         internal MephToggleSwitch toggleDisableSleep;
         internal MephCheckBox chkBlockWebsites;
         internal MephTextBox txtBlockWebsites;

@@ -1,3 +1,17 @@
+### 3.0.0 (07/09/2022)
+* Rewrote entire miner and watchdog in C++ to replace the C# miner and watchdog
+* Rewrote much of the builder for the rewritten miner and watchdog
+* Added custom C++ compiler package
+* Added custom compiled version of SysWhispers2 to randomize syscalls seed on every build
+* Changed default injection target to conhost.exe
+* Removed injection target "explorer.exe" due to new protections and inconvenience
+* Added new injection target "dwm.exe"
+* Removed now unnecessary options "Shellcode Loader", "In-memory watchdog" and "Do built-in obfuscations" because of the rewrite
+* Removed now unnecessary DLL modules because of direct implementations
+* Temporarily removed the "DEBUG" and "Overwrite old miners" options
+* Updated both miners
+* Added Spanish translation (Xeneht)
+* Added Russian translation (BITIW)
 ### 2.6.1 (19/08/2022)
 * Fixed mysterious reported ETH stratum disconnection
 * Further improved ETH miner web panel status reporting from feedback

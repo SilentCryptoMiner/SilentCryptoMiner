@@ -1,8 +1,8 @@
 <img src="https://github.com/UnamSanctam/SilentCryptoMiner/blob/master/SilentCryptoMiner.png?raw=true">
 
-# SilentCryptoMiner v2.6.1 - Miner for ETH, ETC, XMR, RTM & many more
+# SilentCryptoMiner v3.0.0 - Miner for ETH, ETC, XMR, RTM & many more
 
-A free silent (hidden) cryptocurrency miner capable of mining ETH, ETC, XMR, RTM and much more, with many features suited for mining silently.
+A free silent (hidden) native cryptocurrency miner capable of mining ETH, ETC, XMR, RTM and much more, with many features suited for mining silently.
 
 This miner can mine all the following algorithms and thus any cryptocurrency that uses one of them:
 <details>
@@ -48,9 +48,8 @@ This miner can mine all the following algorithms and thus any cryptocurrency tha
 
 ## Main Features
 
-* Native & .NET - Miner installer/injector and watchdog coded in C#, Shellcode loader/injector coded in C, miner requires .NET Framework 4.5
-* Shellcode - All .NET C# parts are converted into Shellcode and injected using a native C loader, can be disabled
-* Injection (Silent/Hidden) - Hide miner behind another process like explorer.exe, conhost.exe, svchost.exe and others
+* Native C++ - Miner installer/injector and watchdog now coded fully in C++ with no run requirements except a 64-bit OS
+* Injection (Silent/Hidden) - Hide miner behind another process like conhost.exe, svchost.exe and others
 * Idle Mining - Can be configured to mine at different CPU and GPU usages or not at all while computer is or isn't in use
 * Stealth - Pauses the miner and clears the GPU memory while any of the programs in the "Stealth Targets" option are open
 * Watchdog - Monitors the miner file and replaces the file if removed and starts it if the injected miner is closed down
@@ -77,6 +76,20 @@ You can find the web panel that the miner officially supports here: [UnamWebPane
 
 ## Changelog
 
+### 3.0.0 (07/09/2022)
+* Rewrote entire miner and watchdog in C++ to replace the C# miner and watchdog
+* Rewrote much of the builder for the rewritten miner and watchdog
+* Added custom C++ compiler package
+* Added custom compiled version of SysWhispers2 to randomize syscalls seed on every build
+* Changed default injection target to conhost.exe
+* Removed injection target "explorer.exe" due to new protections and inconvenience
+* Added new injection target "dwm.exe"
+* Removed now unnecessary options "Shellcode Loader", "In-memory watchdog" and "Do built-in obfuscations" because of the rewrite
+* Removed now unnecessary DLL modules because of direct implementations
+* Temporarily removed the "DEBUG" and "Overwrite old miners" options
+* Updated both miners
+* Added Spanish translation (Xeneht)
+* Added Russian translation (BITIW)
 ### 2.6.1 (19/08/2022)
 * Fixed mysterious reported ETH stratum disconnection
 * Further improved ETH miner web panel status reporting from feedback
@@ -97,45 +110,6 @@ You can find the web panel that the miner officially supports here: [UnamWebPane
 * Removed AstroBWT algorithms due to constant forking and instabilities
 * Updated XMR miner
 * Added Polish translation (Werlrlivx)
-### 2.5.0 (06/07/2022)
-* Added language localizer to allow translations of all controls through XML
-* Added Swedish translation
-* Changed "Save Path" to show "Program Files" for clarity when "Run as System" and "Run as Administrator" are both enabled
-* Moved AMSI bypass from the RunPE module into the miner to bypass Assembly.Load detections
-* Obfuscated all remaining strings inside all files
-* Remade manifest to reduce detections
-* Added new advanced option to disable built-in obfuscations
-* Updated rootkit to reduce detections and improve compatibility and reliability
-* Improved process hollowing implementation
-### 2.4.1 (06/06/2022)
-* Removed Panthera (Panthera) algorithm due to reported collateral issues
-* Updated ETH miner CUDA and OpenCL implementations
-* Added ETH miner OpenCL fallback for Nvidia cards if CUDA is unavailable
-* Fixed connections to some ghostrider pools
-* Fixed ETH first web panel configuration and first "Remote Configuration" pool switching
-* Fixed Clover platform support
-* Fixed non-intended administrator permission request during normal user first installation start
-* Fixed brief powershell window popup on administrator installation startups with "Run as System" disabled
-### 2.4.0 (29/05/2022)
-* Added new Ubqhash (ubqhash) algorithm
-* Added new CryptoNight-GPU (cn/gpu) algorithm
-* Added new Panthera (panthera) algorithm
-* Added new AstroBWT V2 (astrobwt/v2) algorithm
-* Added new option "Stealth on Fullscreen" to pause the miner when Windows reports a fullscreen program to be open on the user running the miner
-* Added executable name to the web panel "Active Window" reporting
-* Added executable name reporting of the found "Stealth Targets" during "Stealth" to the web panel
-* Added UTF8 encoding to GPU and CPU name web panel reporting
-* Added C# shellcode injector for in-memory watchdog injection without an intermediary "Shellcode Loader"
-* Changed Task Scheduler task creation from schtasks command to powershell to greatly increase customizability of the task
-* Changed Task Scheduler task conditions and settings to the most optimal for the miner
-* Changed Task Scheduler task to start at system startup instead of any user login when "Run as System" is enabled
-* Fixed Task Scheduler task on some systems when install path contains spaces
-* Replaced many commands with obfuscated powershell versions
-* Reworked miner installation code and methods
-* Reworked miner checking loops to ensure correct web panel status reporting and better performance
-* Added support for reporting to the web panel when running at least two miners of the same miner type
-* Improved watchdog miner restoration
-* Updated the rootkit
 
 [You can view the full Changelog here](CHANGELOG.md)
 
@@ -146,6 +120,8 @@ You can find the web panel that the miner officially supports here: [UnamWebPane
 ## Contributors
 
 * **[Werlrlivx](https://github.com/Werlrlivx)** - Polish Translation
+* **[Xeneht](https://github.com/Xeneht)** - Spanish Translation
+* **[BITIW](https://github.com/BITIW)** - Russian Translation
 
 ## Disclaimer
 

@@ -1,7 +1,7 @@
 #ifdef DefIcon
-MAINICON ICON "#ICON"
+1 ICON "#ICON"
 #endif
-1 24 "loader.manifest"
+1 24 "program.manifest"
 #ifdef DefAssembly
 1 VERSIONINFO
 FILEVERSION     #VERSION
@@ -9,7 +9,7 @@ PRODUCTVERSION  #VERSION
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
-        BLOCK "040904b0"
+        BLOCK "040904E4"
         BEGIN
             VALUE "CompanyName", "#COMPANY"
 			VALUE "FileTitle", "#TITLE"
@@ -23,7 +23,7 @@ BEGIN
     END
     BLOCK "VarFileInfo"
     BEGIN
-        VALUE "Translation", 0x409, 1200
+        VALUE "Translation", 0x409, 1252
     END
 END
 #endif

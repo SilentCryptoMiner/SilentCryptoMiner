@@ -12,11 +12,9 @@ using System.Diagnostics;
 using Microsoft.Win32;
 using System.Collections.Generic;
 using System.Management;
-#if DefDebug
-using System.Windows.Forms;
-#endif
+using System.Linq;
 
-public partial class _rChecker_
+public partial class Checker
 {
     private static void Main()
     {
@@ -29,24 +27,20 @@ public partial class _rChecker_
 
             var _rconnection_ = new ConnectionOptions();
             _rconnection_.Impersonation = ImpersonationLevel.Impersonate;
-            var _rscope_ = new ManagementScope("#WMISCOPE", _rconnection_);
+            var _rscope_ = new ManagementScope("\\root\\cimv2", _rconnection_);
             _rscope_.Connect();
 
             var _rsearcher_ = new ManagementObjectSearcher(_rscope_, new ObjectQuery("Select CommandLine from Win32_Process")).Get();
-#if DefInstall
-#if DefMemoryWatchdog
+#if DefWatchdog
             bool _rwdrunning_ = false;
             foreach (ManagementObject _rmemObj_ in _rsearcher_)
             {
-                if (_rmemObj_ != null && _rmemObj_["#STRCMDLINE"] != null && _rmemObj_["#STRCMDLINE"].ToString().Contains("#WATCHDOGID"))
+                if (_rmemObj_ != null && _rmemObj_["CommandLine"] != null && _rmemObj_["CommandLine"].ToString().Contains(" #WATCHDOGID"))
                 {
                     _rwdrunning_ = true;
                     break;
                 }
             }
-#else
-            bool _rwdrunning_ = Process.GetProcessesByName("#WATCHDOGNAME").Length > 0;
-#endif
             Console.WriteLine("Watchdog Running: " + (_rwdrunning_ ? "Yes" : "No"));
 #endif
 #if DefRootkit
@@ -54,13 +48,14 @@ public partial class _rChecker_
 #endif
             Console.WriteLine("Miners:");
             _rsearcher_ = new ManagementObjectSearcher(_rscope_, new ObjectQuery("Select CommandLine from Win32_Process")).Get();
+            string[] minerset = new string[] { $FINDSET };
             foreach (ManagementObject _rmemObj_ in _rsearcher_)
             {
-                if (_rmemObj_ != null && _rmemObj_["#STRCMDLINE"] != null && _rmemObj_["#STRCMDLINE"].ToString().Contains("#MINERID"))
+                if (_rmemObj_ != null && _rmemObj_["CommandLine"] != null && minerset.Any(_rmemObj_["CommandLine"].ToString().Contains))
                 {
                     try
                     {
-                        foreach(string _rminer_ in _rmemObj_["#STRCMDLINE"].ToString().Split(' '))
+                        foreach(string _rminer_ in _rmemObj_["CommandLine"].ToString().Split(' '))
                         {
                             string _rdecrypted_ = _rUnamlibDecrypt_(_rminer_);
                             if (!string.IsNullOrEmpty(_rdecrypted_))
@@ -76,11 +71,11 @@ public partial class _rChecker_
 
             string _rgpu_ = "";
             Console.WriteLine("GPUs:");
-            _rsearcher_ = new ManagementObjectSearcher(_rscope_, new ObjectQuery("#GPUQUERY")).Get();
+            _rsearcher_ = new ManagementObjectSearcher(_rscope_, new ObjectQuery("SELECT Name, VideoProcessor FROM Win32_VideoController")).Get();
             foreach (ManagementObject _rmemObj_ in _rsearcher_)
             {
-                _rgpu_ += " " + _rmemObj_["#STRNAME"];
-                Console.WriteLine(" " + _rmemObj_["#STRNAME"]);
+                _rgpu_ += " " + _rmemObj_["Name"];
+                Console.WriteLine(" " + _rmemObj_["Name"]);
             }
 
             Console.WriteLine("Compatible GPU found: " + (_rgpu_.IndexOf("nvidia", StringComparison.OrdinalIgnoreCase) >= 0 || _rgpu_.IndexOf("amd", StringComparison.OrdinalIgnoreCase) >= 0));
@@ -91,30 +86,6 @@ public partial class _rChecker_
         }
         Console.ReadKey();
     }
-
-#if DefObfuscate
-    private static string _rGetString_(string _rarg1_)
-    {
-        return Encoding.UTF8.GetString(_rAESMethod_(Convert.FromBase64String(_rarg1_)));
-    }
-
-    private static byte[] _rAESMethod_(byte[] _rinput_, bool _rencrypt_ = false)
-    {
-        var _rkeybytes_ = new Rfc2898DeriveBytes(@"#AESKEY", Encoding.ASCII.GetBytes(@"#SALT"), 100).GetBytes(16);
-        using (Aes _raesAlg_ = Aes.Create())
-        {
-            using (MemoryStream _rmsDecrypt_ = new MemoryStream())
-            {
-                using (CryptoStream _rcsDecrypt_ = new CryptoStream(_rmsDecrypt_, _rencrypt_ ? _raesAlg_.CreateEncryptor(_rkeybytes_, Encoding.ASCII.GetBytes(@"#IV")) : _raesAlg_.CreateDecryptor(_rkeybytes_, Encoding.ASCII.GetBytes(@"#IV")), CryptoStreamMode.Write))
-                {
-                    _rcsDecrypt_.Write(_rinput_, 0, _rinput_.Length);
-                    _rcsDecrypt_.Close();
-                }
-                return _rmsDecrypt_.ToArray();
-            }
-        }
-    }
-#endif
 
     private static string _rUnamlibDecrypt_(string _rplainText_)
     {

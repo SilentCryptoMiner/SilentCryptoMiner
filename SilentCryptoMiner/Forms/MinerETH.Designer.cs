@@ -522,12 +522,12 @@ namespace SilentCryptoMiner
             this.comboInjection.ItemHeight = 16;
             this.comboInjection.ItemHighlightColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(55)))), ((int)(((byte)(55)))));
             this.comboInjection.Items.AddRange(new object[] {
-            "explorer.exe",
+            "conhost.exe",
             "nslookup.exe",
             "cmd.exe",
             "notepad.exe",
             "svchost.exe",
-            "conhost.exe"});
+            "dwm.exe"});
             this.comboInjection.Location = new System.Drawing.Point(13, 159);
             this.comboInjection.Margin = new System.Windows.Forms.Padding(2);
             this.comboInjection.Name = "comboInjection";

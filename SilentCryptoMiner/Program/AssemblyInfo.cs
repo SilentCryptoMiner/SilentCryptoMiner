@@ -9,11 +9,11 @@ using System.Runtime.InteropServices;
 // Review the values of the assembly attributes
 
 [assembly: AssemblyTitle("Silent Crypto Miner Builder")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A Silent (Hidden) Free Crypto Miner Builder")]
 [assembly: AssemblyCompany("Unam Sanctam")]
 [assembly: AssemblyProduct("Silent Crypto Miner Builder")]
 [assembly: AssemblyCopyright("Copyright © Unam Sanctam 2022")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyTrademark("Unam Sanctam")]
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
@@ -30,5 +30,5 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // <Assembly: AssemblyVersion("1.0.*")>
 
-[assembly: AssemblyVersion("3.0.0.0")]
-[assembly: AssemblyFileVersion("3.0.0.0")]
+[assembly: AssemblyVersion("3.0.2.0")]
+[assembly: AssemblyFileVersion("3.0.2.0")]

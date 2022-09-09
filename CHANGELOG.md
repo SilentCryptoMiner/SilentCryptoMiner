@@ -1,3 +1,7 @@
+### 3.0.2 (09/09/2022)
+* Added GPU check support for some Radeon RX GPUs
+* Added more API function bypasses for lower possible future detections
+* Changed compiler paths from relative to absoulte paths
 ### 3.0.1 (07/09/2022)
 * Fixed GPU checking when running as the System user
 * Future-proofed some possible future detections

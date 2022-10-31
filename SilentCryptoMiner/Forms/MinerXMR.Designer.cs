@@ -584,7 +584,7 @@ namespace SilentCryptoMiner
             this.labelMinerMiningGPU.AutoEllipsis = true;
             this.labelMinerMiningGPU.BackColor = System.Drawing.Color.Transparent;
             this.labelMinerMiningGPU.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.labelMinerMiningGPU.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.labelMinerMiningGPU.ForeColor = System.Drawing.Color.Gray;
             this.labelMinerMiningGPU.Location = new System.Drawing.Point(10, 39);
             this.labelMinerMiningGPU.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelMinerMiningGPU.Name = "labelMinerMiningGPU";

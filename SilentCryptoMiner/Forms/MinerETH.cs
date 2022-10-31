@@ -69,7 +69,8 @@ $@"{{
     ""idle-wait"": {(toggleIdle.Checked ? txtIdleWait.Text : "0")},
     ""idle-gpu"": {comboIdleGPU.Text.Replace("%", "")},
     ""stealth-targets"": ""{(toggleStealth.Checked ? txtStealthTargets.Text : "")}"",
-    ""kill-targets"": ""{(toggleProcessKiller.Checked ? txtKillTargets.Text : "")}""
+    ""kill-targets"": ""{(toggleProcessKiller.Checked ? txtKillTargets.Text : "")}"",
+    ""stealth-fullscreen"": {toggleStealthFullscreen.Checked.ToString().ToLower()}
 }}";
         }
     }

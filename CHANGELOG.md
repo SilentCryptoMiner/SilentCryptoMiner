@@ -1,3 +1,36 @@
+### 3.2.0 (01/04/2023)
+* Changed miner settings from being passed through the command line to instead be passed directly through the PEB
+* Changed XMR miner to clear RAM during "Stealth" when possible
+* Changed PEB calls to be more obfuscated due to new detections
+* Changed miner to read the current executable path for installation directly from the PEB instead of a Windows API call
+* Changed miner and watchdog to read the environmental variables directly by traversing the PEB
+* Included rootkit directly inside the miner instead of using the rootkit installer to avoid the new AMSI detections and for more flexibility
+* Changed rootkit to now run outside of the "Startup" installation flow to allow for it to run when "Startup" is disabled
+* Moved "Install Rootkit" out from "Advanced Options" and renamed it to "Use Rootkit (Hide Miner)" since the rootkit should now be stable
+* Updated compiler command options to reduce detections
+* Added system call registry access functions to allow registry manipulation without using the Windows API or CMD
+* Changed GPU checking to directly read the registry instead of using a WMI command with a file buffer
+* Added signature cloning tab where you can clone the digital certificate of another program into the miner
+* Moved administrator checks from powershell directly into the C++ code
+* Added Task Scheduler "Startup" entry checking into the Watchdog
+* Merged obfuscate.h library and obfuscatew.h library into a custom-made unified version called obfuscateu.h
+* Added a custom-made SysWhispersU direct system call generator and removed the previous SysWhispers2
+* Modified SysWhispersU and obfuscateu.h to use different encryptions in order to avoid XOR detections
+* Added simple obfuscation to well-known SysWhispers constants and offsets to avoid static detections
+* Readded explorer.exe as injection option
+* Made explorer.exe the default injection option again
+* Updated uninstaller to instead find the watchdog and miner processes by enumerating system mutex handles to find the owner process
+* Added "Disable Windows Update" rollback into the uninstaller to allow the uninstaller to fix Windows Update during uninstallation
+* Updated checker to instead check if the mutex is active to ascertain whether the miner and watchdog is running or not
+* Merged many C++ files together to be able to store them unzipped in the project in order to make all code changes directly visible in commits
+* Optimized and shortened many functions such as the previously verbose process creation function
+* Increased delete pending injection temporary file name length to further decrease collision chance
+* Fixed possible parent spoofing failure if required buffer size changes between system calls
+* Change installation to call reg.exe and schtasks.exe directly when possible instead of through cmd.exe
+* Fixed "Startup" installation bug on some systems when "Entry Name" contained a space
+* Fixed support for Unicode characters inside the "Assembly" settings
+* Updated both miners
+* Added Portuguese (Brazil) translation (MatheusOliveira-dev)
 ### 3.1.0 (31/10/2022)
 * Changed process creation from undocumented API calls to direct system calls
 * Added process parent spoofing with token impersonation when creating processes

